@@ -45,7 +45,7 @@
         <p class="text-sm text-gray-500">person.email </p>
       </div>
     </li>
-
+    <router-view></router-view>
   </ul>
 </template>
 
