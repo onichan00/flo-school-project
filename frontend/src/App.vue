@@ -1,61 +1,64 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>
+<!--  <img alt="Vue logo" src="./assets/logo.png">-->
+  <Sidebar></Sidebar>
+<!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
 
-  <ul class="divide-y divide-gray-200">
-    <li class="py-4 flex">
-      <img class="h-10 w-10 rounded-full" src="" alt="" />
-      <div class="ml-3">
-        <p class="text-sm font-medium text-gray-900">person.name1</p>
-        <p class="text-sm text-gray-500">person.email </p>
-      </div>
-    </li>
-    <li class="py-4 flex">
-      <img  src="" alt="" class="h-10 w-10 rounded-full"/>
-      <div class="ml-3">
-        <p class="text-sm font-medium text-gray-900">person.name2</p>
-        <p class="text-sm text-gray-500">person.email </p>
-      </div>
-    </li>
-    <li class="py-4 flex">
-      <img class="h-10 w-10 rounded-full" src="" alt="" />
-      <div class="ml-3">
-        <p class="text-sm font-medium text-gray-900">person.name1</p>
-        <p class="text-sm text-gray-500">person.email </p>
-      </div>
-    </li>
-    <li class="py-4 flex">
-      <img  src="" alt="" class="h-10 w-10 rounded-full"/>
-      <div class="ml-3">
-        <p class="text-sm font-medium text-gray-900">person.name2</p>
-        <p class="text-sm text-gray-500">person.email </p>
-      </div>
-    </li>
-    <li class="py-4 flex">
-      <img class="h-10 w-10 rounded-full" src="" alt="" />
-      <div class="ml-3">
-        <p class="text-sm font-medium text-gray-900">person.name1</p>
-        <p class="text-sm text-gray-500">person.email </p>
-      </div>
-    </li>
-    <li class="py-4 flex">
-      <img  src="" alt="" class="h-10 w-10 rounded-full"/>
-      <div class="ml-3">
-        <p class="text-sm font-medium text-gray-900">person.name2</p>
-        <p class="text-sm text-gray-500">person.email </p>
-      </div>
-    </li>
+<!--  <ul class="divide-y divide-gray-200">-->
+<!--    <li class="py-4 flex">-->
+<!--      <img class="h-10 w-10 rounded-full" src="" alt="" />-->
+<!--      <div class="ml-3">-->
+<!--        <p class="text-sm font-medium text-gray-900">person.name1</p>-->
+<!--        <p class="text-sm text-gray-500">person.email </p>-->
+<!--      </div>-->
+<!--    </li>-->
+<!--    <li class="py-4 flex">-->
+<!--      <img  src="" alt="" class="h-10 w-10 rounded-full"/>-->
+<!--      <div class="ml-3">-->
+<!--        <p class="text-sm font-medium text-gray-900">person.name2</p>-->
+<!--        <p class="text-sm text-gray-500">person.email </p>-->
+<!--      </div>-->
+<!--    </li>-->
+<!--    <li class="py-4 flex">-->
+<!--      <img class="h-10 w-10 rounded-full" src="" alt="" />-->
+<!--      <div class="ml-3">-->
+<!--        <p class="text-sm font-medium text-gray-900">person.name1</p>-->
+<!--        <p class="text-sm text-gray-500">person.email </p>-->
+<!--      </div>-->
+<!--    </li>-->
+<!--    <li class="py-4 flex">-->
+<!--      <img  src="" alt="" class="h-10 w-10 rounded-full"/>-->
+<!--      <div class="ml-3">-->
+<!--        <p class="text-sm font-medium text-gray-900">person.name2</p>-->
+<!--        <p class="text-sm text-gray-500">person.email </p>-->
+<!--      </div>-->
+<!--    </li>-->
+<!--    <li class="py-4 flex">-->
+<!--      <img class="h-10 w-10 rounded-full" src="" alt="" />-->
+<!--      <div class="ml-3">-->
+<!--        <p class="text-sm font-medium text-gray-900">person.name1</p>-->
+<!--        <p class="text-sm text-gray-500">person.email </p>-->
+<!--      </div>-->
+<!--    </li>-->
+<!--    <li class="py-4 flex">-->
+<!--      <img  src="" alt="" class="h-10 w-10 rounded-full"/>-->
+<!--      <div class="ml-3">-->
+<!--        <p class="text-sm font-medium text-gray-900">person.name2</p>-->
+<!--        <p class="text-sm text-gray-500">person.email </p>-->
+<!--      </div>-->
+<!--    </li>-->
 
-  </ul>
+<!--  </ul>-->
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
+import Sidebar from "@/components/Sidebar.vue";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    // HelloWorld
+    Sidebar
   }
 }
 </script>
@@ -67,6 +70,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
