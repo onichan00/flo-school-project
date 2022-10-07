@@ -1,7 +1,10 @@
 <template>
 <!--  <img alt="Vue logo" src="./assets/logo.png">-->
-  <Sidebar></Sidebar>
-<!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
+  <Sidebar />
+  <div :style="{ 'margin-left': sidebarWidth }">
+    <router-view />
+  </div>
+  <!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
 
 <!--  <ul class="divide-y divide-gray-200">-->
 <!--    <li class="py-4 flex">-->
@@ -52,13 +55,18 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import Sidebar from "@/components/Sidebar.vue";
+import Sidebar from "@/components/sidebar/Sidebar.vue";
+import { sidebarWidth } from '@/components/sidebar/state.js'
 
 export default {
   name: 'App',
   components: {
     // HelloWorld
     Sidebar
+  },
+
+  setup() {
+    return { sidebarWidth }
   }
 }
 </script>
