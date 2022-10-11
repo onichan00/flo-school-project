@@ -1,8 +1,8 @@
 <template>
   <!--  <img alt="Vue logo" src="./assets/logo.png">-->
   <Sidebar/>
-  <PageHeader/>
   <div :style="{ 'margin-left': sidebarWidth }">
+    <PageHeader/>
     <router-view/>
   </div>
   <!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
