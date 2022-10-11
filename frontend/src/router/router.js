@@ -10,11 +10,17 @@ export const router = createRouter({
         {
             path: '/dashboard',
             name: 'Dashboard',
-            component: () => import('../views/Dashboard.vue')},
+            component: () => import('../views/Dashboard.vue')
+        },
         {
             path: '/specialists',
             name: 'Specialists',
             component: () => import('../views/Specialists.vue')
         },
+        {
+            path: '/client-applications',
+            component: () => import('../views/clientSubmitions')
+        },
+
     ]
 })
