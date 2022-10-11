@@ -1,72 +1,30 @@
 <template>
-<!--  <img alt="Vue logo" src="./assets/logo.png">-->
-  <Sidebar />
+  <!--  <img alt="Vue logo" src="./assets/logo.png">-->
+  <Sidebar/>
+  <PageHeader/>
   <div :style="{ 'margin-left': sidebarWidth }">
-    <router-view />
+    <router-view/>
   </div>
   <!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
 
-  <ul class="divide-y divide-gray-200">
-    <li class="py-4 flex">
-      <img class="h-10 w-10 rounded-full" src="" alt="" />
-      <div class="ml-3">
-        <p class="text-sm font-medium text-gray-900">person.name1</p>
-        <p class="text-sm text-gray-500">person.email </p>
-      </div>
-    </li>
-    <li class="py-4 flex">
-      <img  src="" alt="" class="h-10 w-10 rounded-full"/>
-      <div class="ml-3">
-        <p class="text-sm font-medium text-gray-900">person.name2</p>
-        <p class="text-sm text-gray-500">person.email </p>
-      </div>
-    </li>
-    <li class="py-4 flex">
-      <img class="h-10 w-10 rounded-full" src="" alt="" />
-      <div class="ml-3">
-        <p class="text-sm font-medium text-gray-900">person.name1</p>
-        <p class="text-sm text-gray-500">person.email </p>
-      </div>
-    </li>
-    <li class="py-4 flex">
-      <img  src="" alt="" class="h-10 w-10 rounded-full"/>
-      <div class="ml-3">
-        <p class="text-sm font-medium text-gray-900">person.name2</p>
-        <p class="text-sm text-gray-500">person.email </p>
-      </div>
-    </li>
-    <li class="py-4 flex">
-      <img class="h-10 w-10 rounded-full" src="" alt="" />
-      <div class="ml-3">
-        <p class="text-sm font-medium text-gray-900">person.name1</p>
-        <p class="text-sm text-gray-500">person.email </p>
-      </div>
-    </li>
-    <li class="py-4 flex">
-      <img  src="" alt="" class="h-10 w-10 rounded-full"/>
-      <div class="ml-3">
-        <p class="text-sm font-medium text-gray-900">person.name2</p>
-        <p class="text-sm text-gray-500">person.email </p>
-      </div>
-    </li>
-    <router-view></router-view>
-  </ul>
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
 import Sidebar from "@/components/sidebar/Sidebar.vue";
-import { sidebarWidth } from '@/components/sidebar/state.js'
+import PageHeader from "@/components/PageHeader";
+import {sidebarWidth} from '@/components/sidebar/state.js'
 
 export default {
   name: 'App',
   components: {
     // HelloWorld
-    Sidebar
+    Sidebar,
+    PageHeader
   },
 
   setup() {
-    return { sidebarWidth }
+    return {sidebarWidth}
   }
 }
 </script>
