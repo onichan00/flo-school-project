@@ -41,237 +41,32 @@
             </tr>
             </thead>
             <tbody class="bg-white divide-y divide-slate-200">
-            <tr data-order-code="<%= order.id %>" class="text-slate-500 hover:bg-slate-100 cursor-pointer">
+            <tr v-for="client in clientDummyData" :key="client.email" data-order-code="<%= order.id %>" class="text-slate-500 hover:bg-slate-100 cursor-pointer">
               <td class="px-8 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="text-sm font-medium text-slate-900">
-                    <p>Peter de Vries</p>
+                    <p>{{client.firstName }} {{ client.lastName }}</p>
                   </div>
                 </div>
               </td>
               <td class="px-8 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="text-sm font-medium text-slate-900">
-                    <p>0678231728</p>
+                    <p>{{client.phone}}</p>
                   </div>
                 </div>
               </td>
               <td class="px-8 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="text-sm font-medium text-slate-900">
-                    <p>email@gmail.com</p>
+                    <p>{{ client.email }}</p>
                   </div>
                 </div>
               </td>
               <td class="px-8 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="text-sm font-medium text-slate-900">
-                    <p>email@gmail.com</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <button type="button" data-order-edit class="p-1 hover:bg-slate-200 rounded-md">
-                    <i class="fa-regular fa-circle-check text-2xl text-green-600"></i>
-                  </button>
-                  <button type="button" data-order-delete class="p-1 hover:bg-slate-200 rounded-md">
-                    <i class="fa-regular fa-circle-xmark text-2xl text-red-600"></i>
-                  </button>
-                </div>
-
-              </td>
-            </tr>
-            <tr data-order-code="<%= order.id %>" class="text-slate-500 hover:bg-slate-100 cursor-pointer">
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>Peter de Vries</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>0678231728</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>email@gmail.com</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>email@gmail.com</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <button type="button" data-order-edit class="p-1 hover:bg-slate-200 rounded-md">
-                    <i class="fa-regular fa-circle-check text-2xl text-green-600"></i>
-                  </button>
-                  <button type="button" data-order-delete class="p-1 hover:bg-slate-200 rounded-md">
-                    <i class="fa-regular fa-circle-xmark text-2xl text-red-600"></i>
-                  </button>
-                </div>
-
-              </td>
-            </tr>
-            <tr data-order-code="<%= order.id %>" class="text-slate-500 hover:bg-slate-100 cursor-pointer">
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>Peter de Vries</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>0678231728</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>email@gmail.com</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>email@gmail.com</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <button type="button" data-order-edit class="p-1 hover:bg-slate-200 rounded-md">
-                    <i class="fa-regular fa-circle-check text-2xl text-green-600"></i>
-                  </button>
-                  <button type="button" data-order-delete class="p-1 hover:bg-slate-200 rounded-md">
-                    <i class="fa-regular fa-circle-xmark text-2xl text-red-600"></i>
-                  </button>
-                </div>
-
-              </td>
-            </tr>
-            <tr data-order-code="<%= order.id %>" class="text-slate-500 hover:bg-slate-100 cursor-pointer">
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>Peter de Vries</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>0678231728</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>email@gmail.com</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>email@gmail.com</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <button type="button" data-order-edit class="p-1 hover:bg-slate-200 rounded-md">
-                    <i class="fa-regular fa-circle-check text-2xl text-green-600"></i>
-                  </button>
-                  <button type="button" data-order-delete class="p-1 hover:bg-slate-200 rounded-md">
-                    <i class="fa-regular fa-circle-xmark text-2xl text-red-600"></i>
-                  </button>
-                </div>
-
-              </td>
-            </tr>
-            <tr data-order-code="<%= order.id %>" class="text-slate-500 hover:bg-slate-100 cursor-pointer">
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>Peter de Vries</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>0678231728</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>email@gmail.com</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>email@gmail.com</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <button type="button" data-order-edit class="p-1 hover:bg-slate-200 rounded-md">
-                    <i class="fa-regular fa-circle-check text-2xl text-green-600"></i>
-                  </button>
-                  <button type="button" data-order-delete class="p-1 hover:bg-slate-200 rounded-md">
-                    <i class="fa-regular fa-circle-xmark text-2xl text-red-600"></i>
-                  </button>
-                </div>
-
-              </td>
-            </tr>
-            <tr data-order-code="<%= order.id %>" class="text-slate-500 hover:bg-slate-100 cursor-pointer">
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>Peter de Vries</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>0678231728</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>email@gmail.com</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-8 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="text-sm font-medium text-slate-900">
-                    <p>email@gmail.com</p>
+                    <p> {{client.age}}</p>
                   </div>
                 </div>
               </td>
@@ -296,7 +91,106 @@
 
 <script>
 export default {
-  name: "ClientSubmitions"
+  name: "ClientSubmitions",
+
+  data() {
+    return{
+      clientDummyData: [
+        {
+          firstName: 'Gregory',
+          lastName: 'Gnomes',
+          age: 34,
+          email: 'gregorygnomes@gmail.com',
+          phone: '+31612345678'
+        },
+        {
+          firstName: 'Karel',
+          lastName: 'Aasplank',
+          age: 75,
+          email: 'k.aasplank@gmail.com',
+          phone: '+31612345678'
+        },
+        {
+          firstName: 'Frederik',
+          lastName: 'Rietjes',
+          age: 42,
+          email: 'f.rietjes@gmail.com',
+          phone: '+31612345678'
+        },
+        {
+          firstName: 'Peter',
+          lastName: 'Plantje',
+          age: 32,
+          email: 'pppplantje@gmail.com',
+          phone: '+31612345678'
+        },
+        {
+          firstName: 'Sanne',
+          lastName: 'Schommel',
+          age: 21,
+          email: 'sanne.s@gmail.com',
+          phone: '+31612345678'
+        },
+        {
+          firstName: 'Eef',
+          lastName: 'Wentel',
+          age: 29,
+          email: 'wentel.eef@gmail.com',
+          phone: '+31612345678'
+        },
+        {
+          firstName: 'Bas',
+          lastName: 'Bos',
+          age: 53,
+          email: 'basbos@gmail.com',
+          phone: '+31612345678'
+        },
+        {
+          firstName: 'Rico',
+          lastName: 'Uitenwisser',
+          age: 25,
+          email: 'r.uitenwisser@gmail.com',
+          phone: '+31612345678'
+        },
+        {
+          firstName: 'Vito',
+          lastName: 'Vogel',
+          age: 41,
+          email: 'vitooovogel@gmail.com',
+          phone: '+31612345678'
+        },
+        {
+          firstName: 'Fons',
+          lastName: 'Fledderbak',
+          age: 19,
+          email: 'fledderdekledder@gmail.com',
+          phone: '+31612345678'
+        },
+        {
+          firstName: 'Jan',
+          lastName: 'de Man',
+          age: 33,
+          email: 'deman.jan@gmail.com',
+          phone: '+31612345678'
+        },
+        {
+          firstName: 'Lisa',
+          lastName: 'Epel',
+          age: 29,
+          email: 'lisa.thebest@gmail.com',
+          phone: '+31612345678'
+        },
+        {
+          firstName: 'Bella',
+          lastName: 'Bolle',
+          age: 49,
+          email: 'bollebella@gmail.com',
+          phone: '+31612345678'
+        }
+      ]
+
+    }
+  }
 }
 </script>
 
