@@ -67,10 +67,10 @@
             </td>
             <td class="px-8 py-4 whitespace-nowrap">
               <div class="flex items-center">
-                <button type="button" data-order-edit class="p-1 hover:bg-slate-200 rounded-md" >
+                <button type="button" data-order-edit class="p-1 hover:bg-green-400 rounded-md" >
                   <i class="fa-regular fa-circle-check text-2xl text-green-600"></i>
                 </button>
-                <button type="button" data-order-delete class="p-1 hover:bg-slate-200 rounded-md" @click="declineProject(project)">
+                <button type="button" data-order-delete class="p-1 hover:bg-red-400 rounded-md" @click="declineProject(project)">
                   <i class="fa-regular fa-circle-xmark text-2xl text-red-600"></i>
                 </button>
               </div>
