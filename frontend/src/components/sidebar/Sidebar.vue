@@ -1,4 +1,4 @@
-<template>
+  <template>
   <aside id="sidebar" class="h-full overflow-y-hidden" :style="{width: sidebarWidth}" aria-label="Sidebar">
     <div @click="toggleSidebar"
          class="overflow-y-auto flex flex-col justify-between h-full py-4  px-3 border-solid border-r-2">
@@ -98,5 +98,6 @@ export default {
   transition: 0.3s ease;
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 </style>

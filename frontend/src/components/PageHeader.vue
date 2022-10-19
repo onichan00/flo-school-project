@@ -29,13 +29,13 @@
 </template>
 
 <script>
-import { Icon } from '@iconify/vue';
+// import { Icon } from '@iconify/vue';
 
 export default {
   name: 'PageHeader',
   props: ['title'],
   components: {
-    Icon,
+    // Icon,
   },
   methods: {
     openFilter() {
