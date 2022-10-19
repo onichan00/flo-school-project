@@ -36,7 +36,7 @@
           </tr>
           </thead>
           <tbody class="bg-white divide-y divide-slate-200" v-for="project in objecten" :key="project.id" :value="projectDummyData">
-          <tr data-order-code="<%= order.id %>" class="text-slate-500 hover:bg-slate-100 cursor-pointer">
+          <tr data-order-code="<%= order.id %>" class="text-slate-500 hover:bg-orange-200 cursor-pointer">
             <td class="px-8 py-4 whitespace-nowrap">
               <div class="flex items-center">
                 <div class="text-sm font-medium text-slate-900">
