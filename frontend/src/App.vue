@@ -1,6 +1,6 @@
 <template>
 <!--  <img alt="Vue logo" src="./assets/logo.png">-->
-  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>
+<!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
 
 <!--  <ul class="divide-y divide-gray-200">-->
 <!--    <li class="py-4 flex">-->
@@ -50,12 +50,12 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    // HelloWorld
   }
 }
 </script>
