@@ -1,9 +1,9 @@
 <template>
-  <div class="relative">
-    <router-view class="fixed left-1/2 top-1/2 w-96" :selected-specialist="selectedSpecialist"/>
-    <div class="main-area">
+  <div class="relative flex justify-center">
+    <router-view class="fixed top-28 w-96" :selected-specialist="selectedSpecialist"/>
+    <div class="main-area grid grid-cols-3 gap-5">
       <div
-          class="mb-4 border-gray-400 border-2 rounded-lg application-card"
+          class="application-card mb-4 border-gray-400 border-2 rounded-lg cursor-pointer"
           v-for="specialist in specialistDummyData"
           :key="specialist.email"
           @click="onSelect(specialist.id)">
@@ -398,8 +398,12 @@ export default {
 .application-card {
   display: flex;
   align-items: center;
-  width: 500px;
+  width: 450px;
   padding: 20px;
+  transition: .15s;
+}
+.application-card:hover {
+  box-shadow: 0 0 10px orange;
 }
 .application-card img {
   border-radius: 50%;

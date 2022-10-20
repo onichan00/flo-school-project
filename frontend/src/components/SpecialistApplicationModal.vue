@@ -1,12 +1,16 @@
 <template>
-  <div class="container border-2 rounded-lg">
-    <img :src="require('@/assets/img/' + selectedSpecialist.image)" alt="Profile Picture">
-    <section class="border-2 border-gray-300 rounded-l overflow-x-hidden overflow-y-auto">
+  <div class="container border-2 rounded-lg bg-white pt-5 pl-5 pr-5">
+    <div class="flex justify-center">
+      <img :src="require('@/assets/img/' + selectedSpecialist.image)"
+           alt="Profile Picture"
+           class="rounded-full border-2 border-gray-300 w-1/2 mb-5">
+    </div>
+    <section class="text-left border-2 border-gray-300 rounded-l overflow-x-hidden overflow-y-auto">
       <p class="text-lg">{{firstName}} {{lastName}}</p>
       <p>{{age}} years old</p>
 
       <p class="text-lg mt-5">Skills:</p>
-      <ul>
+      <ul class="list-disc">
         <li v-for="skill in skills" :key="skill.name">{{skill.name}}: ({{skill.skillLevel}}/5)</li>
       </ul>
 
@@ -26,9 +30,9 @@
       <p>phone: <span class="contact-link">{{phone}}</span></p>
       <p>mail: <span class="contact-link">{{email}}</span></p>
     </section>
-    <div>
-      <button>Approve</button>
-      <button>Decline</button>
+    <div class="h-12 flex justify-around items-center">
+      <div class="text-orange-500 text-lg approve-application-btn">Approve</div>
+      <div @click="closeModal" class="text-lg border-l-2 border-gray-300 decline-application-btn">Decline</div>
     </div>
   </div>
 </template>
@@ -51,6 +55,11 @@ export default {
       email: this.selectedSpecialist.email,
       phone: this.selectedSpecialist.phone
     }
+  },
+  methods: {
+    closeModal() {
+      this.$router.go(-1);
+    }
   }
 }
 </script>
@@ -65,5 +74,10 @@ export default {
 .contact-link {
   color: blue;
   text-decoration: underline;
+}
+.approve-application-btn,
+.decline-application-btn {
+  width: 100%;
+  cursor: pointer;
 }
 </style>
