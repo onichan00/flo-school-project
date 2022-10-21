@@ -1,12 +1,24 @@
 <template>
   <div class="relative flex justify-center">
-    <router-view class="fixed top-28 w-96" :selected-specialist="selectedSpecialist"/>
-    <div class="main-area grid grid-cols-3 gap-5">
+    <router-view class="fixed top-28 w-96"
+                 :selected-specialist="selectedSpecialist"
+                 @approve-application="approveApplication"
+                 @reject-application="rejectApplication"/>
+    <div class="main-area grid grid-cols-2 gap-5">
       <div
-          class="application-card mb-4 border-gray-400 border-2 rounded-lg cursor-pointer"
+          class="application-card mb-4 border-gray-400 border-2 rounded-lg cursor-pointer relative"
+          :class="gibApprovedStatus(specialist)"
           v-for="specialist in specialistDummyData"
-          :key="specialist.email"
+          :key="specialist.id"
           @click="onSelect(specialist.id)">
+        <img class="absolute top-3 right-1"
+             :class="{hidden : specialist.approved !== true}"
+             :src="require('@/assets/img/' + 'florijn-checkmark.png')"
+             alt="checkmark">
+        <img class="absolute top-3 right-1"
+             :class="{hidden : specialist.approved !== false}"
+             :src="require('@/assets/img/' + 'florijn-x.png')"
+             alt="x icon">
         <img :src="require('@/assets/img/' + specialist.image)"
              alt="Profile Picture" class="w-32 border-2 border-gray-300">
         <ul class="bio-info list-none pl-2 border-l-2 border-gray-300 p-3">
@@ -37,7 +49,7 @@ export default {
       specialistDummyData: [
         {
           id: 1,
-          approved: false,
+          approved: 'pending',
           firstName: 'Gregory',
           lastName: 'Gnomes',
           age: 34,
@@ -63,7 +75,7 @@ export default {
         },
         {
           id: 2,
-          approved: false,
+          approved: 'pending',
           firstName: 'Karel',
           lastName: 'Aasplank',
           age: 75,
@@ -89,7 +101,7 @@ export default {
         },
         {
           id: 3,
-          approved: false,
+          approved: 'pending',
           firstName: 'Frederik',
           lastName: 'Rietjes',
           age: 42,
@@ -115,7 +127,7 @@ export default {
         },
         {
           id: 4,
-          approved: false,
+          approved: 'pending',
           firstName: 'Peter',
           lastName: 'Plantje',
           age: 32,
@@ -141,7 +153,7 @@ export default {
         },
         {
           id: 5,
-          approved: false,
+          approved: 'pending',
           firstName: 'Sanne',
           lastName: 'Schommel',
           age: 21,
@@ -167,7 +179,7 @@ export default {
         },
         {
           id: 6,
-          approved: false,
+          approved: 'pending',
           firstName: 'Eef',
           lastName: 'Wentel',
           age: 29,
@@ -193,7 +205,7 @@ export default {
         },
         {
           id: 7,
-          approved: false,
+          approved: 'pending',
           firstName: 'Bas',
           lastName: 'Bos',
           age: 53,
@@ -219,7 +231,7 @@ export default {
         },
         {
           id: 8,
-          approved: false,
+          approved: 'pending',
           firstName: 'Rico',
           lastName: 'Uitenwisser',
           age: 25,
@@ -245,7 +257,7 @@ export default {
         },
         {
           id: 9,
-          approved: false,
+          approved: 'pending',
           firstName: 'Vito',
           lastName: 'Vogel',
           age: 41,
@@ -271,7 +283,7 @@ export default {
         },
         {
           id: 10,
-          approved: false,
+          approved: 'pending',
           firstName: 'Fons',
           lastName: 'Fledderbak',
           age: 19,
@@ -297,7 +309,7 @@ export default {
         },
         {
           id: 11,
-          approved: false,
+          approved: 'pending',
           firstName: 'Jan',
           lastName: 'de Man',
           age: 33,
@@ -323,7 +335,7 @@ export default {
         },
         {
           id: 12,
-          approved: false,
+          approved: 'pending',
           firstName: 'Lisa',
           lastName: 'Epel',
           age: 29,
@@ -349,7 +361,7 @@ export default {
         },
         {
           id: 13,
-          approved: false,
+          approved: 'pending',
           firstName: 'Bella',
           lastName: 'Bolle',
           age: 49,
@@ -377,15 +389,25 @@ export default {
     }
   },
   methods: {
-    openModal() {
-      this.$router.push(`/specialists/applications/${this.counter++}`)
-    },
     onSelect(specialistId) {
       if (this.selectedSpecialist !== null && specialistId === this.selectedSpecialist.email) {this.selectedSpecialist = null;}
       this.specialistDummyData.forEach(specialist => {
         if (specialist.id === specialistId) {this.selectedSpecialist = specialist;}
       });
       this.$router.push(this.$route.matched[0].path + '/' + this.selectedSpecialist.id);
+    },
+    approveApplication(specialist) {
+      specialist.approved = true;
+      this.$router.go(-1);
+    },
+    rejectApplication(specialist) {
+      specialist.approved = false;
+      this.$router.go(-1);
+    },
+    gibApprovedStatus(specialist) {
+      if (specialist.approved === true) return 'approved';
+      else if (specialist.approved === false) return 'faded';
+      else return null;
     }
   }
 }
@@ -398,12 +420,12 @@ export default {
 .application-card {
   display: flex;
   align-items: center;
-  width: 450px;
+  /*width: 450px;*/
   padding: 20px;
   transition: .15s;
 }
 .application-card:hover {
-  box-shadow: 0 0 10px orange;
+  box-shadow: 0 0 10px #EC5A29;
 }
 .application-card img {
   border-radius: 50%;
@@ -416,5 +438,12 @@ export default {
 .contact-link:hover {cursor: pointer}
 .bio-info {
   text-align: left;
+}
+.approved {
+  border-color: #EC5A29;
+}
+.faded {
+  opacity: 50%;
+  filter: grayscale(100);
 }
 </style>

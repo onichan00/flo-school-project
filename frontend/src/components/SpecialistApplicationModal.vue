@@ -1,11 +1,14 @@
 <template>
   <div class="container border-2 rounded-lg bg-white pt-5 pl-5 pr-5">
+    <button class="absolute border-b-2 border-l-2 border-gray-300 top-0 right-0 rounded-bl-lg
+            pb-1 pl-2 pr-2 pt-1"
+            @click="closeModal">X</button>
     <div class="flex justify-center">
       <img :src="require('@/assets/img/' + selectedSpecialist.image)"
            alt="Profile Picture"
            class="rounded-full border-2 border-gray-300 w-1/2 mb-5">
     </div>
-    <section class="text-left border-2 border-gray-300 rounded-l overflow-x-hidden overflow-y-auto">
+    <section class="info-section text-left border-2 border-gray-300 rounded-l overflow-x-hidden overflow-y-auto">
       <p class="text-lg">{{firstName}} {{lastName}}</p>
       <p>{{age}} years old</p>
 
@@ -31,8 +34,10 @@
       <p>mail: <span class="contact-link">{{email}}</span></p>
     </section>
     <div class="h-12 flex justify-around items-center">
-      <div class="text-orange-500 text-lg approve-application-btn">Approve</div>
-      <div @click="closeModal" class="text-lg border-l-2 border-gray-300 decline-application-btn">Decline</div>
+      <div class="text-orange-500 text-lg approve-application-btn"
+           @click="approveApplication">Approve</div>
+      <div class="text-lg border-l-2 border-gray-300 decline-application-btn"
+           @click="rejectApplication">Reject</div>
     </div>
   </div>
 </template>
@@ -42,6 +47,10 @@ export default {
   name: "ApplicationModal",
   props: [
       'selectedSpecialist'
+  ],
+  emits: [
+      'approve-application',
+      'reject-application'
   ],
   data () {
     return {
@@ -53,10 +62,17 @@ export default {
       preferredDays: this.selectedSpecialist.preferredDays,
       image: this.selectedSpecialist.image,
       email: this.selectedSpecialist.email,
-      phone: this.selectedSpecialist.phone
+      phone: this.selectedSpecialist.phone,
+      allApplications: this.applications
     }
   },
   methods: {
+    approveApplication() {
+      this.$emit('approve-application', this.selectedSpecialist);
+    },
+    rejectApplication() {
+      this.$emit('reject-application', this.selectedSpecialist);
+    },
     closeModal() {
       this.$router.go(-1);
     }
@@ -79,5 +95,8 @@ export default {
 .decline-application-btn {
   width: 100%;
   cursor: pointer;
+}
+.info-section {
+  max-height: 300px;
 }
 </style>
