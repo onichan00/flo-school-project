@@ -126,13 +126,13 @@
 </template>
 <script>
 import { Icon } from '@iconify/vue';
-import ProjectCard from './Specialist/ProjectCard.vue';
+import ProjectCard from '../components/Specialist/ProjectCard.vue';
 
 export default {
   name: 'SpecialistProfile',
   data() {
     return {
-      isEditing: true,
+      isEditing: false,
       user: {
         firstName: "John",
         secondName: "Michiel",
