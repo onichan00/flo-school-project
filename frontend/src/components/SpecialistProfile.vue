@@ -55,12 +55,14 @@
             </div>
           </div>
           <p v-else class="text-2xl">{{ user.firstName }} {{ user.secondName.charAt(0) }}. {{ user.lastName }}</p>
-          <div v-if="isEditing" class="flex flex-row text-left">
+          <div v-if="isEditing" class="flex flex-row text-left items-center">
             <p class="w-1/3">Specialist Type</p>
-            <input v-model="user.specialistType" class="border-b-2 border-florijnOrange" />
+            <select v-model="user.specialistType" class="w-2/3 rounded-md">
+              <option :selected="user.specialistType === 'mobile'" value="mobile">Mobile</option>
+              <option :selected="user.specialistType === 'security'" value="security">Security</option>
+            </select>
           </div>
-          <p v-else class="opacity-70">{{ user.specialistType }}</p>
-          <!-- <p>Available</p> -->
+          <p v-else class="opacity-70">{{ user.specialistType.charAt(0).toUpperCase() + user.specialistType.slice(1) }}</p>
         </div>
         <hr class="mb-2 mt-4" />
         <div class="flex flex-col text-left gap-4 pt-2">
@@ -130,7 +132,7 @@ export default {
   name: 'SpecialistProfile',
   data() {
     return {
-      isEditing: false,
+      isEditing: true,
       user: {
         firstName: "John",
         secondName: "Michiel",
@@ -141,7 +143,7 @@ export default {
         zipCode: "1091 GH",
         city: "Amsterdam",
         available: true,
-        specialistType: "Mobile",
+        specialistType: "mobile",
         languages: [
           {
             "name": "Javascript",
