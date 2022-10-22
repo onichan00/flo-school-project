@@ -41,8 +41,6 @@ public class LanguageController {
     @PostMapping("")
     public Language saveLanguage(@RequestBody Language language) {
         Language item = languageRepo.saveItem(language);
-        System.out.println(language);
-        System.out.println(item);
 
         // Create body by calling the getLanguage by route
         URI location = ServletUriComponentsBuilder.
