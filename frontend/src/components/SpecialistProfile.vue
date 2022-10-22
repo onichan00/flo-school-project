@@ -26,9 +26,14 @@
             <Icon icon="mdi:pencil" class="text-lg mr-1" />
             Edit
           </button>
-          <div class="text-white bg-green-500 inline-flex items-center font-medium rounded-lg text-sm px-3">
+          <div 
+            class="text-white inline-flex items-center font-medium rounded-lg text-sm px-3"
+            :class="[user.available ? 'bg-green-500' : 'bg-red-600']"
+          >
+          <!-- class="text-white bg-green-500 inline-flex items-center font-medium rounded-lg text-sm px-3" -->
             <Icon icon="akar-icons:circle-fill" class="mr-1" />
-            <p>Available</p>
+            <p v-if="user.available">Available</p>
+            <p v-else>Not available</p>
           </div>
         </div>
         <img
@@ -102,18 +107,6 @@
             <p class="w-1/3">{{ item.name }}</p>
             <p class="w-2/3">{{ item.level }}</p>
           </div>
-          <!-- <div class="flex flex-row">
-            <p class="w-1/3">Javascript</p>
-            <p class="w-2/3">Goed</p>
-          </div>
-          <div class="flex flex-row">
-            <p class="w-1/3">Java</p>
-            <p class="w-2/3">Goed</p>
-          </div>
-          <div class="flex flex-row">
-            <p class="w-1/3">Flutter</p>
-            <p class="w-2/3">Goed</p>
-          </div> -->
         </div>
       </div>
       <div class="w-full xl:w-2/3 rounded-md shadow-md p-4">
