@@ -1,6 +1,8 @@
 package com.hva.helios.repositories;
 
 
+import com.hva.helios.models.Language;
+
 import java.util.List;
 
 /**
@@ -34,18 +36,7 @@ public interface CrudRepository<T> {
      * @param item - Object to save
      * @return - Saved object
      */
-    default T saveItem(T item, List<T> items) {
-        // Check if the item already exists
-        int index = items.indexOf(item);
-
-        if (index == -1) {
-            items.add(item);
-        } else {
-            items.set(index, item);
-        }
-
-        return item;
-    }
+    T saveItem(T item);
 
     /**
      * Method to delete object with the same ID

@@ -26,6 +26,34 @@ public class LanguageRepository implements CrudRepository<Language> {
     }
 
     /**
+     * Method to save object
+     *
+     * @param item  - Object to save
+     * @return - Saved object
+     */
+    @Override
+    public Language saveItem(Language item) {
+        int index = languages.indexOf(item);
+
+        // Check if the language already exists
+        if (index == -1) {
+            // Check if the item got an ID
+            if (item.getId() == 0) {
+                // Set the ID as plus 1 from the last in the list
+                int lastId = languages.get(languages.size() - 1).getId() + 1;
+
+                item = new Language(lastId, item.getName(), item.getLevel());
+            }
+
+            languages.add(item);
+        } else {
+            languages.set(index, item);
+        }
+
+        return item;
+    }
+
+    /**
      * Method to delete object with the same ID
      *
      * @param id - ID of object to delete

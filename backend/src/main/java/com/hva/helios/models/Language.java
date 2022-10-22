@@ -45,11 +45,21 @@ public class Language {
     }
 
     @Override
+    public String toString() {
+        return String.format("%d/%s/%d", id, name, level);
+    }
+
+    /**
+     * Method that will check if two languages are equal based on the id
+     * @param o - Object of other language
+     * @return - True if the id matches
+     */
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Language language = (Language) o;
-        return level == language.level && Objects.equals(name, language.name);
+        return id == language.id;
     }
 
     @Override

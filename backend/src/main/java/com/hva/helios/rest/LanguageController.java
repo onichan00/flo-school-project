@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/languages")
@@ -28,14 +29,20 @@ public class LanguageController {
     @GetMapping(path = "{id}", produces = "application/json")
     public Language getLanguage(@PathVariable int id) {
         // Create item with id
-        Language item = new Language(id);
+        Language item = languageRepo.getByItem(new Language(id), languageRepo.getLanguages());
 
-        return languageRepo.getByItem(item, languageRepo.getLanguages());
+        if (item == null) {
+            throw new NotFoundException("Language not found with id=" + id);
+        }
+
+        return item;
     }
 
     @PostMapping("")
     public Language saveLanguage(@RequestBody Language language) {
-        Language item = languageRepo.saveItem(language, languageRepo.getLanguages());
+        Language item = languageRepo.saveItem(language);
+        System.out.println(language);
+        System.out.println(item);
 
         // Create body by calling the getLanguage by route
         URI location = ServletUriComponentsBuilder.
