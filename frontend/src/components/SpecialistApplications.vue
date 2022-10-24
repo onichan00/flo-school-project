@@ -52,7 +52,7 @@ export default {
           approved: 'pending',
           firstName: 'Gregory',
           lastName: 'Gnomes',
-          age: this.calculateAge(new Date('10/24/1992')),
+          age: this.calculateAge(new Date('10/25/1992')),
           email: 'gregorygnomes@gmail.com',
           phone: '+31612345678',
           image: 'profile.png',
@@ -410,7 +410,8 @@ export default {
       else return null;
     },
     calculateAge(dateOfBirth) {
-      return Math.floor((new Date() - dateOfBirth) / (1000*60*60*24*7*52.143));
+      console.log(Date.now());
+      return Math.floor((Date.now() - dateOfBirth) / (31557600000));
     }
   }
 }
