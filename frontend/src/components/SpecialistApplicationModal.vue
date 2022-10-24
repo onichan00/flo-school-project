@@ -62,8 +62,7 @@ export default {
       preferredDays: this.selectedSpecialist.preferredDays,
       image: this.selectedSpecialist.image,
       email: this.selectedSpecialist.email,
-      phone: this.selectedSpecialist.phone,
-      allApplications: this.applications
+      phone: this.selectedSpecialist.phone
     }
   },
   methods: {
