@@ -2,6 +2,7 @@
   <Sidebar></Sidebar>
 <!--  <PageHeader></PageHeader>-->
   <Specialists></Specialists>
+  <Footer></Footer>
 <!--  <img alt="Vue logo" src="./assets/logo.png">-->
 <!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
 
@@ -50,19 +51,22 @@
 <!--    </li>-->
 <!--    <router-view></router-view>-->
 <!--  </ul>-->
+
 </template>
 
 <script>
 import Sidebar from "@/components/sidebar/Sidebar.vue";
 import Specialists from "@/views/Specialists.vue";
 // import PageHeader from "@/components/PageHeader.vue";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: 'App',
   components: {
     // PageHeader,
     Sidebar,
-    Specialists
+    Specialists,
+    Footer
   }
 }
 </script>
