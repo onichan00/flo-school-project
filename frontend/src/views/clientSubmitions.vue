@@ -2,38 +2,38 @@
     <input type="hidden" name="sort" value="<%= sort %>">
     <input type="hidden" name="order" value="<%= order %>">
     <input type="hidden" name="page" value="<%= page %>">
-    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="-my-2 overflow-x-auto">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
         <div class="overflow-hidden border-b border-slate-200">
           <table class="min-w-full divide-y divide-slate-200 border-t border-t-slate-200">
             <thead>
             <tr>
               <th scope="col"
-                  class="cursor-pointer px-8 py-3 text-xs font-medium text-slate-500 tracking-wider">
+                  class="cursor-pointer px-8 py-3 text-xs font-medium text-orange-500 tracking-wider">
                 <div class="flex items-center space-x-1">
                   <div>Naam</div>
                 </div>
               </th>
               <th scope="col"
-                  class="cursor-pointer px-8 py-3 text-xs font-medium text-slate-500 tracking-wider">
+                  class="cursor-pointer px-8 py-3 text-xs font-medium text-orange-500 tracking-wider">
                 <div class="flex items-center space-x-1">
                   <div>Telefoon</div>
                 </div>
               </th>
               <th scope="col"
-                  class="cursor-pointer px-8 py-3 text-xs font-medium text-slate-500 tracking-wider">
+                  class="cursor-pointer px-8 py-3 text-xs font-medium text-orange-500 tracking-wider">
                 <div class="flex items-center space-x-1">
                   <div>Email</div>
                 </div>
               </th>
               <th scope="col"
-                  class="cursor-pointer px-8 py-3 text-xs font-medium text-slate-500 tracking-wider">
+                  class="cursor-pointer px-8 py-3 text-xs font-medium text-orange-500 tracking-wider">
                 <div class="flex items-center space-x-1">
                   <div>Date</div>
                 </div>
               </th>
               <th scope="col"
-                  class="cursor-pointer px-8 py-3 text-xs font-medium text-slate-500 tracking-wider">
+                  class="cursor-pointer px-8 py-3 text-xs font-medium text-orange-500 tracking-wider">
                 <div class="flex items-center space-x-1">
                   <div>Actions</div>
                 </div>
@@ -41,7 +41,7 @@
             </tr>
             </thead>
             <tbody class="bg-white divide-y divide-slate-200">
-            <tr v-on:click="selectClient(client)" v-for="client in clientDummyData" :key="client.email" data-order-code="<%= order.id %>" class="text-slate-500 hover:bg-slate-100 cursor-pointer">
+            <tr v-on:click="selectClient(client)" v-for="client in clientDummyData" :key="client.email" data-order-code="<%= order.id %>" class="text-slate-500 hover:bg-orange-100 cursor-pointer">
               <td class="px-8 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="text-sm font-medium text-slate-900">
@@ -211,7 +211,6 @@ export default {
     selectClient: function (client){
       this.selectedClient = client;
       this.$router.push("client-details:" + client.id)
-
     }
   }
 

@@ -1,5 +1,22 @@
 <template>
-  <p>{{ this.clientDummyData[currentId-1] }}</p>
+  <div class="container py-10 px-10">
+    <div class=" overflow-hidden relative w-36 h-36 bg-gray-100 rounded-full dark:bg-gray-600">
+      <svg class=" py-5 px-5absolute  w-36 h-36 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+    </div>
+<!--    border-b-4 border-[#F15922]-->
+    <div class="grid grid-cols-2 gap-0 text-justify py-5 px-5 divide-y divide-y-reverse ">
+      <p></p>
+      <p></p>
+      <p class="py-3 px-3 font-medium text-slate-500">Firstname </p><p class="py-3 px-3 font-medium text-slate-900">{{ this.clientDummyData[currentId - 1].firstName }}</p>
+      <p class="py-3 px-3 font-medium text-slate-500">lastName </p><p class="py-3 px-3 font-medium text-slate-900">{{ this.clientDummyData[currentId - 1].lastName }}</p>
+      <p class="py-3 px-3 font-medium text-slate-500">Age </p><p class="py-3 px-3 font-medium text-slate-900">{{ this.clientDummyData[currentId - 1].age }}</p>
+      <p class="py-3 px-3 font-medium text-slate-500">Email </p><p class="py-3 px-3 font-medium text-slate-900">{{ this.clientDummyData[currentId - 1].email }}</p>
+      <p class="py-3 px-3 font-medium text-slate-500">Phone </p><p class="py-3 px-3 font-medium text-slate-900">{{ this.clientDummyData[currentId - 1].phone }}</p>
+    </div>
+
+
+  </div>
+
 </template>
 
 <script>
@@ -121,7 +138,6 @@ export default {
 
   created() {
     this.currentId = this.$route.params.id.replace(':', '');
-    console.log(this.clientDummyData[this.currentId-1])
   }
 }
 </script>
