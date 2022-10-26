@@ -1,8 +1,6 @@
 <template>
   <Sidebar></Sidebar>
 <!--  <PageHeader></PageHeader>-->
-  <Specialists></Specialists>
-  <Footer></Footer>
 <!--  <img alt="Vue logo" src="./assets/logo.png">-->
 <!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
 
@@ -49,14 +47,14 @@
 <!--        <p class="text-sm text-gray-500">person.email </p>-->
 <!--      </div>-->
 <!--    </li>-->
-<!--    <router-view></router-view>-->
+    <router-view></router-view>
 <!--  </ul>-->
+  <Footer></Footer>
 
 </template>
 
 <script>
 import Sidebar from "@/components/sidebar/Sidebar.vue";
-import Specialists from "@/views/Specialists.vue";
 // import PageHeader from "@/components/PageHeader.vue";
 import Footer from "@/components/Footer.vue";
 
@@ -65,7 +63,6 @@ export default {
   components: {
     // PageHeader,
     Sidebar,
-    Specialists,
     Footer
   }
 }

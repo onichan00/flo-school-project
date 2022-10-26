@@ -6,6 +6,11 @@ export const router = createRouter({
     history: createWebHashHistory(),
     routes:[
         {path: '/', component: HelloWorld},
-        {path: '/:pathMatch(.*)', component: UnknownRoute}
+        {path: '/:pathMatch(.*)', component: UnknownRoute},
+        {
+            path: '/specialists',
+            name: 'Specialists',
+            component: () => import('../views/Specialists.vue')
+        },
     ]
 })
