@@ -1,4 +1,4 @@
-<template>
+  <template>
   <aside id="sidebar" class="h-full overflow-y-hidden" :style="{width: sidebarWidth}" aria-label="Sidebar">
     <div @click="toggleSidebar"
          class="overflow-y-auto flex flex-col justify-between h-full py-4  px-3 border-solid border-r-2">
@@ -28,9 +28,9 @@
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Specialists
             </SidebarLink>
-            <SidebarLink to="/recruiters" icon="fas fa-users"
+            <SidebarLink to="/specialists/applications" icon="fas fa-users"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
-              Recruiters
+              Applications
             </SidebarLink>
             <SidebarLink to="/projects" icon="fas fa-diagram-project"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
@@ -101,5 +101,6 @@ export default {
   transition: 0.3s ease;
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 </style>

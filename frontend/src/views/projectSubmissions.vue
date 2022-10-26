@@ -8,22 +8,22 @@
         <table class="min-w-full divide-y divide-slate-200 border-t border-t-slate-200">
           <thead>
           <tr>
-            <th scope="col" class="cursor-pointer px-8 py-3 text-xs font-medium text-slate-500 tracking-wider">
+            <th scope="col" class="cursor-pointer px-8 py-3 text-xs font-medium text-orange-500 tracking-wider">
               <div class="flex items-center space-x-1">
                 <div>Created</div>
               </div>
             </th>
-            <th scope="col" class="cursor-pointer px-8 py-3 text-xs font-medium text-slate-500 tracking-wider">
+            <th scope="col" class="cursor-pointer px-8 py-3 text-xs font-medium text-orange-500 tracking-wider">
               <div class="flex items-center space-x-1">
                 <div>Project name</div>
               </div>
             </th>
-            <th scope="col" class="cursor-pointer px-8 py-3 text-xs font-medium text-slate-500 tracking-wider">
+            <th scope="col" class="cursor-pointer px-8 py-3 text-xs font-medium text-orange-500 tracking-wider">
               <div class="flex items-center space-x-1">
                 <div>Project creator</div>
               </div>
             </th>
-            <th scope="col" class="cursor-pointer px-8 py-3 text-xs font-medium text-slate-500 tracking-wider">
+            <th scope="col" class="cursor-pointer px-8 py-3 text-xs font-medium text-orange-500 tracking-wider">
               <div class="flex items-center space-x-1">
                 <div>Actions</div>
               </div>
@@ -32,7 +32,7 @@
           </thead>
           <tbody class="bg-white divide-y divide-slate-200" >
           <tr class="text-slate-500 hover:bg-orange-200 cursor-pointer" @click="selectProject(project.id)" v-for="project in projecten" :key="project.id" :value="projecten">
-            <td class="px-8 py-4 whitespace-nowrap" @click="selectProject(project.id)">
+            <td class="px-8 py-4 whitespace-nowrap">
               <div class="flex items-center">
                 <div class="text-sm font-medium text-slate-900">
                   <p> {{ project.created }}</p>

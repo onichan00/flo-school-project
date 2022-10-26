@@ -4,6 +4,7 @@
   <div :style="{ 'margin-left': sidebarWidth }">
     <PageHeader/>
     <router-view/>
+    <Footer></Footer>
   </div>
   <!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
 
@@ -14,12 +15,13 @@
 import Sidebar from "@/components/sidebar/Sidebar.vue";
 import PageHeader from "@/components/PageHeader";
 import {sidebarWidth} from '@/components/sidebar/state.js'
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: 'App',
   components: {
-    // HelloWorld
     Sidebar,
+    Footer,
     PageHeader
   },
 
@@ -36,5 +38,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
