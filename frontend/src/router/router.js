@@ -25,5 +25,15 @@ export const router = createRouter({
       name: 'Specialists',
       component: () => import('../views/Specialists.vue')
     },
+    {
+            path: '/client-applications', component: clientSubmitions, children: [
+                {path: ':id', component: () => import('../views/detailPageClients')}
+            ]
+        },
+        {
+            path: '/client-details:id',
+            component: () => import('../views/detailPageClients.vue')
+        },
   ]
 })
+
