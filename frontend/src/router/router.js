@@ -1,17 +1,16 @@
-import {createRouter, createWebHashHistory} from "vue-router"
-import HelloWorld from "@/components/HelloWorld";
+import SpecialistProfile from "@/screens/SpecialistProfile";
+import { createRouter, createWebHashHistory } from "vue-router"
 import UnknownRoute from "@/components/404-page"
 import projectSubmissions from "@/views/projectSubmissions";
 import projectSubmissionsDetail from "@/views/ProjectSubmissionsDetail";
 import SpecialistApplications from "@/components/SpecialistApplications";
 import SpecialistApplicationModal from "@/components/SpecialistApplicationModal";
-
 import clientSubmitions from "@/views/clientSubmitions";
 
 export const router = createRouter({
     history: createWebHashHistory(),
     routes: [
-        {path: '/', component: HelloWorld},
+        {path: '/', component: SpecialistProfile},
         {path: '/:pathMatch(.*)', component: UnknownRoute},
         {
             path: '/specialists/applications',
@@ -46,5 +45,5 @@ export const router = createRouter({
             path: '/client-details:id',
             component: () => import('../views/detailPageClients.vue')
         },
-    ]
+  ]
 })
