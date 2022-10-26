@@ -1,96 +1,39 @@
 <template>
-  <input type="hidden" name="sort" value="<%= sort %>">
-  <input type="hidden" name="order" value="<%= order %>">
-  <input type="hidden" name="page" value="<%= page %>">
-  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-      <div class="overflow-hidden border-b border-slate-200">
-        <table class="min-w-full divide-y divide-slate-200 border-t border-t-slate-200">
-          <thead>
-          <tr>
-            <th scope="col" class="cursor-pointer px-8 py-3 text-xs font-medium text-slate-500 tracking-wider">
-              <div class="flex items-center space-x-1">
-                <div>Created</div>
-              </div>
-            </th>
-            <th scope="col" class="cursor-pointer px-8 py-3 text-xs font-medium text-slate-500 tracking-wider">
-              <div class="flex items-center space-x-1">
-                <div>Project name</div>
-              </div>
-            </th>
-            <th scope="col" class="cursor-pointer px-8 py-3 text-xs font-medium text-slate-500 tracking-wider">
-              <div class="flex items-center space-x-1">
-                <div>Project creator</div>
-              </div>
-            </th>
-            <th scope="col" class="cursor-pointer px-8 py-3 text-xs font-medium text-slate-500 tracking-wider">
-              <div class="flex items-center space-x-1">
-                <div>Actions</div>
-              </div>
-            </th>
-          </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-slate-200" >
-          <tr class="text-slate-500 hover:bg-orange-200 cursor-pointer" @click="selectProject(project.id)" v-for="project in projecten" :key="project.id" :value="projecten">
-            <td class="px-8 py-4 whitespace-nowrap" @click="selectProject(project.id)">
-              <div class="flex items-center">
-                <div class="text-sm font-medium text-slate-900">
-                  <p> {{ project.created }}</p>
-                </div>
-              </div>
-            </td>
-            <td class="px-8 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <div class="text-sm font-medium text-slate-900">
-                  <p> {{ project.name }}</p>
-                </div>
-              </div>
-            </td>
-            <td class="px-8 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <div class="text-sm font-medium text-slate-900">
-                  <p> {{ project.createdBy }}</p>
-                </div>
-              </div>
-            </td>
-            <td class="px-8 py-4 whitespace-nowrap">
-              <div class="flex items-center">
-                <!--        mist nog confirmation boxxes-->
-
-                <button type="button" data-order-edit class="p-1 hover:bg-green-400 rounded-md">
-                  <i class="fa-regular fa-circle-check text-2xl text-green-600"></i>
-                </button>
-                <button type="button" data-order-delete class="p-1 hover:bg-red-400 rounded-md" @click="declineProject(project.id)">
-                  <i class="fa-regular fa-circle-xmark text-2xl text-red-600"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-
-
-
-
-
-
+  <div class="container py-10 px-10">
+    <!--    border-b-4 border-[#F15922]-->
+    <div class="grid grid-cols-2 gap-2 text-justify py-5 px-5 divide-y divide-y-reverse">
+      <p></p>
+      <p></p>
+      <p class="py-3 px-3 font-medium text-slate-500">Applicatie naam </p><p class="py-3 px-3 font-medium text-slate-900">{{dataObject.name}}</p>
+      <p class="py-3 px-3 font-medium text-slate-500">Required Skills </p><p class="py-3 px-3 font-medium text-slate-900">{{dataObject.skills[0] + dataObject.skills[1] + dataObject.skills[2]}}</p>
+      <p class="py-3 px-3 font-medium text-slate-500">Datum </p><p class="py-3 px-3 font-medium text-slate-900">{{dataObject.created}}</p>
+      <p class="py-3 px-3 font-medium text-slate-500">Gemaakt door </p><p class="py-3 px-3 font-medium text-slate-900">{{dataObject.createdBy}}</p>
+      <p class="py-3 px-3 font-medium text-slate-500">Goed of afkeuren</p>
+      <div class="py-3 px-3 font-medium text-slate-900">
+<!--        mist nog confirmation boxxes-->
+        <button type="button" data-order-edit class="p-1 hover:bg-green-400 rounded-md" @click="declineProject()" >
+          <i class="fa-regular fa-circle-check text-2xl text-green-600"></i>
+        </button>
+        <button type="button" data-order-delete class="p-1 hover:bg-red-400 rounded-md" @click="declineProject()">
+          <i class="fa-regular fa-circle-xmark text-2xl text-red-600"></i>
+        </button>
       </div>
+
     </div>
+
+
+
   </div>
 
-<!--  <router-view :detail="detail"></router-view>-->
 </template>
 
 <script>
-// import {project} from '@/models/project.js'
 export default {
-  name: "ProjectSubmissions",
-  props: [
-  ],
-  data() {
-    return {
-      confirmRender: false,
-      selectedData: null,
+  name: "ProjectSubmissionsDetail",
+
+  data(){
+    return{
+      dataObject: null,
       projecten: [
         {
           "id": 100,
@@ -105,7 +48,7 @@ export default {
           "specialists": [
             "Frank Young",
             "Frank Young",
-            "Frank Young"
+            "Jan Hendrik"
           ],
           "createdBy": "illiasopdebeat@gmail.com"
         },
@@ -114,9 +57,9 @@ export default {
           "name": "Yoga app",
           "status": 1,
           "skills": [
+            "Python",
             "Java",
-            "Java",
-            "Java"
+            "Javascript"
           ],
           "created": "10/26/2022",
           "specialists": [
@@ -302,37 +245,23 @@ export default {
     }
   },
   created() {
-    // for (let i = 0; i < 10; i++) {
-    //   this.projecten.push(project.createSampleProject(100+i))
-    //   console.log(project.createSampleProject(100+i))
-    // }
-  },
-
-  methods: {
-    selectProject(projectId){
-      // this.selectedData = projectId
-      if (this.selectedData !== null && projectId === this.selectedData.id) {this.selectedData = null;}
-
-      for (let i = 0; i < this.projecten.length; i++) {
-        if (this.projecten[i].id === projectId) {this.selectedData = this.projecten[i]}
-      }
-
-      this.$router.push("projects/" + this.selectedData.id);
-
-    },
-    declineProject(id){
-      for (let i = 0; i < this.projecten.length; i++) {
-        if (this.projecten[i].id === id){
-          this.projecten.splice(i,1)
-        }
+    for (let i = 0; i < this.projecten.length; i++) {
+      let paramId = this.$route.params.id
+      let arrayId = this.projecten[i].id
+      if (arrayId == paramId) {
+        this.dataObject = this.projecten[i]
       }
     }
-  }
-
+  },
+  methods: {
+    declineProject(){
+      history.back()
+      }
+    }
 }
 </script>
+
 
 <style scoped>
 
 </style>
-

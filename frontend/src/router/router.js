@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory } from "vue-router"
 import HelloWorld from "@/components/HelloWorld";
 import UnknownRoute from "@/components/404-page"
+import projectSubmissions from "@/views/projectSubmissions";
+import projectSubmissionsDetail from "@/views/ProjectSubmissionsDetail";
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -13,9 +15,10 @@ export const router = createRouter({
       component: () => import('../views/Dashboard.vue')
     },
     {
-      path: '/projects',
-      name: 'Projects',
-      component: () => import('../views/projectSubmissions.vue')
+      path: '/projects', name: 'projects' ,component: projectSubmissions,
+    },
+    {
+      path: '/projects/:id', name: 'projectsDetail', component: projectSubmissionsDetail,
     },
     {
       path: '/specialists',
