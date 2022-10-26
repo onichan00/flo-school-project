@@ -4,9 +4,12 @@ import UnknownRoute from "@/components/404-page"
 import SpecialistApplications from "@/components/SpecialistApplications";
 import SpecialistApplicationModal from "@/components/SpecialistApplicationModal";
 
+import clientSubmitions from "@/views/clientSubmitions";
+
+
 export const router = createRouter({
     history: createWebHashHistory(),
-    routes:[
+    routes: [
         {path: '/', component: HelloWorld},
         {
             path: '/specialists/applications',
@@ -16,6 +19,25 @@ export const router = createRouter({
                 component: SpecialistApplicationModal
             }]
         },
-        {path: '/:pathMatch(.*)', component: UnknownRoute}
+        {path: '/:pathMatch(.*)', component: UnknownRoute},
+        {
+            path: '/dashboard',
+            name: 'Dashboard',
+            component: () => import('../views/Dashboard.vue')
+        },
+        {
+            path: '/specialists',
+            name: 'Specialists',
+            component: () => import('../views/Specialists.vue')
+        },
+        {
+            path: '/client-applications', component: clientSubmitions, children: [
+                {path: ':id', component: () => import('../views/detailPageClients')}
+            ]
+        },
+        {
+            path: '/client-details:id',
+            component: () => import('../views/detailPageClients.vue')
+        },
     ]
 })
