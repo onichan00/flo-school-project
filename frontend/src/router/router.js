@@ -3,6 +3,7 @@ import HelloWorld from "@/components/HelloWorld";
 import UnknownRoute from "@/components/404-page"
 import projectSubmissions from "@/views/projectSubmissions";
 import projectSubmissionsDetail from "@/views/ProjectSubmissionsDetail";
+import clientSubmitions from "@/views/clientSubmitions";
 
 export const router = createRouter({
   history: createWebHashHistory(),
