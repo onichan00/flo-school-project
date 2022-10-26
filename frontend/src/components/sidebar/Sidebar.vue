@@ -28,9 +28,9 @@
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Specialists
             </SidebarLink>
-            <SidebarLink to="/recruiters" icon="fas fa-users"
+            <SidebarLink to="/specialists/applications" icon="fas fa-users"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
-              Recruiters
+              Applications
             </SidebarLink>
             <SidebarLink to="/projects" icon="fas fa-diagram-project"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
