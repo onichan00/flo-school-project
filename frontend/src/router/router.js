@@ -1,16 +1,23 @@
-import SpecialistProfile from "@/screens/SpecialistProfile";
-import { createRouter, createWebHashHistory } from "vue-router"
+import {createRouter, createWebHashHistory} from "vue-router";
+
+// Views
 import UnknownRoute from "@/components/404-page"
-import projectSubmissions from "@/views/projectSubmissions";
-import projectSubmissionsDetail from "@/views/ProjectSubmissionsDetail";
+import projectSubmissions from "@/views/admin/project/projectSubmissions";
+import projectSubmissionsDetail from "@/views/admin/project/ProjectSubmissionsDetail";
+import clientSubmitions from "@/views/admin/client/clientSubmitions";
+import Profile from "@/views/admin/profile";
+import Dashboard from "@/views/admin/Dashboard";
+
+// Components
 import SpecialistApplications from "@/components/SpecialistApplications";
 import SpecialistApplicationModal from "@/components/SpecialistApplicationModal";
-import clientSubmitions from "@/views/clientSubmitions";
+import CustomCalendar from "@/views/CustomCalendar";
 
 export const router = createRouter({
     history: createWebHashHistory(),
     routes: [
-        {path: '/', component: SpecialistProfile},
+        {path: '/', component: CustomCalendar},
+        {path: '/profile/:id', name: 'profile', component: Profile},
         {path: '/:pathMatch(.*)', component: UnknownRoute},
         {
             path: '/specialists/applications',
@@ -23,7 +30,7 @@ export const router = createRouter({
         {
             path: '/dashboard',
             name: 'Dashboard',
-            component: () => import('../views/Dashboard.vue')
+            component: () => import('../views/admin/Dashboard.vue')
         },
         {
             path: '/projects', name: 'projects', component: projectSubmissions,
@@ -34,16 +41,21 @@ export const router = createRouter({
         {
             path: '/specialists',
             name: 'Specialists',
-            component: () => import('../views/Specialists.vue')
+            component: () => import('../views/admin/specialist/Specialists.vue')
         },
         {
-            path: '/client-applications', component: clientSubmitions, children: [
-                {path: ':id', component: () => import('../views/detailPageClients')}
+            path: '/clients',
+            name: 'Clients',
+            component: clientSubmitions,
+            children: [
+                {
+                    path: ':id', component: () => import('../views/admin/client/detailPageClients')
+                }
             ]
         },
         {
             path: '/client-details:id',
-            component: () => import('../views/detailPageClients.vue')
+            component: () => import('../views/admin/client/detailPageClients.vue')
         },
   ]
 })

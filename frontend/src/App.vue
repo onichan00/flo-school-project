@@ -6,16 +6,23 @@
     <router-view/>
     <Footer></Footer>
   </div>
-  <!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
-
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
-import Sidebar from "@/components/sidebar/Sidebar.vue";
+import Sidebar from "@/components/miscellaneous/sidebar/Sidebar.vue";
+import {sidebarWidth} from '@/components/miscellaneous/sidebar/state.js'
 import PageHeader from "@/components/PageHeader";
-import {sidebarWidth} from '@/components/sidebar/state.js'
 import Footer from "@/components/Footer.vue";
+
+// Models
+import client from "@/models/client";
+import specialist from "@/models/specialist";
+import project from "@/models/project";
+
+// Dummy data
+import clientsData from "@/assets/data/clients.json";
+import projectsData from "@/assets/data/projects.json";
+import specialistsData from "@/assets/data/specialists.json";
 
 export default {
   name: 'App',
@@ -25,9 +32,40 @@ export default {
     PageHeader
   },
 
+  data() {
+    return {
+      specialists: [],
+      projects: [],
+      clients: []
+    }
+  },
+  provide() {
+    // use function syntax so that we can access `this`
+    return {
+      specialists: this.specialists,
+      projects: this.projects,
+      clients: this.clients
+    }
+  },
+
+  created() {
+    specialistsData.forEach((element) => {
+      this.specialists.push(new specialist(element));
+    });
+
+    projectsData.forEach((element) => {
+      this.projects.push(new project(element));
+    });
+
+    clientsData.forEach((element) => {
+      this.clients.push(new client(element));
+    })
+  },
+
   setup() {
     return {sidebarWidth}
-  }
+  },
+
 }
 </script>
 
