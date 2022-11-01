@@ -33,10 +33,10 @@ export const router = createRouter({
             component: () => import('../views/admin/Dashboard.vue')
         },
         {
-            path: '/projects', name: 'projects', component: projectSubmissions,
+            path: '/projects', name: 'Projects', component: projectSubmissions,
         },
         {
-            path: '/projects/:id', name: 'projectsDetail', component: projectSubmissionsDetail,
+            path: '/projects/:id', name: 'Project', component: projectSubmissionsDetail,
         },
         {
             path: '/specialists',
@@ -57,5 +57,5 @@ export const router = createRouter({
             path: '/client-details:id',
             component: () => import('../views/admin/client/detailPageClients.vue')
         },
-  ]
+    ]
 })

@@ -1,6 +1,5 @@
 <template>
   <br>
-
   <div id="specialistsTable" class="overflow-x-auto relative">
     <div class="flex justify-between items-center pb-4  dark:bg-gray-900">
       <button id="dropdownDefault" data-dropdown-toggle="dropdown"
