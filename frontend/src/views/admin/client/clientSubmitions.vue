@@ -110,7 +110,6 @@
       </div>
     </div>
   </div>
-  <router-view :selectedDetail="selectedClient"></router-view>
 </template>
 
 <script>
@@ -120,7 +119,6 @@ export default {
   inject: ['clients'],
   data() {
     return {
-      inject: ['clients'],
       selectedClient: null,
       clients: this.clients
     }
@@ -128,8 +126,9 @@ export default {
 
   methods: {
     selectClient: function (client) {
+      console.log(client)
       this.selectedClient = client;
-      this.$router.push("client-details:" + client.id)
+      this.$router.push("client/" + client.id)
     }
   }
 

@@ -1,37 +1,80 @@
 <template>
-  <div class="container py-10 px-10">
-    <div class=" overflow-hidden relative w-36 h-36 bg-gray-100 rounded-full dark:bg-gray-600">
-      <svg class=" py-5 px-5absolute  w-36 h-36 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-           xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
-      </svg>
-    </div>
-    <!--    border-b-4 border-[#F15922]-->
-    <div class="grid grid-cols-2 gap-0 text-justify py-5 px-5 divide-y divide-y-reverse ">
-      <p></p>
-      <p></p>
-      <p class="py-3 px-3 font-medium text-slate-500">Firstname </p>
-      <p class="py-3 px-3 font-medium text-slate-900">{{ this.clientDummyData[currentId - 1].firstName }}</p>
-      <p class="py-3 px-3 font-medium text-slate-500">lastName </p>
-      <p class="py-3 px-3 font-medium text-slate-900">{{ this.clientDummyData[currentId - 1].lastName }}</p>
-      <p class="py-3 px-3 font-medium text-slate-500">Age </p>
-      <p class="py-3 px-3 font-medium text-slate-900">{{ this.clientDummyData[currentId - 1].age }}</p>
-      <p class="py-3 px-3 font-medium text-slate-500">Email </p>
-      <p class="py-3 px-3 font-medium text-slate-900">{{ this.clientDummyData[currentId - 1].email }}</p>
-      <p class="py-3 px-3 font-medium text-slate-500">Phone </p>
-      <p class="py-3 px-3 font-medium text-slate-900">{{ this.clientDummyData[currentId - 1].phone }}</p>
-      <p class="py-3 px-3 font-medium text-slate-500">Goed of afkeuren</p>
-      <div class="py-3 px-3 font-medium text-slate-900">
-        <button type="button" data-order-edit class="p-1 hover:bg-green-400 rounded-md">
-          <i class="fa-regular fa-circle-check text-2xl text-green-600"></i>
-        </button>
-        <button type="button" data-order-delete class="p-1 hover:bg-red-400 rounded-md" @click="declineProject()">
-          <i class="fa-regular fa-circle-xmark text-2xl text-red-600"></i>
-        </button>
+  <div class="p-4 mb-10">
+    <div class="flex flex-col xl:flex-row gap-6">
+      <div class="w-full xl:w-1/3 p-4 rounded-md shadow-md">
+        <img
+            :src="selectedClient.photo"
+            class="max-w-full rounded-lg w-full profileImage"
+        />
+        <div class="mt-4">
+          <p class="text-2xl">{{ selectedClient.fName }} {{ selectedClient.sName.charAt(0) }} {{ selectedClient.lName }}</p>
+        </div>
+        <hr class="mb-2 mt-4" />
+        <div class="flex flex-col text-left gap-4 pt-2">
+          <div class="flex flex-row">
+            <p class="w-1/3">Email</p>
+            <p  class="w-2/3 border-b-2 border-black/0">{{ selectedClient.id }}</p>
+          </div>
+          <div class="flex flex-row">
+            <p class="w-1/3">Phone</p>
+            <p class="w-2/3 border-b-2 border-black/0">{{ selectedClient.phone }}</p>
+          </div>
+          <div class="flex flex-row">
+            <p class="w-1/3">Website</p>
+            <p class="w-2/3 border-b-2 border-black/0">{{ selectedClient.website }}</p>
+          </div>
+          <hr />
+          <div class="flex flex-row">
+            <p class="w-1/3">Projects</p>
+            <p class="w-2/3">{{ selectedClient.length }}</p>
+          </div>
+        </div>
+      </div>
+<!--      this.fName = object.first_name;
+      this.sName = object.second_name;
+      this.lName = object.last_name;
+      this.photo = object.photo;
+      this.bio = object.bio;
+      this.company = object.company;
+      this.phone = object.phone;
+      this.projects = object.projects;
+      this.website = object.website;-->
+      <div class="w-full xl:w-2/3 rounded-md shadow-md p-4">
+        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+          <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+            <li class="mr-2" role="presentation">
+              <button class="inline-block p-4 rounded-t-lg border-b-2" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Projects</button>
+            </li>
+            <li class="mr-2" role="presentation">
+              <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Available Hours</button>
+            </li>
+            <li class="mr-2" role="presentation">
+              <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="settings-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Skills</button>
+            </li>
+            <li role="presentation">
+              <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="contacts-tab" data-tabs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="false">Calendar</button>
+            </li>
+          </ul>
+        </div>
+<!--        <div id="myTabContent">-->
+<!--          <div class="hidden" id="profile" role="tabpanel" aria-labelledby="profile-tab">-->
+<!--            <ProjectCalendar :masks="masks" :dates="attributes"/>-->
+<!--          </div>-->
+<!--          <div class="hidden" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">-->
+<!--            <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>-->
+<!--          </div>-->
+<!--          <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="settings" role="tabpanel" aria-labelledby="settings-tab">-->
+<!--            <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>-->
+<!--          </div>-->
+<!--          <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">-->
+<!--            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">-->
+<!--              <ProjectCard v-for="(item, index) in projectList" :key="index" :project="item" />-->
+<!--            </div>-->
+<!--            &lt;!&ndash;            <ProjectCalendar />&ndash;&gt;-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
     </div>
-
-
   </div>
 
 </template>
@@ -39,126 +82,46 @@
 <script>
 export default {
   name: "detailPageClients",
-  props: ['selectedClient'],
+  inject: ['clients'],
 
   data() {
     return {
-      currentId: 0,
-      clientDummyData: [
-        {
-          id: 1,
-          firstName: 'Gregory',
-          lastName: 'Gnomes',
-          age: 34,
-          email: 'gregorygnomes@gmail.com',
-          phone: '+31612345678'
-        },
-        {
-          id: 2,
-          firstName: 'Karel',
-          lastName: 'Aasplank',
-          age: 75,
-          email: 'k.aasplank@gmail.com',
-          phone: '+31612345678'
-        },
-        {
-          id: 3,
-          firstName: 'Frederik',
-          lastName: 'Rietjes',
-          age: 42,
-          email: 'f.rietjes@gmail.com',
-          phone: '+31612345678'
-        },
-        {
-          id: 4,
-          firstName: 'Peter',
-          lastName: 'Plantje',
-          age: 32,
-          email: 'pppplantje@gmail.com',
-          phone: '+31612345678'
-        },
-        {
-          id: 5,
-          firstName: 'Sanne',
-          lastName: 'Schommel',
-          age: 21,
-          email: 'sanne.s@gmail.com',
-          phone: '+31612345678'
-        },
-        {
-          id: 6,
-          firstName: 'Eef',
-          lastName: 'Wentel',
-          age: 29,
-          email: 'wentel.eef@gmail.com',
-          phone: '+31612345678'
-        },
-        {
-          id: 7,
-          firstName: 'Bas',
-          lastName: 'Bos',
-          age: 53,
-          email: 'basbos@gmail.com',
-          phone: '+31612345678'
-        },
-        {
-          id: 8,
-          firstName: 'Rico',
-          lastName: 'Uitenwisser',
-          age: 25,
-          email: 'r.uitenwisser@gmail.com',
-          phone: '+31612345678'
-        },
-        {
-          id: 9,
-          firstName: 'Vito',
-          lastName: 'Vogel',
-          age: 41,
-          email: 'vitooovogel@gmail.com',
-          phone: '+31612345678'
-        },
-        {
-          id: 10,
-          firstName: 'Fons',
-          lastName: 'Fledderbak',
-          age: 19,
-          email: 'fledderdekledder@gmail.com',
-          phone: '+31612345678'
-        },
-        {
-          id: 11,
-          firstName: 'Jan',
-          lastName: 'de Man',
-          age: 33,
-          email: 'deman.jan@gmail.com',
-          phone: '+31612345678'
-        },
-        {
-          id: 12,
-          firstName: 'Lisa',
-          lastName: 'Epel',
-          age: 29,
-          email: 'lisa.thebest@gmail.com',
-          phone: '+31612345678'
-        },
-        {
-          id: 13,
-          firstName: 'Bella',
-          lastName: 'Bolle',
-          age: 49,
-          email: 'bollebella@gmail.com',
-          phone: '+31612345678'
-        }
-      ]
+      selectedClient: null,
     }
   },
 
   created() {
-    this.currentId = this.$route.params.id.replace(':', '');
-  }
+    this.selectedClient = this.findClientFromRouteParam(this.$route.params.id);
+  },
+
+  methods: {
+    setFirstLetterUppercase(str) {
+      if (str) str = str.charAt(0).toUpperCase() + str.slice(1);
+
+      return str;
+    },
+
+    declineProject() {
+      history.back()
+    },
+
+    findClientFromRouteParam(id) {
+      return this.clients.find(element => element.id === parseInt(id));
+    },
+  },
+  watch: {
+    '$route'() {
+      this.selectedClient = this.findClientFromRouteParam(this.$route.params.id);
+    }
+  },
 }
 </script>
 
 <style scoped>
-
+.profileImage {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  width: 100%;
+  object-position: top;
+}
 </style>

@@ -47,15 +47,9 @@ export const router = createRouter({
             path: '/clients',
             name: 'Clients',
             component: clientSubmitions,
-            children: [
-                {
-                    path: ':id', component: () => import('../views/admin/client/detailPageClients')
-                }
-            ]
         },
         {
-            path: '/client-details:id',
-            component: () => import('../views/admin/client/detailPageClients.vue')
+            path: '/client/:id', name: 'Client', component: () => import('../views/admin/client/detailPageClients')
         },
     ]
 })
