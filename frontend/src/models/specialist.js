@@ -12,5 +12,6 @@ export default class specialist {
     this.address = object.address;
     this.zipCode = object.zipCode;
     this.city = object.city;
+    this.specialistType = object.specialistType;
   }
 }

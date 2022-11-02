@@ -1,206 +1,140 @@
 <template>
-  <v-row class="fill-height">
-    <v-col>
-      <v-sheet height="600">
-        <v-calendar
-            ref="calendar"
-            v-model="value"
-            color="primary"
-            type="4day"
-            :events="events"
-            :event-color="getEventColor"
-            :event-ripple="false"
-            @change="getEvents"
-            @mousedown:event="startDrag"
-            @mousedown:time="startTime"
-            @mousemove:time="mouseMove"
-            @mouseup:time="endDrag"
-        >
-          <template v-slot:event="{ event, timed, eventSummary }">
-            <div class="v-event-draggable">
-              <component :is="{ render: eventSummary }"></component>
-            </div>
-            <div
-                v-if="timed"
-                class="v-event-drag-bottom"
-                @mousedown.stop="extendBottom(event)"
-            ></div>
-          </template>
-        </v-calendar>
-      </v-sheet>
-    </v-col>
-  </v-row>
+  <div className="wrap">
+    <div className="left">
+      <DayPilotNavigator id="nav" :config="navigatorConfig"/>
+    </div>
+    <div className="content">
+      <DayPilotCalendar id="dp" :config="config" ref="calendar"/>
+    </div>
+  </div>
 </template>
 
 <script>
+import {DayPilot, DayPilotCalendar, DayPilotNavigator} from '@daypilot/daypilot-lite-vue';
+
 export default {
-  name: "CustomCalendar",
-  data() {
+  name: 'CustomCalendar',
+  data: function () {
     return {
-    value: '',
-    events: [],
-    colors: ['#2196F3', '#3F51B5', '#673AB7', '#00BCD4', '#4CAF50', '#FF9800', '#757575'],
-    names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
-    dragEvent: null,
-    dragStart: null,
-    createEvent: null,
-    createStart: null,
-    extendOriginal: null,
-  }},
-  methods: {
-    startDrag ({ event, timed }) {
-      if (event && timed) {
-        this.dragEvent = event
-        this.dragTime = null
-        this.extendOriginal = null
-      }
-    },
-    startTime (tms) {
-      const mouse = this.toTime(tms)
-      if (this.dragEvent && this.dragTime === null) {
-        const start = this.dragEvent.start
-        this.dragTime = mouse - start
-      } else {
-        this.createStart = this.roundTime(mouse)
-        this.createEvent = {
-          name: `Event #${this.events.length}`,
-          color: this.rndElement(this.colors),
-          start: this.createStart,
-          end: this.createStart,
-          timed: true,
+      events: [],
+      navigatorConfig: {
+        showMonths: 1,
+        selectMode: "Week",
+        startDate: "2022-03-01",
+        selectionDay: "2022-02-28",
+        onTimeRangeSelected: args => {
+          this.config.startDate = args.day;
         }
-        this.events.push(this.createEvent)
-      }
-    },
-    extendBottom (event) {
-      this.createEvent = event
-      this.createStart = event.start
-      this.extendOriginal = event.end
-    },
-    mouseMove (tms) {
-      const mouse = this.toTime(tms)
-      if (this.dragEvent && this.dragTime !== null) {
-        const start = this.dragEvent.start
-        const end = this.dragEvent.end
-        const duration = end - start
-        const newStartTime = mouse - this.dragTime
-        const newStart = this.roundTime(newStartTime)
-        const newEnd = newStart + duration
-        this.dragEvent.start = newStart
-        this.dragEvent.end = newEnd
-      } else if (this.createEvent && this.createStart !== null) {
-        const mouseRounded = this.roundTime(mouse, false)
-        const min = Math.min(mouseRounded, this.createStart)
-        const max = Math.max(mouseRounded, this.createStart)
-        this.createEvent.start = min
-        this.createEvent.end = max
-      }
-    },
-    endDrag () {
-      this.dragTime = null
-      this.dragEvent = null
-      this.createEvent = null
-      this.createStart = null
-      this.extendOriginal = null
-    },
-    cancelDrag () {
-      if (this.createEvent) {
-        if (this.extendOriginal) {
-          this.createEvent.end = this.extendOriginal
-        } else {
-          const i = this.events.indexOf(this.createEvent)
-          if (i !== -1) {
-            this.events.splice(i, 1)
+      },
+      config: {
+        viewType: "Week",
+        startDate: "2022-11-01",
+        durationBarVisible: false,
+        timeRangeSelectedHandling: "Enabled",
+        onTimeRangeSelected: async (args) => {
+          const modal = await DayPilot.Modal.prompt("Create a new event:", "Event 1");
+          const dp = args.control;
+          dp.clearSelection();
+          if (modal.canceled) {
+            return;
           }
-        }
-      }
-      this.createEvent = null
-      this.createStart = null
-      this.dragTime = null
-      this.dragEvent = null
-    },
-    roundTime (time, down = true) {
-      const roundTo = 15 // minutes
-      const roundDownTime = roundTo * 60 * 1000
-      return down
-          ? time - time % roundDownTime
-          : time + (roundDownTime - (time % roundDownTime))
-    },
-    toTime (tms) {
-      return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
-    },
-    getEventColor (event) {
-      const rgb = parseInt(event.color.substring(1), 16)
-      const r = (rgb >> 16) & 0xFF
-      const g = (rgb >> 8) & 0xFF
-      const b = (rgb >> 0) & 0xFF
-      return event === this.dragEvent
-          ? `rgba(${r}, ${g}, ${b}, 0.7)`
-          : event === this.createEvent
-              ? `rgba(${r}, ${g}, ${b}, 0.7)`
-              : event.color
-    },
-    getEvents ({ start, end }) {
-      const events = []
-      const min = new Date(`${start.date}T00:00:00`).getTime()
-      const max = new Date(`${end.date}T23:59:59`).getTime()
-      const days = (max - min) / 86400000
-      const eventCount = this.rnd(days, days + 20)
-      for (let i = 0; i < eventCount; i++) {
-        const timed = this.rnd(0, 3) !== 0
-        const firstTimestamp = this.rnd(min, max)
-        const secondTimestamp = this.rnd(2, timed ? 8 : 288) * 900000
-        const start = firstTimestamp - (firstTimestamp % 900000)
-        const end = start + secondTimestamp
-        events.push({
-          name: this.rndElement(this.names),
-          color: this.rndElement(this.colors),
-          start,
-          end,
-          timed,
-        })
-      }
-      this.events = events
-    },
-    rnd (a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a
-    },
-    rndElement (arr) {
-      return arr[this.rnd(0, arr.length - 1)]
+          dp.events.add({
+            start: args.start,
+            end: args.end,
+            id: DayPilot.guid(),
+            text: modal.result
+          });
+        },
+        eventDeleteHandling: "enabled",
+        onEventDelete: (event) => {
+          const newEvents = this.events;
+          console.log(newEvents)
+          console.log(event.e.id());
+          this.calendar.update({newEvents});
+
+        },
+        onEventMoved: () => {
+          console.log("Event moved");
+        },
+        onEventResized: () => {
+          console.log("Event resized");
+        },
+      },
+    }
+  },
+  props: {},
+  components: {
+    DayPilotCalendar,
+    DayPilotNavigator
+  },
+  computed: {
+    // DayPilot.Calendar object - https://api.daypilot.org/daypilot-calendar-class/
+    calendar() {
+      return this.$refs.calendar.control;
+    }
+  },
+  methods: {
+    loadEvents() {
+      // placeholder for an HTTP call
+      const events = [
+        {
+          id: 1,
+          start: "2022-11-28T10:00:00",
+          end: "2022-11-28T11:00:00",
+          text: "Event 1",
+          backColor: "#6aa84f",
+          borderColor: "#38761d",
+        },
+        {
+          id: 2,
+          start: "2022-11-28T13:00:00",
+          end: "2022-11-28T16:00:00",
+          text: "Event 2",
+          backColor: "#f1c232",
+          borderColor: "#bf9000",
+        },
+        {
+          id: 3,
+          start: "2022-11-01T13:30:00",
+          end: "2022-11-01T16:30:00",
+          text: "Event 3",
+          backColor: "#cc4125",
+          borderColor: "#990000",
+        },
+        {
+          id: 4,
+          start: "2022-11-01T10:30:00",
+          end: "2022-11-01T12:30:00",
+          text: "Event 4"
+        },
+      ];
+      this.calendar.update({events});
     },
   },
+  mounted() {
+    this.loadEvents();
+  }
 }
 </script>
 
-<style scoped lang="scss">
-.v-event-draggable {
-  padding-left: 6px;
+<style>
+.wrap {
+  display: flex;
 }
-.v-event-timed {
-  user-select: none;
-  -webkit-user-select: none;
+
+.left {
+  margin-right: 10px;
 }
-.v-event-drag-bottom {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 4px;
-  height: 4px;
-  cursor: ns-resize;
-  &::after {
-    display: none;
-    position: absolute;
-    left: 50%;
-    height: 4px;
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
-    width: 16px;
-    margin-left: -8px;
-    opacity: 0.8;
-    content: '';
-  }
-  &:hover::after {
-    display: block;
-  }
+
+.content {
+  flex-grow: 1;
+}
+
+
+.calendar_default_event_inner {
+  background: #2e78d6;
+  color: white;
+  border-radius: 5px;
+  opacity: 0.9;
 }
 </style>

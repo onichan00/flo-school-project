@@ -61,7 +61,7 @@
           <hr />
           <div class="flex flex-row">
             <p class="w-1/3">Projects</p>
-            <p class="w-2/3">{{ projects.length }}</p>
+            <p class="w-2/3">{{ projectList.length }}</p>
           </div>
         </div>
       </div>
@@ -84,7 +84,9 @@
         </div>
         <div id="myTabContent">
           <div class="hidden" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <ProjectCalendar :masks="masks" :dates="attributes"/>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <ProjectCard v-for="(item, index) in projectList" :key="index" :project="item" />
+            </div>
           </div>
           <div class="hidden" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
             <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
@@ -93,10 +95,7 @@
             <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
           </div>
           <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <ProjectCard v-for="(item, index) in projectList" :key="index" :project="item" />
-            </div>
-<!--            <ProjectCalendar />-->
+            <p>Calendar</p>
           </div>
         </div>
       </div>
@@ -105,95 +104,19 @@
 </template>
 <script>
 import ProjectCard from '../../components/miscellaneous/ProjectCard.vue';
-import ProjectCalendar from "@/components/admin/profile/calendar";
 
 export default {
+  // Calendar and shit: https://code.daypilot.org/tutorials/vuejs
+
+  // FIXME: When the page is reloaded every project of the user is shown, but when i navigate to another page
+  //  and then back to this project, the projects are gone.
+
   name: 'SpecialistProfile',
   inject: ['specialists', 'projects'],
   data() {
-    const month = new Date().getMonth();
-    const year = new Date().getFullYear();
-
     return {
       isEditing: false,
       projectList: [],
-      masks: {
-        weekdays: 'WWW',
-      },
-      attributes: [
-        {
-          key: 1,
-          customData: {
-            title: 'Lunch with mom.',
-            class: 'bg-red-600 text-white',
-          },
-          dates: new Date(year, month, 1),
-        },
-        {
-          key: 2,
-          customData: {
-            title: 'Take Noah to basketball practice',
-            class: 'bg-blue-500 text-white',
-          },
-          dates: new Date(year, month, 2),
-        },
-        {
-          key: 3,
-          customData: {
-            title: "Noah's basketball game.",
-            class: 'bg-blue-500 text-white',
-          },
-          dates: new Date(year, month, 5),
-        },
-        {
-          key: 4,
-          customData: {
-            title: 'Take car to the shop',
-            class: 'bg-indigo-500 text-white',
-          },
-          dates: new Date(year, month, 5),
-        },
-        {
-          key: 4,
-          customData: {
-            title: 'Meeting with new client.',
-            class: 'bg-teal-500 text-white',
-          },
-          dates: new Date(year, month, 7),
-        },
-        {
-          key: 5,
-          customData: {
-            title: "Mia's gymnastics practice.",
-            class: 'bg-pink-500 text-white',
-          },
-          dates: new Date(year, month, 11),
-        },
-        {
-          key: 6,
-          customData: {
-            title: 'Cookout with friends.',
-            class: 'bg-orange-500 text-white',
-          },
-          dates: { months: 5, ordinalWeekdays: { 2: 1 } },
-        },
-        {
-          key: 7,
-          customData: {
-            title: "Mia's gymnastics recital.",
-            class: 'bg-pink-500 text-white',
-          },
-          dates: new Date(year, month, 22),
-        },
-        {
-          key: 8,
-          customData: {
-            title: 'Visit great grandma.',
-            class: 'bg-red-600 text-white',
-          },
-          dates: new Date(year, month, 25),
-        },
-      ],
     }
   },
   methods: {
@@ -224,7 +147,6 @@ export default {
     }
   },
   components: {
-    ProjectCalendar,
     ProjectCard
   }
 }

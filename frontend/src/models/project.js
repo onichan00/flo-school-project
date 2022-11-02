@@ -7,4 +7,8 @@ export default class project{
         this.client = object.client;
         this.specialists = object.specialists;
     }
+
+    static addToSpecialists = (specialist) => {
+        this.specialists.push(specialist);
+    }
 }
