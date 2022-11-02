@@ -84,12 +84,16 @@
         </div>
         <div id="myTabContent">
           <div class="hidden" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <!-- <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <ProjectCard v-for="(item, index) in projectList" :key="index" :project="item" />
+            </div> -->
+            <AvailableHours />
+          </div>
+          <div class="hidden" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+            <!-- <AvailableHours /> -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               <ProjectCard v-for="(item, index) in projectList" :key="index" :project="item" />
             </div>
-          </div>
-          <div class="hidden" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
-            <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
           </div>
           <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="settings" role="tabpanel" aria-labelledby="settings-tab">
             <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
@@ -103,6 +107,7 @@
   </div>
 </template>
 <script>
+import AvailableHours from '@/components/admin/profile/availableHours.vue';
 import ProjectCard from '../../components/miscellaneous/ProjectCard.vue';
 
 export default {
@@ -147,7 +152,8 @@ export default {
     }
   },
   components: {
-    ProjectCard
+    ProjectCard,
+    AvailableHours
   }
 }
 </script>

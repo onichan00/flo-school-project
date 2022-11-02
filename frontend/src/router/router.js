@@ -11,12 +11,11 @@ import Dashboard from "@/views/admin/Dashboard";
 // Components
 import SpecialistApplications from "@/components/SpecialistApplications";
 import SpecialistApplicationModal from "@/components/SpecialistApplicationModal";
-import CustomCalendar from "@/views/CustomCalendar";
 
 export const router = createRouter({
     history: createWebHashHistory(),
     routes: [
-        {path: '/', component: CustomCalendar},
+        {path: '/', component: Dashboard},
         {path: '/profile/:id', name: 'profile', component: Profile},
         {path: '/:pathMatch(.*)', component: UnknownRoute},
         {
