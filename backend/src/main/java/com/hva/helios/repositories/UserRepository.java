@@ -2,6 +2,8 @@ package com.hva.helios.repositories;
 
 import com.hva.helios.models.Specialist;
 import com.hva.helios.models.User;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +12,9 @@ import java.util.List;
  * User Repository for the User Class
  * @author simon_vriesema
  */
+@Component
+@Repository
 public class UserRepository implements CrudRepository<User> {
-
     User user0, user1, user2, user3;
     private ArrayList<User> users;
 

@@ -17,7 +17,7 @@ public class Specialist extends User implements ProfileExtension {
 
         this.available = 0;
         this.preferred_hours = 0;
-        this.works_on = new Project(null, 0, null, null, null);
+        this.works_on = new Project(0, null, 0, null, null, null);
         this.languages = null;
     }
 
