@@ -1,24 +1,35 @@
 package com.hva.helios.repositories;
 
 import com.hva.helios.models.Project;
-import com.hva.helios.models.Specialist;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
+@Repository
 public class ProjectsRepository implements CrudRepository<Project> {
 
     Project project0, project1,  project2, project3;
     private ArrayList<Project> projects;
 
     public ProjectsRepository() {
-        this.project0 = new Project("Minecraft", 0, LocalDate.now(), null, null);
-        this.project1 = new Project("Fortnite", 0, LocalDate.now(), null, null);
-        this.project2 = new Project("Shrek 4?", 0, LocalDate.now(), null, null);
-        this.project3 = new Project("Minecraft 2?", 0, LocalDate.now(), null, null);
+        this.project0 = new Project(9000, "Minecraft", 0, LocalDate.now(), null, null);
+        this.project1 = new Project(9001,"Fortnite", 0, LocalDate.now(), null, null);
+        this.project2 = new Project(9002, "Shrek 4?", 0, LocalDate.now(), null, null);
+        this.project3 = new Project(9003,"Minecraft 2?", 0, LocalDate.now(), null, null);
 
         this.projects = new ArrayList<>(List.of(project0, project1,  project2, project3));;
+    }
+
+    /**
+     * Method to get all projects from the projects list
+     * @return
+     */
+    public ArrayList<Project> getProjects() {
+        return projects;
     }
 
     /**
@@ -67,13 +78,11 @@ public class ProjectsRepository implements CrudRepository<Project> {
      */
     @Override
     public Project deleteById(int id) {
-        // TODO: Fix the error
-//        int index = projects.indexOf(new Project());
-//
-//        Project project = projects.get(id);
-//
-//        projects.remove(index);
-//
+        int index = projects.indexOf(new Project(id));
+
+        Project project = projects.get(id);
+
+        projects.remove(index);
         return null;
     }
 
@@ -84,13 +93,12 @@ public class ProjectsRepository implements CrudRepository<Project> {
      */
     @Override
     public Project getById(int id) {
-        // TODO: Fix the error
-//        Project project = new Project();
-//
-//        for (Project p : projects) {
-//            if (p.equals(project)) project = p;
-//        }
-//
+        Project project = new Project(id);
+
+        for (Project p : projects) {
+            if (p.equals(project)) project = p;
+        }
+
         return null;
     }
 }

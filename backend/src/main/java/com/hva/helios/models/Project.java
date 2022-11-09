@@ -3,18 +3,37 @@ package com.hva.helios.models;
 import java.time.LocalDate;
 
 public class Project {
+    private int id, status;
     private String name;
-    private int status;
     private LocalDate created;
     private User specialists;
     private Language[] languages;
 
-    public Project(String name, int status, LocalDate created, User specialists, Language[] languages) {
+    public Project(int id, String name, int status, LocalDate created, User specialists, Language[] languages) {
+        this.id = id;
         this.name = name;
         this.status = status;
         this.created = created;
         this.specialists = specialists;
         this.languages = languages;
+    }
+
+    public Project (int id){
+        this.id = id;
+
+        this.name = "Not Given";
+        this.status = 0;
+        this.created = null;
+        this.specialists = null;
+        this.languages = null;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

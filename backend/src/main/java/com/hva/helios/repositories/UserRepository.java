@@ -21,9 +21,9 @@ public class UserRepository implements CrudRepository<User> {
 
 
     /**
-     * Method to get and return all specialists
-     * @return - List of specialists
-     * @param items - list of specialists
+     * Method to get and return all users
+     * @return - List of users
+     * @param items - list of users
      */
     @Override
     public List<User> getAll(List<User> items) {
