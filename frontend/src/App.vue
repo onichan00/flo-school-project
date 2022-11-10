@@ -6,9 +6,11 @@
 <!--    <router-view/>-->
 <!--    <Footer></Footer>-->
 <!--  </div>-->
-  <LandingPage></LandingPage>
+<!--  <LandingPage></LandingPage>-->
+  <Dashboard></Dashboard>
+  <!--  <Login></Login>-->
   <!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
-  <Footer></Footer>
+<!--  <Footer></Footer>-->
 
 
 </template>
@@ -18,16 +20,20 @@
 // import Sidebar from "@/components/sidebar/Sidebar.vue";
 // import PageHeader from "@/components/PageHeader";
 import {sidebarWidth} from '@/components/sidebar/state.js'
-import Footer from "@/components/Footer.vue";
-import LandingPage from '@/views/LandingPage.vue'
+// import Footer from "@/components/Footer.vue";
+// import LandingPage from '@/views/LandingPage.vue'
+import Dashboard from '@/views/Dashboard.vue';
+// import Login from "@/views/Login.vue";
 
 export default {
   name: 'App',
   components: {
     // Sidebar,
-    Footer,
+    // Footer,
     // PageHeader,
-    LandingPage
+    // LandingPage,
+    Dashboard
+    // Login
   },
 
   setup() {
