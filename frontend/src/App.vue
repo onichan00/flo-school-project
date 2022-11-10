@@ -8,6 +8,8 @@
 <!--  </div>-->
   <LandingPage></LandingPage>
   <!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
+  <Footer></Footer>
+
 
 </template>
 
@@ -16,14 +18,14 @@
 // import Sidebar from "@/components/sidebar/Sidebar.vue";
 // import PageHeader from "@/components/PageHeader";
 import {sidebarWidth} from '@/components/sidebar/state.js'
-// import Footer from "@/components/Footer.vue";
+import Footer from "@/components/Footer.vue";
 import LandingPage from '@/views/LandingPage.vue'
 
 export default {
   name: 'App',
   components: {
     // Sidebar,
-    // Footer,
+    Footer,
     // PageHeader,
     LandingPage
   },
