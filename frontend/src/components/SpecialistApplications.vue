@@ -1,6 +1,6 @@
 <template>
   <div class="relative flex justify-center">
-    <router-view class="fixed top-28 w-96"
+    <router-view class="fixed top-10 w-96"
                  :selected-specialist="selectedSpecialist"
                  @approve-application="approveApplication"
                  @reject-application="rejectApplication"/>
