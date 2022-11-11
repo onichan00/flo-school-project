@@ -1,6 +1,6 @@
 <template>
   <!--  <img alt="Vue logo" src="./assets/logo.png">-->
-<!--  <Sidebar/>-->
+  <Sidebar/>
 <!--  <div :style="{ 'margin-left': sidebarWidth }">-->
 <!--    <PageHeader/>-->
 <!--    <router-view/>-->
@@ -10,14 +10,14 @@
   <Dashboard></Dashboard>
   <!--  <Login></Login>-->
   <!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
-<!--  <Footer></Footer>-->
+  <Footer></Footer>
 
 
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-// import Sidebar from "@/components/sidebar/Sidebar.vue";
+import Sidebar from "@/components/sidebar/Sidebar.vue";
 // import PageHeader from "@/components/PageHeader";
 import {sidebarWidth} from '@/components/sidebar/state.js'
 // import Footer from "@/components/Footer.vue";
@@ -28,7 +28,7 @@ import Dashboard from '@/views/Dashboard.vue';
 export default {
   name: 'App',
   components: {
-    // Sidebar,
+    Sidebar,
     // Footer,
     // PageHeader,
     // LandingPage,

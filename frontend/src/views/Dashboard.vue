@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="relative bg-blueGray-100">
+    <div class="relative"
+         style='background-image: linear-gradient(to right, #F15922 , #f18a22); height: 300px'>
       <!-- Header -->
-      <div class="relative md:pt-32 pb-32 pt-12"
-           style='background-image: linear-gradient(to right, #F15922 , #f18a22); height: 30%'>
+      <div class="relative mx-auto max-w-6xl pb-32 pt-12">
         <div class="px-4 md:px-10 mx-auto w-full">
           <div>
             <!-- Card stats -->
@@ -13,22 +13,22 @@
                   <div class="flex-auto p-4">
                     <div class="flex flex-wrap">
                       <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
-                        <h5 class="text-blueGray-400 uppercase font-bold text-xs">
-                          Traffic
+                        <h5 class="uppercase font-bold text-xs">
+                          Projects
                         </h5>
                         <span class="font-semibold text-xl text-blueGray-700">
-                          350,897
+                          50
                         </span>
                       </div>
                       <div class="relative w-auto pl-4 flex-initial">
-                        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-red-500">
-                          <i class="far fa-chart-bar"></i>
+                        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-md rounded-lg bg-orange-500">
+                          <i class="fa-solid fa-diagram-project"></i>
                         </div>
                       </div>
                     </div>
                     <p class="text-sm text-blueGray-400 mt-4">
                       <span class="text-emerald-500 mr-2">
-                        <i class="fas fa-arrow-up"></i> 3.48%
+                        <i class="fas fa-arrow-up"></i> 10%
                       </span>
                       <span class="whitespace-nowrap">
                         Since last month
@@ -43,21 +43,21 @@
                     <div class="flex flex-wrap">
                       <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                         <h5 class="text-blueGray-400 uppercase font-bold text-xs">
-                          New users
+                          New Specialists
                         </h5>
                         <span class="font-semibold text-xl text-blueGray-700">
-                          2,356
+                          16
                         </span>
                       </div>
                       <div class="relative w-auto pl-4 flex-initial">
-                        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-orange-500">
-                          <i class="fas fa-chart-pie"></i>
+                        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-md rounded-lg bg-orange-500">
+                          <i class="fa-solid fa-code"></i>
                         </div>
                       </div>
                     </div>
                     <p class="text-sm text-blueGray-400 mt-4">
                       <span class="text-red-500 mr-2">
-                        <i class="fas fa-arrow-down"></i> 3.48%
+                        <i class="fas fa-arrow-down"></i> 10%
                       </span>
                       <span class="whitespace-nowrap">
                         Since last week
@@ -72,24 +72,24 @@
                     <div class="flex flex-wrap">
                       <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                         <h5 class="text-blueGray-400 uppercase font-bold text-xs">
-                          Sales
+                          New Clients
                         </h5>
                         <span class="font-semibold text-xl text-blueGray-700">
-                          924
+                          26
                         </span>
                       </div>
                       <div class="relative w-auto pl-4 flex-initial">
-                        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-pink-500">
+                        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-md rounded-lg bg-orange-500">
                           <i class="fas fa-users"></i>
                         </div>
                       </div>
                     </div>
                     <p class="text-sm text-blueGray-400 mt-4">
                       <span class="text-orange-500 mr-2">
-                        <i class="fas fa-arrow-down"></i> 1.10%
+                        <i class="fas fa-arrow-down"></i> 20%
                       </span>
                       <span class="whitespace-nowrap">
-                        Since yesterday
+                        Since last week
                       </span>
                     </p>
                   </div>
@@ -101,24 +101,24 @@
                     <div class="flex flex-wrap">
                       <div class="relative w-full pr-4 max-w-full flex-grow flex-1">
                         <h5 class="text-blueGray-400 uppercase font-bold text-xs">
-                          Performance
+                          DATA
                         </h5>
                         <span class="font-semibold text-xl text-blueGray-700">
-                          49,65%
+                          NUMBERS
                         </span>
                       </div>
                       <div class="relative w-auto pl-4 flex-initial">
-                        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full bg-lightBlue-500">
+                        <div class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-md rounded-lg bg-orange-500">
                           <i class="fas fa-percent"></i>
                         </div>
                       </div>
                     </div>
                     <p class="text-sm text-blueGray-400 mt-4">
                       <span class="text-emerald-500 mr-2">
-                        <i class="fas fa-arrow-up"></i> 12%
+                        <i class="fas fa-arrow-up"></i> NUM
                       </span>
                       <span class="whitespace-nowrap">
-                        Since last month
+                        Since WHENEVER
                       </span>
                     </p>
                   </div>
@@ -128,10 +128,45 @@
           </div>
         </div>
       </div>
-      <div class="px-4 md:px-10 mx-auto w-full -m-24">
+      <div class="px-4 md:px-10 max-w-6xl mx-auto w-full -m-24">
         <div class="flex flex-wrap">
-          <line-chart-component></line-chart-component>
-          <bar-chart-component></bar-chart-component>
+          <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 ">
+            <div class="relative flex flex-col min-w-0 break-words text-white bg-white w-full mb-6 shadow-lg rounded-lg">
+              <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
+                <div class="flex flex-wrap items-center">
+                  <div class="relative w-full max-w-full flex-grow flex-1">
+                    <h2 class=" text-left text-black text-xl font-semibold">
+                      Total Users
+                    </h2>
+                  </div>
+                </div>
+              </div>
+              <div class="p-2 flex-auto">
+                <!-- Chart -->
+                <div class="relative bg-white">
+                  <LineChart></LineChart>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-full xl:w-4/12 px-4">
+            <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg">
+              <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
+                <div class="flex flex-wrap items-center">
+                  <div class="relative w-full max-w-full flex-grow flex-1">
+                    <h2 class="text-blueGray-700 text-left text-xl font-semibold">
+                      Total clients
+                    </h2>
+                  </div>
+                </div>
+              </div>
+              <div class="p-4 flex-auto">
+                <!-- Chart -->
+                <div class="relative">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="flex flex-wrap mt-4">
           <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
@@ -139,7 +174,7 @@
               <div class="rounded-t mb-0 px-4 py-3 border-0">
                 <div class="flex flex-wrap items-center">
                   <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-                    <h3 class="font-semibold text-base text-blueGray-700">
+                    <h3 class="font-semibold text-left text-base text-blueGray-700">
                       Page visits
                     </h3>
                   </div>
@@ -259,13 +294,13 @@
               <div class="rounded-t mb-0 px-4 py-3 border-0">
                 <div class="flex flex-wrap items-center">
                   <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-                    <h3 class="font-semibold text-base text-blueGray-700">
+                    <h3 class="font-semibold text-left text-base text-blueGray-700">
                       Social traffic
                     </h3>
                   </div>
                   <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
                     <button
-                        class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded-lg outline-none focus:outline-none mr-1 mb-1"
+                        class="bg-orange-500 text-right text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded-lg outline-none focus:outline-none mr-1 mb-1"
                         type="button"
                         style="transition:all .15s ease"
                     >
@@ -409,19 +444,17 @@
 </template>
 <script>
 
-import LineChartComponent from "@/components/Dashboard/LineChart.vue";
-import BarChartComponent from "@/components/Dashboard/BarChart.vue"
+import LineChart from '@/components/Chart/LineChart.vue'
 
 export default {
-  name: "dashboard-page",
+  name: "DashboardView",
   components: {
-    LineChartComponent,
-    BarChartComponent
+    LineChart,
   },
   data() {
     return {
-      date: new Date().getFullYear()
+      date: new Date().getFullYear(),
     }
   }
-};
+}
 </script>
