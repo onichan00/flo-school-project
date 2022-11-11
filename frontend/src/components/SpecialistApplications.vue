@@ -4,9 +4,9 @@
                  :selected-specialist="selectedSpecialist"
                  @approve-application="approveApplication"
                  @reject-application="rejectApplication"/>
-    <div class="main-area grid grid-cols-2 gap-5">
+    <div class="main-area grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
       <div
-          class="application-card mb-4 border-gray-400 border-2 rounded-lg cursor-pointer relative"
+          class="application-card mb-4 border-gray-400 border-2 rounded-lg cursor-pointer relative flex"
           :class="gibApprovedStatus(specialist)"
           v-for="specialist in specialistDummyData"
           :key="specialist.id"
@@ -419,8 +419,9 @@ export default {
 
 <style scoped>
 .main-area {
-  margin-left: 200px;
+  padding: 10px;
 }
+
 .application-card {
   display: flex;
   align-items: center;
