@@ -7,29 +7,8 @@
           class="max-w-full rounded-lg w-full profileImage"
         />
         <div class="mt-4">
-          <div v-if="isEditing" class="flex flex-col gap-2 text-left mb-2">
-            <div class="flex flex-row">
-              <p kmm="w-1/3">First Name</p>
-              <input v-model="user.first_name" class="border-b-2 border-florijnOrange" />
-            </div>
-            <div class="flex flex-row">
-              <p class="w-1/3">Second Name</p>
-              <input v-model="user.second_name" class="border-b-2 border-florijnOrange" />
-            </div>
-            <div class="flex flex-row">
-              <p class="w-1/3">Last Name</p>
-              <input v-model="user.last_name" class="border-b-2 border-florijnOrange" />
-            </div>
-          </div>
-          <p v-else class="text-2xl">{{ user.first_name }} {{ user.second_name.charAt(0) }} {{ user.last_name }}</p>
-          <div v-if="isEditing" class="flex flex-row text-left items-center">
-            <p class="w-1/3">Specialist Type</p>
-            <select v-model="user.specialistType" class="w-2/3 rounded-md">
-              <option :selected="user.specialistType === 'mobile'" value="mobile">Mobile</option>
-              <option :selected="user.specialistType === 'security'" value="security">Security</option>
-            </select>
-          </div>
-          <p v-else class="opacity-70">{{ setFirstLetterUppercase(user.specialistType) }}</p>
+          <p class="text-2xl">{{ specialistFullName(user) }}</p>
+          <p class="opacity-70">{{ firstLetterUpperCase(user.specialistType) }}</p>
         </div>
         <hr class="mb-2 mt-4" />
         <div class="flex flex-col text-left gap-4 pt-2">
@@ -84,22 +63,21 @@
         </div>
         <div id="myTabContent">
           <div class="hidden" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <!-- <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <ProjectCard v-for="(item, index) in projectList" :key="index" :project="item" />
-            </div> -->
-            <AvailableHours />
+            <!-- <Skills /> -->
+            <Calendar />
           </div>
           <div class="hidden" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
-            <!-- <AvailableHours /> -->
+            <AvailableHours />
+          </div>
+          <div class="hidden" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+            <!-- <p>Skills</p> -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               <ProjectCard v-for="(item, index) in projectList" :key="index" :project="item" />
             </div>
           </div>
-          <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-            <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
-          </div>
-          <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
-            <p>Calendar</p>
+          <div class="hidden p-4" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+            <!-- <Calendar /> -->
+            <Skills />
           </div>
         </div>
       </div>
@@ -108,7 +86,11 @@
 </template>
 <script>
 import AvailableHours from '@/components/admin/profile/availableHours.vue';
-import ProjectCard from '../../components/miscellaneous/ProjectCard.vue';
+import ProjectCard from '@/components/miscellaneous/ProjectCard.vue';
+import Calendar from '@/components/admin/profile/calendar.vue';
+
+import { specialistFullName, firstLetterUpperCase, formatDate } from '@/plugins/textManipulation';
+import Skills from '@/components/admin/profile/skills.vue';
 
 export default {
   // Calendar and shit: https://code.daypilot.org/tutorials/vuejs
@@ -125,16 +107,15 @@ export default {
     }
   },
   methods: {
+    specialistFullName,
+    firstLetterUpperCase,
+    formatDate,
+
     findSpecialistFromRouteParam(id) {
       return this.specialists.find(element => element.id === parseInt(id));
     },
     findProjectsTiedToUser(id) {
       return this.projects.filter(element => element.specialists.includes(parseInt(id)));
-    },
-    setFirstLetterUppercase(str) {
-      if (str) str = str.charAt(0).toUpperCase() + str.slice(1);
-
-      return str;
     },
   },
   created() {
@@ -153,8 +134,10 @@ export default {
   },
   components: {
     ProjectCard,
-    AvailableHours
-  }
+    AvailableHours,
+    Calendar,
+    Skills
+}
 }
 </script>
 
