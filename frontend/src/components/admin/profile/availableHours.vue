@@ -4,79 +4,70 @@
     <div class="flex flex-col gap-4">
       <div class="flex flex-row items-center gap-4">
         <p class="w-24 text-left">Monday</p>
-        <input id="default-checkbox" type="checkbox" v-model="monday.available"
+        <input id="default-checkbox" type="checkbox" v-model="this.hours.monday.available"
           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-        <date-picker v-model:value="monday.start" :minute-step="30" :hour-options="hours" type="time"
-          value-type="format" format="HH:mm" :disabled="!monday.available"></date-picker>
+        <date-picker v-model:value="this.hours.monday.start" :minute-step="30" :hour-options="hours" type="time"
+        value-type="format" format="HH:mm" :clearable="false" :disabled="!this.hours.monday.available"></date-picker>
         <p>To</p>
-        <date-picker v-model:value="monday.end" :minute-step="30" :hour-options="hours" type="time" value-type="format"
-          format="HH:mm" :disabled="!monday.available"></date-picker>
+        <date-picker v-model:value="this.hours.monday.end" :minute-step="30" :hour-options="hours" type="time" value-type="format" format="HH:mm" :clearable="false" :disabled="!this.hours.monday.available"></date-picker>
       </div>
       <div class="flex flex-row items-center gap-4">
         <p class="w-24 text-left">Tuesday</p>
-        <input id="default-checkbox" type="checkbox" v-model="tuesday.available"
+        <input id="default-checkbox" type="checkbox" v-model="this.hours.tuesday.available"
           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-        <date-picker v-model:value="tuesday.start" :minute-step="30" :hour-options="hours" type="time"
-          value-type="format" format="HH:mm" :disabled="!tuesday.available"></date-picker>
+        <date-picker v-model:value="this.hours.tuesday.start" :minute-step="30" :hour-options="hours" type="time"
+        value-type="format" format="HH:mm" :clearable="false" :disabled="!this.hours.tuesday.available"></date-picker>
         <p>To</p>
-        <date-picker v-model:value="tuesday.end" :minute-step="30" :hour-options="hours" type="time" value-type="format"
-          format="HH:mm" :disabled="!tuesday.available"></date-picker>
+        <date-picker v-model:value="this.hours.tuesday.end" :minute-step="30" :hour-options="hours" type="time" value-type="format" format="HH:mm" :clearable="false" :disabled="!this.hours.tuesday.available"></date-picker>
       </div>
       <div class="flex flex-row items-center gap-4">
         <p class="w-24 text-left">Wednesday</p>
-        <input id="default-checkbox" type="checkbox" v-model="wednesday.available"
+        <input id="default-checkbox" type="checkbox" v-model="this.hours.wednesday.available"
           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-        <date-picker v-model:value="wednesday.start" :minute-step="30" :hour-options="hours" type="time"
-          value-type="format" format="HH:mm" :disabled="!wednesday.available"></date-picker>
+        <date-picker v-model:value="this.hours.wednesday.start" :minute-step="30" :hour-options="hours" type="time" value-type="format" :clearable="false" format="HH:mm" :disabled="!this.hours.wednesday.available"></date-picker>
         <p>To</p>
-        <date-picker v-model:value="wednesday.end" :minute-step="30" :hour-options="hours" type="time"
-          value-type="format" format="HH:mm" :disabled="!wednesday.available"></date-picker>
+        <date-picker v-model:value="this.hours.wednesday.end" :minute-step="30" :hour-options="hours" type="time" value-type="format" :clearable="false" format="HH:mm" :disabled="!this.hours.wednesday.available"></date-picker>
       </div>
       <div class="flex flex-row items-center gap-4">
         <p class="w-24 text-left">Thurday</p>
-        <input id="default-checkbox" type="checkbox" v-model="thurday.available"
+        <input id="default-checkbox" type="checkbox" v-model="this.hours.thurday.available"
           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-        <date-picker v-model:value="thurday.start" :minute-step="30" :hour-options="hours" type="time"
-          value-type="format" format="HH:mm" :disabled="!thurday.available"></date-picker>
+        <date-picker v-model:value="this.hours.thurday.start" :minute-step="30" :hour-options="hours" type="time"
+        value-type="format" format="HH:mm" :clearable="false" :disabled="!this.hours.thurday.available"></date-picker>
         <p>To</p>
-        <date-picker v-model:value="thurday.end" :minute-step="30" :hour-options="hours" type="time" value-type="format"
-          format="HH:mm" :disabled="!thurday.available"></date-picker>
+        <date-picker v-model:value="this.hours.thurday.end" :minute-step="30" :hour-options="hours" type="time" value-type="format" format="HH:mm" :clearable="false" :disabled="!this.hours.thurday.available"></date-picker>
       </div>
       <div class="flex flex-row items-center gap-4">
         <p class="w-24 text-left">Friday</p>
-        <input id="default-checkbox" type="checkbox" v-model="friday.available"
+        <input id="default-checkbox" type="checkbox" v-model="this.hours.friday.available"
           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-        <date-picker v-model:value="friday.start" :minute-step="30" :hour-options="hours" type="time"
-          value-type="format" format="HH:mm" :disabled="!friday.available"></date-picker>
+        <date-picker v-model:value="this.hours.friday.start" :minute-step="30" :hour-options="hours" type="time"
+        value-type="format" format="HH:mm" :clearable="false" :disabled="!this.hours.friday.available"></date-picker>
         <p>To</p>
-        <date-picker v-model:value="friday.end" :minute-step="30" :hour-options="hours" type="time" value-type="format"
-          format="HH:mm" :disabled="!friday.available"></date-picker>
+        <date-picker v-model:value="this.hours.friday.end" :minute-step="30" :hour-options="hours" type="time" value-type="format" format="HH:mm" :clearable="false" :disabled="!this.hours.friday.available"></date-picker>
       </div>
       <div class="flex flex-row items-center gap-4">
         <p class="w-24 text-left">Saturday</p>
-        <input id="default-checkbox" type="checkbox" v-model="saturday.available"
+        <input id="default-checkbox" type="checkbox" v-model="this.hours.saturday.available"
           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-        <date-picker v-model:value="saturday.start" :minute-step="30" :hour-options="hours" type="time"
-          value-type="format" format="HH:mm" :disabled="!saturday.available"></date-picker>
+        <date-picker v-model:value="this.hours.saturday.start" :minute-step="30" :hour-options="hours" type="time" value-type="format" format="HH:mm" :clearable="false" :disabled="!this.hours.saturday.available"></date-picker>
         <p>To</p>
-        <date-picker v-model:value="saturday.end" :minute-step="30" :hour-options="hours" type="time"
-          value-type="format" format="HH:mm" :disabled="!saturday.available"></date-picker>
+        <date-picker v-model:value="this.hours.saturday.end" :minute-step="30" :hour-options="hours" type="time" value-type="format" format="HH:mm" :clearable="false" :disabled="!this.hours.saturday.available"></date-picker>
       </div>
       <div class="flex flex-row items-center gap-4">
         <p class="w-24 text-left">Sunday</p>
-        <input id="default-checkbox" type="checkbox" v-model="sunday.available"
+        <input id="default-checkbox" type="checkbox" v-model="this.hours.sunday.available"
           class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-        <date-picker v-model:value="sunday.start" :minute-step="30" :hour-options="hours" type="time"
-          value-type="format" format="HH:mm" :disabled="!sunday.available"></date-picker>
+        <date-picker v-model:value="this.hours.sunday.start" :minute-step="30" :hour-options="hours" type="time"
+        value-type="format" format="HH:mm" :clearable="false" :disabled="!this.hours.sunday.available"></date-picker>
         <p>To</p>
-        <date-picker v-model:value="sunday.end" :minute-step="30" :hour-options="hours" type="time" value-type="format"
-          format="HH:mm" :disabled="!sunday.available"></date-picker>
+        <date-picker v-model:value="this.hours.sunday.end" :minute-step="30" :hour-options="hours" type="time" value-type="format" format="HH:mm" :clearable="false" :disabled="!this.hours.sunday.available"></date-picker>
       </div>
     </div>
-    <div>
-      <p>Save</p>
-      <p>Cancel</p>
-    </div>
+    <div class="flex items-center space-x-2 mt-4">
+      <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Save</button>
+      <button type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Reset</button>
+  </div>
   </div>
 </template>
 <script>
@@ -86,58 +77,33 @@ import 'vue-datepicker-next/index.css';
 // https://mengxiong10.github.io/vue-datepicker-next/index.html
 // https://github.com/mengxiong10/vue-datepicker-next
 
+// https://www.youtube.com/watch?v=ZcsCoTPPMD8
+// https://github.com/gwenf/vue-nwjs-hours-tracking
+
+// TODO Fix the save and reset button
+
 export default {
   name: "AvailableHours",
+  inject: ['availableHours'],
   data() {
     return {
       totalHours: 40,
-      monday: {
-        label: "monday",
-        available: true,
-        start: "09:00",
-        end: "17:00",
-      },
-      tuesday: {
-        label: "tuesday",
-        available: true,
-        start: "09:00",
-        end: "17:00",
-      },
-      wednesday: {
-        label: "wednesday",
-        available: true,
-        start: "09:00",
-        end: "17:00",
-      },
-      thurday: {
-        label: "thurday",
-        available: true,
-        start: "09:00",
-        end: "17:00",
-      },
-      friday: {
-        label: "friday",
-        available: true,
-        start: "09:00",
-        end: "17:00",
-      },
-      saturday: {
-        label: "saturday",
-        available: false,
-        start: "09:00",
-        end: "17:00"
-      },
-      sunday: {
-        label: "sunday",
-        available: false,
-        start: "09:00",
-        end: "17:00"
-      }
+      hours: [],
+    }
+  },
+  created() {
+    this.getAvailableHoursOfUser();
+  },
+  methods: {
+    getAvailableHoursOfUser() {
+      const userId = this.$route.params.id;
+
+      this.hours = this.availableHours.find((element) => element.specialist === parseInt(userId)).hours;
     }
   },
   computed: {
     daysOfWeek() {
-      return [this.monday, this.tuesday, this.wednesday, this.thurday, this.friday, this.saturday, this.sunday]
+      return [this.hours.monday, this.hours.tuesday, this.hours.wednesday, this.hours.thurday, this.hours.friday, this.hours.saturday, this.hours.sunday]
     },
   },
   watch: {
@@ -147,25 +113,30 @@ export default {
         const dayString = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
         let calculatedTotalHours = 0;
 
-        const mondayDif = new Date(`${dayString} ${this.monday.end}`).getHours() - new Date(`${dayString} ${this.monday.start}`).getHours();
-        const tuesdayDif = new Date(`${dayString} ${this.tuesday.end}`).getHours() - new Date(`${dayString} ${this.tuesday.start}`).getHours();
-        const wednesdayDif = new Date(`${dayString} ${this.wednesday.end}`).getHours() - new Date(`${dayString} ${this.wednesday.start}`).getHours();
-        const thurdayDif = new Date(`${dayString} ${this.thurday.end}`).getHours() - new Date(`${dayString} ${this.thurday.start}`).getHours();
-        const fridayDif = new Date(`${dayString} ${this.friday.end}`).getHours() - new Date(`${dayString} ${this.friday.start}`).getHours();
-        const saturdayDif = new Date(`${dayString} ${this.saturday.end}`).getHours() - new Date(`${dayString} ${this.saturday.start}`).getHours();
-        const sundayDif = new Date(`${dayString} ${this.sunday.end}`).getHours() - new Date(`${dayString} ${this.sunday.start}`).getHours();
+        const hour = this.hours;
 
-        if (this.monday.available) calculatedTotalHours += mondayDif;
-        if (this.tuesday.available) calculatedTotalHours += tuesdayDif;
-        if (this.wednesday.available) calculatedTotalHours += wednesdayDif;
-        if (this.thurday.available) calculatedTotalHours += thurdayDif;
-        if (this.friday.available) calculatedTotalHours += fridayDif;
-        if (this.saturday.available) calculatedTotalHours += saturdayDif;
-        if (this.sunday.available) calculatedTotalHours += sundayDif;
+        const mondayDif = new Date(`${dayString} ${hour.monday.end}`).getHours() - new Date(`${dayString} ${hour.monday.start}`).getHours();
+        const tuesdayDif = new Date(`${dayString} ${hour.tuesday.end}`).getHours() - new Date(`${dayString} ${hour.tuesday.start}`).getHours();
+        const wednesdayDif = new Date(`${dayString} ${hour.wednesday.end}`).getHours() - new Date(`${dayString} ${hour.wednesday.start}`).getHours();
+        const thurdayDif = new Date(`${dayString} ${hour.thurday.end}`).getHours() - new Date(`${dayString} ${hour.thurday.start}`).getHours();
+        const fridayDif = new Date(`${dayString} ${hour.friday.end}`).getHours() - new Date(`${dayString} ${hour.friday.start}`).getHours();
+        const saturdayDif = new Date(`${dayString} ${hour.saturday.end}`).getHours() - new Date(`${dayString} ${hour.saturday.start}`).getHours();
+        const sundayDif = new Date(`${dayString} ${hour.sunday.end}`).getHours() - new Date(`${dayString} ${hour.sunday.start}`).getHours();
+
+        if (hour.monday.available) calculatedTotalHours += mondayDif;
+        if (hour.tuesday.available) calculatedTotalHours += tuesdayDif;
+        if (hour.wednesday.available) calculatedTotalHours += wednesdayDif;
+        if (hour.thurday.available) calculatedTotalHours += thurdayDif;
+        if (hour.friday.available) calculatedTotalHours += fridayDif;
+        if (hour.saturday.available) calculatedTotalHours += saturdayDif;
+        if (hour.sunday.available) calculatedTotalHours += sundayDif;
 
         this.totalHours = calculatedTotalHours;
       }, deep: true
     },
+    '$route'() {
+      this.getAvailableHoursOfUser()
+    }
   },
   components: {
     DatePicker,
