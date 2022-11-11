@@ -62,7 +62,7 @@
           </ul>
         </div>
         <div id="myTabContent">
-          <div class="hidden" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="hidden p-4" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <!-- <Skills /> -->
             <Calendar />
           </div>
