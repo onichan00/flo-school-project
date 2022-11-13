@@ -1,14 +1,13 @@
 <template>
-  <div class="container border-2 rounded-lg bg-white pt-5 pl-5 pr-5">
-    <button class="absolute border-b-2 border-l-2 border-gray-300 top-0 right-0 rounded-bl-lg
-            pb-1 pl-2 pr-2 pt-1"
-            @click="closeModal">X</button>
+  <div class="container rounded-lg bg-white pt-5 pl-5 pr-5">
+    <button class="absolute border border-gray-300 top-3 right-3 bg-gray-100 px-2 rounded-lg close-modal-btn"
+            @click="closeModal">x</button>
     <div class="flex justify-center">
       <img :src="require('@/assets/img/' + selectedSpecialist.image)"
            alt="Profile Picture"
-           class="rounded-full border-2 border-gray-300 w-1/2 mb-5">
+           class="border border-gray-300 w-1/2 mb-5 profile-pic">
     </div>
-    <section class="info-section text-left border-2 border-gray-300 rounded-l overflow-x-hidden overflow-y-auto">
+    <section class="info-section text-left overflow-x-hidden overflow-y-auto">
       <p class="text-lg">{{firstName}} {{lastName}}</p>
       <p>{{age}} years old</p>
 
@@ -25,19 +24,17 @@
         <span :class="{'strike-thru' : !preferredDays.wed}">wed/</span>
         <span :class="{'strike-thru' : !preferredDays.thu}">thu/</span>
         <span :class="{'strike-thru' : !preferredDays.fri}">fri/</span>
-        <span :class="{'strike-thru' : !preferredDays.sat}">sat/</span>
-        <span :class="{'strike-thru' : !preferredDays.sun}">sun</span>
       </p>
 
       <p class="text-lg mt-5">Contact info:</p>
       <p>phone: <span class="contact-link">{{phone}}</span></p>
       <p>mail: <span class="contact-link">{{email}}</span></p>
     </section>
-    <div class="h-12 flex justify-around items-center">
-      <div class="text-orange-500 text-lg approve-application-btn"
-           @click="approveApplication">Approve</div>
-      <div class="text-lg border-l-2 border-gray-300 decline-application-btn"
+    <div class="h-12 flex justify-between items-center">
+      <div class="decline-application-btn text-left"
            @click="rejectApplication">Reject</div>
+      <div class="text-lg approve-application-btn"
+           @click="approveApplication">Approve</div>
     </div>
   </div>
 </template>
@@ -82,6 +79,7 @@ export default {
 <style scoped>
 .container {
   z-index: 5;
+  box-shadow: 0 100px 300px #ccc;
 }
 .strike-thru {
   text-decoration: line-through;
@@ -94,8 +92,23 @@ export default {
 .decline-application-btn {
   width: 100%;
   cursor: pointer;
+  border-radius: 25px;
+  padding: 3px 10px;
+}
+.approve-application-btn {
+  background-color: #ec5a29;
+  color: white;
+  width: 80%;
 }
 .info-section {
   max-height: 300px;
+}
+.close-modal-btn {
+  background: center no-repeat url("../assets/img/close.png") #eee;
+  background-size: contain;
+  color: transparent;
+}
+.profile-pic {
+  border-radius: 50%;
 }
 </style>
