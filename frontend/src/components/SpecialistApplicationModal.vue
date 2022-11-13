@@ -1,29 +1,45 @@
 <template>
-  <div class="container rounded-lg bg-white pt-5 pl-5 pr-5">
+  <div class="container rounded-lg bg-white px-4 py-5">
     <button class="absolute border border-gray-300 top-3 right-3 bg-gray-100 px-2 rounded-lg close-modal-btn"
             @click="closeModal">x</button>
-    <div class="flex justify-center">
+    <div class="flex flex-col items-center">
       <img :src="require('@/assets/img/' + selectedSpecialist.image)"
            alt="Profile Picture"
            class="border border-gray-300 w-1/2 mb-5 profile-pic">
+      <p class="name-and-age">{{firstName}} {{lastName}} ({{age}})</p>
     </div>
     <section class="info-section text-left overflow-x-hidden overflow-y-auto">
-      <p class="text-lg">{{firstName}} {{lastName}}</p>
-      <p>{{age}} years old</p>
-
       <p class="text-lg mt-5">Skills:</p>
       <ul class="list-disc">
-        <li v-for="skill in skills" :key="skill.name">{{skill.name}}: ({{skill.skillLevel}}/5)</li>
+        <li v-for="skill in skills" :key="skill.name" class="flex justify-between">{{skill.name}}:
+          <span class="skill-scores flex items-center">
+            <img :src="require('@/assets/img/' + 'star.png')"
+                 alt="star"
+                 class="w-4 inline" :class="{'grayscale' : skill.skillLevel < 1}">
+            <img :src="require('@/assets/img/' + 'star.png')"
+                 alt="star"
+                 class="w-4 inline" :class="{'grayscale' : skill.skillLevel < 2}">
+            <img :src="require('@/assets/img/' + 'star.png')"
+                 alt="star"
+                 class="w-4 inline" :class="{'grayscale' : skill.skillLevel < 3}">
+            <img :src="require('@/assets/img/' + 'star.png')"
+                 alt="star"
+                 class="w-4 inline" :class="{'grayscale' : skill.skillLevel < 4}">
+            <img :src="require('@/assets/img/' + 'star.png')"
+                 alt="star"
+                 class="w-4 inline" :class="{'grayscale' : skill.skillLevel < 5}">
+          </span>
+        </li>
       </ul>
 
       <p class="text-lg mt-5">Preferred hours:</p>
       <p>{{preferredHours}}hrs/week</p>
       <p>
-        <span :class="{'strike-thru' : !preferredDays.mon}">mon/</span>
-        <span :class="{'strike-thru' : !preferredDays.tue}">tue/</span>
-        <span :class="{'strike-thru' : !preferredDays.wed}">wed/</span>
-        <span :class="{'strike-thru' : !preferredDays.thu}">thu/</span>
-        <span :class="{'strike-thru' : !preferredDays.fri}">fri/</span>
+        <span class="day-cell" :class="{'unavailable' : !preferredDays.mon}">mon</span>
+        <span class="day-cell" :class="{'unavailable' : !preferredDays.tue}">tue</span>
+        <span class="day-cell" :class="{'unavailable' : !preferredDays.wed}">wed</span>
+        <span class="day-cell" :class="{'unavailable' : !preferredDays.thu}">thu</span>
+        <span class="day-cell" :class="{'unavailable' : !preferredDays.fri}">fri</span>
       </p>
 
       <p class="text-lg mt-5">Contact info:</p>
@@ -81,8 +97,9 @@ export default {
   z-index: 5;
   box-shadow: 0 100px 300px #ccc;
 }
-.strike-thru {
-  text-decoration: line-through;
+.unavailable {
+  filter: opacity(.5);
+  background: #eee;
 }
 .contact-link {
   color: blue;
@@ -101,7 +118,7 @@ export default {
   width: 80%;
 }
 .info-section {
-  max-height: 300px;
+  /*max-height: 300px;*/
 }
 .close-modal-btn {
   background: center no-repeat url("../assets/img/close.png") #eee;
@@ -110,5 +127,18 @@ export default {
 }
 .profile-pic {
   border-radius: 50%;
+}
+.day-cell {
+  border: 1px solid #919194;
+  padding: 5px;
+  display: inline-block;
+  width: 5ch;
+  text-align: center;
+}
+.day-cell:first-of-type {border-radius: 10px 0 0 10px}
+.day-cell:last-of-type {border-radius: 0 10px 10px 0}
+.name-and-age {
+  font-size: 1.75rem;
+  overflow: hidden;
 }
 </style>
