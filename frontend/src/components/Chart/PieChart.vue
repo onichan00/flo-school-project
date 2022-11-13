@@ -1,5 +1,5 @@
 <template>
-  <Line
+  <Pie
       :chart-options="chartOptions"
       :chart-data="chartData"
       :chart-id="chartId"
@@ -9,34 +9,24 @@
       :styles="styles"
       :width="width"
       :height="height"
-      :backgroundColor="backgroundColor"
   />
 </template>
 
 <script>
 
-import {Line} from "vue-chartjs";
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  LineElement,
-  PointElement,
-} from "chart.js";
-
-ChartJS.register(Title, Tooltip, Legend, PointElement, BarElement, CategoryScale, LinearScale, LineElement);
+import { Pie } from 'vue-chartjs'
+import {Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale} from 'chart.js'
+ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale)
 
 export default {
-  name: "LineChart",
-  components: {Line},
+  name: "PieChart",
+  components: {
+    Pie
+  },
   props: {
     chartId: {
       type: String,
-      default: 'bar-chart'
+      default: 'pie-chart'
     },
     datasetIdKey: {
       type: String,
@@ -48,7 +38,7 @@ export default {
     },
     height: {
       type: Number,
-      default: 186
+      default: 400
     },
     cssClasses: {
       default: '',
@@ -60,24 +50,23 @@ export default {
       }
     },
     plugins: {
-      type: Object,
-      default: () => {
-      }
-    },
+      type: Array,
+      default: () => []
+    }
   },
   data() {
     return {
       chartData: {
-        labels: ['Today', 'Yesterday', '2 days ago', '3 days ago', '4 days ago', '5 dags ago'].reverse(),
-        datasets: [{
+        labels: [ 'Datascience', 'AI', 'IDK' ],
+        datasets: [ {
           label: ["Data"],
-          data: [40, 20, 12, 76, 65, 34],
+          data: [40, 20, 12],
           backgroundColor: [
-            'rgb(255,2,2)',
+            'rgb(255,0,54)',
+            'rgb(0,17,255)',
+            'rgb(255,181,0)'
           ],
-          borderColor: [            'rgb(255,0,55)',
-          ],
-        }]
+        } ]
       },
       chartOptions: {
         responsive: true
@@ -87,3 +76,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+</style>
