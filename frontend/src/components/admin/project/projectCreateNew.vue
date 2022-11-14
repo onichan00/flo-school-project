@@ -56,7 +56,7 @@
                   <option selected>In review</option>
                   <option>In progress</option>
                   <option>Done</option>
-                  <option>Cancled</option>
+                  <option>Canceled</option>
                 </select>
               </div>
             </div>
