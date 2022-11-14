@@ -15,12 +15,12 @@
   {
     "id": 6,
     "email": "mj.saidy@hva.nl",
-    "first_name": "Maajid",
+    "first_name": "Henk",
     "second_name": "",
-    "last_name": "Saidy",
+    "last_name": "Anders",
     "photo": "https://images.unsplash.com/photo-1584940120743-8981ca35b012?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
     "bio": "Hello I am an awesome CEO of a multinational compay",
-    "company": "Bezier",
+    "company": "Youtube",
     "phone": "+31 6 12345678",
     "projects": [1, 2, 3, 4, 5],
     "website": "https://google.com"
@@ -28,12 +28,12 @@
   {
     "id": 7,
     "email": "mj.saidy@hva.nl",
-    "first_name": "Maajid",
+    "first_name": "Kees",
     "second_name": "",
-    "last_name": "Saidy",
+    "last_name": "Bloem",
     "photo": "https://images.unsplash.com/photo-1584940120743-8981ca35b012?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
     "bio": "Hello I am an awesome CEO of a multinational compay",
-    "company": "Bezier",
+    "company": "Jumbo",
     "phone": "+31 6 12345678",
     "projects": [1, 2, 3, 4, 5],
     "website": "https://google.com"
@@ -41,12 +41,12 @@
   {
     "id": 8,
     "email": "mj.saidy@hva.nl",
-    "first_name": "Maajid",
+    "first_name": "Keer",
     "second_name": "",
-    "last_name": "Saidy",
+    "last_name": "Berg",
     "photo": "https://images.unsplash.com/photo-1584940120743-8981ca35b012?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
     "bio": "Hello I am an awesome CEO of a multinational compay",
-    "company": "Bezier",
+    "company": "Lidl",
     "phone": "+31 6 12345678",
     "projects": [1, 2, 3, 4, 5],
     "website": "https://google.com"
@@ -54,12 +54,12 @@
   {
     "id": 9,
     "email": "mj.saidy@hva.nl",
-    "first_name": "Maajid",
+    "first_name": "Bob",
     "second_name": "",
-    "last_name": "Saidy",
+    "last_name": "Heuvel",
     "photo": "https://images.unsplash.com/photo-1584940120743-8981ca35b012?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
     "bio": "Hello I am an awesome CEO of a multinational compay",
-    "company": "Bezier",
+    "company": "Philips",
     "phone": "+31 6 12345678",
     "projects": [1, 2, 3, 4, 5],
     "website": "https://google.com"

@@ -18,6 +18,29 @@
       </div>
     </div>
     <hr class="my-4"/>
+    <div class="flex flex-row justify-between my-4">
+      <p class="text-left text-1xl font-medium mb-4">
+        <span
+            class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900"
+            v-if="dataObject.status === 0">
+        Cancled
+      </span>
+        <span
+            class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900"
+            v-if="dataObject.status === 1">
+        On going
+      </span>
+        <span
+            class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900"
+            v-if="dataObject.status === 2">
+        Done
+      </span>
+      </p>
+      <button data-modal-toggle="editStatus-modal" class="bg-[#F05822] text-white font-bold rounded px-3">
+        Edit status
+      </button>
+    </div>
+
     <div class="overflow-x-auto relative border border-gray-200 sm:rounded-lg">
       <table class="w-full text-sm rounded-md text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs border-b text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -60,6 +83,11 @@
         </tr>
         </tbody>
       </table>
+    </div>
+    <hr class="my-4"/>
+    <div class="project-description">
+      <h2><strong>Project description</strong></h2>
+      <p>{{ dataObject.description }}</p>
     </div>
   </div>
 
@@ -112,15 +140,19 @@
       </div>
     </div>
   </div>
+
+  <editProjectStatus v-bind:status="dataObject.status"/>
 </template>
 
 <script>
 import {specialistFullName, firstLetterUpperCase, formatDate} from "@/plugins/textManipulation.js";
 import {Icon} from '@iconify/vue';
+import editProjectStatus from "@/components/admin/project/editProjectStatus";
 
 export default {
   name: "ProjectSubmissionsDetail",
   inject: ['projects', 'specialists', 'clients'],
+
   data() {
     return {
       dataObject: null,
@@ -128,6 +160,9 @@ export default {
       clientOfThisProject: null,
       availableSpecialists: [],
       modalObj: null,
+      classObject: {
+        'bg-green-100': this.dataObject === 0
+      }
     }
   },
 
@@ -192,7 +227,8 @@ export default {
     }
   },
   components: {
-    Icon
+    Icon,
+    editProjectStatus
   },
 
 

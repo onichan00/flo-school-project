@@ -17,30 +17,30 @@
           <span class="sr-only">Close modal</span>
         </button>
         <div class="py-6 px-6 lg:px-8">
-          <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h3>
+          <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Create new project</h3>
           <form class="w-full max-w-sm">
             <div class="md:flex md:items-center mb-6">
               <div class="md:w-1/3">
                 <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
-                  Project naam
+                  Project name
                 </label>
               </div>
               <div class="md:w-2/3">
                 <input
                     class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight outline-orange-500 focus:bg-white focus:border-orange-500"
-                    id="inline-full-name" type="text" value="Jane Doe">
+                    id="inline-full-name" type="text" placeholder="Choose a placeholder">
               </div>
             </div>
             <div class="md:flex md:items-center mb-6">
               <div class="md:w-1/3">
                 <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-password">
-                  Client
+                  Description
                 </label>
               </div>
               <div class="md:w-2/3">
-                <input
+                <textarea
                     class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500"
-                    id="inline-password" type="text" placeholder="">
+                    placeholder="Choose a Description"/>
               </div>
             </div>
 
@@ -51,12 +51,51 @@
                 </label>
               </div>
               <div class="md:w-2/3">
-                <input
-                    class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500"
-                    id="inline-password" type="text" placeholder="">
+                <select id="availableSpecialists"
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500">
+                  <option selected>In review</option>
+                  <option>In progress</option>
+                  <option>Done</option>
+                  <option>Cancled</option>
+                </select>
               </div>
             </div>
 
+            <div class="md:flex md:items-center mb-6">
+              <div class="md:w-1/3">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-password">
+                  Specialists
+                </label>
+              </div>
+              <div class="md:w-2/3">
+                <select id="availableSpecialists"
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500">
+                  <option selected>Choose a specialist</option>
+                  <option v-for="specialist in availableSpecialists" :key="specialist.id">{{
+                      specialistFullName(specialist)
+                    }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="md:flex md:items-center mb-6">
+              <div class="md:w-1/3">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-password">
+                  Client
+                </label>
+              </div>
+              <div class="md:w-2/3">
+                <select id="availableSpecialists"
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500">
+                  <option selected>Choose a client</option>
+                  <option v-for="client in clients" :key="client.id">{{
+                      client.company
+                    }}
+                  </option>
+                </select>
+              </div>
+            </div>
             <button class="bg-[#F05822] text-white font-bold py-2 px-4 rounded">
               Create project
             </button>
@@ -68,8 +107,24 @@
 </template>
 
 <script>
+import {specialistFullName} from "@/plugins/textManipulation";
+
 export default {
-  name: "projectCreateNew"
+  name: "projectCreateNew",
+  inject: ['specialists', 'clients'],
+
+  data() {
+    return {
+      availableSpecialists: this.specialists,
+      clients: this.clients
+
+    }
+  },
+
+  methods: {
+    specialistFullName,
+
+  }
 }
 </script>
 
