@@ -57,7 +57,7 @@
           </div>
         </div>
 
-        <p class="text-left text-1xl font-medium my-4">Oldclients</p>
+        <p class="text-left text-1xl font-medium my-4">Clients</p>
         <div id="specialistsTable" class="overflow-x-auto relative mt-4">
           <div class="overflow-x-auto relative shadow-md border border-gray-200 sm:rounded-lg">
             <table class="w-full text-sm rounded-md text-left text-gray-500 dark:text-gray-400">

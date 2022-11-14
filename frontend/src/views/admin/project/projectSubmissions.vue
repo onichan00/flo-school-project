@@ -24,7 +24,7 @@
           </div>
 
           <hr class="mt-2 mb-4"/>
-          <p class="text-left text-1xl font-medium mb-4">Old projects</p>
+          <p class="text-left text-1xl font-medium mb-4">All projects</p>
           <div v-if="projecten" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-5">
             <ProjectCard v-on:click="selectProject(project)" v-for="(project, index) in projecten" :key="index"
                          :project="project"/>
