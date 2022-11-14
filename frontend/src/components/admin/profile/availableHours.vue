@@ -110,7 +110,7 @@ export default {
     daysOfWeek: {
       handler: function () {
         const today = new Date();
-        const dayString = `${today.getDate()}/${today.getMonth()}/${today.getFullYear()}`;
+        const dayString = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
         let calculatedTotalHours = 0;
 
         const hour = this.hours;
@@ -134,8 +134,12 @@ export default {
         this.totalHours = calculatedTotalHours;
       }, deep: true
     },
-    '$route'() {
-      this.getAvailableHoursOfUser()
+    '$route.params.id': {
+      handler: function (id) {
+        this.getAvailableHoursOfUser();
+      },
+      deep: true,
+      immediate: true
     }
   },
   components: {

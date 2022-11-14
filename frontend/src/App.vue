@@ -18,13 +18,15 @@ import Footer from "@/components/Footer.vue";
 import client from "@/models/client";
 import specialist from "@/models/specialist";
 import project from "@/models/project";
-import availableHour from "./models/availableHour";
+import availableHour from "@/models/availableHour";
+import skill from "@/models/skill";
 
 // Dummy data
 import clientsData from "@/assets/data/clients.json";
 import projectsData from "@/assets/data/projects.json";
 import specialistsData from "@/assets/data/specialists.json";
 import availableHoursData from "@/assets/data/availableHours.json";
+import skillsData from "@/assets/data/skills.json";
 
 export default {
   name: 'App',
@@ -39,7 +41,8 @@ export default {
       specialists: [],
       projects: [],
       clients: [],
-      availableHours: []
+      availableHours: [],
+      skills: []
     }
   },
   provide() {
@@ -48,7 +51,8 @@ export default {
       specialists: this.specialists,
       projects: this.projects,
       clients: this.clients,
-      availableHours: this.availableHours
+      availableHours: this.availableHours,
+      skills: this.skills
     }
   },
 
@@ -67,6 +71,10 @@ export default {
 
     availableHoursData.forEach((element) => {
       this.availableHours.push(new availableHour(element));
+    })
+
+    skillsData.forEach((element) => {
+      this.skills.push(new skill(element));
     })
   },
 

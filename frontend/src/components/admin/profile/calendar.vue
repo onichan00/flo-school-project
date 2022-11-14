@@ -184,7 +184,7 @@ export default {
   // TODO - Make a watch function that checks for the id param and changes the data object
   // FIXME - The start and end time will not show the proper time. Rather the current time.
   mounted() {
-    const targetEl = document.getElementById('defaultModal');
+    const targetEl = document.querySelector('#defaultModal');
     const editModalTargetEl = document.querySelector('#editEntryModal');
 
     // eslint-disable-next-line no-undef
