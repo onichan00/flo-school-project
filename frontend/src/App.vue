@@ -6,8 +6,9 @@
 <!--    <router-view/>-->
 <!--    <Footer></Footer>-->
 <!--  </div>-->
-  <LandingPage></LandingPage>
+<!--  <LandingPage></LandingPage>-->
   <!--  <HelloWorld class="bg-red-500" msg="Welcome to Your Vue.js App"/>-->
+  <Login></Login>
   <Footer></Footer>
 
 
@@ -19,7 +20,8 @@
 // import PageHeader from "@/components/PageHeader";
 import {sidebarWidth} from '@/components/sidebar/state.js'
 import Footer from "@/components/Footer.vue";
-import LandingPage from '@/views/LandingPage.vue'
+// import LandingPage from '@/views/LandingPage.vue'
+import Login from '@/views/Login.vue';
 
 export default {
   name: 'App',
@@ -27,7 +29,8 @@ export default {
     // Sidebar,
     Footer,
     // PageHeader,
-    LandingPage
+    // LandingPage
+    Login
   },
 
   setup() {
