@@ -1,10 +1,14 @@
 <template>
   <!--  <img alt="Vue logo" src="./assets/logo.png">-->
-  <Sidebar/>
-  <div :style="{ 'margin-left': sidebarWidth }">
-    <PageHeader/>
-    <router-view/>
-    <Footer></Footer>
+  <LandingPage v-if="showLandingPage"/>
+
+  <div v-if="!showLandingPage">
+    <Sidebar/>
+    <div :style="{ 'margin-left': sidebarWidth }">
+      <PageHeader/>
+      <router-view/>
+      <Footer></Footer>
+    </div>
   </div>
 </template>
 
@@ -13,6 +17,7 @@ import Sidebar from "@/components/miscellaneous/sidebar/Sidebar.vue";
 import {sidebarWidth} from '@/components/miscellaneous/sidebar/state.js'
 import PageHeader from "@/components/PageHeader";
 import Footer from "@/components/Footer.vue";
+import LandingPage from "@/views/landingPage";
 
 // Models
 import client from "@/models/client";
@@ -33,7 +38,8 @@ export default {
   components: {
     Sidebar,
     Footer,
-    PageHeader
+    PageHeader,
+    LandingPage
   },
 
   data() {
@@ -45,6 +51,17 @@ export default {
       skills: []
     }
   },
+
+  computed: {
+    showLandingPage() {
+      if (this.$route.path == "/landing-page") {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
+
   provide() {
     // use function syntax so that we can access `this`
     return {

@@ -50,5 +50,6 @@ export const router = createRouter({
         {
             path: '/client/:id', name: 'Client', component: () => import('../views/admin/client/detailPageClients')
         },
+
     ]
 })

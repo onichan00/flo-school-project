@@ -171,7 +171,7 @@
             <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
 
               <img src="../assets/img/undraw_team_re_0bfe.svg"
-              size="150px">
+                   size="150px" alt="Afbeelding">
 
 
             </div>
@@ -235,7 +235,8 @@
               <p class="text-lg leading-relaxed mt-4 mb-4 text-gray-500">
                 Florin AWS is certainly not the only IT service provider. There are plenty to choose from. So why
                 Florijn anyway? Because with Florijn, you can be sure you'll get it right. No matter what your
-                question is. We are especially good at building Business Tools, which can be large or small, simple or complex.
+                question is. We are especially good at building Business Tools, which can be large or small, simple or
+                complex.
               </p>
             </div>
           </div>
