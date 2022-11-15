@@ -32,6 +32,7 @@
           <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
             <li class="flex items-center">
               <button
+                  to="/login"
                   class="bg-white text-gray-800 active:bg-gray-100 text-md font-bold px-4 py-2 rounded-md shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
                   type="button"
                   style="transition: all 0.15s ease 0s;">
@@ -50,7 +51,7 @@
       >
         <div
             class="absolute top-0 w-full h-full bg-center bg-cover"
-            style='background-image: linear-gradient(to right, #F15922 , #ffdccf)'
+            style='background-image: linear-gradient(to right, #F15922 , #f19022)'
         >
 
         </div>
@@ -97,7 +98,7 @@
               >
                 <div class="px-4 py-5 flex-auto">
                   <div
-                      class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400"
+                      class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-orange-500"
                   >
                     <i class="fa-solid fa-database"></i>
                   </div>
@@ -116,7 +117,7 @@
               >
                 <div class="px-4 py-5 flex-auto">
                   <div
-                      class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-green-400"
+                      class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-orange-500"
                   >
                     <i class="fa-solid fa-square-root-variable"></i>
                   </div>
@@ -135,7 +136,7 @@
               >
                 <div class="px-4 py-5 flex-auto">
                   <div
-                      class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-blue-400"
+                      class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-orange-500"
                   >
                     <i class="fas fa-retweet"></i>
                   </div>
@@ -205,7 +206,7 @@
             <div class="w-full md:w-5/12 ml-auto mr-auto px-4">
               <div class="md:pr-12">
                 <div
-                    class="text-pink-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-pink-300"
+                    class="text-orange-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-orange-200"
                 >
                   <i class="fas fa-rocket text-xl"></i>
                 </div>
@@ -226,10 +227,8 @@
       <br>
       <br>
 
-      <section class="pb-20 relative"
-               style='background-color: #ffdccf'
-               >
-        <div class="container mx-auto px-4 lg:pt-24 lg:pb-24">
+      <section class="pb-20 relative bg-orange-200">
+        <div class="container mx-auto px-4 lg:pt-20">
           <div class="flex flex-wrap text-center justify-center">
             <div class="w-full lg:w-6/12 px-4">
               <h2 class="text-2xl font-semibold">Why you should be at Florijn for this? </h2>
@@ -241,6 +240,7 @@
             </div>
           </div>
           <button
+              to="/dashboard"
               class="bg-white text-gray-800 active:bg-gray-100 text-2xl font-bold mt-16 px-4 py-2 rounded-md shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
               type="button"
               style="transition: all 0.15s ease 0s;">
