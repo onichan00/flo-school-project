@@ -6,7 +6,7 @@ import projectSubmissions from "@/views/admin/project/projectSubmissions";
 import projectSubmissionsDetail from "@/views/admin/project/ProjectSubmissionsDetail";
 import clientSubmitions from "@/views/admin/client/clientSubmitions";
 import Profile from "@/views/admin/profile";
-import Dashboard from "@/views/admin/Dashboard";
+import Dashboard from "@/views/admin/dashboard";
 
 // Components
 import SpecialistApplications from "@/components/SpecialistApplications";
@@ -29,7 +29,7 @@ export const router = createRouter({
         {
             path: '/dashboard',
             name: 'Dashboard',
-            component: () => import('../views/admin/Dashboard.vue')
+            component: () => import('../views/admin/dashboard.vue')
         },
         {
             path: '/projects', name: 'Projects', component: projectSubmissions,
