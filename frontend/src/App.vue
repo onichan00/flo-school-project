@@ -1,8 +1,9 @@
 <template>
   <!--  <img alt="Vue logo" src="./assets/logo.png">-->
   <LandingPage v-if="showLandingPage"/>
+  <Login v-if="showLogin"/>
 
-  <div v-if="!showLandingPage">
+  <div v-if="!showLandingPage && !showLogin">
     <Sidebar/>
     <div :style="{ 'margin-left': sidebarWidth }">
       <PageHeader/>
@@ -18,6 +19,7 @@ import {sidebarWidth} from '@/components/miscellaneous/sidebar/state.js'
 import PageHeader from "@/components/PageHeader";
 import Footer from "@/components/Footer.vue";
 import LandingPage from "@/views/landingPage";
+import Login from "@/views/Login";
 
 // Models
 import client from "@/models/client";
@@ -39,6 +41,7 @@ export default {
     Sidebar,
     Footer,
     PageHeader,
+    Login,
     LandingPage
   },
 
@@ -59,7 +62,16 @@ export default {
       } else {
         return false
       }
+    },
+
+    showLogin() {
+      if (this.$route.path == "/login") {
+        return true
+      } else {
+        return false
+      }
     }
+
   },
 
   provide() {
