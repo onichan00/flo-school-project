@@ -25,4 +25,97 @@ public class User {
         this.phone = phone;
         this.profileExtension = profileExtension;
     }
+
+    public User(int id) {
+        this.id = id;
+        this.email = "Not given";
+        this.password = "Not given";
+        this.first_name = "Not given";
+        this.second_name = "Not given";
+        this.last_name = "Not given";
+        this.photo = "Not given";
+        this.bio = "Not given";
+        this.phone = 0;
+        this.profileExtension = null;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getSecond_name() {
+        return second_name;
+    }
+
+    public void setSecond_name(String second_name) {
+        this.second_name = second_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public int getPhone() {
+        return phone;
+    }
+
+    public void setPhone(int phone) {
+        this.phone = phone;
+    }
+
+    public ProfileExtension getProfileExtension() {
+        return profileExtension;
+    }
+
+    public void setProfileExtension(ProfileExtension profileExtension) {
+        this.profileExtension = profileExtension;
+    }
 }

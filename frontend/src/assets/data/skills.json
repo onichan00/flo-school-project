@@ -1,0 +1,22 @@
+[
+  {
+    "user": 1,
+    "name": "javaScript",
+    "level": 1,
+    "selected": true
+
+  },
+  {
+    "user": 1,
+    "name": "dart",
+    "level": 3,
+    "selected": false
+
+  },
+  {
+    "user": 1,
+    "name": "java",
+    "level": 2,
+    "selected": false
+  }
+]

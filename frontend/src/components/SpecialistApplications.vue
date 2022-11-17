@@ -4,30 +4,53 @@
                  :selected-specialist="selectedSpecialist"
                  @approve-application="approveApplication"
                  @reject-application="rejectApplication"/>
-    <div class="main-area grid grid-cols-2 gap-5">
-      <div
-          class="application-card mb-4 border-gray-400 border-2 rounded-lg cursor-pointer relative"
-          :class="gibApprovedStatus(specialist)"
-          v-for="specialist in specialistDummyData"
-          :key="specialist.id"
-          @click="onSelect(specialist.id)">
-        <img class="absolute top-3 right-1"
-             :class="{hidden : specialist.approved !== true}"
-             :src="require('@/assets/img/' + 'florijn-checkmark.png')"
-             alt="checkmark">
-        <img class="absolute top-3 right-1"
-             :class="{hidden : specialist.approved !== false}"
-             :src="require('@/assets/img/' + 'florijn-x.png')"
-             alt="x icon">
-        <img :src="require('@/assets/img/' + specialist.image)"
-             alt="Profile Picture" class="w-32 border-2 border-gray-300">
-        <ul class="bio-info list-none pl-2 border-l-2 border-gray-300 p-3">
-          <li class="text-lg mb-3">{{ specialist.firstName }} {{ specialist.lastName }}</li>
-          <li class="text-sm">{{ specialist.age }} years old</li>
-          <li class="text-sm">phone: <span class="contact-link">{{ specialist.phone }}</span></li>
-          <li class="text-sm">mail: <span class="contact-link">{{ specialist.email }}</span></li>
-        </ul>
-      </div>
+
+    <div class="overflow-x-auto relative shadow-md border border-gray-200 sm:rounded-lg mt-10">
+      <table class="w-full text-sm rounded-md text-left text-gray-500 dark:text-gray-400">
+
+        <thead class="text-xs border-b text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" class="py-3 px-6">Name</th>
+            <th scope="col" class="py-3 px-6">Age</th>
+            <th scope="col" class="py-3 px-6">Email</th>
+            <th scope="col" class="py-3 px-6">Phone</th>
+            <th scope="col" class="py-3 px-6">Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="specialist in specialists"
+              :key="specialist.id"
+              @click="onSelect(specialist.id)"
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-orange-50 dark:hover:bg-gray-600 cursor-pointer">
+            <td class="py-4 px-6">
+                {{ specialist.firstName }} {{specialist.lastName}}
+            </td>
+            <td class="py-4 px-6">
+              {{ specialist.age }}
+            </td>
+            <td class="py-4 px-6">
+              <div class="flex items-center text-blue-600 underline cursor-pointer">
+                {{ specialist.email }}
+              </div>
+            </td>
+            <td class="py-4 px-6">
+              <div class="flex items-center text-blue-600 underline cursor-pointer">
+                {{ specialist.phone }}
+              </div>
+            </td>
+            <td class="py-4 px-6">
+              <div class="flex items-center justify-center">
+                <img :src="require('@/assets/img/' + gibApprovedStatus(specialist))"
+                     alt="approval status"
+                     class="approval-status-icon">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
     </div>
   </div>
 </template>
@@ -46,7 +69,7 @@ export default {
     return {
       counter: 0,
       selectedSpecialist: null,
-      specialistDummyData: [
+      specialists: [
         {
           id: 1,
           approved: 'pending',
@@ -68,9 +91,7 @@ export default {
             tue : false,
             wed : true,
             thu : true,
-            fri : true,
-            sat : false,
-            sun : false
+            fri : true
           }
         },
         {
@@ -94,9 +115,7 @@ export default {
             tue : false,
             wed : true,
             thu : true,
-            fri : true,
-            sat : false,
-            sun : false
+            fri : true
           }
         },
         {
@@ -120,9 +139,7 @@ export default {
             tue : false,
             wed : true,
             thu : true,
-            fri : true,
-            sat : false,
-            sun : false
+            fri : true
           }
         },
         {
@@ -146,9 +163,7 @@ export default {
             tue : false,
             wed : true,
             thu : true,
-            fri : true,
-            sat : false,
-            sun : false
+            fri : true
           }
         },
         {
@@ -172,9 +187,7 @@ export default {
             tue : false,
             wed : true,
             thu : true,
-            fri : true,
-            sat : false,
-            sun : false
+            fri : true
           }
         },
         {
@@ -198,9 +211,7 @@ export default {
             tue : false,
             wed : true,
             thu : true,
-            fri : true,
-            sat : false,
-            sun : false
+            fri : true
           }
         },
         {
@@ -224,9 +235,7 @@ export default {
             tue : false,
             wed : true,
             thu : true,
-            fri : true,
-            sat : false,
-            sun : false
+            fri : true
           }
         },
         {
@@ -250,9 +259,7 @@ export default {
             tue : false,
             wed : true,
             thu : true,
-            fri : true,
-            sat : false,
-            sun : false
+            fri : true
           }
         },
         {
@@ -276,9 +283,7 @@ export default {
             tue : false,
             wed : true,
             thu : true,
-            fri : true,
-            sat : false,
-            sun : false
+            fri : true
           }
         },
         {
@@ -302,9 +307,7 @@ export default {
             tue : false,
             wed : true,
             thu : true,
-            fri : true,
-            sat : false,
-            sun : false
+            fri : true
           }
         },
         {
@@ -328,9 +331,7 @@ export default {
             tue : false,
             wed : true,
             thu : true,
-            fri : true,
-            sat : false,
-            sun : false
+            fri : true
           }
         },
         {
@@ -354,9 +355,7 @@ export default {
             tue : false,
             wed : true,
             thu : true,
-            fri : true,
-            sat : false,
-            sun : false
+            fri : true
           }
         },
         {
@@ -380,9 +379,7 @@ export default {
             tue : false,
             wed : true,
             thu : true,
-            fri : true,
-            sat : false,
-            sun : false
+            fri : true
           }
         }
       ]
@@ -391,7 +388,7 @@ export default {
   methods: {
     onSelect(specialistId) {
       if (this.selectedSpecialist !== null && specialistId === this.selectedSpecialist.email) {this.selectedSpecialist = null;}
-      this.specialistDummyData.forEach(specialist => {
+      this.specialists.forEach(specialist => {
         if (specialist.id === specialistId) {this.selectedSpecialist = specialist;}
       });
       this.$router.push(this.$route.matched[0].path + '/' + this.selectedSpecialist.id);
@@ -405,12 +402,11 @@ export default {
       this.$router.go(-1);
     },
     gibApprovedStatus(specialist) {
-      if (specialist.approved === true) return 'approved';
-      else if (specialist.approved === false) return 'faded';
-      else return null;
+      if (specialist.approved === true) return 'florijn-checkmark.png';
+      else if (specialist.approved === false) return 'florijn-x.png';
+      else return "florijn-pending.png";
     },
     calculateAge(dateOfBirth) {
-      console.log(Date.now());
       return Math.floor((Date.now() - dateOfBirth) / (31557600000));
     }
   }
@@ -418,36 +414,14 @@ export default {
 </script>
 
 <style scoped>
-.main-area {
-  margin-left: 200px;
-}
-.application-card {
-  display: flex;
-  align-items: center;
-  /*width: 450px;*/
-  padding: 20px;
-  transition: .15s;
-}
-.application-card:hover {
-  box-shadow: 0 0 10px #EC5A29;
-}
 .application-card img {
   border-radius: 50%;
   margin-right: 10px;
 }
-.contact-link {
-  color: blue;
-  text-decoration: underline;
-}
-.contact-link:hover {cursor: pointer}
-.bio-info {
-  text-align: left;
-}
-.approved {
-  border-color: #EC5A29;
+.approval-status-icon {
+  width: 30px;
 }
 .faded {
-  opacity: 50%;
-  filter: grayscale(100);
+  filter: brightness(70%);
 }
 </style>
