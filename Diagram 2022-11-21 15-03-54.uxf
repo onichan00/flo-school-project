@@ -1,0 +1,93 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>9</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>828</x><y>171</y><w>180</w><h>261</h></coordinates><panel_attributes>User
+--
+-id: int
+-email: String
+-password: String
+-first_name: String
+-second_name: String
+-last_name: String
+-photo: String (url)
+-bio: String
+-phone: int
+-settings: Settings[1]
+-gender: Gender
+-dob: Date
+-city: String
+-zipCode: String
+-address: String
+-emailNotif: boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>558</x><y>594</y><w>225</w><h>180</h></coordinates><panel_attributes>Specialist
+--
+-user_id: int
+-available: boolean
+-hours: AvailableHour[7]
+-skills: UserSkill[1..*]
+-projects: Project[0..*]
+-userType: 2</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>810</x><y>594</y><w>225</w><h>180</h></coordinates><panel_attributes>Client
+--
+-projects: Project[0..*]
+-website: String
+-userType: 1</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>909</x><y>423</y><w>144</w><h>135</h></coordinates><panel_attributes>lt=&lt;&lt;-
+&lt; User profile extension</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>666</x><y>531</y><w>504</w><h>27</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;540;10</additional_attributes></element><element><id>Relation</id><coordinates><x>666</x><y>531</y><w>27</w><h>81</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>909</x><y>531</y><w>27</w><h>81</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1062</x><y>594</y><w>198</w><h>180</h></coordinates><panel_attributes>Admin
+--
+-rights: AdminRight
+-userType: 0</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1143</x><y>531</y><w>27</w><h>81</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>342</x><y>621</y><w>117</w><h>54</h></coordinates><panel_attributes>UserSkill
+--
+-level: int
+-skill: Skill</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>630</y><w>126</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=1..*
+&lt; Uses skill</panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1134</x><y>234</y><w>135</w><h>117</h></coordinates><panel_attributes>Project
+--
+-name: String
+-status: int
+-created: LocalDate
+-specialists: User[0..*]
+-skills: Languages[1..*]
+-description: String
+-client: Client</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>999</x><y>252</y><w>153</w><h>45</h></coordinates><panel_attributes>lt=-
+m2=0..1
+Works on &gt;</panel_attributes><additional_attributes>10;20;150;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>315</x><y>711</y><w>144</w><h>72</h></coordinates><panel_attributes>AvailableHour
+--
+-specialist: int
+-hour: Map&lt;String, Hour&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>729</y><w>126</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=1..*
+&lt; Available on</panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>837</x><y>828</y><w>162</w><h>108</h></coordinates><panel_attributes>Sign up
+--
+-status: int
+-created: Date
+-closed: Date
+-created_by: User[1]
+-handled_by: User[0..1]
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>666</x><y>882</y><w>189</w><h>27</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;190;10</additional_attributes></element><element><id>Relation</id><coordinates><x>666</x><y>765</y><w>27</w><h>144</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;10;140</additional_attributes></element><element><id>Relation</id><coordinates><x>909</x><y>765</y><w>27</w><h>81</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>117</x><y>621</y><w>90</w><h>45</h></coordinates><panel_attributes>Skill
+--
+-name: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>198</x><y>630</y><w>162</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=0..1
+&lt; Links skill</panel_attributes><additional_attributes>10;20;160;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>90</x><y>711</y><w>117</w><h>81</h></coordinates><panel_attributes>Hour
+--
+-label: String
+-available: boolean
+-start: String
+-end: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>198</x><y>729</y><w>135</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=0..1
+&lt; Links hour</panel_attributes><additional_attributes>10;20;130;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1134</x><y>126</y><w>90</w><h>99</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+Gender
+--
+Male
+Female
+Non-binary
+Other</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>999</x><y>189</y><w>153</w><h>45</h></coordinates><panel_attributes>lt=-
+m2=0..1
+User has gender &gt;</panel_attributes><additional_attributes>150;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1431</x><y>360</y><w>126</w><h>63</h></coordinates><panel_attributes>Right
+--
+name: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1134</x><y>360</y><w>162</w><h>72</h></coordinates><panel_attributes>UserRight
+--
+-right: Right
+-available: boolean
+-userType: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>999</x><y>369</y><w>153</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=1..*
+m2=1..*
+&lt; user has right</panel_attributes><additional_attributes>10;20;150;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1287</x><y>378</y><w>162</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+&lt; UserRight has right</panel_attributes><additional_attributes>10;20;160;20</additional_attributes></element></diagram>
