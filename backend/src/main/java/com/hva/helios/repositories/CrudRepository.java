@@ -11,25 +11,19 @@ import java.util.List;
  */
 public interface CrudRepository<T> {
     /**
-     * Method to get and return all objects
-     *
-     * @return - List of objects
-     */
-    default List<T> getAll(List<T> items) {
-        return items;
-    }
-
-    /**
      *
      * @param item - Item to find by
      * @param items - List to find item in
      * @return The item that needs to be found
      */
-    default T getByItem(T item, List<T> items) {
-        int index = items.indexOf(item);
+    T getByItem(T item);
 
-        return index == -1 ? null : items.get(index);
-    }
+    /**
+     * Method to get and return all objects
+     *
+     * @return - List of objects
+     */
+    List<T> getAll();
 
     /**
      * Method to save object

@@ -1,39 +1,29 @@
 package com.hva.helios.models;
 
+import com.hva.helios.data.SkillData;
+import com.hva.helios.data.SpecialistData;
+import com.hva.helios.models.user.Specialist;
+import com.hva.helios.models.user.skill.UserSkill;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Project {
-    private int id, status;
     private String name;
+    private int status;
     private LocalDate created;
-    private User specialists;
-    private Language[] languages;
+    private ArrayList<Specialist> specialists;
+    private ArrayList<UserSkill> skills;
 
-    public Project(int id, String name, int status, LocalDate created, User specialists, Language[] languages) {
-        this.id = id;
+    public Project(String name, int status, LocalDate created) {
         this.name = name;
         this.status = status;
         this.created = created;
-        this.specialists = specialists;
-        this.languages = languages;
-    }
 
-    public Project (int id){
-        this.id = id;
-
-        this.name = "Not Given";
-        this.status = 0;
-        this.created = null;
-        this.specialists = null;
-        this.languages = null;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        // TODO - Add specialists to the backend
+        // Initialize empty arraylist
+        this.specialists = new ArrayList<>();
+        this.skills = new SkillData().getRandomSkills(2);
     }
 
     public String getName() {
@@ -60,19 +50,19 @@ public class Project {
         this.created = created;
     }
 
-    public User getSpecialists() {
+    public ArrayList<Specialist> getSpecialists() {
         return specialists;
     }
 
-    public void setSpecialists(User specialists) {
+    public void setSpecialists(ArrayList<Specialist> specialists) {
         this.specialists = specialists;
     }
 
-    public Language[] getLanguages() {
-        return languages;
+    public ArrayList<UserSkill> getSkills() {
+        return skills;
     }
 
-    public void setLanguages(Language[] languages) {
-        this.languages = languages;
+    public void setSkills(ArrayList<UserSkill> skills) {
+        this.skills = skills;
     }
 }
