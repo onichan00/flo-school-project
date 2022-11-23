@@ -36,7 +36,7 @@
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Projects
             </SidebarLink>
-            <SidebarLink to="/client-applications" icon="fa-solid fa-money-bill-trend-up"
+            <SidebarLink to="/clients" icon="fa-solid fa-money-bill-trend-up"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Clients
             </SidebarLink>
@@ -59,7 +59,7 @@
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Profile
             </SidebarLink>
-            <SidebarLink to="/logout" icon="fas fa-right-from-bracket"
+            <SidebarLink to="/login" icon="fas fa-right-from-bracket"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Logout
             </SidebarLink>

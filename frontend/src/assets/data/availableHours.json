@@ -1,0 +1,190 @@
+[
+  {
+    "specialist": 1,
+    "hours": {
+      "monday": {
+        "label": "monday",
+        "available": true,
+        "start": "09:00",
+        "end": "17:00"
+      },
+      "tuesday": {
+        "label": "tuesday",
+        "available": true,
+        "start": "09:00",
+        "end": "17:00"
+      },
+      "wednesday": {
+        "label": "wednesday",
+        "available": true,
+        "start": "09:00",
+        "end": "17:00"
+      },
+      "thurday": {
+        "label": "thurday",
+        "available": true,
+        "start": "09:00",
+        "end": "17:00"
+      },
+      "friday": {
+        "label": "friday",
+        "available": true,
+        "start": "09:00",
+        "end": "17:00"
+      },
+      "saturday": {
+        "label": "saturday",
+        "available": false,
+        "start": "09:00",
+        "end": "17:00"
+      },
+      "sunday": {
+        "label": "sunday",
+        "available": false,
+        "start": "09:00",
+        "end": "17:00"
+      }
+    }
+  },
+  {
+    "specialist": 2,
+    "hours": {
+      "monday": {
+        "label": "monday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "tuesday": {
+        "label": "tuesday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "wednesday": {
+        "label": "wednesday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "thurday": {
+        "label": "thurday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "friday": {
+        "label": "friday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "saturday": {
+        "label": "saturday",
+        "available": false,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "sunday": {
+        "label": "sunday",
+        "available": false,
+        "start": "12:00",
+        "end": "17:00"
+      }
+    }
+  },
+  {
+    "specialist": 3,
+    "hours": {
+      "monday": {
+        "label": "monday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "tuesday": {
+        "label": "tuesday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "wednesday": {
+        "label": "wednesday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "thurday": {
+        "label": "thurday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "friday": {
+        "label": "friday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "saturday": {
+        "label": "saturday",
+        "available": false,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "sunday": {
+        "label": "sunday",
+        "available": false,
+        "start": "12:00",
+        "end": "17:00"
+      }
+    }
+  },
+  {
+    "specialist": 4,
+    "hours": {
+      "monday": {
+        "label": "monday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "tuesday": {
+        "label": "tuesday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "wednesday": {
+        "label": "wednesday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "thurday": {
+        "label": "thurday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "friday": {
+        "label": "friday",
+        "available": true,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "saturday": {
+        "label": "saturday",
+        "available": false,
+        "start": "12:00",
+        "end": "17:00"
+      },
+      "sunday": {
+        "label": "sunday",
+        "available": false,
+        "start": "12:00",
+        "end": "17:00"
+      }
+    }
+  }
+]

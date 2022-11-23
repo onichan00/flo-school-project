@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "email": "dennis.moes2@hva.nl",
+    "first_name": "dennis",
+    "second_name": "",
+    "last_name": "moes",
+    "photo": "https://images.unsplash.com/photo-1558203728-00f45181dd84?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2074&q=80",
+    "bio": "Hello I am a awesome developer",
+    "specialistType": "mobile",
+    "company": null,
+    "phone": "+31 6 12345678",
+    "address": "Wibautstraat 3b",
+    "zipCode": "1091 GH",
+    "city":"Amsterdam"
+  },
+  {
+    "id": 2,
+    "email": "ilias.aachboun@hva.nl",
+    "first_name": "ilias",
+    "second_name": "",
+    "last_name": "aachboun",
+    "photo": "https://images.unsplash.com/photo-1537511446984-935f663eb1f4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+    "bio": "Hello I am a awesome blockchain developer",
+    "specialistType": "mobile",
+    "company": null,
+    "phone": "+31 6 12345678",
+    "address": "Wibautstraat 3b",
+    "zipCode": "1091 GH",
+    "city": "Amsterdam"
+  },
+  {
+    "id": 3,
+    "email": "simon.vriesema@hva.nl",
+    "first_name": "simon",
+    "second_name": "reinder",
+    "last_name": "vriesema",
+    "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+    "bio": "Hello I am a awesome developer",
+    "specialistType": "mobile",
+    "company": null,
+    "phone": "+31 6 12345678",
+    "address": "Wibautstraat 3b",
+    "zipCode":  "1091 GH",
+    "city": "Amsterdam"
+  },
+  {
+    "id": 4,
+    "email": "frank.oud@hva.nl",
+    "first_name": "frank",
+    "second_name": "",
+    "last_name": "oud",
+    "photo": "https://images.unsplash.com/photo-1601233749202-95d04d5b3c00?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2038&q=80",
+    "bio": "Hello I am a awesome developer",
+    "specialistType": "mobile",
+    "company": null,
+    "phone": "+31 6 12345678",
+    "address": "Wibautstraat 3b",
+    "zipCode":  "1091 GH",
+    "city": "Amsterdam"
+  }
+]
