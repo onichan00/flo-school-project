@@ -1,0 +1,71 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>8</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>440</x><y>24</y><w>160</w><h>208</h></coordinates><panel_attributes>User
+--
+-id: int
+-email: String
+-password: String
+-type: int
+-first_name: String
+-second_name: String
+-last_name: String
+-profile_extension: int (FK)
+-photo: String (url)
+-bio: String
+-company: int (FK)
+-phone: int
+-settings: Settings[1]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>200</x><y>336</y><w>200</w><h>224</h></coordinates><panel_attributes>Specialist
+--
+-user_id: int
+-pogramming_language: Languages[1..*]
+-available: int
+-preferred_hours: int
+-available_days: Weekdays[1..*]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>424</x><y>336</y><w>200</w><h>224</h></coordinates><panel_attributes>Client
+--
+-projects: Project[0..1]
+-website: String
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>512</x><y>224</y><w>136</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-
+&lt; User profile extension</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>296</x><y>280</y><w>448</w><h>24</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;540;10</additional_attributes></element><element><id>Relation</id><coordinates><x>296</x><y>280</y><w>24</w><h>72</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>512</x><y>280</y><w>24</w><h>72</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>648</x><y>336</y><w>176</w><h>224</h></coordinates><panel_attributes>Admin
+--
+-user_id: id (FK)
+-rights: String[]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>280</y><w>24</w><h>72</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>32</x><y>360</y><w>80</w><h>48</h></coordinates><panel_attributes>Languages
+--
+-name: String
+-level: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>104</x><y>368</y><w>112</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=1..*
+&lt; Uses language</panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>712</x><y>128</y><w>120</w><h>104</h></coordinates><panel_attributes>Project
+--
+-name: String
+-status: int
+-skills: Languages[1..*]
+-created: Date
+-specialists: User[0..*]
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>592</x><y>152</y><w>136</w><h>40</h></coordinates><panel_attributes>lt=-
+m2=0..1
+Works on &gt;</panel_attributes><additional_attributes>10;20;150;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>32</x><y>440</y><w>80</w><h>64</h></coordinates><panel_attributes>Weekdays
+--
+-day: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>104</x><y>456</y><w>112</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=1..*
+&lt; Available on</panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>120</x><y>32</y><w>176</w><h>96</h></coordinates><panel_attributes>Settings
+--
+disabled_notifications: []</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>120</x><y>160</y><w>176</w><h>96</h></coordinates><panel_attributes>Notifications
+--
+-type: int
+-message: String
+-created: Date
+-issued: User
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>288</x><y>56</y><w>168</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=1
+&lt; Has settings</panel_attributes><additional_attributes>10;20;190;20</additional_attributes></element><element><id>Relation</id><coordinates><x>288</x><y>184</y><w>168</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=0..*
+&lt; Has issued</panel_attributes><additional_attributes>10;20;190;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>448</x><y>624</y><w>144</w><h>96</h></coordinates><panel_attributes>Sign up
+--
+-status: int
+-created: Date
+-closed: Date
+-created_by: User[1]
+-handled_by: User[0..1]
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>296</x><y>672</y><w>168</w><h>24</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;190;10</additional_attributes></element><element><id>Relation</id><coordinates><x>296</x><y>552</y><w>24</w><h>144</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;10;160</additional_attributes></element><element><id>Relation</id><coordinates><x>512</x><y>552</y><w>24</w><h>88</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>PlotGrid</id><coordinates><x>752</x><y>624</y><w>136</w><h>104</h></coordinates><panel_attributes>// single plots are easily created without using capabilities of a (plot)grid
+
+data
+a	b	c
+3	7	60
+plot type=bar</panel_attributes><additional_attributes></additional_attributes></element></diagram>

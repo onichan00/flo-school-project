@@ -6,7 +6,7 @@
           <Icon icon="ic:baseline-menu" class="text-4xl text-florijnOrange" />
         </button>
         <!-- TODO Center the title -->
-        <p class="font-medium">{{ title }}</p>
+        <p class="font-medium">{{ currentRouteName }}</p>
       </div>
       <div class="flex flex-row">
         <input placeholder="search" class="flex-grow rounded-md pl-2 pr-2 py-1 text-2xl bg-gray-100 border-2 focus:outline-none focus:ring focus:ring-florijnOrange/50 focus:border-florijnOrange" />
@@ -29,13 +29,13 @@
 </template>
 
 <script>
-import { Icon } from '@iconify/vue';
+// import { Icon } from '@iconify/vue';
 
 export default {
   name: 'PageHeader',
   props: ['title'],
   components: {
-    Icon,
+    // Icon,
   },
   methods: {
     openFilter() {
@@ -44,6 +44,12 @@ export default {
 
       content.classList.toggle("collapsed");
       content.classList.toggle("mt-4");
+    }
+  },
+
+  computed: {
+    currentRouteName() {
+      return this.$route.name;
     }
   }
 }
