@@ -199,93 +199,111 @@ export default {
   data() {
     return {
       specialists: [
-        {
-          'id': 1,
-          'firstName': "Dennis Moes",
-          'email': "denniscmoes@gmail.com",
-          'position': "React Developer",
-          'status': "Online",
-          'phoneNumber': '+31612345678',
-        }, {
-          'id': 1,
-          'firstName': "Dennis Moes",
-          'email': "denniscmoes@gmail.com",
-          'position': "React Developer",
-          'status': "Online",
-          'phoneNumber': '+31612345678',
-        }, {
-          'id': 1,
-          'firstName': "Dennis Moes",
-          'email': "denniscmoes@gmail.com",
-          'position': "React Developer",
-          'status': "Online",
-          'phoneNumber': '+31612345678',
-        }, {
-          'id': 1,
-          'firstName': "Dennis Moes",
-          'email': "denniscmoes@gmail.com",
-          'position': "React Developer",
-          'status': "Online",
-          'phoneNumber': '+31612345678',
-        }, {
-          'id': 1,
-          'firstName': "Dennis Moes",
-          'email': "denniscmoes@gmail.com",
-          'position': "React Developer",
-          'status': "Online",
-          'phoneNumber': '+31612345678',
-        }, {
-          'id': 1,
-          'firstName': "Dennis Moes",
-          'email': "denniscmoes@gmail.com",
-          'position': "React Developer",
-          'status': "Online",
-          'phoneNumber': '+31612345678',
-        }, {
-          'id': 1,
-          'firstName': "Dennis Moes",
-          'email': "denniscmoes@gmail.com",
-          'position': "React Developer",
-          'status': "Online",
-          'phoneNumber': '+31612345678',
-        }, {
-          'id': 1,
-          'firstName': "Dennis Moes",
-          'email': "denniscmoes@gmail.com",
-          'position': "React Developer",
-          'status': "Online",
-          'phoneNumber': '+31612345678',
-        }, {
-          'id': 1,
-          'firstName': "Dennis Moes",
-          'email': "denniscmoes@gmail.com",
-          'position': "React Developer",
-          'status': "Online",
-          'phoneNumber': '+31612345678',
-        }, {
-          'id': 1,
-          'firstName': "Dennis Moes",
-          'email': "denniscmoes@gmail.com",
-          'position': "React Developer",
-          'status': "Online",
-          'phoneNumber': '+31612345678',
-        }, {
-          'id': 1,
-          'firstName': "Dennis Moes",
-          'email': "denniscmoes@gmail.com",
-          'position': "React Developer",
-          'status': "Online",
-          'phoneNumber': '+31612345678',
-        }, {
-          'id': 1,
-          'firstName': "Dennis Moes",
-          'email': "denniscmoes@gmail.com",
-          'position': "React Developer",
-          'status': "Online",
-          'phoneNumber': '+31612345678',
-        }
+        // {
+        //   'id':1,
+        //   'firstName': "Dennis Moes",
+        //   'email': "denniscmoes@gmail.com",
+        //   'position': "React Developer",
+        //   'status': "Online",
+        //   'phoneNumber':'+31612345678',
+        // },        {
+        //   'id':1,
+        //   'firstName': "Dennis Moes",
+        //   'email': "denniscmoes@gmail.com",
+        //   'position': "React Developer",
+        //   'status': "Online",
+        //   'phoneNumber':'+31612345678',
+        // },        {
+        //   'id':1,
+        //   'firstName': "Dennis Moes",
+        //   'email': "denniscmoes@gmail.com",
+        //   'position': "React Developer",
+        //   'status': "Online",
+        //   'phoneNumber':'+31612345678',
+        // },        {
+        //   'id':1,
+        //   'firstName': "Dennis Moes",
+        //   'email': "denniscmoes@gmail.com",
+        //   'position': "React Developer",
+        //   'status': "Online",
+        //   'phoneNumber':'+31612345678',
+        // },        {
+        //   'id':1,
+        //   'firstName': "Dennis Moes",
+        //   'email': "denniscmoes@gmail.com",
+        //   'position': "React Developer",
+        //   'status': "Online",
+        //   'phoneNumber':'+31612345678',
+        // },        {
+        //   'id':1,
+        //   'firstName': "Dennis Moes",
+        //   'email': "denniscmoes@gmail.com",
+        //   'position': "React Developer",
+        //   'status': "Online",
+        //   'phoneNumber':'+31612345678',
+        // },        {
+        //   'id':1,
+        //   'firstName': "Dennis Moes",
+        //   'email': "denniscmoes@gmail.com",
+        //   'position': "React Developer",
+        //   'status': "Online",
+        //   'phoneNumber':'+31612345678',
+        // },        {
+        //   'id':1,
+        //   'firstName': "Dennis Moes",
+        //   'email': "denniscmoes@gmail.com",
+        //   'position': "React Developer",
+        //   'status': "Online",
+        //   'phoneNumber':'+31612345678',
+        // },        {
+        //   'id':1,
+        //   'firstName': "Dennis Moes",
+        //   'email': "denniscmoes@gmail.com",
+        //   'position': "React Developer",
+        //   'status': "Online",
+        //   'phoneNumber':'+31612345678',
+        // },        {
+        //   'id':1,
+        //   'firstName': "Dennis Moes",
+        //   'email': "denniscmoes@gmail.com",
+        //   'position': "React Developer",
+        //   'status': "Online",
+        //   'phoneNumber':'+31612345678',
+        // },        {
+        //   'id':1,
+        //   'firstName': "Dennis Moes",
+        //   'email': "denniscmoes@gmail.com",
+        //   'position': "React Developer",
+        //   'status': "Online",
+        //   'phoneNumber':'+31612345678',
+        // },        {
+        //   'id':1,
+        //   'firstName': "Dennis Moes",
+        //   'email': "denniscmoes@gmail.com",
+        //   'position': "React Developer",
+        //   'status': "Online",
+        //   'phoneNumber':'+31612345678',
+        // }
       ]
     }
+  },
+  mounted() {
+    fetch("http://localhost:8080/api/users/specialists").then((response) => {
+      if (response.ok){
+        return response.json()
+
+      } else {
+        throw new Error("something has gone wrong")
+      }
+    }).then((data) => {
+      for (let i = 0; i < data.length; i++) {
+        this.specialists.push(data[0])
+        console.log(data)
+      }
+    })
+        .catch((error) => {
+      console.log(error)
+    });
   },
 
   methods: {

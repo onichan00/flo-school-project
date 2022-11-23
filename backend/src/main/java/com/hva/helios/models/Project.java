@@ -18,24 +18,6 @@ public class Project {
         this.languages = languages;
     }
 
-    public Project (int id){
-        this.id = id;
-
-        this.name = "Not Given";
-        this.status = 0;
-        this.created = null;
-        this.specialists = null;
-        this.languages = null;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }

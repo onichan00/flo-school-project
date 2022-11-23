@@ -1,42 +1,17 @@
 package com.hva.helios.models;
 
-import java.time.LocalDate;
-
-public class Specialist extends User implements ProfileExtension {
-
-    private int user_id;
+public class Specialist extends User {
     private int available;
     private int preferred_hours;
-    private Project works_on;
+    private Project[] works_on;
     private Language[] languages;
 
-    public Specialist(int user_id) {
-        // TODO Ask for help with super()
-        super(user_id);
-        this.user_id = user_id;
-
-        this.available = 0;
-        this.preferred_hours = 0;
-        this.works_on = new Project(0, null, 0, null, null, null);
-        this.languages = null;
-    }
-
-    public Specialist(int user_id, int available, int preferred_hours, Project works_on, Language[] languages) {
-        // TODO Ask for help with super()
-        super(user_id);
-        this.user_id = user_id;
+    public Specialist(int user_id,String email, String password, String first_name, String second_name, String last_name, String photo, String bio, float phone , int available, int preferred_hours, Project[] works_on, Language[] languages) {
+        super(user_id,email,password,first_name,second_name,last_name,photo,bio,phone);
         this.available = available;
         this.preferred_hours = preferred_hours;
         this.works_on = works_on;
         this.languages = languages;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
     }
 
     public int getAvailable() {
@@ -55,11 +30,11 @@ public class Specialist extends User implements ProfileExtension {
         this.preferred_hours = preferred_hours;
     }
 
-    public Project getWorks_on() {
+    public Project[] getWorks_on() {
         return works_on;
     }
 
-    public void setWorks_on(Project works_on) {
+    public void setWorks_on(Project[] works_on) {
         this.works_on = works_on;
     }
 
