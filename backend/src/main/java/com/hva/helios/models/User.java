@@ -9,11 +9,9 @@ public class User {
     private String last_name;
     private String photo;
     private String bio;
-    private int phone;
+    private String phone;
 
-    private ProfileExtension profileExtension;
-
-    public User(int id, String email, String password, String first_name, String second_name, String last_name, String photo, String bio, int phone, ProfileExtension profileExtension) {
+    public User(int id, String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -23,20 +21,6 @@ public class User {
         this.photo = photo;
         this.bio = bio;
         this.phone = phone;
-        this.profileExtension = profileExtension;
-    }
-
-    public User(int id) {
-        this.id = id;
-        this.email = "Not given";
-        this.password = "Not given";
-        this.first_name = "Not given";
-        this.second_name = "Not given";
-        this.last_name = "Not given";
-        this.photo = "Not given";
-        this.bio = "Not given";
-        this.phone = 0;
-        this.profileExtension = null;
     }
 
     public int getId() {
@@ -103,19 +87,11 @@ public class User {
         this.bio = bio;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public ProfileExtension getProfileExtension() {
-        return profileExtension;
-    }
-
-    public void setProfileExtension(ProfileExtension profileExtension) {
-        this.profileExtension = profileExtension;
     }
 }
