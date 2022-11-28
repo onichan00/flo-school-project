@@ -5,15 +5,29 @@ import com.hva.helios.data.SpecialistData;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.skill.UserSkill;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 
+@Entity
+@Table
 public class Project {
+    @Id
+    @GeneratedValue
+    private long id = 0L;
+
     private String name;
     private int status;
     private LocalDate created;
-    private ArrayList<Specialist> specialists;
-    private ArrayList<UserSkill> skills;
+
+//    @ManyToMany
+//    private ArrayList<Specialist> specialists;
+//
+//    @OneToMany
+//    private ArrayList<UserSkill> skills;
+
+    protected Project() {}
 
     public Project(String name, int status, LocalDate created) {
         this.name = name;
@@ -22,8 +36,16 @@ public class Project {
 
         // TODO - Add specialists to the backend
         // Initialize empty arraylist
-        this.specialists = new ArrayList<>();
-        this.skills = new SkillData().getRandomSkills(2);
+//        this.specialists = new ArrayList<>();
+//        this.skills = new SkillData().getRandomSkills(2);
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -48,21 +70,5 @@ public class Project {
 
     public void setCreated(LocalDate created) {
         this.created = created;
-    }
-
-    public ArrayList<Specialist> getSpecialists() {
-        return specialists;
-    }
-
-    public void setSpecialists(ArrayList<Specialist> specialists) {
-        this.specialists = specialists;
-    }
-
-    public ArrayList<UserSkill> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(ArrayList<UserSkill> skills) {
-        this.skills = skills;
     }
 }

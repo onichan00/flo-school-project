@@ -1,87 +1,70 @@
 <template>
-  <div class="p-4 mb-10">
+  <div class="w-full h-96" v-if="user === null">
+    <LoadSpinner/>
+  </div>
+  <div v-else class="p-4 mb-10">
     <div class="flex flex-col xl:flex-row gap-6">
       <div class="w-full xl:w-1/3 p-4 rounded-md shadow-md">
-        <img :src="user.photo" class="max-w-full rounded-lg w-full profileImage" />
+        <img :src="user.photo" class="max-w-full rounded-lg w-full profileImage" alt="User profile image"/>
         <div class="mt-4">
-          <p class="text-2xl">{{ specialistFullName(user) }}</p>
+          <p class="text-2xl">{{ userFullName(user, true) }}</p>
           <p class="opacity-70">{{ firstLetterUpperCase(user.specialistType) }}</p>
         </div>
-        <hr class="mb-2 mt-4" />
+        <hr class="mb-2 mt-4"/>
         <div class="flex flex-col text-left gap-4 pt-2">
           <div class="flex flex-row">
             <p class="w-1/3">Email</p>
-            <input v-if="isEditing" v-model="user.email" class="border-b-2 border-florijnOrange" />
+            <input v-if="isEditing" v-model="user.email" class="border-b-2 border-florijnOrange"/>
             <p v-else class="w-2/3 border-b-2 border-black/0">{{ user.email }}</p>
           </div>
           <div class="flex flex-row">
             <p class="w-1/3">Phone</p>
-            <input v-if="isEditing" v-model="user.phone" class="border-b-2 border-florijnOrange" />
+            <input v-if="isEditing" v-model="user.phone" class="border-b-2 border-florijnOrange"/>
             <p v-else class="w-2/3 border-b-2 border-black/0">{{ user.phone }}</p>
           </div>
           <div class="flex flex-row">
             <p class="w-1/3">Address</p>
-            <input v-if="isEditing" v-model="user.address" class="border-b-2 border-florijnOrange" />
+            <input v-if="isEditing" v-model="user.address" class="border-b-2 border-florijnOrange"/>
             <p v-else class="w-2/3 border-b-2 border-black/0">{{ user.address }}</p>
           </div>
           <div class="flex flex-row">
             <p class="w-1/3">Zipcode</p>
-            <input v-if="isEditing" v-model="user.zipCode" class="border-b-2 border-florijnOrange" />
+            <input v-if="isEditing" v-model="user.zipCode" class="border-b-2 border-florijnOrange"/>
             <p v-else class="w-2/3 border-b-2 border-black/0">{{ user.zipCode }}</p>
           </div>
           <div class="flex flex-row">
             <p class="w-1/3">City</p>
-            <input v-if="isEditing" v-model="user.city" class="border-b-2 border-florijnOrange" />
+            <input v-if="isEditing" v-model="user.city" class="border-b-2 border-florijnOrange"/>
             <p v-else class="w-2/3 border-b-2 border-black/0">{{ user.city }}</p>
           </div>
-          <hr />
+          <hr/>
           <div class="flex flex-row">
             <p class="w-1/3">Projects</p>
-            <p class="w-2/3">{{ projectList.length }}</p>
+            <p class="w-2/3">{{ user.projects.length }}</p>
           </div>
         </div>
       </div>
+
       <div class="w-full xl:w-2/3 rounded-md shadow-md p-4">
-        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
-          <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent"
-            role="tablist">
-            <li class="mr-2" role="presentation">
-              <button class="inline-block p-4 rounded-t-lg border-b-2" id="profile-tab" data-tabs-target="#profile"
-                type="button" role="tab" aria-controls="profile" aria-selected="false">Projects</button>
-            </li>
-            <li class="mr-2" role="presentation">
-              <button
-                class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-                id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard"
-                aria-selected="false">Available Hours</button>
-            </li>
-            <li class="mr-2" role="presentation">
-              <button
-                class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-                id="settings-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings"
-                aria-selected="false">Skills</button>
-            </li>
-            <li role="presentation">
-              <button
-                class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-                id="contacts-tab" data-tabs-target="#contacts" type="button" role="tab" aria-controls="contacts"
-                aria-selected="false">Calendar</button>
-            </li>
-          </ul>
+        <div class="flex flex-row gap-4">
+          <button :class="{'bg-blue-500': tabIndex === 0}" @click="this.setTabIndex(0)">Projects</button>
+          <button :class="{'bg-blue-500': tabIndex === 1}" @click="this.setTabIndex(1)">Skills</button>
+          <button :class="{'bg-blue-500': tabIndex === 2}" @click="this.setTabIndex(2)">Available Hours</button>
+          <button :class="{'bg-blue-500': tabIndex === 3}" @click="this.setTabIndex(3)">Calendar</button>
         </div>
-        <div id="myTabContent">
-          <div class="hidden p-4" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div>
+          <div :class="[tabIndex === 0 ? '' : 'hidden']" class="h-full py-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <ProjectCard v-for="(item, index) in projectList" :key="index" :project="item" />
+              <ProjectCard v-for="(item, index) in user.projects" :key="index" :project="item" />
             </div>
           </div>
-          <div class="hidden p-4" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
-            <AvailableHours />
+          <div :class="[tabIndex === 1 ? '' : 'hidden']" class="h-full py-4">
+            <Skills :available-skills="availableSkills"  :user-skills="getSkills"/>
           </div>
-          <div class="hidden p-4" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-            <Skills />
+          <div :class="[tabIndex === 2 ? '' : 'hidden']" class="h-full py-4">
+            <AvailableHours :available-hours="getHours" @get-user-data="this.getUserData" @update-hours="this.saveUserHours"/>
           </div>
-          <div class="hidden p-4" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+          <div :class="[tabIndex === 3 ? '' : 'hidden']" class="h-full py-4">
             <Calendar />
           </div>
         </div>
@@ -94,56 +77,106 @@ import AvailableHours from '@/components/admin/profile/availableHours.vue';
 import ProjectCard from '@/components/miscellaneous/ProjectCard.vue';
 import Calendar from '@/components/admin/profile/calendar.vue';
 
-import { specialistFullName, firstLetterUpperCase, formatDate } from '@/plugins/textManipulation';
+import {firstLetterUpperCase, formatDate, userFullName} from '@/plugins/textManipulation';
 import Skills from '@/components/admin/profile/skills.vue';
 
+import axios from 'axios';
+import { useToast } from "vue-toastification";
+import LoadSpinner from "@/components/miscellaneous/LoadSpinner";
+import availableHour from "@/models/availableHour";
+
 export default {
-  // Calendar and shit: https://code.daypilot.org/tutorials/vuejs
-
-  // FIXME: When the page is reloaded every project of the user is shown, but when i navigate to another page
-  //  and then back to this project, the projects are gone.
-
   name: 'SpecialistProfile',
   inject: ['specialists', 'projects'],
   data() {
     return {
       isEditing: false,
-      projectList: [],
+      tabIndex: 0,
+      user: null,
+      availableSkills: null,
+      toast: useToast(),
     }
   },
+  created() {
+    this.getUserData();
+    this.getSkillsData();
+  },
   methods: {
-    specialistFullName,
     firstLetterUpperCase,
     formatDate,
+    userFullName,
 
-    findSpecialistFromRouteParam(id) {
-      return this.specialists.find(element => element.id === parseInt(id));
-    },
-    findProjectsTiedToUser(id) {
-      return this.projects.filter(element => element.specialists.includes(parseInt(id)));
-    },
-  },
-  created() {
-    const id = this.$route.params.id;
+    getUserData() {
+      const id = this.$route.params.id;
 
-    this.user = this.findSpecialistFromRouteParam(id);
-    this.projectList = this.findProjectsTiedToUser(id);
+      axios.get(`http://localhost:8080/api/users/${id}`)
+        .then((res) => {
+          this.user = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+
+    getSkillsData() {
+      axios.get(`http://localhost:8080/api/skills`)
+        .then((res) => {
+          this.availableSkills = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+
+    saveUserHours() {
+      const requestBody = JSON.parse(JSON.stringify(this.user.hours))
+
+      axios.post(`http://localhost:8080/api/users/specialist/${this.user.id}/hours`, requestBody)
+        .then((res) => {
+          this.user.hours = res.data;
+          this.toast.success("Successfully updated \navailable hours");
+        })
+        .catch((err) => {
+          console.log(err);
+
+          this.toast.error("Something went wrong trying to update your availability")
+        })
+    },
+
+    setTabIndex(index) {
+      this.tabIndex = index;
+    }
   },
-  watch: {
-    '$route.params.id': {
-      handler: function (id) {
-        this.user = this.findSpecialistFromRouteParam(id);
-        this.projectList = this.findProjectsTiedToUser(id);
+  computed: {
+    getProjects() {
+      return this.user.projects;
+    },
+    getHours: {
+      get() {
+        return this.user.hours;
       },
-      deep: true,
-      immediate: true
+      set(value) {
+        this.user.hours = value;
+      }
+    },
+    getSkills: {
+      get() {
+        return this.user.skills;
+      },
+      set(value) {
+        this.user.skills = value;
+      }
+    },
+    getUser() {
+      return this.user;
     }
   },
   components: {
+    LoadSpinner,
     ProjectCard,
+    Skills,
     AvailableHours,
-    Calendar,
-    Skills
+    Calendar
   }
 }
 </script>
@@ -154,5 +187,13 @@ export default {
   object-fit: cover;
   width: 100%;
   object-position: top;
+}
+
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f8f8f8;
+  margin: 0;
+  padding: 20px;
 }
 </style>

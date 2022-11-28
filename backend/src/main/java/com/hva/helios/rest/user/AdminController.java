@@ -1,7 +1,8 @@
 package com.hva.helios.rest.user;
 
 import com.hva.helios.models.user.Admin;
-import com.hva.helios.repositories.user.AdminRepository;
+import com.hva.helios.repositories.EntityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,21 +10,22 @@ import java.util.List;
 @RestController
 @RequestMapping("/users/admin")
 public class AdminController {
-    final private AdminRepository adminRepository = new AdminRepository();
+    @Autowired
+    private EntityRepository<Admin> adminRepository;
 
     @GetMapping("")
     public List<Admin> getAllAdmins() {
-        return adminRepository.getAll();
+        return adminRepository.findAll();
     }
 
     @GetMapping("{id}")
     public Admin getAdmin(@PathVariable int id) {
-        return adminRepository.getById(id);
+        return adminRepository.findById(id);
     }
 
     @PostMapping
     public Admin addAdmin(@RequestBody Admin admin) {
-        return adminRepository.saveItem(admin);
+        return adminRepository.save(admin);
     }
 
     @DeleteMapping("{id}")

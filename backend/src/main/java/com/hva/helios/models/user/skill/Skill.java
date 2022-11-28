@@ -1,23 +1,22 @@
 package com.hva.helios.models.user.skill;
 
+import javax.persistence.*;
+
 /**
  * Class off skill to add to specialist object
  */
+@Entity
+@Table
 public class Skill {
-    private int id;
+    @Id
+    @GeneratedValue
+    private final long id = 0L;
     private String name;
 
-    public Skill(int id, String name) {
-        this.id = id;
+    protected Skill() {}
+
+    public Skill(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

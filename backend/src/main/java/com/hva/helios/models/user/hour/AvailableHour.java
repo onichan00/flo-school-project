@@ -1,18 +1,22 @@
 package com.hva.helios.models.user.hour;
 
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Class to keep track of the specialist available hours
  */
+@Entity
+@Table
 public class AvailableHour {
-    int specialist;
-    Map<String, Hour> days = new HashMap<>();
+    @Id
+    @GeneratedValue
+    private long id = 0L;
+    @OneToMany
+    private Map<String, Hour> days = new HashMap<>();
 
-    public AvailableHour(int specialist) {
-        this.specialist = specialist;
-
+    public AvailableHour() {
         this.days.put("monday", new Hour("monday", true, "09:00", "17:00"));
         this.days.put("tuesday", new Hour("tuesday", true, "09:00", "17:00"));
         this.days.put("wednesday", new Hour("wednesday", true, "09:00", "17:00"));
@@ -22,12 +26,8 @@ public class AvailableHour {
         this.days.put("sunday", new Hour("sunday", false, "09:00", "17:00"));
     }
 
-    public int getSpecialist() {
-        return specialist;
-    }
-
-    public void setSpecialist(int specialist) {
-        this.specialist = specialist;
+    public long getId() {
+        return id;
     }
 
     public Map<String, Hour> getDays() {

@@ -4,8 +4,6 @@ import com.hva.helios.models.User;
 import com.hva.helios.models.user.Admin;
 import com.hva.helios.models.user.Client;
 import com.hva.helios.repositories.UserRepository;
-import com.hva.helios.repositories.user.AdminRepository;
-import com.hva.helios.repositories.user.ClientRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,32 +1,39 @@
 package com.hva.helios.models.user.skill;
 
+import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.skill.Skill;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class UserSkill {
-    private int id;
-    private String name;
+
+    @Id
+    @GeneratedValue
+    private final long id = 0L;
     private int level;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Skill skill;
+
+    @ManyToOne
+    private Specialist specialist;
+
+    protected UserSkill() {}
 
     public UserSkill(Skill skill, int level) {
-        this.id = skill.getId();
-        this.name = skill.getName();
+        this.skill = skill;
         this.level = level;
     }
 
-    public int getId() {
+    public UserSkill(Skill skill, int level, Specialist specialist) {
+        this.skill = skill;
+        this.level = level;
+        this.specialist = specialist;
+    }
+
+    public long getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getLevel() {
@@ -35,5 +42,13 @@ public class UserSkill {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public Skill getSkill() {
+        return skill;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
     }
 }

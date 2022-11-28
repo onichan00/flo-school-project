@@ -3,41 +3,41 @@ package com.hva.helios.models.user;
 import com.hva.helios.models.Project;
 import com.hva.helios.models.User;
 import com.hva.helios.models.user.hour.AvailableHour;
-import com.hva.helios.models.user.hour.Hour;
 import com.hva.helios.models.user.skill.UserSkill;
 
-import java.util.ArrayList;
-import java.util.Map;
+import javax.persistence.*;
+import java.util.List;
 
+@Entity
+@Table
 public class Specialist extends User {
+    @Id
+    @GeneratedValue
+    private final long id = 0L;
+
     private int available;
     private String specialistType;
-    private Map<String, Hour> hours;
-    private int userType = 2;
 
-    private ArrayList<Project> projects;
-    private ArrayList<UserSkill> skills;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    private AvailableHour hours;
 
-    public Specialist(int id, String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, int available, String specialistType, AvailableHour hour) {
-        super(id, email, password, first_name, second_name, last_name, photo, bio, phone);
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    private List<Project> projects;
+//
+//    @OneToMany(cascade = CascadeType.ALL)
+//    private List<UserSkill> skills;
 
-        this.available = available;
-        this.specialistType = specialistType;
-        this.hours = hour.getDays();
+    protected Specialist() {}
 
-        // Initialize empty arraylist
-        this.projects = new ArrayList<>();
-        this.skills = new ArrayList<>();
-    }
-
-    public Specialist(int id, String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, int available, String specialistType, AvailableHour hour, ArrayList<Project> projects, ArrayList<UserSkill> userSkills) {
-        super(id, email, password, first_name, second_name, last_name, photo, bio, phone);
+    public Specialist(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills) {
+        super(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address);
 
         this.available = available;
         this.specialistType = specialistType;
-        this.hours = hour.getDays();
-        this.projects = projects;
-        this.skills = userSkills;
+//        this.hours = hours;
+
+//        this.projects = projects;
+//        this.skills = skills;
     }
 
     public int getAvailable() {
@@ -56,37 +56,31 @@ public class Specialist extends User {
         this.specialistType = specialistType;
     }
 
-    public Map<String, Hour> getHours() {
-        return hours;
-    }
-
-    public void setHours(Map<String, Hour> hours) {
-        this.hours = hours;
-    }
-
-    public ArrayList<Project> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(ArrayList<Project> projects) {
-        this.projects = projects;
-    }
-
-    public ArrayList<UserSkill> getSkills() {
-        return skills;
-    }
-
-    public ArrayList<UserSkill> addSkill(UserSkill userSkill) {
-        skills.add(userSkill);
-
-        return skills;
-    }
-
-    public void setSkills(ArrayList<UserSkill> skills) {
-        this.skills = skills;
-    }
+//    public AvailableHour getHours() {
+//        return hours;
+//    }
+//
+//    public void setHours(AvailableHour hours) {
+//        this.hours = hours;
+//    }
+//
+//    public List<Project> getProjects() {
+//        return projects;
+//    }
+//
+//    public void setProjects(List<Project> projects) {
+//        this.projects = projects;
+//    }
+//
+//    public List<UserSkill> getSkills() {
+//        return skills;
+//    }
+//
+//    public void setSkills(List<UserSkill> skills) {
+//        this.skills = skills;
+//    }
 
     public int getUserType() {
-        return userType;
+        return 2;
     }
 }
