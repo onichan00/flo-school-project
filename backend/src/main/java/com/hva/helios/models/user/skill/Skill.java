@@ -10,13 +10,17 @@ import javax.persistence.*;
 public class Skill {
     @Id
     @GeneratedValue
-    private final long id = 0L;
+    private long id = 0L;
     private String name;
 
     protected Skill() {}
 
     public Skill(String name) {
         this.name = name;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getName() {

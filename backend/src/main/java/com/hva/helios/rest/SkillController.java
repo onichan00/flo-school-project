@@ -26,6 +26,11 @@ public class SkillController {
         return skillRepository.save(skill);
     }
 
+    @GetMapping("{id}")
+    public Skill getSkill(@PathVariable int id) {
+        return skillRepository.findById(id);
+    }
+
     @DeleteMapping("{id}")
     public Skill deleteSkill(@PathVariable int id) {
         return skillRepository.deleteById(id);
