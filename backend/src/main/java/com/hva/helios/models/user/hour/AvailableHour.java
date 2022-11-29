@@ -1,5 +1,8 @@
 package com.hva.helios.models.user.hour;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +16,8 @@ public class AvailableHour {
     @Id
     @GeneratedValue
     private long id = 0L;
-    @OneToMany
+
+    @OneToMany(cascade = CascadeType.ALL)
     private Map<String, Hour> days = new HashMap<>();
 
     public AvailableHour() {

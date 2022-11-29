@@ -1,7 +1,10 @@
 package com.hva.helios.repositories.user;
 
+import com.hva.helios.models.Project;
 import com.hva.helios.models.user.Specialist;
+import com.hva.helios.models.user.hour.AvailableHour;
 import com.hva.helios.repositories.EntityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -14,6 +17,9 @@ import java.util.List;
 @Transactional
 public class SpecialistJPARepository
         implements EntityRepository<Specialist> {
+
+    @Autowired
+    private EntityRepository<AvailableHour> availableHourRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -33,6 +39,18 @@ public class SpecialistJPARepository
 
     @Override
     public Specialist save(Specialist entity) {
+        // Try to get the hours already assigned to the specialist
+        AvailableHour availableHour = entity.getHours();
+
+        // If there is no hour assigned to the specialist make new hour
+        if (availableHour == null) {
+            availableHour = new AvailableHour();
+            entity.setHours(availableHour);
+
+            // Insert the new AvailableHour object in the DB
+            availableHourRepository.save(availableHour);
+        }
+
         return entityManager.merge(entity);
     }
 

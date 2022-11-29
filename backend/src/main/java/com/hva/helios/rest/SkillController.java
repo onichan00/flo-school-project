@@ -1,7 +1,8 @@
 package com.hva.helios.rest;
 
 import com.hva.helios.models.user.skill.Skill;
-import com.hva.helios.repositories.SkillRepository;
+import com.hva.helios.repositories.EntityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,16 +13,17 @@ import java.util.List;
 @RestController
 @RequestMapping("skills")
 public class SkillController {
-    final private SkillRepository skillRepository = new SkillRepository();
+    @Autowired
+    private EntityRepository<Skill> skillRepository;
 
     @GetMapping("")
     public List<Skill> getSkills() {
-        return skillRepository.getAll();
+        return skillRepository.findAll();
     }
 
     @PostMapping("")
     public Skill addSkill(@RequestBody Skill skill) {
-        return skillRepository.saveItem(skill);
+        return skillRepository.save(skill);
     }
 
     @DeleteMapping("{id}")

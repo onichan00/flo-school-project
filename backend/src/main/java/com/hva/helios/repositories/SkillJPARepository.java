@@ -1,4 +1,4 @@
-package com.hva.helios.repositories.user;
+package com.hva.helios.repositories;
 
 import com.hva.helios.models.user.skill.Skill;
 import com.hva.helios.repositories.EntityRepository;

@@ -1,5 +1,7 @@
 package com.hva.helios.models.user.hour;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,16 +17,17 @@ public class Hour {
     @GeneratedValue
     private final long id = 0L;
 
-    private String dayLabel;
-    private boolean dayAvailable;
+    @JsonIgnore
+    private String label;
+    private boolean available;
     private String hourStart;
     private String hourEnd;
 
     protected Hour() {}
 
     public Hour(String label, boolean available, String start, String end) {
-        this.dayLabel = label;
-        this.dayAvailable = available;
+        this.label = label;
+        this.available = available;
         this.hourStart = start;
         this.hourEnd = end;
     }
@@ -33,20 +36,20 @@ public class Hour {
         return id;
     }
 
-    public String getDayLabel() {
-        return dayLabel;
+    public String getlabel() {
+        return label;
     }
 
-    public void setDayLabel(String label) {
-        this.dayLabel = label;
+    public void setlabel(String label) {
+        this.label = label;
     }
 
-    public boolean isDayAvailable() {
-        return dayAvailable;
+    public boolean isavailable() {
+        return available;
     }
 
-    public void setDayAvailable(boolean available) {
-        this.dayAvailable = available;
+    public void setavailable(boolean available) {
+        this.available = available;
     }
 
     public String getHourStart() {

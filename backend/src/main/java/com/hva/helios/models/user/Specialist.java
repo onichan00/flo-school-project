@@ -18,11 +18,11 @@ public class Specialist extends User {
     private int available;
     private String specialistType;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    private AvailableHour hours;
+    @OneToOne(cascade = CascadeType.ALL)
+    private AvailableHour hours;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    private List<Project> projects;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Project> projects;
 //
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private List<UserSkill> skills;
@@ -34,7 +34,6 @@ public class Specialist extends User {
 
         this.available = available;
         this.specialistType = specialistType;
-//        this.hours = hours;
 
 //        this.projects = projects;
 //        this.skills = skills;
@@ -56,21 +55,21 @@ public class Specialist extends User {
         this.specialistType = specialistType;
     }
 
-//    public AvailableHour getHours() {
-//        return hours;
-//    }
-//
-//    public void setHours(AvailableHour hours) {
-//        this.hours = hours;
-//    }
-//
-//    public List<Project> getProjects() {
-//        return projects;
-//    }
-//
-//    public void setProjects(List<Project> projects) {
-//        this.projects = projects;
-//    }
+    public AvailableHour getHours() {
+        return hours;
+    }
+
+    public void setHours(AvailableHour hours) {
+        this.hours = hours;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
 //
 //    public List<UserSkill> getSkills() {
 //        return skills;
