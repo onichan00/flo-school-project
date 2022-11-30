@@ -1,7 +1,8 @@
 package com.hva.helios.rest.user;
 
 import com.hva.helios.models.user.Client;
-import com.hva.helios.repositories.user.ClientRepository;
+import com.hva.helios.repositories.EntityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,21 +10,22 @@ import java.util.List;
 @RestController
 @RequestMapping("/users/client")
 public class ClientController {
-    final private ClientRepository clientRepository = new ClientRepository();
+    @Autowired
+    private EntityRepository<Client> clientRepository;
 
     @GetMapping("")
     public List<Client> getAllClients() {
-        return clientRepository.getAll();
+        return clientRepository.findAll();
     }
 
     @GetMapping("{id}")
     public Client getClient(@PathVariable int id) {
-        return clientRepository.getById(id);
+        return clientRepository.findById(id);
     }
 
     @PostMapping("")
     public Client addClient(@RequestBody Client client) {
-        return clientRepository.saveItem(client);
+        return clientRepository.save(client);
     }
 
     @DeleteMapping("{id}")

@@ -1,6 +1,6 @@
 <template>
   <div class="text-left">
-    <div class="flex flex-row justify-between mb-4">
+    <div class="flex flex-row justify-between items-center mb-4">
       <p class="text-2xl">Skills</p>
       <button type="button" @click="openModal"
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
@@ -8,21 +8,10 @@
         Add
       </button>
     </div>
-    <p>{{ selectedSkillsAmount }} skills selected</p>
     <div class="overflow-x-auto relative">
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" class="p-4">
-              <div class="flex items-center">
-                <input id="checkbox-all" type="checkbox"
-                  class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  :indeterminate="selectedSkillsAmount < this.skillsData.length && selectedSkillsAmount !== 0"
-                  :checked="selectedSkillsAmount === this.skillsData.length && selectedSkillsAmount !== 0"
-                  @change="setSelected($event)">
-                <label for="checkbox-all" class="sr-only">checkbox</label>
-              </div>
-            </th>
             <th scope="col" class="py-3 px-6">
               Skill
             </th>
@@ -35,7 +24,7 @@
           </tr>
         </thead>
         <tbody>
-          <SkillItem v-for="(skill, index) in skills" :key="index" :skill="skill" v-on:update:skill="skill=$event" @remove-skill="removeSkill"/>
+          <SkillItem v-for="(skill, index) in skillsData" :key="index" :skill="skill" v-on:update:skill="skill=$event" @remove-skill="removeSkill"/>
         </tbody>
       </table>
     </div>
@@ -72,11 +61,7 @@
                   select a new skill</label>
                 <select id="countries" v-model="selectedSkill.name"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-florijnOrange-100 focus:border-florijnOrange-200 block w-full p-2.5">
-                  <option selected value="">Choose a Skill</option>
-                  <option value="python">Python</option>
-                  <option value="c#">C#</option>
-                  <option value="c++">C++</option>
-                  <option value="rust">Rust</option>
+                  <option v-for="(skill, index) in pickableSkills" :key="index" value="skill.id">{{ skill.name }}</option>
   
                   <!-- <option v-for="(index, skill) in this.skillsData" :key="index" value="{{ skill.name }}">{{ skill.name }}</option> -->
                 </select>
@@ -153,13 +138,13 @@
 </template>
 <script>
 import SkillItem from './skillItem.vue';
-import { Icon } from '@iconify/vue';
 import 'flowbite/dist/flowbite.js';
 import { ref } from 'vue';
+import axios from "axios";
 
 export default {
-  name: "profile-skills",
-  inject: ['skills'],
+  name: 'profile-skills',
+  props: ['availableSkills', 'userSkills'],
   data() {
     return {
       modal: '',
@@ -168,16 +153,21 @@ export default {
         level: 0,
         selected: false
       },
-      skillsData: ref(this.skills)
-      
+      pickableSkills: [],
+      skillsData: [],
     };
   },
+  created() {
+    console.log(this.availableSkills);
+    this.pickableSkills = this.availableSkills;
+  },
   mounted() {
+    this.skillsData = this.userSkills;
+
     const targetEl = document.querySelector("#addSkillModal");
+
     // eslint-disable-next-line no-undef
     this.modal = new Modal(targetEl);
-
-    console.log(this.modal);
   },
   methods: {
     setSelected(e) {
@@ -218,6 +208,22 @@ export default {
     addSkill() {
       console.log(this.selectedSkill);
 
+      const id = this.$route.params.id;
+
+      const requestBody = {
+        id: 2,
+        name: this.selectedSkill.name,
+        level: this.selectedSkill.level
+      }
+
+      // axios.post(`http://localhost:8080/api/users/specialist/${id}/skill`, requestBody)
+      //   .then((res) => {
+      //     console.log(res.data);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   })
+
       this.skillsData.push(this.selectedSkill);
       this.closeModal();
     },
@@ -238,11 +244,6 @@ export default {
 
       return amount;
     },
-    getSkills() {
-      const userID = this.$route.params.id;
-
-      return this.skillsData.filter((element) => element.id === userID);
-    }
   },
   components: { SkillItem }
 }

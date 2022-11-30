@@ -3,32 +3,29 @@ package com.hva.helios.models.user;
 import com.hva.helios.data.RightsData;
 import com.hva.helios.models.User;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.ArrayList;
 
+@Entity
+@Table
 public class Admin extends User {
-    private ArrayList<String> rights;
-    private int userType = 0;
+    @Id
+    @GeneratedValue
+    private final long id = 0L;
 
-    public Admin(int user_id, String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone) {
-        super(user_id, email, password, first_name, second_name, last_name, photo, bio, phone);
+    // TODO - Add a rights system
+//    private ArrayList<String> rights;
 
-        this.rights = new RightsData().getRandomRights(3);
-    }
+    protected Admin() {}
 
-    public Admin(int user_id, String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, ArrayList<String> rights) {
-        super(user_id, email, password, first_name, second_name, last_name, photo, bio, phone);
-        this.rights = rights;
-    }
-
-    public ArrayList<String> getRights() {
-        return rights;
-    }
-
-    public void setRights(ArrayList<String> rights) {
-        this.rights = rights;
+    public Admin(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address) {
+        super(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address);
     }
 
     public int getUserType() {
-        return userType;
+        return 0;
     }
 }

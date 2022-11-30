@@ -3,41 +3,46 @@ package com.hva.helios.models.user;
 import com.hva.helios.models.Project;
 import com.hva.helios.models.User;
 import com.hva.helios.models.user.hour.AvailableHour;
-import com.hva.helios.models.user.hour.Hour;
 import com.hva.helios.models.user.skill.UserSkill;
 
-import java.util.ArrayList;
-import java.util.Map;
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
+@Entity
+@Table
 public class Specialist extends User {
+    @Id
+    @GeneratedValue
+    private long id = 0L;
+
     private int available;
     private String specialistType;
-    private Map<String, Hour> hours;
-    private int userType = 2;
 
-    private ArrayList<Project> projects;
-    private ArrayList<UserSkill> skills;
+    @OneToOne(cascade = CascadeType.ALL)
+    private AvailableHour hours;
 
-    public Specialist(int id, String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, int available, String specialistType, AvailableHour hour) {
-        super(id, email, password, first_name, second_name, last_name, photo, bio, phone);
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Project> projects;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<UserSkill> skills;
+
+    protected Specialist() {}
+
+    public Specialist(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills) {
+        super(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address);
 
         this.available = available;
         this.specialistType = specialistType;
-        this.hours = hour.getDays();
 
-        // Initialize empty arraylist
-        this.projects = new ArrayList<>();
-        this.skills = new ArrayList<>();
+//        this.projects = projects;
+//        this.skills = skills;
     }
 
-    public Specialist(int id, String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, int available, String specialistType, AvailableHour hour, ArrayList<Project> projects, ArrayList<UserSkill> userSkills) {
-        super(id, email, password, first_name, second_name, last_name, photo, bio, phone);
-
-        this.available = available;
-        this.specialistType = specialistType;
-        this.hours = hour.getDays();
-        this.projects = projects;
-        this.skills = userSkills;
+    @Override
+    public long getId() {
+        return id;
     }
 
     public int getAvailable() {
@@ -56,37 +61,57 @@ public class Specialist extends User {
         this.specialistType = specialistType;
     }
 
-    public Map<String, Hour> getHours() {
+    public AvailableHour getHours() {
         return hours;
     }
 
-    public void setHours(Map<String, Hour> hours) {
+    public void setHours(AvailableHour hours) {
         this.hours = hours;
     }
 
-    public ArrayList<Project> getProjects() {
+    public Set<Project> getProjects() {
         return projects;
     }
 
-    public void setProjects(ArrayList<Project> projects) {
+    public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
 
-    public ArrayList<UserSkill> getSkills() {
+    public void addProject(Project project) {
+        projects.add(project);
+        project.getSpecialists().add(this);
+    }
+
+    public void removeProject(long projectId) {
+        Project project = projects.stream().filter(p -> p.getId() == projectId).findFirst().orElse(null);
+
+        if (project != null) {
+            projects.remove(project);
+            project.getSpecialists().remove(this);
+        }
+    }
+
+    public Set<UserSkill> getSkills() {
         return skills;
     }
 
-    public ArrayList<UserSkill> addSkill(UserSkill userSkill) {
-        skills.add(userSkill);
-
-        return skills;
-    }
-
-    public void setSkills(ArrayList<UserSkill> skills) {
+    public void setSkills(Set<UserSkill> skills) {
         this.skills = skills;
     }
 
+    public void addSkill(UserSkill skill) {
+        skills.add(skill);
+    }
+
+    public void removeSkill(long skillId) {
+        UserSkill skill = skills.stream().filter(s -> s.getId() == skillId).findFirst().orElse(null);
+
+        if (skill != null) {
+            skills.remove(skill);
+        }
+    }
+
     public int getUserType() {
-        return userType;
+        return 2;
     }
 }

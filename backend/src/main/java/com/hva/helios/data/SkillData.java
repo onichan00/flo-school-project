@@ -1,7 +1,13 @@
 package com.hva.helios.data;
 
+import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.skill.Skill;
 import com.hva.helios.models.user.skill.UserSkill;
+import com.hva.helios.repositories.EntityRepository;
+import com.hva.helios.repositories.user.SpecialistJPARepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,18 +17,20 @@ public class SkillData {
     Random random = new Random();
     ArrayList<UserSkill> skills;
 
-    Skill skill1 = new Skill(1, "Java");
-    Skill skill2 = new Skill(2, "Dart");
-    Skill skill3 = new Skill(3, "C++");
-    Skill skill4 = new Skill(4, "Python");
+    Skill skill1 = new Skill("Java");
+    Skill skill2 = new Skill("Dart");
+    Skill skill3 = new Skill("C++");
+    Skill skill4 = new Skill("Python");
+    Skill skill5 = new Skill("Typescript");
 
-    UserSkill userSkill1 = new UserSkill(skill1, random.nextInt(6));
-    UserSkill userSkill2 = new UserSkill(skill2, random.nextInt(6));
-    UserSkill userSkill3 = new UserSkill(skill3, random.nextInt(6));
-    UserSkill userSkill4 = new UserSkill(skill4, random.nextInt(6));
+//    UserSkill userSkill1 = new UserSkill(skill1, random.nextInt(5), specialistEntityRepository.findById(26));
+//    UserSkill userSkill2 = new UserSkill(skill2, random.nextInt(5), specialistEntityRepository.findById(26));
+//    UserSkill userSkill3 = new UserSkill(skill3, random.nextInt(5), specialistEntityRepository.findById(26));
+//    UserSkill userSkill4 = new UserSkill(skill4, random.nextInt(5), specialistEntityRepository.findById(26));
+//    UserSkill userSkill5 = new UserSkill(skill5, random.nextInt(5), specialistEntityRepository.findById(26));
 
     public SkillData() {
-        this.skills = new ArrayList<>(List.of(userSkill1, userSkill2, userSkill3, userSkill4));
+//        this.skills = new ArrayList<>(List.of(userSkill1, userSkill2, userSkill3, userSkill4, userSkill5));
     }
 
     public ArrayList<UserSkill> getUserSkills() {
@@ -30,7 +38,7 @@ public class SkillData {
     }
 
     public ArrayList<Skill> getAvailableSkills() {
-        return new ArrayList<>(List.of(skill1, skill2, skill3, skill4));
+        return new ArrayList<>(List.of(skill1, skill2, skill3, skill4, skill5));
     }
 
     public ArrayList<UserSkill> getRandomSkills(int amount) {
