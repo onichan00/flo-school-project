@@ -34,7 +34,8 @@ public class SpecialistData {
             specialistType.get(random.nextInt(specialistType.size())),
             availableHour,
             projectsData.getRandomProjects(2),
-            skillsData.getRandomSkills(3)
+//            skillsData.getRandomSkills(3)
+            null
     );
 
     Specialist specialist2 = new Specialist(
@@ -53,7 +54,8 @@ public class SpecialistData {
             specialistType.get(random.nextInt(specialistType.size())),
             availableHour2,
             projectsData.getRandomProjects(1),
-            skillsData.getRandomSkills(2)
+//            skillsData.getRandomSkills(2)
+            null
     );
 
     public SpecialistData() {

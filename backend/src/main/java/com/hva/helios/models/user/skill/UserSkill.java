@@ -11,7 +11,7 @@ public class UserSkill {
 
     @Id
     @GeneratedValue
-    private final long id = 0L;
+    private long id = 0L;
     private int level;
     @ManyToOne(cascade = CascadeType.ALL)
     private Skill skill;
@@ -21,10 +21,10 @@ public class UserSkill {
 
     protected UserSkill() {}
 
-    public UserSkill(Skill skill, int level) {
-        this.skill = skill;
-        this.level = level;
-    }
+//    public UserSkill(Skill skill, int level) {
+//        this.skill = skill;
+//        this.level = level;
+//    }
 
     public UserSkill(Skill skill, int level, Specialist specialist) {
         this.skill = skill;

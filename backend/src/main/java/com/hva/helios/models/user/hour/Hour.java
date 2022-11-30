@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class Hour {
     @Id
     @GeneratedValue
-    private final long id = 0L;
+    private long id = 0L;
 
     @JsonIgnore
     private String label;

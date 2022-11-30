@@ -9,6 +9,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table
@@ -21,9 +23,9 @@ public class Project {
     private int status;
     private LocalDate created;
 
-//    @ManyToMany
-//    private ArrayList<Specialist> specialists;
-//
+    @ManyToMany
+    private Set<Specialist> specialists;
+
 //    @OneToMany
 //    private ArrayList<UserSkill> skills;
 
@@ -35,9 +37,6 @@ public class Project {
         this.created = created;
 
         // TODO - Add specialists to the backend
-        // Initialize empty arraylist
-//        this.specialists = new ArrayList<>();
-//        this.skills = new SkillData().getRandomSkills(2);
     }
 
     public long getId() {
@@ -70,5 +69,13 @@ public class Project {
 
     public void setCreated(LocalDate created) {
         this.created = created;
+    }
+
+    public Set<Specialist> getSpecialists() {
+        return specialists;
+    }
+
+    public void setSpecialists(Set<Specialist> specialists) {
+        this.specialists = specialists;
     }
 }

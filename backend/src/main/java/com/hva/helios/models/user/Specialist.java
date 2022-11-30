@@ -7,13 +7,14 @@ import com.hva.helios.models.user.skill.UserSkill;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table
 public class Specialist extends User {
     @Id
     @GeneratedValue
-    private final long id = 0L;
+    private long id = 0L;
 
     private int available;
     private String specialistType;
@@ -22,10 +23,10 @@ public class Specialist extends User {
     private AvailableHour hours;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private List<Project> projects;
-//
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<UserSkill> skills;
+    private Set<Project> projects;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<UserSkill> skills;
 
     protected Specialist() {}
 
@@ -37,6 +38,11 @@ public class Specialist extends User {
 
 //        this.projects = projects;
 //        this.skills = skills;
+    }
+
+    @Override
+    public long getId() {
+        return id;
     }
 
     public int getAvailable() {
@@ -63,21 +69,47 @@ public class Specialist extends User {
         this.hours = hours;
     }
 
-    public List<Project> getProjects() {
+    public Set<Project> getProjects() {
         return projects;
     }
 
-    public void setProjects(List<Project> projects) {
+    public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
-//
-//    public List<UserSkill> getSkills() {
-//        return skills;
-//    }
-//
-//    public void setSkills(List<UserSkill> skills) {
-//        this.skills = skills;
-//    }
+
+    public void addProject(Project project) {
+        projects.add(project);
+        project.getSpecialists().add(this);
+    }
+
+    public void removeProject(long projectId) {
+        Project project = projects.stream().filter(p -> p.getId() == projectId).findFirst().orElse(null);
+
+        if (project != null) {
+            projects.remove(project);
+            project.getSpecialists().remove(this);
+        }
+    }
+
+    public Set<UserSkill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<UserSkill> skills) {
+        this.skills = skills;
+    }
+
+    public void addSkill(UserSkill skill) {
+        skills.add(skill);
+    }
+
+    public void removeSkill(long skillId) {
+        UserSkill skill = skills.stream().filter(s -> s.getId() == skillId).findFirst().orElse(null);
+
+        if (skill != null) {
+            skills.remove(skill);
+        }
+    }
 
     public int getUserType() {
         return 2;

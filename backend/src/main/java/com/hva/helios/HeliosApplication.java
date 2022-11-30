@@ -17,7 +17,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @SpringBootApplication
 public class HeliosApplication implements CommandLineRunner {
@@ -36,9 +39,6 @@ public class HeliosApplication implements CommandLineRunner {
 
 	@Autowired
 	private EntityRepository<AvailableHour> availableHourRepo;
-
-	@Autowired
-	private EntityRepository<UserSkill> userSkillRepo;
 
 	@Autowired
 	private EntityRepository<Client> clientRepo;
@@ -91,11 +91,21 @@ public class HeliosApplication implements CommandLineRunner {
 		SpecialistData specialistData = new SpecialistData();
 
 		for (Specialist specialist : specialistData.getSpecialists()) {
-//			availableHourRepo.save(specialist.getHours());
+			Set<UserSkill> userSkills = new HashSet<>(List.of(
+					new UserSkill(skillRepo.findAll().get(0), 1, specialist),
+					new UserSkill(skillRepo.findAll().get(1), 2, specialist),
+					new UserSkill(skillRepo.findAll().get(2), 3, specialist)
+			));
 
-//			for (UserSkill userSkill : specialist.getSkills()) {
-//				userSkillRepo.save(userSkill);
-//			}
+			List<Project> definedProjects = projectRepo.findAll();
+
+			Set<Project> projects = new HashSet<>(List.of(
+					definedProjects.get(0),
+					definedProjects.get(1)
+			));
+
+			specialist.setSkills(userSkills);
+			specialist.setProjects(projects);
 
 			specialistRepo.save(specialist);
 		}
