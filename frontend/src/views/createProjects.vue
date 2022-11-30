@@ -31,13 +31,10 @@
                   Type de naam van een skill
                 </label>
                 <p class="block text-left mb-2 text-sm  text-gray-600">Nuttig voor specialisten</p>
-                <input type="text" id="search" placeholder="Zoek hier de skills" class="w-full bg-gray-50 border border-gray-300 text-gray-900
+                <input type="text" id="search" placeholder="Zoek hier de skills" v-model="searchTerm" class="w-full bg-gray-50 border border-gray-300 text-gray-900
                 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500">
                 <ul v-if="searchCountries.length"
                     class="w-1/4 rounded-lg bg-white border border-gray-300 px-4 py-2 space-y-1 absolute z-10">
-                  <li class="px-1 pt-1 pb-2 font-bold border-b border-gray-200"> Showing {{ searchCountries.length }} of
-                    {{ countries.length }} results
-                  </li>
                   <li v-for="country in searchCountries" :key="country.name" @click="selectCountry(country.name)"
                       class="cursor-pointer hover:bg-orange-100 p-1">
                     {{ country.name }}
@@ -87,12 +84,18 @@
 <script>
 import {ref, computed} from 'vue'
 import countries from '../assets/data/countries.json'
-import axios from "axios";
 
 export default {
   name: "createProjects",
   methods: {
     submitProject() {
+      if (this.name == null) {
+        document.querySelector("#name").className = "bg-gray-50 border border-red-500 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
+      }
+
+      if (this.description == null) {
+        document.querySelector("#description").className = "block p-2.5 w-full text-sm border border-red-500 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"
+      }
     },
   },
   data() {
@@ -116,7 +119,7 @@ export default {
       }
       let matches = 0
       return countries.filter(country => {
-        if (country.name.toLowerCase().includes(searchTerm.value.toLowerCase()) && matches < 4) {
+        if (country.name.toLowerCase().includes(searchTerm.value.toLowerCase()) && matches < 5) {
           matches++
           return country
         }
