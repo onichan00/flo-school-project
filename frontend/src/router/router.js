@@ -7,6 +7,7 @@ import projectSubmissionsDetail from "@/views/admin/project/ProjectSubmissionsDe
 import clientSubmitions from "@/views/admin/client/clientSubmitions";
 import Profile from "@/views/admin/profile";
 import Dashboard from "@/views/admin/dashboard";
+import createProjects from "@/views/createProjects.vue";
 
 // Components
 import SpecialistApplications from "@/components/SpecialistApplications";
@@ -15,7 +16,7 @@ import SpecialistApplicationModal from "@/components/SpecialistApplicationModal"
 export const router = createRouter({
     history: createWebHashHistory(),
     routes: [
-        {path: '/', component: Dashboard},
+        {path: '/', component: createProjects},
         {path: '/profile/:id', name: 'profile', component: Profile},
         {path: '/:pathMatch(.*)', component: UnknownRoute},
         {

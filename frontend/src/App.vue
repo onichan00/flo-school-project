@@ -1,25 +1,28 @@
 <template>
   <!--  <img alt="Vue logo" src="./assets/logo.png">-->
-  <LandingPage v-if="showLandingPage"/>
-  <Login v-if="showLogin"/>
+<!--  <LandingPage v-if="showLandingPage"/>-->
+<!--  <Login v-if="showLogin"/>-->
 
-  <div v-if="!showLandingPage && !showLogin">
-    <Sidebar/>
-    <div :style="{ 'margin-left': sidebarWidth }">
-      <PageHeader/>
-      <router-view/>
-      <Footer></Footer>
-    </div>
-  </div>
+<!--  <div v-if="!showLandingPage && !showLogin">-->
+<!--    <Sidebar/>-->
+<!--    <div :style="{ 'margin-left': sidebarWidth }">-->
+<!--      <PageHeader/>-->
+<!--      <Footer></Footer>-->
+<!--      -->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <CreateProjects></CreateProjects>-->
+  <createProjects></createProjects>
 </template>
 
 <script>
-import Sidebar from "@/components/miscellaneous/sidebar/Sidebar.vue";
-import {sidebarWidth} from '@/components/miscellaneous/sidebar/state.js'
-import PageHeader from "@/components/PageHeader";
-import Footer from "@/components/Footer.vue";
-import LandingPage from "@/views/landingPage";
-import Login from "@/views/Login";
+// import Sidebar from "@/components/miscellaneous/sidebar/Sidebar.vue";
+// import {sidebarWidth} from '@/components/miscellaneous/sidebar/state.js'
+// import PageHeader from "@/components/PageHeader";
+// import Footer from "@/components/Footer.vue";
+// import LandingPage from "@/views/landingPage";
+// import Login from "@/views/Login";
+import createProjects from "@/views/createProjects.vue";
 
 // Models
 import client from "@/models/client";
@@ -38,11 +41,12 @@ import skillsData from "@/assets/data/skills.json";
 export default {
   name: 'App',
   components: {
-    Sidebar,
-    Footer,
-    PageHeader,
-    Login,
-    LandingPage
+    // Sidebar,
+    // Footer,
+    // PageHeader,
+    // Login,
+    // LandingPage
+    createProjects
   },
 
   data() {
@@ -107,9 +111,9 @@ export default {
     })
   },
 
-  setup() {
-    return {sidebarWidth}
-  }
+  // setup() {
+  //   return {sidebarWidth}
+  // }
 }
 </script>
 
