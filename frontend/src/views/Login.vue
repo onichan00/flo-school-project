@@ -38,13 +38,13 @@
                   email</label>
                 <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900
                 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5
-                dark:focus:border-blue-500" placeholder="name@company.com" required="">
+                dark:focus:border-blue-500" placeholder="name@company.com" required="" v-model="email">
               </div>
               <div>
                 <label for="password" class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                 <input type="password" name="password" id="password" placeholder="••••••••"
                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
-                       required="">
+                       required="" v-model="password">
               </div>
               <div class="flex items-center justify-between">
                 <div class="flex items-start">
@@ -61,7 +61,7 @@
                   password?</a>
               </div>
               <button type="submit" class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
-                      style="background-color:#F15922 "> Sign in
+                      style="background-color:#F15922 " @click="loginRequest()"> Sign in
               </button>
             </form>
           </div>
@@ -74,9 +74,62 @@
 </template>
 
 <script>
+import axios from "axios";
+import { useToast } from "vue-toastification";
+
+
 export default {
-  name: "ViewLogin"
+  name: "ViewLogin",
+  data() {
+    return {
+      email: null,
+      password: null,
+      toast: useToast(),
+
+    }
+  },
+
+  methods: {
+    async loginRequest(){
+      let request = await axios.post("http://localhost:8080/api/users/login", {
+        email: this.email,
+        password: this.password,
+      })
+
+      if (request.status == 200 && request.data.id != -1){
+
+        let response = request.data
+        // this.$session.start()
+        // this.$session.set("userId", response.id)
+
+        if (response.admin === true){
+          // this.$session.set("admin", true)
+
+          this.$router.push("/dashboard")
+        }
+        if (response.client === true){
+          // this.$session.set("client", true)
+
+          this.$router.push("/notfound")
+        }
+
+        if (response.specialist === true){
+          // this.$session.set("specialist", true)
+
+          this.$router.push("/notfound")
+        }
+      }else {
+        this.toast.error("email or password are not correct")
+      }
+
+
+
+
+      console.log(request.data)
+    }
+  }
 }
+
 </script>
 
 <style scoped>
