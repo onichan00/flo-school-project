@@ -111,7 +111,4 @@ public class Specialist extends User {
         }
     }
 
-    public int getUserType() {
-        return 2;
-    }
 }

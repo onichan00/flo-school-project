@@ -25,7 +25,7 @@ public class Admin extends User {
         super(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address);
     }
 
-    public int getUserType() {
-        return 0;
+    public Long getUserType() {
+        return 0L;
     }
 }

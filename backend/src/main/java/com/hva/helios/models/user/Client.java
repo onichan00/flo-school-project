@@ -49,7 +49,4 @@ public class Client extends User {
         this.projects = projects;
     }
 
-    public int getUserType() {
-        return 1;
-    }
 }

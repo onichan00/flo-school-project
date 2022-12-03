@@ -1,6 +1,8 @@
 package com.hva.helios.rest;
 
+import com.hva.helios.LoginResponse;
 import com.hva.helios.exceptions.NotFoundException;
+import com.hva.helios.models.LoginBody;
 import com.hva.helios.models.User;
 import com.hva.helios.models.user.Admin;
 import com.hva.helios.models.user.Client;
@@ -68,5 +70,34 @@ public class UserController {
         }
 
         return user;
+    }
+
+
+    @PostMapping("login")
+    public LoginResponse login(@RequestBody LoginBody loginBody) {
+        Specialist specialist = specialistRepository.findByEmail(loginBody.getEmail());
+        Admin admin = adminRepository.findByEmail(loginBody.getEmail());
+        Client client = clientRepository.findByEmail(loginBody.getEmail());
+
+        if (admin != null) {
+            if (admin.getPassword().equals(loginBody.getPassword())) {
+                LoginResponse loginResponse = new LoginResponse(admin.getId(),true,false,false);
+                return loginResponse;
+            }
+        }
+        if (client != null) {
+            if (client.getPassword().equals(loginBody.getPassword())) {
+                LoginResponse loginResponse = new LoginResponse(client.getId(),false,true,false);
+                return loginResponse;
+            }
+        }
+        if (specialist != null) {
+            if (specialist.getPassword().equals(loginBody.getPassword())) {
+
+                LoginResponse loginResponse = new LoginResponse(client.getId(),false,false,true);
+                return loginResponse;
+            }
+        }
+        return  new LoginResponse(-1L,false,false,false);
     }
 }
