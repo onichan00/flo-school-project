@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Admin extends User {
     @Id
     @GeneratedValue
-    private final long id = 0L;
+    private long id = 0L;
 
     // TODO - Add a rights system
 //    private ArrayList<String> rights;
@@ -27,5 +27,15 @@ public class Admin extends User {
 
     public Long getUserType() {
         return 0L;
+    }
+
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
     }
 }
