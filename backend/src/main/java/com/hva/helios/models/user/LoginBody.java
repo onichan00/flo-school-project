@@ -1,4 +1,4 @@
-package com.hva.helios.models;
+package com.hva.helios.models.user;
 
 public class LoginBody {
     private String email;

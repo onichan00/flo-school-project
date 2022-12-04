@@ -1,4 +1,4 @@
-package com.hva.helios;
+package com.hva.helios.models.user;
 
 public class LoginResponse {
     private Long id;

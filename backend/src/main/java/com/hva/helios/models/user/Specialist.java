@@ -39,6 +39,10 @@ public class Specialist extends User {
 //        this.projects = projects;
 //        this.skills = skills;
     }
+    public Specialist(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address){
+        super(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address);
+
+    }
 
     @Override
     public long getId() {
@@ -111,4 +115,8 @@ public class Specialist extends User {
         }
     }
 
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
 }

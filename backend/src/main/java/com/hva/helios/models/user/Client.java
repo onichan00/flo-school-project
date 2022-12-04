@@ -18,7 +18,7 @@ public class Client extends User {
 
     @Id
     @GeneratedValue
-    private final long id = 0L;
+    private long id = 0L;
 
     private String website;
     @ManyToMany
@@ -31,6 +31,11 @@ public class Client extends User {
 
         this.website = website;
 //        this.projects = projects;
+    }
+
+    public Client(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address) {
+        super(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address);
+
     }
 
     public String getWebsite() {
@@ -49,4 +54,13 @@ public class Client extends User {
         this.projects = projects;
     }
 
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
 }
