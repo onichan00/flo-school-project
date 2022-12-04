@@ -4,14 +4,14 @@
   height: 300px'>
     <div class="max-w-6xl m-auto flex flex-row rounded-lg">
       <div class="bg-white h-screen w-1/3 p-3 rounded-lg m-1 shadow-xl">
-        <div class="mb-3">
+        <div class="mb-3 m-3 ">
           <div class="flex flex-row justify-between items-center mb-4">
             <div>
               <h1 class="text-black font-medium text-3xl text-left">Projects</h1>
             </div>
             <div>
               <a href="#" class="p-2 bg-orange-500 text-white rounded-lg">
-                <i class="fa-solid fa-plus"></i> New Project
+                <i class="fa-solid fa-plus"></i> Nieuw project
               </a>
             </div>
 
@@ -32,7 +32,7 @@
                      placeholder="Zoeken" required>
             </div>
             <button type="submit"
-                    class="p-2.5 ml-2 text-sm font-medium text-white bg-orange-500 rounded-lg border border-orange-600 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 ">
+                    class="p-2.5 ml-2 text-sm font-medium text-white bg-orange-500 rounded-lg border border-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 ">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                    xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -43,7 +43,7 @@
           </form>
 
         </div>
-        <div class="text-left mt-1 p-1" v-for="project in projects" :key="project">
+        <div class="text-left mt-1 p-1 m-3" v-for="project in projects" :key="project">
           <div>
             <div class="flex flex-row">
               <div v-if="project.status === 0"><i class="text-red-500 fa-solid fa-circle fa-2xs mx-1"></i></div>
@@ -56,13 +56,35 @@
           </div>
         </div>
       </div>
-      <div class="bg-white h-screen w-2/3 rounded-lg m-1 shadow-xl text-left content-center">
-        <div v-if="true">
-          <img class="" :src="required('.../assets/img/undraw_void_-3-ggu.svg')">
-          <h1>Geen project geselecteerd</h1>
-          <h3>Een project selecteren om alle details te bekijken</h3>
+      <div class="bg-white w-2/3 rounded-lg m-1 shadow-xl text-left m-1 h-screen">
+        <div class="m-auto m-3 p-2" v-if="true">
+          <div>
+            <div class="flex flex-row justify-between">
+              <h1 class="text-4xl font-semibold mb-4">
+                {{ projects[0].name }}
+              </h1>
+              <div>
+                <a href="#" class="p-2 bg-orange-500 text-white rounded-lg">
+                  <i class="fa-solid fa-pen-to-square"></i> Bewerk project
+                </a>
+              </div>
+            </div>
+            <hr>
+            <div>
+              <p class="mb-3 mt-2 font-light text-gray-500 dark:text-gray-400  first-letter:text-7xl first-letter:font-bold first-letter:text-gray-900 dark:first-letter:text-gray-100 first-letter:mr-3 first-letter:float-left">
+                {{ projects[0].description}}
+              </p>
+            </div>
+          </div>
         </div>
-        <div v-else>
+        <div class="m-auto place-items-center" v-else>
+          <div>
+            <img class="h-48 m-auto" :src="require('../assets/img/undraw_void_-3-ggu.svg')">
+          </div>
+          <div>
+            <h1 class="text-2xl font-semibold">Geen project geselecteerd</h1>
+            <h3 class="text-lg">Een project selecteren om alle details te bekijken</h3>
+          </div>
         </div>
       </div>
     </div>
