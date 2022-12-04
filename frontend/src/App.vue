@@ -1,5 +1,5 @@
 <template>
-
+  <ProjectsOverview></ProjectsOverview>
 </template>
 
 <script>
@@ -11,7 +11,7 @@ import specialist from "@/models/specialist";
 import project from "@/models/project";
 import availableHour from "@/models/availableHour";
 import skill from "@/models/skill";
-
+import ProjectsOverview from "@/views/ProjectsOverview.vue";
 // Dummy data
 import clientsData from "@/assets/data/clients.json";
 import projectsData from "@/assets/data/projects.json";
@@ -22,7 +22,7 @@ import skillsData from "@/assets/data/skills.json";
 export default {
   name: 'App',
   components: {
-
+    ProjectsOverview
   },
 
   data() {
