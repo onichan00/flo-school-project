@@ -2,6 +2,7 @@ package com.hva.helios.data;
 
 import com.hva.helios.models.Project;
 import com.hva.helios.models.user.Specialist;
+import com.hva.helios.models.user.skill.Skill;
 import com.hva.helios.models.user.skill.UserSkill;
 
 import java.time.LocalDate;
@@ -13,10 +14,10 @@ public class ProjectData {
     Random random = new Random();
     ArrayList<Project> projects;
 
-    Project project1 = new Project("Project 1", 0, LocalDate.now());
-    Project project2 = new Project("Project 2", 1, LocalDate.now());
-    Project project3 = new Project("Project 3", 0, LocalDate.now());
-    Project project4 = new Project("Project 4", 2, LocalDate.now());
+    Project project1 = new Project("Project 1", 0, LocalDate.now(), "Maajid is een lul");
+    Project project2 = new Project("Project 2", 1, LocalDate.now(), "Maajid is een lul");
+    Project project3 = new Project("Project 3", 0, LocalDate.now(), "Maajid is een lul");
+    Project project4 = new Project("Project 4", 2, LocalDate.now(), "Maajid is een lul");
 
     public ProjectData() {
         this.projects = new ArrayList<>(List.of(project1, project2, project3, project4));

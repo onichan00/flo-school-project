@@ -13,7 +13,9 @@
               <div>
                 <label for="name" class="block text-left mb-2 text-m font-medium text-gray-900 dark:text-white">Geef
                   je project een naam</label>
-                <input type="text" name="name" id="name" v-model="this.name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5" placeholder="Project naam">
+                <input type="text" name="name" id="name" v-model="this.name"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
+                       placeholder="Project naam">
               </div>
               <div>
                 <label for="description" class="block text-left mb-2 text-m font-medium text-gray-900 dark:text-white">Project
@@ -21,8 +23,8 @@
                 <p class="block text-left mb-2 text-sm  text-gray-600">Nuttig voor teams of om onderscheid te maken
                   tussen projecten met vergelijkbare namen</p>
                 <textarea id="description" rows="4" v-model="this.description"
-                  placeholder="Schrijf hier de beschrijving van uw project.."
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
+                          placeholder="Schrijf hier de beschrijving van uw project.."
+                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
                 ></textarea>
               </div>
               <div>
@@ -60,15 +62,8 @@
                     class="w-full object-right rounded-lg font-medium bg-white px-4 py-1.5 text-white disabled:opacity-25 disabled:cursor-not-allowed"
                     style="background-color:#F15922"
                     @click="submitProject"
-                    :disabled="allFilledIn"
+                    :disabled="allFilledIn || this.clicked"
                 > Sla dit project op
-                </button>
-
-                <button
-                    class="w-full object-right rounded-lg font-medium bg-white px-4 py-1.5 text-white disabled:opacity-25 disabled:cursor-not-allowed"
-                    style="background-color:#2244f1"
-                    @click="submitProject"
-                > Kanker de panker
                 </button>
               </div>
             </form>
@@ -83,10 +78,11 @@
         <div class="text-left">
           <h1 class="text-5xl font-semibold">Projecten</h1>
         </div>
-          <p class="text-md font-light">Op deze pagina kunt u uw eigen project aanmaken. U kunt het project een naam
-            en een beschrijving geven, ook kunt u skills opzoeken die specialisten moeten hebben om aan dit project mee
-            te kunnen doen. Als u een project heeft aangemaakt kunt u specialisten vinden die overeenkomen met de skills</p>
-          <img :src="require('../assets/img/undraw_organizing_projects_re_9p1k.svg')" class="mb-6" alt="Project Image">
+        <p class="text-md font-light">Op deze pagina kunt u uw eigen project aanmaken. U kunt het project een naam
+          en een beschrijving geven, ook kunt u skills opzoeken die specialisten moeten hebben om aan dit project mee
+          te kunnen doen. Als u een project heeft aangemaakt kunt u specialisten vinden die overeenkomen met de
+          skills</p>
+        <img :src="require('../assets/img/undraw_organizing_projects_re_9p1k.svg')" class="mb-6" alt="Project Image">
       </div>
     </section>
   </div>
@@ -98,77 +94,76 @@ import {ref, computed} from 'vue'
 import countries from '../assets/data/countries.json'
 import axios from 'axios';
 import skills from "@/components/admin/profile/skills";
+import Toast from "vue-toastification";
+import {useToast} from "vue-toastification";
 
 export default {
   name: "createProjects",
   methods: {
     submitProject() {
-      if (this.name == null) {
-        document.querySelector("#name").className = "bg-gray-50 border border-red-500 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
-        alert("Hoeren")
-      }
-
-      if (this.description == "" || this.description == null) {
-        document.querySelector("#description").className = "block p-2.5 w-full text-sm border border-red-500 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"
-        alert("Kanker")
-      }
+      this.clicked = true;
 
       const requestBody = {
-        name: "Project 69",
-        status: 0,
-        created: "2022-11-29"
+        name: this.name,
+        status: this.status,
+        created: this.date,
+        description: this.description,
+        // TODO Add skills instead of countries
+        skills: this.skills
       }
 
       axios.post('http://localhost:8080/api/projects/', requestBody)
           .then((res) => {
-            console.log(res);
-            // this.name = res.data.name;
+            this.toast.success("Project genaamd: \"" + this.name + "\", is met succes aangemaakt", {
+              position: "bottom-center",
+              timeout: 4000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false
+            });
+            // TODO Redirect to home page
           })
           .catch((error) => {
-            console.log(error)
+            this.toast.error("Er ging wat mis met het aanmaken van dit project", {
+              position: "bottom-center",
+              timeout: 4000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false
+            });
           })
     },
 
     deleteCountry(country) {
       this.skills.filter(skill => skill.id !== ref(country.id));
     },
-
-    submitNewProject() {
-      const requestBody = {
-        name: this.name,
-        status: 0,
-        created: "2022-11-29"
-      }
-
-      axios.post('http://localhost:8080/api/projects/', requestBody)
-          .then((res) => {
-            console.log(res);
-            this.name = res.data.name;
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-    }
-
-
-    // deleteCountry = (country, x) => {
-    //   for (let i = 0; i <selectedCountries.length; i++) {
-    //     if (country == selectedCountries[i]) {
-    //       selectedCountries.splice(i, 1)
-    //       console.log(x)
-    //     }
-    //   }
-    // }
   },
   data() {
     return {
       name: "",
       description: "",
       skills: [],
+      date: new Date(),
+      status: 0,
+      clicked: false
     }
   },
   computed: {
-    getName(){
+    getName() {
       return this.name
     },
     allFilledIn() {
@@ -181,6 +176,8 @@ export default {
     }
   },
   setup() {
+    const toast = useToast();
+
     let selectedCountries = []
     let searchTerm = ref('')
     const searchCountries = computed(() => {
@@ -211,6 +208,7 @@ export default {
       selectCountry,
       selectedCountry,
       selectedCountries,
+      toast
     }
   }
 }
