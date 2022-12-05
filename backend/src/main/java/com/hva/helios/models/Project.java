@@ -22,21 +22,26 @@ public class Project {
     private String name;
     private int status;
     private LocalDate created;
+    private String description;
 
     @ManyToMany
     private Set<Specialist> specialists;
+    @ManyToMany
+    private Set<Specialist> clients;
 
 //    @OneToMany
 //    private ArrayList<UserSkill> skills;
 
     protected Project() {}
 
-    public Project(String name, int status, LocalDate created) {
+    public Project(String name, int status, LocalDate created, String description) {
         this.name = name;
         this.status = status;
         this.created = created;
+        this.description = description;
 
         // TODO - Add specialists to the backend
+
     }
 
     public long getId() {
@@ -77,5 +82,21 @@ public class Project {
 
     public void setSpecialists(Set<Specialist> specialists) {
         this.specialists = specialists;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<Specialist> getClients() {
+        return clients;
+    }
+
+    public void setClients(Set<Specialist> clients) {
+        this.clients = clients;
     }
 }

@@ -28,31 +28,32 @@
               <div class="md:w-2/3">
                 <input
                     class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight outline-orange-500 focus:bg-white focus:border-orange-500"
-                    id="inline-full-name" type="text" placeholder="Choose a placeholder">
+                    id="inline-full-name" type="text" placeholder="Choose a placeholder" v-model="newProjectData.name">
               </div>
             </div>
             <div class="md:flex md:items-center mb-6">
               <div class="md:w-1/3">
-                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-password">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
                   Description
                 </label>
               </div>
               <div class="md:w-2/3">
                 <textarea
                     class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500"
-                    placeholder="Choose a Description"/>
+                    placeholder="Choose a Description" v-model="newProjectData.description"/>
               </div>
             </div>
 
             <div class="md:flex md:items-center mb-6">
               <div class="md:w-1/3">
-                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-password">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
                   Project status
                 </label>
               </div>
               <div class="md:w-2/3">
                 <select id="availableSpecialists"
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500">
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500"
+                        v-model="newProjectData.status">
                   <option selected>In review</option>
                   <option>In progress</option>
                   <option>Done</option>
@@ -63,13 +64,14 @@
 
             <div class="md:flex md:items-center mb-6">
               <div class="md:w-1/3">
-                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-password">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
                   Specialists
                 </label>
               </div>
               <div class="md:w-2/3">
                 <select id="availableSpecialists"
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500">
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500"
+                        v-model="newProjectData.specialists">
                   <option selected>Choose a specialist</option>
                   <option v-for="specialist in availableSpecialists" :key="specialist.id">{{
                       specialistFullName(specialist)
@@ -81,13 +83,14 @@
 
             <div class="md:flex md:items-center mb-6">
               <div class="md:w-1/3">
-                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-password">
+                <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
                   Client
                 </label>
               </div>
               <div class="md:w-2/3">
                 <select id="availableSpecialists"
-                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500">
+                        class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500"
+                        v-model="newProjectData.clients">
                   <option selected>Choose a client</option>
                   <option v-for="client in clients" :key="client.id">{{
                       client.company
@@ -96,7 +99,8 @@
                 </select>
               </div>
             </div>
-            <button class="bg-[#F05822] text-white font-bold py-2 px-4 rounded">
+
+            <button v-on:click="createProject()" class="bg-[#F05822] text-white font-bold py-2 px-4 rounded">
               Create project
             </button>
           </form>
@@ -108,21 +112,44 @@
 
 <script>
 import {specialistFullName} from "@/plugins/textManipulation";
+import axios from "axios";
 
 export default {
   name: "projectCreateNew",
-  inject: ['specialists', 'clients'],
+  inject: ["specialists", "clients"],
+  props: ['projecten'],
 
   data() {
     return {
       availableSpecialists: this.specialists,
-      clients: this.clients
-
+      clients: this.clients,
+      newProjectData: {
+        name: null,
+        status: 0,
+        created: "2022-12-05",
+        specialists: null,
+        clients: null,
+      }
     }
   },
 
   methods: {
     specialistFullName,
+
+    createProject() {
+      const requestBody = JSON.parse(JSON.stringify(this.newProjectData))
+
+
+      console.log(requestBody)
+      axios.post(`http://localhost:8080/api/projects`, requestBody)
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
 
   }
 }
