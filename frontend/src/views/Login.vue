@@ -94,9 +94,12 @@ export default {
       let request = await axios.post("http://localhost:8080/api/users/login", {
         email: this.email,
         password: this.password,
+      }).catch((err) => {
+        console.log(err)
+        this.toast.error("email or password are not correct")
       })
 
-      if (request.status == 200 && request.data.id != -1){
+      if (request.status == 200){
 
         let response = request.data
         // this.$session.start()
@@ -118,14 +121,7 @@ export default {
 
           this.$router.push("/notfound")
         }
-      }else {
-        this.toast.error("email or password are not correct")
       }
-
-
-
-
-      console.log(request.data)
     }
   }
 }

@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table
 public class Skill {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id = 0L;
     private String name;
 

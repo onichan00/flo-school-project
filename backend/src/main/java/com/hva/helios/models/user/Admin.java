@@ -3,17 +3,14 @@ package com.hva.helios.models.user;
 import com.hva.helios.data.RightsData;
 import com.hva.helios.models.User;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 
 @Entity
 @Table
 public class Admin extends User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id = 0L;
 
     // TODO - Add a rights system

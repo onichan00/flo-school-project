@@ -145,6 +145,56 @@
 <script>
 export default {
   name: "RegisterPage"
+
+
+  //TODO hier nog de data uit de fe plukken en sturen naar db
+  /*
+  ,
+  data() {
+    return {
+      email: null,
+      password: null,
+      toast: useToast(),
+
+    }
+  },
+
+  methods: {
+    async loginRequest(){
+      let request = await axios.post("http://localhost:8080/api/users/login", {
+        email: this.email,
+        password: this.password,
+      }).catch((err) => {
+        console.log(err)
+        this.toast.error("email or password are not correct")
+      })
+
+      if (request.status == 200){
+
+        let response = request.data
+        // this.$session.start()
+        // this.$session.set("userId", response.id)
+
+        if (response.admin === true){
+          // this.$session.set("admin", true)
+
+          this.$router.push("/dashboard")
+        }
+        if (response.client === true){
+          // this.$session.set("client", true)
+
+          this.$router.push("/notfound")
+        }
+
+        if (response.specialist === true){
+          // this.$session.set("specialist", true)
+
+          this.$router.push("/notfound")
+        }
+      }
+    }
+  }
+   */
 }
 </script>
 

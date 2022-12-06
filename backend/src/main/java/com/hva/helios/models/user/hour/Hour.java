@@ -2,10 +2,7 @@ package com.hva.helios.models.user.hour;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Class to set the available hours for that day
@@ -14,7 +11,7 @@ import javax.persistence.Table;
 @Table(name = "availalability_hour")
 public class Hour {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id = 0L;
 
     @JsonIgnore
