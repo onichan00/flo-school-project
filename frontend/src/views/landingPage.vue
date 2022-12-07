@@ -32,6 +32,7 @@
           <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
             <li class="flex items-center">
               <button
+                  @click="goToLogin"
                   to="/login"
                   class="bg-white text-gray-800 active:bg-gray-100 text-md font-bold px-4 py-2 rounded-md shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
                   type="button"
@@ -240,12 +241,13 @@
               </p>
             </div>
           </div>
+
           <button
-              to="/dashboard"
               class="bg-white text-gray-800 active:bg-gray-100 text-2xl font-bold mt-16 px-4 py-2 rounded-md shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
               type="button"
-              style="transition: all 0.15s ease 0s;">
-            <i class="fa-solid fa-right-to-bracket"></i> Sign Up or Login
+              style="transition: all 0.15s ease 0s;"
+              @click="goToLogin">
+            <i  class="fa-solid fa-right-to-bracket"></i> Sign Up or Login
           </button>
         </div>
       </section>
@@ -255,7 +257,13 @@
 
 <script>
 export default {
-  name: "ViewLandingPage"
+  name: "ViewLandingPage",
+
+  methods: {
+    goToLogin(){
+      this.$router.push("/login")
+    }
+  }
 }
 </script>
 

@@ -59,7 +59,7 @@
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Profile
             </SidebarLink>
-            <SidebarLink to="/login" icon="fas fa-right-from-bracket"
+            <SidebarLink @click="logout" to="/login" icon="fas fa-right-from-bracket"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Logout
             </SidebarLink>
@@ -84,6 +84,13 @@ export default {
   components: {SidebarLink},
   setup() {
     return {collapsed, toggleSidebar, sidebarWidth}
+  },
+  methods: {
+    logout(){
+      localStorage.clear()
+      this.$router.push("/")
+
+    }
   }
 }
 </script>

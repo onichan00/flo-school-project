@@ -15,7 +15,7 @@
           <img src="../assets/img/undraw_sign_in_re_o58h-2.svg"
                class="mb-6">
           <p class="text-md font-medium mb-3">Wait, don't have an account yet? What are you waiting for? Sign up!</p>
-          <button type="submit" class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-black"> Sign up</button>
+          <button @click="this.$router.push('/register')" type="submit" class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-black"> Sign up</button>
           <br>
           <br>
         </div>
@@ -60,10 +60,11 @@
                 <a href="#" class="text-sm font-semibold hover:underline" style="color: #F15922">Forgot
                   password?</a>
               </div>
-              <button type="submit" class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
-                      style="background-color:#F15922 " @click="loginRequest()"> Sign in
-              </button>
+
             </form>
+            <button class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
+                    style="background-color:#F15922 " @click="loginRequest()"> Sign in
+            </button>
           </div>
         </div>
       </div>
@@ -99,28 +100,29 @@ export default {
         this.toast.error("email or password are not correct")
       })
 
-      if (request.status == 200){
+      if (request.status === 200){
 
         let response = request.data
-        // this.$session.start()
-        // this.$session.set("userId", response.id)
 
-        if (response.admin === true){
-          // this.$session.set("admin", true)
+        localStorage.setItem("id",response.id)
 
-          this.$router.push("/dashboard")
+        if (response.isAdmin === true){
+          localStorage.setItem("isAdmin", "true")
+
+          this.$router.push("/admin")
         }
-        if (response.client === true){
-          // this.$session.set("client", true)
+        if (response.isClient === true){
+          localStorage.setItem("isClient", "true")
 
           this.$router.push("/notfound")
         }
 
-        if (response.specialist === true){
-          // this.$session.set("specialist", true)
+        if (response.isSpecialist === true){
+          localStorage.setItem("isSpecialist", "true")
 
           this.$router.push("/notfound")
         }
+        // location.reload()
       }
     }
   }
