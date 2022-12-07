@@ -1,10 +1,9 @@
 <template>
-  <div class="bottom-rounded" style='
-  background-image: url("https://images.unsplash.com/photo-1557682260-96773eb01377?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2258&q=80");
+  <div style='background-image: linear-gradient(to right, #F15922 , #f17822);
   height: 400px;
   border-radius: 0% 0% 2% 2%;'>
     <div class="max-w-6xl m-auto flex flex-row rounded-lg">
-      <div class="bg-white h-screen w-1/3 p-3 rounded-lg m-1 shadow-xl">
+      <div class="bg-white max-h-fit w-1/4 p-2 rounded-lg m-1 shadow-xl">
         <div class="mb-3 m-2">
           <div class="flex flex-row justify-between items-center mb-1">
             <div>
@@ -46,8 +45,7 @@
             </div>
           </div>
           <div>
-            <h6 class="text-gray-500 mb-4 font-light text-left">{{ projects.length }} projecten, waaronder
-              {{ activeProjects }} actieve projecten
+            <h6 class="text-gray-600 mb-4 font-light text-left">U heeft {{ activeProjects }} actieve projecten
             </h6>
           </div>
           <form class="flex items-center">
@@ -77,12 +75,10 @@
           </form>
         </div>
 
-        <hr>
-
         <div
-            class="text-left rounded-lg p-2 m-3 transition ease-in-out delay-0 bg-white-500 hover:-translate-y-1 hover:scale-110 hover:bg-gray-100 hover:shadow-sm duration-300"
-            v-for="project in projects" :key="project">
-          <div>
+            class="text-left rounded-lg p-2 m-3 cursor-pointer transition ease-in-out delay-0 bg-white-500 hover:-translate-y-1 hover:scale-110 hover:bg-gray-100 hover:shadow-sm duration-300"
+            v-for="(project) in projects" :key="project">
+          <div @click="selectProject(project)">
             <div class="flex flex-row justify-between">
               <div class="flex flex-row mr-2">
 
@@ -120,71 +116,194 @@
                 </div>
               </div>
             </div>
-            <div class="text-gray-500 pb-2" v-if="project.description.length<80"> project.description</div>
-            <div class="text-gray-500 pb-2" v-else>{{ project.description.substring(0, 80) + ".." }}</div>
+            <div id="x" class="text-gray-500 pb-1">{{ project.description }}</div>
+            <!--            <div class="text-gray-500 pb-2" v-else>{{ project.description.substring(0, 60) + ".." }}</div>-->
           </div>
         </div>
       </div>
-      <div class="bg-white w-2/3 rounded-lg m-1 shadow-xl text-left h-screen">
-        <div class="m-auto m-3 p-2" v-if="true">
+
+      <div class="bg-white w-3/4 rounded-lg m-1 text-left h-auto shadow-lg">
+
+        <div class="px-4 py-3" v-show='toggleEdit' v-if="selectedProject" v-bind="selectedProject">
+          <div class="relative  bg-white rounded-lg dark:bg-gray-700">
+            <div class="flex flex-col text-left">
+              <div class="flex items-start pt-2 mb-1 justify-between rounded-t dark:border-gray-600">
+                <h3 class="text-3xl 1 font-medium text-gray-900 dark:text-white">Bewerk dit project</h3>
+                <button @click='toggleEdit = !toggleEdit' type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-3xl text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+              <p class="mb-1 text-md font-normal text-gray-600">Druk op "Enter" om veranderingen op te slaan</p>
+            </div>
+
+            <hr>
+
+            <div class="pt-3 pb-3 flex items-center justify-center w-full">
+              <label for="dropzone-file"
+                     class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor"
+                       viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                  </svg>
+                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Klik om een nieuwe project banner up te uploaden</span>
+                    of drag and drop</p>
+                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">(Dit zal de huidige banner verwijderen)</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG of JPG</p>
+                </div>
+                <input id="dropzone-file" type="file" class="hidden"/>
+              </label>
+            </div>
+
+            <form class="">
+              <div class="mb-6">
+                <label for="name" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Project
+                  naam</label>
+                <input type="text" id="name"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5k:bg-gray-700"
+                       placeholder="Schrijf hier de naam" v-model.lazy="selectedProject.name">
+              </div>
+              <div class="mb-6">
+                <label for="description" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Beschrijving</label>
+                <textarea id="description" rows="4"
+                          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"
+                          placeholder="Schrijf hier de beschrijving..."
+                          v-model.lazy="selectedProject.description"></textarea>
+              </div>
+              <div class="flex flex-row w-full">
+                <div class="w-1/2 mr-1">
+
+                  <h1 class="text-md font-medium text-gray-900 mb-2">Skills</h1>
+                  <form class="flex items-center mb-4">
+                    <label for="simple-search" class="sr-only"></label>
+                    <div class="relative w-full">
+                      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
+                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd"
+                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                      </div>
+                      <input type="text" id="simple-search"
+                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
+                             placeholder="Zoek skill">
+                    </div>
+                  </form>
+
+                </div>
+
+                <div class="w-1/2 ml-1">
+
+                  <label for="countries" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Selecteer
+                    de status van dit project</label>
+                  <select v-model="selectedStatus" id="countries"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
+                    <option selected>Kies de huidige status</option>
+                    <option v-for="status in statusses" :key="{ id: status.id, text: status.name }" @click="changeStatus(selectedProject, status.id)">{{ status.name }}</option>
+                  </select>
+
+                  <v-select :options="statusses" :reduce="id => id.meta.code" label="name" />
+
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="m-auto m-3 p-2" v-if="selectedProject" v-bind="selectedProject" v-show='!toggleEdit'>
           <div>
             <div class="flex flex-row justify-between">
-              <h1 class="text-black text-2xl font-medium">
-                {{ projects[0].name }}
+              <h1 class="text-black text-3xl font-medium">
+                {{ selectedProject.name }}
               </h1>
               <div>
                 <button
-                    class="p-2.5 ml-2 text-sm font-medium text-gray-500 rounded-3xl hover:bg-gray-200"
-                    data-dropdown-toggle="dropdown2">
+                    @click='toggleEdit = !toggleEdit'
+                    class="p-2.5 ml-2 text-sm font-medium text-gray-500 rounded-3xl hover:bg-gray-200">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                        xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                   </svg>
                   <span class="sr-only">Search</span>
                 </button>
-              </div>
-
-              <div id="dropdown2"
-                   class="hidden z-10 text-left w-44 bg-white rounded-lg divide-y divide-gray-100 shadow dark:bg-gray-700">
-                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
-                  <li>
-                    <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit
-                      Project</a>
-                  </li>
-                  <li>
-                    <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
-                  </li>
-                </ul>
               </div>
             </div>
 
             <div class="text-m font-normal mb-3">
               <h1>
-                Aangemaakt op: {{ projects[0].created.toLocaleDateString("nl", this.options) }}
+                Aangemaakt op: {{ selectedProject.created.toLocaleDateString("nl", this.options) }}
               </h1>
               <h1>
                 Projecteigenaar: U
               </h1>
+              <div class="flex flex-row mr-2">
+                <div v-if="selectedProject.status === 0"><h1>Status: <a
+                    class="py-0.0 px-1.5 bg-gradient-to-r from-red-500 to-orange-600 text-white font-medium rounded-2xl">
+                  Geannuleerd</a></h1></div>
+                <div v-else-if="selectedProject.status === 1"><h1>Status: <a
+                    class="py-0.0 px-1.5 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white font-medium rounded-2xl">
+                  Gepauzeerd</a></h1></div>
+                <div v-else><h1>Status: <a
+                    class="py-0.0 px-1.5 bg-gradient-to-r from-green-400 to-green-500 text-white font-medium rounded-2xl">
+                  Actief</a></h1></div>
+              </div>
             </div>
-
             <hr>
             <div>
               <img class="rounded-lg mt-3 m-auto" :src="require('../assets/img/FlorijnBanner.jpeg')"
                    style="display:block; max-height:200px; width: 100%; object-fit: cover">
-              <p class="mb-3 mt-3 font-normal text-gray-600 dark:text-gray-400">
-                {{ projects[0].description }}
+              <h1 class="mt-3 font-medium text-xl text-gray-700">Project beschrijving
+              </h1>
+              <p class="mb-3 font-normal text-gray-600 dark:text-gray-400">
+                {{ selectedProject.description }}
               </p>
+            </div>
+            <div>
+              <h1 class="mt-3 font-medium mb-1 text-xl text-gray-700">Skills
+              </h1>
+              <div>
+                <a class="bg-gray-200 border border-2 border-gray-300 px-2 py-1 rounded-lg">Frikandel Speciaal</a>
+              </div>
+            </div>
+            <div>
+              <h1 class="mt-3 font-medium text-xl text-gray-700">
+                Specialists
+              </h1>
+              <div
+                  class="rounded-lg p-1 flex flex-row w-full cursor-pointer transition ease-in-out delay-0 bg-white-500 hover:-translate-y-1 hover:scale-105 hover:bg-gray-100 hover:shadow-sm duration-300">
+                <div class="flex flex row">
+                  <img class="h-12 rounded-3xl" :src="require('@/assets/img/undraw_male_avatar_re_y880.svg')">
+                  <div class="ml-2">
+                    <div>
+                      <h1 class="text-lg font-medium">Dennis Kanker</h1>
+                    </div>
+                    <div>
+                      <h2 class="text-sm text-black font-thin text-gray-400">Piemelsaus@kanker.aids</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="m-auto place-items-center" v-else>
-          <div>
-            <img class="h-48 m-auto" :src="require('../assets/img/undraw_void_-3-ggu.svg')">
-          </div>
-          <div>
-            <h1 class="text-2xl font-semibold">Geen project geselecteerd</h1>
-            <h3 class="text-lg">Een project selecteren om alle details te bekijken</h3>
+        <div class="place-items-center content-center text-center" v-else>
+          <div class="flex flex-row min-h-screen justify-center rounded-lg items-center shadow-lg">
+            <div>
+              <img class="h-48 m-auto content-center" :src="require('../assets/img/undraw_void_-3-ggu.svg')">
+              <div>
+                <h1 class="text-2xl font-semibold mt-3">Geen project geselecteerd</h1>
+                <h3 class="text-lg">Een project selecteren om alle details te bekijken</h3>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -193,6 +312,8 @@
 </template>
 
 <script>
+
+
 export default {
   name: "ProjectsOverview",
   data() {
@@ -233,13 +354,21 @@ export default {
         {
           id: 1,
           name: "Project Ilias",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elementum, odio id commodo tempor, est velit rhoncus orci, eget dictum magna diam sit amet enim. Phasellus ac ex ullamcorper, condimentum purus vitae, rhoncus sem. Sed imperdiet imperdiet ornare. Nunc sit amet imperdiet erat. Vestibulum eleifend lectus lacinia faucibus pretium. Sed eu tellus ac ex tincidunt ornare. Vivamus non fermentum velit. Donec imperdiet consequat risus, quis vestibulum quam imperdiet ut. Maecenas tempus convallis erat, a suscipit quam condimentum scelerisque. Suspendisse nec nibh pharetra, scelerisque metus eget, eleifend mauris. Phasellus ut neque sed orci rhoncus vehicula. Morbi ipsum mi, suscipit vulputate libero vitae, mattis tempor lorem.",
+          description: "lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul amet imperdiet erat. Vestibulum eleifend lectus lacinia faucibus pretium. Sed eu tellus ac ex tincidunt ornare. Vivamus non fermentum velit. Donec imperdiet consequat risus, quis vestibulum quam imperdiet ut. Maecenas tempus convallis erat, a suscipit quam condimentum scelerisque. Suspendisse nec nibh pharetra, scelerisque metus eget, eleifend mauris. Phasellus ut neque sed orci rhoncus vehicula. Morbi ipsum mi, suscipit vulputate libero vitae, mattis tempor lorem.",
           status: 0,
           created: new Date(),
           skills: [null]
         }
       ],
-      options: { year: 'numeric', month: 'long', day: 'numeric' }
+      options: {year: 'numeric', month: 'long', day: 'numeric'},
+      selectedProject: null,
+      toggleEdit: false,
+      statusses: [
+        {id: 0, name: 'Geannuleerd'},
+        {id: 1, name: 'Gepauzeerd'},
+        {id: 2, name: 'Actief'}
+      ],
+      selectedStatus: null
     }
   },
   computed: {
@@ -252,13 +381,25 @@ export default {
     }
   },
   methods: {
-    dateFormatter(date){
-
+    selectProject(element) {
+      if (element === this.selectedProject) {
+        return null;
+      }
+      this.selectedProject = element;
+    },
+    changeStatus(project, statusId) {
+      project.status =  statusId;
     }
   }
 }
 </script>
 
 <style scoped>
+#x {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 
 </style>
