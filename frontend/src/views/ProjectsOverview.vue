@@ -1,9 +1,17 @@
 <template>
+
+<!--  Full Page-->
   <div style='background-image: linear-gradient(to right, #F15922 , #f17822);
   height: 400px;
   border-radius: 0% 0% 2% 2%;'>
+
+<!--    Two Columns-->
     <div class="max-w-6xl m-auto flex flex-row rounded-lg">
-      <div class="bg-white max-h-fit w-1/4 p-2 rounded-lg m-1 shadow-xl">
+
+<!--      Projects Section-->
+      <div class="bg-white max-h-screen w-1/4 p-2 rounded-lg m-1 shadow-lg overflow-y">
+
+<!--        Project Header-->
         <div class="mb-3 m-2">
           <div class="flex flex-row justify-between items-center mb-1">
             <div>
@@ -75,56 +83,58 @@
           </form>
         </div>
 
-        <div
-            class="text-left rounded-lg p-2 m-3 cursor-pointer transition ease-in-out delay-0 bg-white-500 hover:-translate-y-1 hover:scale-110 hover:bg-gray-100 hover:shadow-sm duration-300"
-            v-for="(project) in projects" :key="project">
-          <div @click="selectProject(project)">
-            <div class="flex flex-row justify-between">
-              <div class="flex flex-row mr-2">
+        <div class="overflow-y-scroll max-h-full">
+          <div
+              class="text-left rounded-lg p-2 m-3 cursor-pointer transition ease-in-out delay-0 bg-white-500 hover:-translate-y-1 hover:scale-110 hover:bg-gray-100 hover:shadow-sm duration-300"
+              v-for="(project) in projects" :key="project">
+            <div @click="selectProject(project)">
+              <div class="flex flex-row justify-between">
+                <div class="flex flex-row mr-2">
 
-                <div v-if="project.status === 0"><i class="text-red-500 fa-solid fa-circle fa-2xs mx-1 mr-2"></i></div>
-                <div v-else-if="project.status === 1"><i
-                    class="text-yellow-300 fa-solid fa-2xs fa-circle mx-1 mr-2"></i></div>
-                <div v-else><i class="text-green-500 fa-solid fa-circle fa-2xs mx-1 mr-2"></i></div>
-                <h1 class="font-medium text-lg">{{ project.name }}</h1>
+                  <div v-if="project.status === 0"><i class="text-red-500 fa-solid fa-circle fa-2xs mx-1 mr-2"></i></div>
+                  <div v-else-if="project.status === 1"><i
+                      class="text-yellow-300 fa-solid fa-2xs fa-circle mx-1 mr-2"></i></div>
+                  <div v-else><i class="text-green-500 fa-solid fa-circle fa-2xs mx-1 mr-2"></i></div>
+                  <h1 class="font-medium text-lg">{{ project.name }}</h1>
 
-              </div>
-              <div>
-                <button
-                    class="p-1.5 text-sm font-medium text-gray-500 rounded-3xl hover:bg-gray-200"
-                    data-dropdown-toggle="dropdown">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-                  </svg>
-                  <span class="sr-only">Search</span>
-                </button>
-                <div id="dropdown"
-                     class="hidden z-10 text-left w-44 bg-white rounded-lg divide-y divide-gray-100 shadow dark:bg-gray-700">
-                  <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
-                    <li>
-                      <a href="#"
-                         class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit
-                        Project</a>
-                    </li>
-                    <li>
-                      <a href="#"
-                         class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
-                    </li>
-                  </ul>
+                </div>
+                <div>
+                  <button
+                      class="p-1.5 text-sm font-medium text-gray-500 rounded-3xl hover:bg-gray-200"
+                      data-dropdown-toggle="dropdown">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                    </svg>
+                    <span class="sr-only">Search</span>
+                  </button>
+                  <div id="dropdown"
+                       class="hidden z-10 text-left w-44 bg-white rounded-lg divide-y divide-gray-100 shadow dark:bg-gray-700">
+                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+                      <li>
+                        <a href="#"
+                           class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit
+                          Project</a>
+                      </li>
+                      <li>
+                        <a href="#"
+                           class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
+              <div id="x" class="text-gray-500 pb-1">{{ project.description }}</div>
             </div>
-            <div id="x" class="text-gray-500 pb-1">{{ project.description }}</div>
-            <!--            <div class="text-gray-500 pb-2" v-else>{{ project.description.substring(0, 60) + ".." }}</div>-->
           </div>
+
         </div>
       </div>
 
-      <div class="bg-white w-3/4 rounded-lg m-1 text-left h-auto shadow-lg">
+      <div class="bg-white w-3/4 rounded-lg m-1 text-left max-h-fit shadow-lg">
 
-        <div class="px-4 py-3" v-show='toggleEdit' v-if="selectedProject" v-bind="selectedProject">
+        <div class="px-4 py-3 h-auto" v-show='toggleEdit' v-if="selectedProject" v-bind="selectedProject">
           <div class="relative  bg-white rounded-lg dark:bg-gray-700">
             <div class="flex flex-col text-left">
               <div class="flex items-start pt-2 mb-1 justify-between rounded-t dark:border-gray-600">
@@ -161,7 +171,7 @@
               </label>
             </div>
 
-            <form class="">
+            <form class="h-fit">
               <div class="mb-6">
                 <label for="name" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Project
                   naam</label>
@@ -172,7 +182,7 @@
               <div class="mb-6">
                 <label for="description" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Beschrijving</label>
                 <textarea id="description" rows="4"
-                          class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"
+                          class="block p-2.5 w-full h-96 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"
                           placeholder="Schrijf hier de beschrijving..."
                           v-model.lazy="selectedProject.description"></textarea>
               </div>
@@ -208,17 +218,13 @@
                     <option selected>Kies de huidige status</option>
                     <option v-for="status in statusses" :key="{ id: status.id, text: status.name }" @click="changeStatus(selectedProject, status.id)">{{ status.name }}</option>
                   </select>
-
-                  <v-select :options="statusses" :reduce="id => id.meta.code" label="name" />
-
                 </div>
-
               </div>
             </form>
           </div>
         </div>
 
-        <div class="m-auto m-3 p-2" v-if="selectedProject" v-bind="selectedProject" v-show='!toggleEdit'>
+        <div class="overflow-y-scroll m-auto m-3 p-2" v-if="selectedProject" v-bind="selectedProject" v-show='!toggleEdit'>
           <div>
             <div class="flex flex-row justify-between">
               <h1 class="text-black text-3xl font-medium">
@@ -240,7 +246,7 @@
 
             <div class="text-m font-normal mb-3">
               <h1>
-                Aangemaakt op: {{ selectedProject.created.toLocaleDateString("nl", this.options) }}
+                Aangemaakt op: {{ this.dateFormatter(selectedProject.created) }}
               </h1>
               <h1>
                 Projecteigenaar: U
@@ -270,9 +276,9 @@
             <div>
               <h1 class="mt-3 font-medium mb-1 text-xl text-gray-700">Skills
               </h1>
-              <div>
-                <a class="bg-gray-200 border border-2 border-gray-300 px-2 py-1 rounded-lg">Frikandel Speciaal</a>
-              </div>
+<!--              <div>-->
+<!--                <a class="bg-gray-200 border border-2 border-gray-300 px-2 py-1 rounded-lg">Frikandel Speciaal</a>-->
+<!--              </div>-->
             </div>
             <div>
               <h1 class="mt-3 font-medium text-xl text-gray-700">
@@ -281,22 +287,42 @@
               <div
                   class="rounded-lg p-1 flex flex-row w-full cursor-pointer transition ease-in-out delay-0 bg-white-500 hover:-translate-y-1 hover:scale-105 hover:bg-gray-100 hover:shadow-sm duration-300">
                 <div class="flex flex row">
-                  <img class="h-12 rounded-3xl" :src="require('@/assets/img/undraw_male_avatar_re_y880.svg')">
-                  <div class="ml-2">
-                    <div>
-                      <h1 class="text-lg font-medium">Dennis Kanker</h1>
-                    </div>
-                    <div>
-                      <h2 class="text-sm text-black font-thin text-gray-400">Piemelsaus@kanker.aids</h2>
-                    </div>
+<!--                  <img class="h-12 rounded-3xl" :src="require('@/assets/img/undraw_male_avatar_re_y880.svg')">-->
+<!--                  <div class="ml-2">-->
+<!--                    <div>-->
+<!--                      <h1 class="text-lg font-medium">Dennis Kanker</h1>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                      <h2 class="text-sm text-black font-thin text-gray-400">Piemelsaus@kanker.aids</h2>-->
+<!--                    </div>-->
+<!--                  </div>-->
+                </div>
+              </div>
+            </div>
+            <div>
+              <h1 class="mt-3 font-medium text-xl text-gray-700">
+                Aankondigingen
+              </h1>
+              <div class="pt-3 pb-3 flex items-center flex-column justify-center w-full">
+                <div class="flex flex-col items-center justify-center w-full h-64 border-1 border-gray-300 rounded-lg  bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
                   </div>
                 </div>
               </div>
             </div>
+            <form>
+              <label class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Plaats aankondiging</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>                </div>
+                <input type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-orange-500 focus:border-orange-500 " placeholder="Plaats een aankondiging voor de specialisten van dit project">
+                <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg text-sm px-4 py-2 ">Plaats</button>
+              </div>
+            </form>
           </div>
         </div>
         <div class="place-items-center content-center text-center" v-else>
-          <div class="flex flex-row min-h-screen justify-center rounded-lg items-center shadow-lg">
+          <div class="flex flex-row min-h-screen justify-center rounded-lg items-center">
             <div>
               <img class="h-48 m-auto content-center" :src="require('../assets/img/undraw_void_-3-ggu.svg')">
               <div>
@@ -312,54 +338,13 @@
 </template>
 
 <script>
-
+import axios from 'axios';
 
 export default {
   name: "ProjectsOverview",
   data() {
     return {
-      projects: [
-        {
-          id: 1,
-          name: "Project Dennis",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elementum, odio id commodo tempor, est velit rhoncus orci, eget dictum magna diam sit amet enim. Phasellus ac ex ullamcorper, condimentum purus vitae, rhoncus sem. Sed imperdiet imperdiet ornare. Nunc sit amet imperdiet erat. Vestibulum eleifend lectus lacinia faucibus pretium. Sed eu tellus ac ex tincidunt ornare. Vivamus non fermentum velit. Donec imperdiet consequat risus, quis vestibulum quam imperdiet ut. Maecenas tempus convallis erat, a suscipit quam condimentum scelerisque. Suspendisse nec nibh pharetra, scelerisque metus eget, eleifend mauris. Phasellus ut neque sed orci rhoncus vehicula. Morbi ipsum mi, suscipit vulputate libero vitae, mattis tempor lorem.",
-          status: 0,
-          created: new Date(),
-          skills: [null]
-        },
-        {
-          id: 1,
-          name: "Project Simon",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elementum, odio id commodo tempor, est velit rhoncus orci, eget dictum magna diam sit amet enim. Phasellus ac ex ullamcorper, condimentum purus vitae, rhoncus sem. Sed imperdiet imperdiet ornare. Nunc sit amet imperdiet erat. Vestibulum eleifend lectus lacinia faucibus pretium. Sed eu tellus ac ex tincidunt ornare. Vivamus non fermentum velit. Donec imperdiet consequat risus, quis vestibulum quam imperdiet ut. Maecenas tempus convallis erat, a suscipit quam condimentum scelerisque. Suspendisse nec nibh pharetra, scelerisque metus eget, eleifend mauris. Phasellus ut neque sed orci rhoncus vehicula. Morbi ipsum mi, suscipit vulputate libero vitae, mattis tempor lorem.",
-          status: 1,
-          created: new Date(),
-          skills: [null]
-        },
-        {
-          id: 1,
-          name: "Project Maajid",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elementum, odio id commodo tempor, est velit rhoncus orci, eget dictum magna diam sit amet enim. Phasellus ac ex ullamcorper, condimentum purus vitae, rhoncus sem. Sed imperdiet imperdiet ornare. Nunc sit amet imperdiet erat. Vestibulum eleifend lectus lacinia faucibus pretium. Sed eu tellus ac ex tincidunt ornare. Vivamus non fermentum velit. Donec imperdiet consequat risus, quis vestibulum quam imperdiet ut. Maecenas tempus convallis erat, a suscipit quam condimentum scelerisque. Suspendisse nec nibh pharetra, scelerisque metus eget, eleifend mauris. Phasellus ut neque sed orci rhoncus vehicula. Morbi ipsum mi, suscipit vulputate libero vitae, mattis tempor lorem.",
-          status: 2,
-          created: new Date(),
-          skills: [null]
-        },
-        {
-          id: 1,
-          name: "Project Frank",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elementum, odio id commodo tempor, est velit rhoncus orci, eget dictum magna diam sit amet enim. Phasellus ac ex ullamcorper, condimentum purus vitae, rhoncus sem. Sed imperdiet imperdiet ornare. Nunc sit amet imperdiet erat. Vestibulum eleifend lectus lacinia faucibus pretium. Sed eu tellus ac ex tincidunt ornare. Vivamus non fermentum velit. Donec imperdiet consequat risus, quis vestibulum quam imperdiet ut. Maecenas tempus convallis erat, a suscipit quam condimentum scelerisque. Suspendisse nec nibh pharetra, scelerisque metus eget, eleifend mauris. Phasellus ut neque sed orci rhoncus vehicula. Morbi ipsum mi, suscipit vulputate libero vitae, mattis tempor lorem.",
-          status: 2,
-          created: new Date(),
-          skills: [null]
-        },
-        {
-          id: 1,
-          name: "Project Ilias",
-          description: "lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul lul amet imperdiet erat. Vestibulum eleifend lectus lacinia faucibus pretium. Sed eu tellus ac ex tincidunt ornare. Vivamus non fermentum velit. Donec imperdiet consequat risus, quis vestibulum quam imperdiet ut. Maecenas tempus convallis erat, a suscipit quam condimentum scelerisque. Suspendisse nec nibh pharetra, scelerisque metus eget, eleifend mauris. Phasellus ut neque sed orci rhoncus vehicula. Morbi ipsum mi, suscipit vulputate libero vitae, mattis tempor lorem.",
-          status: 0,
-          created: new Date(),
-          skills: [null]
-        }
-      ],
+      projects: this.getProjects,
       options: {year: 'numeric', month: 'long', day: 'numeric'},
       selectedProject: null,
       toggleEdit: false,
@@ -380,26 +365,80 @@ export default {
       return count;
     }
   },
+  created() {
+    // this.getProjectData();
+    this.getProjects();
+  },
   methods: {
+    dateFormatter(date) {
+      const formatDate = new Date(date)
+      const yyyy = formatDate.getFullYear();
+      let mm = formatDate.toLocaleString('default', { month: 'long' }); // Months start at 0!
+      let dd = formatDate.getDate();
+
+      const formattedDate = dd + ' ' + mm + ' ' + yyyy;
+      return formattedDate;
+    },
     selectProject(element) {
+      console.log(element)
       if (element === this.selectedProject) {
         return null;
       }
       this.selectedProject = element;
     },
+
     changeStatus(project, statusId) {
       project.status =  statusId;
-    }
+    },
+
+    getProjectData() {
+      const id = this.$route.params.id;
+
+      axios.get(`http://localhost:8080/api/projects/${id}`)
+          .then((res) => {
+
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
+    getProjects() {
+      axios.get(`http://localhost:8080/api/projects`)
+          .then((res) => {
+            this.projects = res.data;
+            console.log(this.projects)
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
   }
 }
 </script>
 
 <style scoped>
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
+}
+
 #x {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
-
-
 </style>
