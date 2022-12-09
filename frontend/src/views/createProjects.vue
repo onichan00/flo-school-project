@@ -6,7 +6,7 @@
         <div class="w-full bg-white rounded-lg md:mt-0 sm:max-w-xl xl:p-0">
           <h1 href="#" class="text-3xl text-orange-500 font-bold text-left mb-7"> FLORIJN</h1>
           <h1 class="flex text-left items-center mb-6 text-4xl font-semibold text-gray-900 dark:text-white">
-            Creeër Project
+            Vraag een project aan
           </h1>
           <div class="mt-10 space-y-5">
             <form class="space-y-4 md:space-y-6" action="#">
