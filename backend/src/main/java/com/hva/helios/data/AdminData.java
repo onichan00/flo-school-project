@@ -12,7 +12,7 @@ public class AdminData {
     ArrayList<Admin> admins;
 
     Admin admin1 = new Admin(
-        "m.n.groen@hva.nl",
+        "m.n.groen1@hva.nl",
         "password123",
         "maarten",
         "",
@@ -26,7 +26,7 @@ public class AdminData {
     );
 
     Admin admin2 = new Admin(
-            "m.n.groen@hva.nl",
+            "m.b.groen@hva.nl",
             "password123",
             "marcio",
             "",

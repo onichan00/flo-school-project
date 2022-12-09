@@ -16,6 +16,8 @@ public interface EntityRepository<E> {
      */
     E findById(long id);
 
+    E findByEmail(String email);
+
     /**
      * Method to save an entity to the DB
      * @param entity Entity to save

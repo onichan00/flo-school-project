@@ -33,6 +33,18 @@ public class ClientJPARepository
     }
 
     @Override
+    public Client findByEmail(String email) {
+        TypedQuery<Client> query =
+                entityManager.createQuery("SELECT client from Client client",Client.class);
+        for (Client client : query.getResultList()){
+            if (client.getEmail().equals(email)){
+                return client;
+            };
+        };
+        return null;
+    }
+
+    @Override
     public Client save(Client entity) {
         return entityManager.merge(entity);
     }
