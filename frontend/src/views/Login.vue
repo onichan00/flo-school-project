@@ -12,7 +12,7 @@
           <p class="text-md font-light">Because with Florijn, you can be sure you'll get it right. Whatever your
             question is. We are especially good at building Business Tools, which can be large or small, simple or
             complex. As long as your business process benefits from it. Because that's what we look at first.</p>
-          <img src="../assets/img/undraw_sign_in_re_o58h-2.svg"
+          <img :src="require('../assets/img/undraw_sign_in_re_o58h-2.svg')"
                class="mb-6">
           <p class="text-md font-medium mb-3">Wait, don't have an account yet? What are you waiting for? Sign up!</p>
           <button type="submit" class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-black"> Sign up</button>
