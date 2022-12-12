@@ -1,5 +1,21 @@
 <template>
-  <ProjectsOverview></ProjectsOverview>
+  <!--  <img alt="Vue logo" src="./assets/logo.png">-->
+<!--  <LandingPage v-if="showLandingPage"/>-->
+<!--  <Login v-if="showLogin"/>-->
+<!--  <RegisterPage v-if="showRegister"/>-->
+  <div v-if="this.loginStatus === false">
+    <router-view/>
+  </div>
+
+  <div v-show="this.loginStatus === true">
+    <Sidebar/>
+    <div :style="{ 'margin-left': sidebarWidth }">
+      <PageHeader/>
+      <router-view/>
+
+      <Footer></Footer>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -18,11 +34,17 @@ import projectsData from "@/assets/data/projects.json";
 import specialistsData from "@/assets/data/specialists.json";
 import availableHoursData from "@/assets/data/availableHours.json";
 import skillsData from "@/assets/data/skills.json";
+import RegisterPage from "@/views/RegisterPage";
 
 export default {
   name: 'App',
   components: {
-    ProjectsOverview
+    // RegisterPage,
+    Sidebar,
+    Footer,
+    PageHeader,
+    // Login,
+    // LandingPage
   },
 
   data() {
@@ -31,11 +53,20 @@ export default {
       projects: [],
       clients: [],
       availableHours: [],
-      skills: []
+      skills: [],
+      loginStatus: false,
     }
+  },
+  mounted() {
+      if (localStorage.getItem("id") != null){
+
+        console.log("test")
+        this.loginStatus = true;
+      }else return false
   },
 
   computed: {
+
     showLandingPage() {
       if (this.$route.path == "/landing-page") {
         return true
@@ -46,6 +77,14 @@ export default {
 
     showLogin() {
       if (this.$route.path == "/login") {
+        return true
+      } else {
+        return false
+      }
+    },
+
+    showRegister() {
+      if (this.$route.path == "/register") {
         return true
       } else {
         return false

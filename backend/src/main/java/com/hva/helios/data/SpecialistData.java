@@ -19,7 +19,7 @@ public class SpecialistData {
     ArrayList<String> specialistType = new ArrayList<>(List.of("mobile", "frontend", "backend", "desktop", "security", "devOps"));
 
     Specialist specialist1 = new Specialist(
-            "dennis.moes2@hva.nl",
+            "dennis.moes3@hva.nl",
             "password123",
             "dennis",
             "Cornelis",

@@ -33,6 +33,11 @@ public class ProjectJPARepository
     }
 
     @Override
+    public Project findByEmail(String email) {
+        return null;
+    }
+
+    @Override
     public Project save(Project entity) {
         return entityManager.merge(entity);
     }

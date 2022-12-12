@@ -32,6 +32,11 @@ public class HourJPARepository
     }
 
     @Override
+    public Hour findByEmail(String email) {
+        return null;
+    }
+
+    @Override
     public Hour save(Hour entity) {
         return entityManager.merge(entity);
     }
