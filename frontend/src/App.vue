@@ -36,6 +36,7 @@ import projectsData from "@/assets/data/projects.json";
 import specialistsData from "@/assets/data/specialists.json";
 import availableHoursData from "@/assets/data/availableHours.json";
 import skillsData from "@/assets/data/skills.json";
+import ClientHomePage from "@/views/ClientHomePage.vue";
 
 export default {
   name: 'App',

@@ -36,7 +36,6 @@ public class ProjectController {
                     HttpStatus.NOT_FOUND, "Project not found"
             );
         }
-
         return projectRepository.findById(id);
     }
 
