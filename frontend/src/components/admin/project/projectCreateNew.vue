@@ -73,7 +73,8 @@
                         class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500"
                         v-model="newProjectData.specialists">
                   <option selected>Choose a specialist</option>
-                  <option v-for="specialist in availableSpecialists" :key="specialist.id">{{
+                  <option v-for="specialist in availableSpecialists" :key="specialist.id">
+                    {{
                       specialistFullName(specialist)
                     }}
                   </option>
@@ -100,7 +101,8 @@
               </div>
             </div>
 
-            <button v-on:click="createProject()" class="bg-[#F05822] text-white font-bold py-2 px-4 rounded">
+            <button data-modal-toggle="projectCreate-modal" v-on:click="createProject()"
+                    class="bg-[#F05822] text-white font-bold py-2 px-4 rounded">
               Create project
             </button>
           </form>
@@ -108,10 +110,12 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
 import {specialistFullName} from "@/plugins/textManipulation";
+import {useToast} from "vue-toastification";
 import axios from "axios";
 
 export default {
@@ -129,27 +133,53 @@ export default {
         created: "2022-12-05",
         specialists: null,
         clients: null,
-      }
+      },
+      statusses: [
+        {id: 0, name: 'Not started'},
+        {id: 1, name: 'Working'},
+        {id: 2, name: 'Finished'}
+      ],
+      selectedStatus: null
     }
   },
+
 
   methods: {
     specialistFullName,
 
+
     createProject() {
-      const requestBody = JSON.parse(JSON.stringify(this.newProjectData))
+      // const requestBody = JSON.parse(JSON.stringify(this.newProjectData))
+
+      // const modal = document.getElementById("projectCreate-modal")
 
 
-      console.log(requestBody)
-      axios.post(`http://localhost:8080/api/projects`, requestBody)
+      const requestBody = {
+        status: 0,
+        created: "2022-12-05",
+        specialists: null,
+        clients: null,
+        name: this.newProjectData.name,
+        description: this.newProjectData.description,
+      }
+      console.log(this.newProjectData.status)
+      console.log(JSON.stringify(requestBody))
+      axios.post('http://localhost:8080/api/projects/', requestBody)
           .then((res) => {
-            console.log(res.data);
+            console.log(res)
           })
-          .catch((err) => {
-            console.log(err);
+          .catch((error) => {
+            console.log(error)
           })
+      this.getProjects();
     },
 
+    setup() {
+      const toast = useToast();
+      return {
+        toast
+      }
+    },
 
   }
 }

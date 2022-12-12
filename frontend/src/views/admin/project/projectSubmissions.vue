@@ -9,7 +9,7 @@
         <div class="w-full">
           <div class="w-full mb-4">
             <div class="flex flex-row justify-between mt-4">
-              <p class="text-left text-1xl font-medium mb-4">New submissions</p>
+              <p class="text-left text-1xl font-medium mb-4">Client new submissions</p>
               <button data-modal-toggle="projectCreate-modal" class="bg-[#F05822] text-white font-bold rounded px-3">
                 New project
               </button>
@@ -69,7 +69,8 @@ export default {
       selectedData: null,
       projecten: null,
       show: false,
-      newProjectData: null
+      newProjectData: null,
+
     }
   },
 
@@ -78,10 +79,10 @@ export default {
   },
 
   methods: {
-    getProjects() {
+    async getProjects() {
       const id = this.$route.params.id;
 
-      axios.get(`http://localhost:8080/api/projects`)
+      await axios.get(`http://localhost:8080/api/projects`)
           .then((res) => {
             this.projecten = res.data;
             console.log(this.projecten)
