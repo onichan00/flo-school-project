@@ -19,12 +19,7 @@
 </template>
 
 <script>
-import Sidebar from "@/components/miscellaneous/sidebar/Sidebar.vue";
 import {sidebarWidth} from '@/components/miscellaneous/sidebar/state.js'
-import PageHeader from "@/components/PageHeader";
-import Footer from "@/components/Footer.vue";
-import LandingPage from "@/views/landingPage";
-import Login from "@/views/Login";
 
 // Models
 import client from "@/models/client";
@@ -32,7 +27,7 @@ import specialist from "@/models/specialist";
 import project from "@/models/project";
 import availableHour from "@/models/availableHour";
 import skill from "@/models/skill";
-
+import ProjectsOverview from "@/views/ProjectsOverview.vue";
 // Dummy data
 import clientsData from "@/assets/data/clients.json";
 import projectsData from "@/assets/data/projects.json";
