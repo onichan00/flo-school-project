@@ -20,10 +20,10 @@
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Dashboard
             </SidebarLink>
-            <SidebarLink to="/notifications" icon="fas fa-bell"
+<!--            <SidebarLink to="/notifications" icon="fas fa-bell"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Notifications
-            </SidebarLink>
+            </SidebarLink>-->
             <SidebarLink to="/specialists" icon="fas fa-code"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Specialists

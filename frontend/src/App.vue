@@ -1,8 +1,8 @@
 <template>
   <!--  <img alt="Vue logo" src="./assets/logo.png">-->
-<!--  <LandingPage v-if="showLandingPage"/>-->
-<!--  <Login v-if="showLogin"/>-->
-<!--  <RegisterPage v-if="showRegister"/>-->
+  <!--  <LandingPage v-if="showLandingPage"/>-->
+  <!--  <Login v-if="showLogin"/>-->
+  <!--  <RegisterPage v-if="showRegister"/>-->
   <div v-if="this.loginStatus === false">
     <router-view/>
   </div>
@@ -30,14 +30,12 @@ import specialist from "@/models/specialist";
 import project from "@/models/project";
 import availableHour from "@/models/availableHour";
 import skill from "@/models/skill";
-import ProjectsOverview from "@/views/ProjectsOverview.vue";
 // Dummy data
 import clientsData from "@/assets/data/clients.json";
 import projectsData from "@/assets/data/projects.json";
 import specialistsData from "@/assets/data/specialists.json";
 import availableHoursData from "@/assets/data/availableHours.json";
 import skillsData from "@/assets/data/skills.json";
-import RegisterPage from "@/views/RegisterPage";
 
 export default {
   name: 'App',
@@ -58,14 +56,26 @@ export default {
       availableHours: [],
       skills: [],
       loginStatus: false,
+      isAdmin: false,
+      isClient: false,
+      isSpecialist: false,
     }
   },
   mounted() {
-      if (localStorage.getItem("id") != null){
+    if (localStorage.getItem("id") != null) {
 
-        console.log("test")
-        this.loginStatus = true;
-      }else return false
+      console.log("test")
+      this.loginStatus = true;
+      if (localStorage.getItem("isAdmin") === true) {
+        this.isAdmin = true;
+      }
+      if (localStorage.getItem("isClient") === true) {
+        this.isClient = true;
+      }
+      if (localStorage.getItem("isSpecialist") === true) {
+        this.isSpecialist = true;
+      }
+    } else return false
   },
 
   computed: {

@@ -23,7 +23,7 @@ export const router = createRouter({
     routes: [
         {
             path: '/admin',
-            name: 'Admin',
+            name: 'Admin dashboard',
             component: Admin
         },
         {
@@ -84,6 +84,11 @@ export const router = createRouter({
             name: 'Client',
             component: Client
         },
+/*        {
+            path: '/client/dashboard',
+            name: 'Client dashboard',
+            component:
+        },*/
         {
             path: '/:pathMatch(.*)',
             component: UnknownRoute
