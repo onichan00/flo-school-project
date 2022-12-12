@@ -167,7 +167,7 @@ export default {
     const targetEl = document.querySelector("#addSkillModal");
 
     // eslint-disable-next-line no-undef
-    this.modal = new Modal(targetEl);
+    // this.modal = new Modal(targetEl);
   },
   methods: {
     setSelected(e) {
