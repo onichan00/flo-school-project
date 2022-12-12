@@ -15,14 +15,13 @@ import java.util.List;
 @Entity
 @Table
 public class Client extends User {
-
     @Id
     @GeneratedValue
-    private final long id = 0L;
+    private long id = 0L;
 
     private String website;
-    @ManyToMany
-    private List<Project> projects;
+//    @ManyToMany
+//    private List<Project> projects;
 
     protected Client() {}
 
@@ -30,7 +29,11 @@ public class Client extends User {
         super(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address);
 
         this.website = website;
-//        this.projects = projects;
+    }
+
+    @Override
+    public long getId() {
+        return id;
     }
 
     public String getWebsite() {
@@ -41,13 +44,13 @@ public class Client extends User {
         this.website = website;
     }
 
-    public List<Project> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
-    }
+//    public List<Project> getProjects() {
+//        return projects;
+//    }
+//
+//    public void setProjects(List<Project> projects) {
+//        this.projects = projects;
+//    }
 
     public int getUserType() {
         return 1;

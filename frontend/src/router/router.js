@@ -50,6 +50,9 @@ export const router = createRouter({
         {
             path: '/client/:id', name: 'Client', component: () => import('../views/admin/client/detailPageClients')
         },
+        {
+            path: '/login', component: () => import('../views/landingPage.vue')
+        }
 
     ]
 })

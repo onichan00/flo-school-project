@@ -27,6 +27,9 @@ public class UserController {
     @Autowired
     private EntityRepository<Specialist> specialistRepository;
 
+    @Autowired
+    private EntityRepository<User> userRepository;
+
     @GetMapping("")
     public Map<String, List<? extends User>> getAllUsers() {
         Map<String, List<? extends User>> users = new HashMap<>();
@@ -53,20 +56,24 @@ public class UserController {
     public User getUserById(@PathVariable int id) {
         List<User> users = new ArrayList<>();
 
-        users.addAll(clientRepository.findAll());
-        users.addAll(adminRepository.findAll());
-        users.addAll(specialistRepository.findAll());
+        return userRepository.findById(id);
 
-        User user = null;
-
-        for (User value : users) {
-            if (value.getId() == id) user = value;
-        }
-
-        if (user == null) {
-            throw new NotFoundException("User not found");
-        }
-
-        return user;
+//        users.addAll(clientRepository.findAll());
+//        users.addAll(adminRepository.findAll());
+//        users.addAll(specialistRepository.findAll());
+//
+//        User user = null;
+//
+////        users.stream().findFirst();
+//
+//        for (User value : users) {
+//            if (value.getId() == id) user = value;
+//        }
+//
+//        if (user == null) {
+//            throw new NotFoundException("User not found");
+//        }
+//
+//        return user;
     }
 }
