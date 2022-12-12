@@ -10,7 +10,8 @@
 <script>
 export default {
   name: "SkillBadge",
-  props: ["skill"]
+  props: ["skill"],
+  emits: ["skillClicked"],
 }
 </script>
 

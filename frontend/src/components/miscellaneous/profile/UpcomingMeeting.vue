@@ -1,5 +1,5 @@
 <template>
-  <button @click="$emit('meetingClicked', this.meeting)" class="py-4 w-full text-left flex flex-row justify-between">
+  <button @click="$emit('meetingClicked', this.meeting)" class="py-4 w-full text-left flex flex-row justify-between hover:bg-gray-100">
     <div class="w-full flex flex-row items-center">
       <img class="w-14 h-14 rounded-full object-cover" src="https://images.unsplash.com/photo-1558203728-00f45181dd84?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2074&q=80" alt="Rounded avatar">
       <div class="w-full flex flex-col">
@@ -28,6 +28,7 @@ import dateFormat from "dateformat";
 export default {
   name: "UpcomingMeeting",
   props: ["meeting"],
+  emits: ["meetingClicked"],
   computed: {
     date() {
       const goodDate = dateFormat(this.meeting.start, "mmmm ddS, yyyy 'at' HH:MM");
