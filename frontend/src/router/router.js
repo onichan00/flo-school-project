@@ -7,6 +7,7 @@ import projectSubmissionsDetail from "@/views/admin/project/ProjectSubmissionsDe
 import clientSubmitions from "@/views/admin/client/clientSubmitions";
 import Profile from "@/views/admin/profile";
 import Dashboard from "@/views/admin/dashboard";
+import ClientHomePage from "@/views/ClientHomePage.vue";
 
 // Components
 import SpecialistApplications from "@/components/SpecialistApplications";
@@ -49,6 +50,9 @@ export const router = createRouter({
         },
         {
             path: '/client/:id', name: 'Client', component: () => import('../views/admin/client/detailPageClients')
+        },
+        {
+            path: '/client/home/:id', name: 'ClientsHome', component: ClientHomePage,
         },
 
     ]
