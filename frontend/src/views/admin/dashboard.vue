@@ -351,6 +351,6 @@ export default {
 
 <style>
 .dashboard-section {
-  height: 140vh;
+  height: 100vh;
 }
 </style>

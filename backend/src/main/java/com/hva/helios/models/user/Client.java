@@ -5,10 +5,7 @@ import com.hva.helios.models.Project;
 import com.hva.helios.models.User;
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +14,8 @@ import java.util.List;
 public class Client extends User {
 
     @Id
-    @GeneratedValue
-    private final long id = 0L;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id = 0L;
 
     private String website;
     @ManyToMany
@@ -31,6 +28,11 @@ public class Client extends User {
 
         this.website = website;
 //        this.projects = projects;
+    }
+
+    public Client(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address) {
+        super(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address);
+
     }
 
     public String getWebsite() {
@@ -49,7 +51,13 @@ public class Client extends User {
         this.projects = projects;
     }
 
-    public int getUserType() {
-        return 1;
+    @Override
+    public long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
     }
 }
