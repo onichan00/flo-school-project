@@ -1,7 +1,9 @@
-export default class skill {
-  constructor(object) {
-    this.user = object.user;
-    this.name = object.name;
-    this.level = object.level;
+export default class Skill {
+  name;
+  level;
+
+  constructor(obj = null) {
+    this.name = obj !== null ? obj.name : "";
+    this.level = obj !== null ? obj.level : 0;
   }
 }

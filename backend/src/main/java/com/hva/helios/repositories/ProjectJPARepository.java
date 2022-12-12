@@ -33,13 +33,21 @@ public class ProjectJPARepository
     }
 
     @Override
+    public Project findByEmail(String email) {
+        return null;
+    }
+
+    @Override
     public Project save(Project entity) {
         return entityManager.merge(entity);
     }
 
     @Override
     public Project deleteById(long id) {
+        System.out.println(id);
         Project project = findById(id);
+        System.out.println(project);
+
         entityManager.remove(project);
         return project;
     }

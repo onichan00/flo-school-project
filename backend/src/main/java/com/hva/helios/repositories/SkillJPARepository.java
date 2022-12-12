@@ -33,6 +33,11 @@ public class SkillJPARepository
     }
 
     @Override
+    public Skill findByEmail(String email) {
+        return null;
+    }
+
+    @Override
     public Skill save(Skill entity) {
         return entityManager.merge(entity);
     }

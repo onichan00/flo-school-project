@@ -8,12 +8,13 @@
         <!-- TODO Center the title -->
         <p class="font-medium">{{ currentRouteName }}</p>
       </div>
-      <div class="flex flex-row">
+<!--      search bar-->
+<!--      <div class="flex flex-row">
         <input placeholder="search" class="flex-grow rounded-md pl-2 pr-2 py-1 text-2xl bg-gray-100 border-2 focus:outline-none focus:ring focus:ring-florijnOrange/50 focus:border-florijnOrange" />
         <button v-on:click="openFilter()" class="ml-2">
-<!--          <Icon icon="mdi:filter-variant" class="text-4xl text-florijnOrange" />-->
+&lt;!&ndash;          <Icon icon="mdi:filter-variant" class="text-4xl text-florijnOrange" />&ndash;&gt;
         </button>
-      </div>
+      </div>-->
     </div>
     <div class="flex" id="filterMenu">
       <p class="content collapsed transition-all duration-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
