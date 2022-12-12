@@ -190,8 +190,12 @@ export default {
       history.back()
     },
 
-    deleteProject(){
-
+    deleteProject() {
+      const id = this.$route.params.id
+      axios.delete(`http://localhost:8080/api/projects/${id}`)
+          .then((res) => {
+            console.log(res)
+          })
     },
 
     async getAllSpecialists() {
