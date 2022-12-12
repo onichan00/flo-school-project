@@ -14,9 +14,9 @@
       </button>
     </div>
     <div class="w-full text-left px-8 py-4">
-      <p class="text-2xl">[FULL NAME]</p>
-      <p class="text-gray-400">[CITY] - [SPECIALIST TYPE]</p>
-      <p class="mt-4">[BIO]</p>
+      <p class="text-2xl">John Doe</p>
+      <p class="text-gray-400">Amsterdam - Backend</p>
+      <p class="mt-4 w-2/3">Ik ben John en ik ben een software engineer die zich specialiseert in het ontwikkelen van de back-end van een website of applicatie. Dit omvat de server-side logica, databasebeheer en integratie van front-end elementen. Ik werk vaak nauw samen met front-end developers om ervoor te zorgen dat de front-end elementen goed geïntegreerd zijn met de back-end systemen.</p>
 
       <div class="mt-4">
         <p class="font-medium">Attachments</p>
@@ -41,7 +41,7 @@
 
   <!-- Skills -->
   <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
-    <p class="text-xl mb-4">Skills</p>
+    <p class="text-xl mb-4">Vaardigheden</p>
     <div class="grid grid-cols-3 gap-4 mb-8">
       <SkillBadge v-for="(skill, index) in skills" :key="index" :skill="skill" @skillClicked="openSkillModal"/>
 
@@ -54,23 +54,24 @@
 
   <!-- Projects -->
   <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
-    <p class="text-xl mb-4">Projects</p>
+    <p class="text-xl mb-4">Projecten</p>
     <div class="grid grid-cols-4 gap-4 mb-8">
       <ProjectCard v-for="(item, index) in projects" :key="index" :project="item" />
     </div>
   </div>
 
-  <!-- Available Hours -->
+  <!-- Availability -->
   <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
-    <p class="text-xl">Availability</p>
-    <div class="">
-
+    <p class="text-xl">Beschikbaar: {{ availableHours }} uren</p>
+    <p>{{sortedWeekDays}}</p>
+    <div class="flex flex-row mt-4 justify-between gap-2">
+      <AvailabilityRow v-for="(hour, index) in hours" :key="index" :time="hour" @saveAvailability="saveAvailability"/>
     </div>
   </div>
 
   <!-- Calendar -->
   <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
-    <p class="text-xl">Upcoming meetings</p>
+    <p class="text-xl">Komende vergaderingen</p>
 
     <div class="flex flex-row">
       <div class="w-2/3 pr-10">
@@ -106,11 +107,10 @@
             </calendar-row>
           </template>
         </v-calendar>
-        <button @click="openUpcomingMeetingModal(null)" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-2">Add meeting</button>
+        <button @click="openUpcomingMeetingModal(null)" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-2">Voeg activiteit toe</button>
       </div>
     </div>
   </div>
-
 
   <!-- Main modal -->
   <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
@@ -131,17 +131,16 @@
         <div class="p-6 space-y-6 text-left">
 
           <div>
-            <label for="skillSelect" class="text-lg font-medium text-gray-900">Please
-              select a new skill</label>
+            <label for="skillSelect" class="text-lg font-medium text-gray-900">Selecteer een nieuwe vaardigheid</label>
             <select id="skillSelect" v-model="selectedSkill.name"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-florijnOrange-100 focus:border-florijnOrange-200 block w-full p-2.5">
-              <option selected disabled value="">Please select an skill</option>
+              <option selected disabled value="">Selecteer een vaardigheid</option>
               <option v-for="(skill, index) in skills" :key="index" :value="skill.name">{{ skill.name }}</option>
             </select>
           </div>
 
           <div>
-            <label for="understanding-novice" class="text-lg font-medium text-gray-900">Rate your skill level</label>
+            <label for="understanding-novice" class="text-lg font-medium text-gray-900">Beoordeel uw vaardigheidsniveau</label>
             <ul class="grid gap-4 w-full md:grid-cols-3">
               <li>
                 <input type="radio" id="understanding-novice" name="understanding" class="hidden peer" v-model="selectedSkill.level" :value=0 required>
@@ -149,7 +148,7 @@
                        class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer peer-checked:border-florijnOrange-100 peer-checked:text-florijnOrange-100 hover:text-gray-600 hover:bg-florijnOrange-100/10 hover:border-florijnOrange-100/10">
                   <div class="block">
                     <div class="w-full text-lg font-semibold">1</div>
-                    <div class="w-full">Novice</div>
+                    <div class="w-full">Beginnende</div> <!-- Novice -->
                   </div>
                 </label>
               </li>
@@ -159,7 +158,7 @@
                        class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer peer-checked:border-florijnOrange-100 peer-checked:text-florijnOrange-100 hover:text-gray-600 hover:bg-florijnOrange-100/10 hover:border-florijnOrange-100/10">
                   <div class="block">
                     <div class="w-full text-lg font-semibold">2</div>
-                    <div class="w-full">Competence</div>
+                    <div class="w-full">Semi Beginnende</div> <!-- Competence -->
                   </div>
                 </label>
               </li>
@@ -169,7 +168,7 @@
                        class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer peer-checked:border-florijnOrange-100 peer-checked:text-florijnOrange-100 hover:text-gray-600 hover:bg-florijnOrange-100/10 hover:border-florijnOrange-100/10">
                   <div class="block">
                     <div class="w-full text-lg font-semibold">3</div>
-                    <div class="w-full">Proficiency</div>
+                    <div class="w-full">Bekwaamd</div> <!-- Proficiency -->
                   </div>
                 </label>
               </li>
@@ -179,7 +178,7 @@
                        class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer peer-checked:border-florijnOrange-100 peer-checked:text-florijnOrange-100 hover:text-gray-600 hover:bg-florijnOrange-100/10 hover:border-florijnOrange-100/10">
                   <div class="block">
                     <div class="w-full text-lg font-semibold">4</div>
-                    <div class="w-full">Expert</div>
+                    <div class="w-full">Expert</div> <!-- Expert -->
                   </div>
                 </label>
               </li>
@@ -189,7 +188,7 @@
                        class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer peer-checked:border-florijnOrange-100 peer-checked:text-florijnOrange-100 hover:text-gray-600 hover:bg-florijnOrange-100/10 hover:border-florijnOrange-100/10">
                   <div class="block">
                     <div class="w-full text-lg font-semibold">5</div>
-                    <div class="w-full">Mastery</div>
+                    <div class="w-full">Meester</div> <!-- Mastery -->
                   </div>
                 </label>
               </li>
@@ -214,7 +213,7 @@
         <!-- Modal header -->
         <div class="flex items-center justify-between p-4 border-b rounded-t">
           <h3 class="text-xl font-semibold text-gray-900">
-            Edit User Info
+            Pas gebruikers Info
           </h3>
           <button @click="closeEditUserInfoModal" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -227,42 +226,42 @@
             <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
               <div class="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span></p>
+                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Klik om een profielfoto te uploaden</span></p>
                 <p class="text-xs text-gray-500 dark:text-gray-400">PNG or JPG (MAX. 800x400px)</p>
               </div>
               <input id="dropzone-file" type="file" class="hidden" />
             </label>
           </div>
           <div class="mb-6">
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email address</label>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900">E-mail adres</label>
             <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="john.doe@company.com" required>
           </div>
           <div class="grid gap-4 mb-6 md:grid-cols-3">
             <div>
-              <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900">First name</label>
+              <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900">Voornaam</label>
               <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="John" required>
             </div>
             <div>
-              <label for="second_name" class="block mb-2 text-sm font-medium text-gray-900">Second name</label>
+              <label for="second_name" class="block mb-2 text-sm font-medium text-gray-900">Tweede naam (optioneel)</label>
               <input type="text" id="second_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Cornelis" required>
             </div>
             <div>
-              <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900">Last name</label>
+              <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900">Achternaam</label>
               <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Doe" required>
             </div>
           </div>
           <div class="grid gap-4 mb-6 md:grid-cols-2">
             <div>
-              <label for="city" class="block mb-2 text-sm font-medium text-gray-900">City</label>
+              <label for="city" class="block mb-2 text-sm font-medium text-gray-900">Stad</label>
               <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Amsterdam" required>
             </div>
             <div>
-              <label for="zipcode" class="block mb-2 text-sm font-medium text-gray-900">Zipcode</label>
+              <label for="zipcode" class="block mb-2 text-sm font-medium text-gray-900">Postcode</label>
               <input type="text" id="second_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="1000AA" required>
             </div>
           </div>
           <div class="mb-6">
-            <label for="address" class="block mb-2 text-sm font-medium text-gray-900">Address</label>
+            <label for="address" class="block mb-2 text-sm font-medium text-gray-900">Adres</label>
             <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Wibautstraat 4B" required>
           </div>
           <div class="mb-6">
@@ -300,116 +299,39 @@
             <div class="flex flex-row gap-2 w-full mb-2">
               <div class="w-1/2">
                 <label for="meetingStart" class="block mb-2 text-sm font-medium text-gray-900">Start</label>
-                <DatePicker :lang="langObj" class="w-full" type="datetime" format="DD-MM-YYYY HH:mm" :showMinute="true" :showSecond="false" :minute-step="5" id="meetingStart" v-model:value="selectedMeeting.start"/>
+                <DatePicker :lang="langObj" class="w-full" type="datetime" format="DD-MM-YYYY HH:mm" :showMinute="true" :showSecond="false" :minute-step="5" :clearable="false" id="meetingStart" v-model:value="selectedMeeting.start"/>
               </div>
               <div class="w-1/2">
-                <label for="meetingEnd" class="block mb-2 text-sm font-medium text-gray-900">End</label>
-                <DatePicker :lang="langObj" class="w-full" type="datetime" format="DD-MM-YYYY HH:mm" :showMinute="true" :showSecond="false" :minute-step="5" id="meetingEnd" v-model:value="selectedMeeting.end"/>
+                <label for="meetingEnd" class="block mb-2 text-sm font-medium text-gray-900">Eind</label>
+                <DatePicker :lang="langObj" class="w-full" type="datetime" format="DD-MM-YYYY HH:mm" :showMinute="true" :showSecond="false" :minute-step="5" :clearable="false" id="meetingEnd" v-model:value="selectedMeeting.end"/>
               </div>
             </div>
             <div class="flex items-center">
               <input id="checked-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2">
-              <label for="checked-checkbox" class="ml-2 text-sm font-medium text-gray-900">Full day</label>
+              <label for="checked-checkbox" class="ml-2 text-sm font-medium text-gray-900">Hele dag</label>
             </div>
           </div>
-
-<!--          <form class="bg-white shadow-md rounded px-8 pt-6 pb-8" @submit.prevent>-->
-<!--            <div class="mb-4">-->
-<!--      <span class="block text-gray-600 text-sm text-left font-bold mb-2"-->
-<!--      >Select Range</span-->
-<!--      >-->
-<!--          &lt;!&ndash; TODO https://vcalendar.io/examples/datepickers.html &ndash;&gt;-->
-<!--              <v-date-picker-->
-<!--                  v-model="selectedMeeting"-->
-<!--                  mode="dateTime"-->
-<!--                  :masks="masks"-->
-<!--                  is-range-->
-<!--              >-->
-<!--                <template v-slot="{ inputEvents, isDragging }">-->
-<!--                  <div class="flex flex-col sm:flex-row justify-start items-center">-->
-<!--                    <div class="relative flex-grow">-->
-<!--                      <svg-->
-<!--                          class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"-->
-<!--                          fill="none"-->
-<!--                          stroke-linecap="round"-->
-<!--                          stroke-linejoin="round"-->
-<!--                          stroke-width="2"-->
-<!--                          viewBox="0 0 24 24"-->
-<!--                          stroke="currentColor"-->
-<!--                      >-->
-<!--                        <path-->
-<!--                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"-->
-<!--                        ></path>-->
-<!--                      </svg>-->
-<!--                      <input-->
-<!--                          class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full"-->
-<!--                          :class="isDragging ? 'text-gray-600' : 'text-gray-900'"-->
-<!--                          :value="selectedMeeting.start"-->
-<!--                          v-on="inputEvents.start"-->
-<!--                      />-->
-<!--                    </div>-->
-<!--                    <span class="flex-shrink-0 m-2">-->
-<!--              <svg-->
-<!--                  class="w-4 h-4 stroke-current text-gray-600"-->
-<!--                  viewBox="0 0 24 24"-->
-<!--              >-->
-<!--                <path-->
-<!--                    stroke-linecap="round"-->
-<!--                    stroke-linejoin="round"-->
-<!--                    stroke-width="2"-->
-<!--                    d="M14 5l7 7m0 0l-7 7m7-7H3"-->
-<!--                />-->
-<!--              </svg>-->
-<!--            </span>-->
-<!--                    <div class="relative flex-grow">-->
-<!--                      <svg-->
-<!--                          class="text-gray-600 w-4 h-full mx-2 absolute pointer-events-none"-->
-<!--                          fill="none"-->
-<!--                          stroke-linecap="round"-->
-<!--                          stroke-linejoin="round"-->
-<!--                          stroke-width="2"-->
-<!--                          viewBox="0 0 24 24"-->
-<!--                          stroke="currentColor"-->
-<!--                      >-->
-<!--                        <path-->
-<!--                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"-->
-<!--                        ></path>-->
-<!--                      </svg>-->
-<!--                      <input-->
-<!--                          class="flex-grow pl-8 pr-2 py-1 bg-gray-100 border rounded w-full"-->
-<!--                          :class="isDragging ? 'text-gray-600' : 'text-gray-900'"-->
-<!--                          :value="selectedMeeting.end"-->
-<!--                          v-on="inputEvents.end"-->
-<!--                      />-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </template>-->
-<!--              </v-date-picker>-->
-<!--            </div>-->
-<!--          </form>-->
-
           <div>
-            <label for="title" class="block mb-2 text-sm font-medium text-gray-900">Title</label>
+            <label for="title" class="block mb-2 text-sm font-medium text-gray-900">Titel</label>
             <input type="title" id="email" v-model="selectedMeeting.title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Going for lunch with..." required>
           </div>
-
           <div>
-            <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+            <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecteer een optie</label>
             <select id="type" v-model="selectedMeeting.type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-              <option selected disabled value="-1">Choose a schedule type</option>
-              <option value="0">Meeting</option>
-              <option value="1">Free day</option>
-              <option value="2">Vacation</option>
+              <option selected disabled value="-1">Kies een type</option>
+              <option value="0">Vergadering</option>
+              <option value="1">Vrije dag</option>
+              <option value="2">Vakantie</option>
             </select>
           </div>
 
           <div>
-            <label for="location" class="block mb-2 text-sm font-medium text-gray-900">Location</label>
+            <label for="location" class="block mb-2 text-sm font-medium text-gray-900">Locatie</label>
             <input type="location" id="email" v-model="selectedMeeting.location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Wibautstraat 4b" required>
           </div>
 
           <div>
-            <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Description</label>
+            <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Beschrijving</label>
             <textarea id="message" rows="4" v-model="selectedMeeting.description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="What is this meeting about..."></textarea>
           </div>
 
@@ -425,7 +347,6 @@
 
 </template>
 <script>
-import { ref } from 'vue';
 import SkillBadge from "@/components/miscellaneous/profile/SkillBadge";
 import Skill from "@/models/skill";
 import UpcomingMeetingClass from "@/models/upcomingMeeting";
@@ -433,6 +354,7 @@ import ProjectCard from "@/components/miscellaneous/ProjectCard";
 import UpcomingMeeting from "@/components/miscellaneous/profile/UpcomingMeeting";
 import DatePicker from 'vue-datepicker-next';
 import CalendarRow from "@/components/miscellaneous/profile/CalendarRow";
+import AvailabilityRow from "@/components/miscellaneous/profile/AvailabilityRow";
 
 import 'vue-datepicker-next/index.css';
 import 'v-calendar/dist/style.css';
@@ -450,6 +372,53 @@ export default {
         meetingPerPage: 3,
         currentPage: 0,
       },
+      startOfDay: new Date(2022, 11, 12, 9, 0),
+      endOfDay: new Date(2022, 11, 12, 17, 0),
+      hours: [
+        {
+          label: "Dinsdag",
+          start: new Date(2022, 11, 12, 9, 0),
+          end: new Date(2022, 11, 12, 17, 0),
+          available: true
+        },
+        {
+          label: "Zaterdag",
+          start: new Date(2022, 11, 12, 9, 0),
+          end: new Date(2022, 11, 12, 17, 0),
+          available: false
+        },
+        {
+          label: "Maandag",
+          start: new Date(2022, 11, 12, 9, 0),
+          end: new Date(2022, 11, 12, 17, 0),
+          available: true
+        },
+        {
+          label: "Woensdag",
+          start: new Date(2022, 11, 12, 9, 0),
+          end: new Date(2022, 11, 12, 17, 0),
+          available: true
+        },
+
+        {
+          label: "Vrijdag",
+          start: new Date(2022, 11, 12, 9, 0),
+          end: new Date(2022, 11, 12, 17, 0),
+          available: true
+        },
+        {
+          label: "Zondag",
+          start: new Date(2022, 11, 12, 9, 0),
+          end: new Date(2022, 11, 12, 17, 0),
+          available: false
+        },
+        {
+          label: "Donderdag",
+          start: new Date(2022, 11, 12, 9, 0),
+          end: new Date(2022, 11, 12, 17, 0),
+          available: true
+        },
+      ],
       skillModal: null,
       editUserInfoModal: null,
       upcomingMeetingModal: null,
@@ -584,8 +553,26 @@ export default {
 
       return meetings;
     },
+    availableHours() {
+      let calculatedTotalHours = 0;
+
+      this.hours.forEach(hour => {
+        let start = hour.start;
+        let end = hour.end;
+
+        const difference = end.getHours() - start.getHours();
+
+        if (hour.available) {
+          calculatedTotalHours += difference;
+        }
+      })
+
+      return calculatedTotalHours;
+    },
   },
   mounted() {
+    this.sortWeekDays();
+
     // eslint-disable-next-line no-undef
     this.skillModal = new Modal(document.querySelector("#defaultModal"));
     // eslint-disable-next-line no-undef
@@ -617,7 +604,7 @@ export default {
           visibility: 'focus',
           isInteractive: true
         },
-        dot: {
+        bar: {
           color: this.getMeetingType(meeting.type)
         },
         customData: meeting
@@ -654,17 +641,33 @@ export default {
       return date.getTime() / 1000;
     },
 
-    previousPage() {
-      console.log("Previous Page");
-      this.meetingPagination.currentPage--;
-    },
-    nextPage() {
-      console.log("Next Page");
-      this.meetingPagination.currentPage++;
+    setFullDay() {
+      let start = this.selectedMeeting.start;
+      let end = this.selectedMeeting.end;
+
+      start.setHours(0, 1, 0);
+      end.setHours(23, 59, 0);
+
+      this.selectedMeeting.start = start;
+      this.selectedMeeting.end = end;
     },
 
-    printPopoverData(day, format, masks, hide, attributes) {
-      console.log(day, format, masks, hide, attributes);
+    sortWeekDays() {
+      const weekOrder = {'Maandag': 0, 'Dinsdag': 1, 'Woensdag': 2, 'Donderdag': 3, 'Vrijdag': 4, 'Zaterdag': 5, 'Zondag': 6}
+
+      const unsortedDays = Array(7);
+
+      this.hours.forEach(hour => {
+        const index = weekOrder[hour.label];
+
+        unsortedDays[index] = hour;
+      })
+
+      this.hours = unsortedDays;
+    },
+
+    saveAvailability(n) {
+      this.range = n;
     },
 
     openSkillModal(n) {
@@ -692,6 +695,8 @@ export default {
       console.log(meeting);
       this.selectedMeeting = new UpcomingMeetingClass(meeting);
       this.upcomingMeetingModal.show();
+
+      // TODO When opening the modal, move to the month of the meeting on the calendar
     },
     closeUpcomingMeetingModal() {
       this.upcomingMeetingModal.hide();
@@ -704,6 +709,7 @@ export default {
     }
   },
   components: {
+    AvailabilityRow,
     UpcomingMeeting,
     ProjectCard,
     SkillBadge,
@@ -717,6 +723,10 @@ export default {
     background-image: linear-gradient(to right, #F15922 , #f17822)
   }
 
+  .mx-datepicker {
+    width: 100%;
+  }
+
   .mx-input {
     background-color: #f9fafb !important;
     border-width: 1px !important;
@@ -727,5 +737,10 @@ export default {
     line-height: 1.25rem !important; /* 20px */
     padding: 0.625rem !important; /* 10px */
     box-shadow: 0px 0px 0px 0px rgba(0,0,0,0) !important;
+  }
+
+  .mx-input:disabled {
+    background-color: #e5e7eb !important;
+    color: #6b7280 !important;
   }
 </style>
