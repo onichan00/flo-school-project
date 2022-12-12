@@ -19,7 +19,10 @@
 </template>
 
 <script>
+import Sidebar from "@/components/miscellaneous/sidebar/Sidebar";
 import {sidebarWidth} from '@/components/miscellaneous/sidebar/state.js'
+import PageHeader from "@/components/PageHeader";
+import Footer from "@/components/Footer";
 
 // Models
 import client from "@/models/client";

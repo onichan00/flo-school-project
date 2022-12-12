@@ -42,6 +42,7 @@ public class ProjectController {
 
     @DeleteMapping("{id}")
     public Project deleteProject(@PathVariable int id) {
+        System.out.println(id);
         return projectRepository.deleteById(id);
     }
 }

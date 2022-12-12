@@ -1,7 +1,6 @@
 import {createRouter, createWebHashHistory} from "vue-router";
 
 // Views
-import projectSubmissions from "@/views/admin/project/projectSubmissions";
 import projectSubmissionsDetail from "@/views/admin/project/ProjectSubmissionsDetail";
 import clientSubmitions from "@/views/admin/client/clientSubmitions";
 import Profile from "@/views/admin/profile";
@@ -16,6 +15,8 @@ import Client from "@/views/admin/client/detailPageClients";
 import UnknownRoute from "@/components/404-page"
 import SpecialistApplications from "@/components/SpecialistApplications";
 import SpecialistApplicationModal from "@/components/SpecialistApplicationModal";
+import ProjectsOverview from "@/views/ProjectsOverview";
+import projectSubmissions from "@/views/admin/project/projectSubmissions";
 
 export const router = createRouter({
     history: createWebHashHistory(),
@@ -55,12 +56,12 @@ export const router = createRouter({
         },
         {
             path: '/projects',
-            name: 'Projects',
-            component: projectSubmissions,
+            name: 'Project',
+            component: projectSubmissions
         },
         {
             path: '/projects/:id',
-            name: 'Project',
+            name: 'Project details',
             component: projectSubmissionsDetail,
         },
         {
@@ -74,6 +75,11 @@ export const router = createRouter({
             component: clientSubmitions,
         },
         {
+            path: '/client/projects-overview',
+            name: 'Projects',
+            component: ProjectsOverview,
+        },
+        {
             path: '/client/:id',
             name: 'Client',
             component: Client
@@ -85,8 +91,6 @@ export const router = createRouter({
         {
             path: '/login', component: () => import('../views/landingPage.vue')
         }
-
-
     ]
 })
 

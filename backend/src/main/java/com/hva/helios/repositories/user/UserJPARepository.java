@@ -42,6 +42,11 @@ public class UserJPARepository
         return entityManager.find(User.class, id);
     }
 
+    @Override
+    public User findByEmail(String email) {
+        return null;
+    }
+
     /**
      * Method to save an entity to the DB
      *

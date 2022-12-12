@@ -16,7 +16,7 @@
 
           <ul class="space-y-2 mt-2">
 
-            <SidebarLink to="/dashboard" icon="fas fa-dashboard"
+            <SidebarLink to="/admin" icon="fas fa-dashboard"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Dashboard
             </SidebarLink>
