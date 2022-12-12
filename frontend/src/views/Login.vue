@@ -92,7 +92,7 @@ export default {
 
   methods: {
     async loginRequest(){
-      let request = await axios.post("http://localhost:8080/api/users/login", {
+      let request = await axios.post(process.env.VUE_APP_API_URL+ "/api/users/login", {
         email: this.email,
         password: this.password,
       }).catch((err) => {
@@ -114,7 +114,7 @@ export default {
         if (response.isClient === true){
           localStorage.setItem("isClient", "true")
 
-          this.$router.push("/notfound")
+          this.$router.push("/client/projects-overview")
         }
 
         if (response.isSpecialist === true){

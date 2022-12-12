@@ -112,7 +112,7 @@ export default {
         skills: this.skills
       }
 
-      axios.post('http://localhost:8080/api/projects/', requestBody)
+      axios.post(process.env.VUE_APP_API_URL + '/api/projects/', requestBody)
           .then((res) => {
             this.toast.success("Project genaamd: \"" + this.name + "\", is met succes aangemaakt", {
               position: "bottom-center",

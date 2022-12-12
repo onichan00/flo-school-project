@@ -394,7 +394,7 @@ export default {
     getProjectData() {
       const id = this.$route.params.id;
 
-      axios.get(`http://localhost:8080/api/projects/${id}`)
+      axios.get(process.env.VUE_APP_API_URL + `/api/projects/${id}`)
           .then((res) => {
 
           })
@@ -404,7 +404,7 @@ export default {
     },
 
     getProjects() {
-      axios.get(`http://localhost:8080/api/projects`)
+      axios.get(process.env.VUE_APP_API_URL + `/api/projects`)
           .then((res) => {
             this.projects = res.data;
             console.log(this.projects)

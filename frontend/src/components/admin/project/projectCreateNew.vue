@@ -164,7 +164,7 @@ export default {
       }
       console.log(this.newProjectData.status)
       console.log(JSON.stringify(requestBody))
-      axios.post('http://localhost:8080/api/projects/', requestBody)
+      axios.post(process.env.VUE_APP_API_URL +'/api/projects/', requestBody)
           .then((res) => {
             console.log(res)
           })

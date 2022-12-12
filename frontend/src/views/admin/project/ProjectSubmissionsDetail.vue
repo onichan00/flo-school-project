@@ -192,14 +192,14 @@ export default {
 
     deleteProject() {
       const id = this.$route.params.id
-      axios.delete(`http://localhost:8080/api/projects/${id}`)
+      axios.delete(process.env.VUE_APP_API_URL + "/api/projects/" + id)
           .then((res) => {
             console.log(res)
           })
     },
 
     async getAllSpecialists() {
-      await axios.get(`http://localhost:8080/api/users/speccialist`)
+      await axios.get(process.env.VUE_APP_API_URL + "/api/users/speccialist")
           .then((res) => {
             console.log(res.data)
             this.specialists = res.data;
@@ -209,7 +209,7 @@ export default {
           })
     },
     async findProjectFromRouteParam(id) {
-      await axios.get(`http://localhost:8080/api/projects/${id}`)
+      await axios.get(process.env.VUE_APP_API_URL + "/api/projects/" + id)
           .then((res) => {
             console.log(res.data)
             this.dataObject = res.data;
@@ -238,7 +238,7 @@ export default {
       const project = this.findProjectFromRouteParam(projectId);
       let newSpecialists = [];
 
-      await axios.get(`http://localhost:8080/api/users/specialist`)
+      await axios.get(process.env.VUE_APP_API_URL + "/api/users/specialist")
           .then((res) => {
             this.specialistsOfThisProject = res.data
           })

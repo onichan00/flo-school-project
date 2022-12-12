@@ -93,9 +93,6 @@ export const router = createRouter({
             path: '/:pathMatch(.*)',
             component: UnknownRoute
         },
-        {
-            path: '/login', component: () => import('../views/landingPage.vue')
-        }
     ]
 })
 

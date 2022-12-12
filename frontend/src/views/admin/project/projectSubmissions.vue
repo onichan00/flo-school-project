@@ -54,6 +54,7 @@ import {Icon} from '@iconify/vue';
 import createProject from '@/components/admin/project/projectCreateNew';
 import axios from "axios";
 
+
 export default {
   name: "ProjectSubmissions",
   inject: ['projects'],
@@ -82,7 +83,7 @@ export default {
     async getProjects() {
       const id = this.$route.params.id;
 
-      await axios.get(`http://localhost:8080/api/projects`)
+      await axios.get(process.env.VUE_APP_API_URL + `/api/projects`)
           .then((res) => {
             this.projecten = res.data;
             console.log(this.projecten)

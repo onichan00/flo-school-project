@@ -172,7 +172,7 @@ export default {
   methods: {
     async registerRequest(){
       console.log("test")
-      let request = await axios.post("http://localhost:8080/api/users/register", {
+      let request = await axios.post(process.env.VUE_APP_API_URL + "/api/users/register", {
         email: this.email,
         password: this.password,
         first_name: this.first_name,
