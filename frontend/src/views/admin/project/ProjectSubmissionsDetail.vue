@@ -194,6 +194,9 @@ export default {
       const id = this.$route.params.id
       axios.delete(process.env.VUE_APP_API_URL + "/api/projects/" + id)
           .then((res) => {
+            this.$router.push('/projects').then( () => {
+              this.$router.go()
+            })
             console.log(res)
           })
     },
