@@ -171,7 +171,7 @@
             </div>
             <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
 
-              <img src="../assets/img/undraw_team_re_0bfe.svg"
+              <img :src="require('@/assets/img/undraw_team_re_0bfe.svg')"
                    size="150px" alt="Afbeelding">
 
 
@@ -202,7 +202,7 @@
         <div class="container mx-auto px-4">
           <div class="items-center flex flex-wrap">
             <div class="w-full md:w-4/12 ml-auto mr-auto px-4">
-              <img src="../assets/img/undraw_developer_activity_re_39tg.svg">
+              <img :src="require('@/assets/img/undraw_developer_activity_re_39tg.svg')">
             </div>
             <div class="w-full md:w-5/12 ml-auto mr-auto px-4">
               <div class="md:pr-12">
