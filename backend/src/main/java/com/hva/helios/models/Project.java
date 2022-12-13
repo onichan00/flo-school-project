@@ -2,16 +2,15 @@ package com.hva.helios.models;
 
 import com.hva.helios.data.SkillData;
 import com.hva.helios.data.SpecialistData;
+import com.hva.helios.models.user.Client;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.skill.Skill;
 import com.hva.helios.models.user.skill.UserSkill;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table
@@ -27,14 +26,30 @@ public class Project {
 
     @ManyToMany
     private Set<Specialist> specialists;
-    @ManyToMany
-    private Set<Specialist> clients;
+
+    @ManyToOne
+//    @JoinColumn(name = "client_id")
+    private Client client;
+
 
 //    @OneToMany
 //    private ArrayList<UserSkill> skills;
 
-    protected Project() {}
-    public Project(String name, int status, LocalDate created, String description) {
+    protected Project() {
+
+    }
+    public Project(String name, Client client,ArrayList<Specialist> specialists,int status, LocalDate created, String description) {
+        this.name = name;
+        this.status = status;
+        this.created = created;
+        this.description = description;
+        this.client = client;
+        this.specialists = new HashSet<>(specialists);
+        // TODO - Add specialists to the backend
+
+    }
+
+    public Project(String name,int status, LocalDate created, String description) {
         this.name = name;
         this.status = status;
         this.created = created;
@@ -91,11 +106,11 @@ public class Project {
         this.description = description;
     }
 
-    public Set<Specialist> getClients() {
-        return clients;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClients(Set<Specialist> clients) {
-        this.clients = clients;
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

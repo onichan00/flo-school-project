@@ -17,6 +17,7 @@ import SpecialistApplications from "@/components/SpecialistApplications";
 import SpecialistApplicationModal from "@/components/SpecialistApplicationModal";
 import ProjectsOverview from "@/views/ProjectsOverview";
 import projectSubmissions from "@/views/admin/project/projectSubmissions";
+import ClientHomePage from "@/views/ClientHomePage";
 
 export const router = createRouter({
     history: createWebHashHistory(),
@@ -84,11 +85,11 @@ export const router = createRouter({
             name: 'Client',
             component: Client
         },
-/*        {
+        {
             path: '/client/dashboard',
             name: 'Client dashboard',
-            component:
-        },*/
+            component:  ClientHomePage
+        },
         {
             path: '/:pathMatch(.*)',
             component: UnknownRoute

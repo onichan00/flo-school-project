@@ -114,7 +114,7 @@ export default {
         if (response.isClient === true){
           localStorage.setItem("isClient", "true")
 
-          this.$router.push("/client/projects-overview")
+          this.$router.push("/client/dashboard")
         }
 
         if (response.isSpecialist === true){
