@@ -1,7 +1,7 @@
 <template>
 
 
-  <nav class="bg-orange-500 border-gray-200 p-2 dark:bg-gray-900">
+  <nav class="p-2 dark:bg-gray-900" style='background-image: linear-gradient(to right, #F15922 , #f17822)'>
     <div class="container flex flex-wrap items-center justify-between mx-auto">
       <div class="flex flex-row">
         <a @click="this.$router.push('/client/dashboard')" class="flex items-center mr-20">
@@ -22,9 +22,9 @@
             <li>
               <a href="#" class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Contact</a>
             </li>
-            <li>
-              <a href="#" class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0" @click="logout">Log uit</a>
-            </li>
+<!--            <li>-->
+<!--              <a href="#" class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0" @click="logout">Log uit</a>-->
+<!--            </li>-->
           </ul>
         </div>
       </div>
@@ -34,17 +34,17 @@
           <img class="w-8 h-8 rounded-full" alt="user photo">
         </button>
         <!-- Dropdown menu -->
-        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600 text-left" id="user-dropdown">
           <div class="px-4 py-3">
-            <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-            <span class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+            <span class="block text-sm text-gray-900 dark:text-white">{{ this.user.first_name + ' ' + this.user.last_name }}</span>
+            <span class="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">{{ this.user.email }}</span>
           </div>
           <ul class="py-1" aria-labelledby="user-menu-button">
             <li>
-              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
+              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Instellingen</a>
             </li>
             <li>
-              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" @click="logout">Log Uit</a>
             </li>
           </ul>
         </div>
@@ -60,15 +60,40 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "ClientNavbar",
-
+  data() {
+    return {
+      userId: localStorage.getItem('id'),
+      user: [],
+    }
+  },
+  created() {
+    this.getUserData()
+  },
   methods: {
     logout(){
       localStorage.clear()
       this.$router.push("/")
-
     },
+    getUserData() {
+      axios.get(process.env.VUE_APP_API_URL + `/api/users/client/${this.userId}`)
+          .then((res) => {
+            this.user = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+  },
+  computed: {
+    fullName() {
+      return this.user.first_name.charAt(0).toUpperCase() + this.user.first_name.slice(1)
+          + ' '
+          + this.user.last_name.charAt(0).toUpperCase() + this.user.last_name.slice(1);
+    }
   }
 }
 </script>

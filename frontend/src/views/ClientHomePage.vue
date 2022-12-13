@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-b-lg text-left ">
+  <section class="rounded-b-lg text-left" style='background-image: linear-gradient(to right, #F15922 , #f17822)'>
     <div class="grid py-8 px-4 mx-auto max-w-screen-xl lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
       <div class="place-self-center mr-auto lg:col-span-7">
         <h1 class="mb-4 max-w-2xl text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl text-white">Welkom {{ fullName }}</h1>

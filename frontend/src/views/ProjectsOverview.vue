@@ -275,6 +275,10 @@
             <div>
               <h1 class="mt-3 font-medium mb-1 text-xl text-gray-700">Skills
               </h1>
+
+              <p>
+                Er zijn nog geen skills toegevoegd voor dit project helaas
+              </p>
 <!--              <div>-->
 <!--                <a class="bg-gray-200 border border-2 border-gray-300 px-2 py-1 rounded-lg">Frikandel Speciaal</a>-->
 <!--              </div>-->
@@ -296,6 +300,9 @@
 <!--                    </div>-->
 <!--                  </div>-->
                 </div>
+                <p>
+                  Er zijn nog geen specialisten toegevoegd voor dit project helaas
+                </p>
               </div>
             </div>
             <div>
