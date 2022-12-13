@@ -55,7 +55,6 @@ public class Project {
         this.created = created;
         this.description = description;
         // TODO - Add specialists to the backend
-
     }
 
     public long getId() {

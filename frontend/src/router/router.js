@@ -18,6 +18,7 @@ import SpecialistApplicationModal from "@/components/SpecialistApplicationModal"
 import ProjectsOverview from "@/views/ProjectsOverview";
 import projectSubmissions from "@/views/admin/project/projectSubmissions";
 import ClientHomePage from "@/views/ClientHomePage";
+import CreateProjects from "@/views/createProjects";
 
 export const router = createRouter({
     history: createWebHashHistory(),
@@ -59,6 +60,11 @@ export const router = createRouter({
             path: '/projects',
             name: 'Project',
             component: projectSubmissions
+        },
+        {
+            path: '/create-project',
+            name: 'Create Project',
+            component: CreateProjects
         },
         {
             path: '/projects/:id',

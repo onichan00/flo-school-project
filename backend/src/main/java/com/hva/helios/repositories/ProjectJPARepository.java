@@ -15,6 +15,8 @@ package com.hva.helios.repositories;//package com.hva.helios.repositories;
 //}
 
 import com.hva.helios.models.Project;
+import com.hva.helios.models.user.Client;
+import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.skill.Skill;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +24,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -64,5 +67,21 @@ public class ProjectJPARepository
 //        Project project = findById(id);
 //        entityManager.remove(project);
 //        return null;
+    }
+
+    public List<Project> findByClient(Client client) {
+        List<Project> projects = new ArrayList<>();
+        TypedQuery<Project> query =
+                entityManager.createQuery("SELECT project from Project project", Project.class);
+
+        for (Project project : query.getResultList()){
+            if (project.getClient().equals(client)){
+                projects.add(project);
+            };
+        };
+
+        if (projects.size() > 0) return projects;
+
+        return null;
     }
 }

@@ -90,7 +90,7 @@ export default {
   name: "ClientHomePage",
   data() {
     return {
-      userId: 3,
+      userId: localStorage.getItem('id'),
       user: [],
     }
   },
@@ -99,8 +99,6 @@ export default {
   },
   methods: {
     getUserData() {
-      // const id = this.$route.params.id;
-
       axios.get(process.env.VUE_APP_API_URL + `/api/users/client/${this.userId}`)
           .then((res) => {
             this.user = res.data;

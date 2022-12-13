@@ -106,10 +106,10 @@ export default {
       const requestBody = {
         name: this.name,
         status: this.status,
-        created: this.date,
         description: this.description,
         // TODO Add skills instead of countries
-        skills: this.skills
+        skills: this.skills,
+        client_id: this.client_id
       }
 
       axios.post(process.env.VUE_APP_API_URL + '/api/projects/', requestBody)
@@ -157,9 +157,9 @@ export default {
       name: "",
       description: "",
       skills: [],
-      date: new Date(),
       status: 0,
-      clicked: false
+      clicked: false,
+      client_id: localStorage.getItem("id")
     }
   },
   computed: {
