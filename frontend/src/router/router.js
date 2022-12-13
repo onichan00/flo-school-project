@@ -98,8 +98,12 @@ export const router = createRouter({
 
 router.beforeEach((to,from) => {
     console.log(to)
-        if (to.name !== 'Landing-page' && to.name !== 'Login' && to.name !== 'Register' && localStorage.getItem("id") === null){
-            return {name: 'Landing-page'}
-        }
+
+    // Whitelisted routes when logged out
+    const accessibleLoggedOutRoutes = ['Landing-page', 'Profile', 'Login', 'Register']
+
+    if (!accessibleLoggedOutRoutes.includes(to.name) && localStorage.getItem("id") === null) {
+        return { name: 'Landing-page' }
+    }
 
 })

@@ -16,18 +16,12 @@
     <div class="w-full text-left px-8 py-4">
       <p class="text-2xl">John Doe</p>
       <p class="text-gray-400">Amsterdam - Backend</p>
-      <p class="mt-4 w-2/3">Ik ben John en ik ben een software engineer die zich specialiseert in het ontwikkelen van de back-end van een website of applicatie. Dit omvat de server-side logica, databasebeheer en integratie van front-end elementen. Ik werk vaak nauw samen met front-end developers om ervoor te zorgen dat de front-end elementen goed geïntegreerd zijn met de back-end systemen.</p>
+      <p class="mt-4 w-full md:w-2/3">Ik ben John en ik ben een software engineer die zich specialiseert in het ontwikkelen van de back-end van een website of applicatie. Dit omvat de server-side logica, databasebeheer en integratie van front-end elementen. Ik werk vaak nauw samen met front-end developers om ervoor te zorgen dat de front-end elementen goed geïntegreerd zijn met de back-end systemen.</p>
 
       <div class="mt-4">
         <p class="font-medium">Attachments</p>
         <ul class="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 divide-y">
-          <li v-for="(attachment, index) in attachments" :key="index" class="py-2 px-4 w-full flex flex-row justify-between items-center">
-            <span class="flex flex-row gap-2">
-              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
-              {{ attachment.name }}
-            </span>
-            <a href="#" class="font-medium text-blue-600 hover:underline">Download</a>
-          </li>
+          <AttachmentRow v-for="(attachment, index) in attachments" :key="index" :attachment="attachment"/>
         </ul>
       </div>
 
@@ -42,10 +36,10 @@
   <!-- Skills -->
   <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
     <p class="text-xl mb-4">Vaardigheden</p>
-    <div class="grid grid-cols-3 gap-4 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
       <SkillBadge v-for="(skill, index) in skills" :key="index" :skill="skill" @skillClicked="openSkillModal"/>
 
-      <button @click="openSkillModal(null)" class="bg-green-100 text-green-900 p-4 rounded-md flex items-center justify-center">
+      <button @click="openSkillModal(null)" class="bg-green-100 hover:bg-green-200 text-green-900 p-4 rounded-md flex items-center justify-center">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
       </button>
     </div>
@@ -55,7 +49,7 @@
   <!-- Projects -->
   <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
     <p class="text-xl mb-4">Projecten</p>
-    <div class="grid grid-cols-4 gap-4 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
       <ProjectCard v-for="(item, index) in projects" :key="index" :project="item" />
     </div>
   </div>
@@ -64,7 +58,7 @@
   <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
     <p class="text-xl">Beschikbaar: {{ availableHours }} uren</p>
     <p>{{sortedWeekDays}}</p>
-    <div class="flex flex-row mt-4 justify-between gap-2">
+    <div class="flex flex-col md:flex-row mt-4 justify-between gap-2">
       <AvailabilityRow v-for="(hour, index) in hours" :key="index" :time="hour" @saveAvailability="saveAvailability"/>
     </div>
   </div>
@@ -73,8 +67,8 @@
   <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
     <p class="text-xl">Komende vergaderingen</p>
 
-    <div class="flex flex-row">
-      <div class="w-2/3 pr-10">
+    <div class="flex flex-col md:flex-row">
+      <div class="w-full md:w-2/3 md:pr-10">
         <div class="divide-y">
           <UpcomingMeeting v-for="(meeting, index) in futureMeetings" :key="index" :meeting="meeting" @meetingClicked="openUpcomingMeetingModal"/>
         </div>
@@ -90,7 +84,7 @@
 <!--          </button>-->
 <!--        </div>-->
       </div>
-      <div class="w-1/3 flex flex-col">
+      <div class="w-full md:w-1/3 mt-4 md:mt-0 flex flex-col">
         <v-calendar is-expanded :attributes="attributes">
           <template #day-popover="{ dayTitle, attributes }">
             <div class="text-xs text-gray-300 font-semibold text-center">
@@ -296,12 +290,12 @@
         <!-- Modal body -->
         <div class="p-6 space-y-6 text-left">
           <div>
-            <div class="flex flex-row gap-2 w-full mb-2">
-              <div class="w-1/2">
+            <div class="flex flex-col md:flex-row gap-2 w-full mb-2">
+              <div class="w-full md:w-1/2">
                 <label for="meetingStart" class="block mb-2 text-sm font-medium text-gray-900">Start</label>
                 <DatePicker :lang="langObj" class="w-full" type="datetime" format="DD-MM-YYYY HH:mm" :showMinute="true" :showSecond="false" :minute-step="5" :clearable="false" id="meetingStart" v-model:value="selectedMeeting.start"/>
               </div>
-              <div class="w-1/2">
+              <div class="w-full md:w-1/2">
                 <label for="meetingEnd" class="block mb-2 text-sm font-medium text-gray-900">Eind</label>
                 <DatePicker :lang="langObj" class="w-full" type="datetime" format="DD-MM-YYYY HH:mm" :showMinute="true" :showSecond="false" :minute-step="5" :clearable="false" id="meetingEnd" v-model:value="selectedMeeting.end"/>
               </div>
@@ -358,6 +352,7 @@ import AvailabilityRow from "@/components/miscellaneous/profile/AvailabilityRow"
 
 import 'vue-datepicker-next/index.css';
 import 'v-calendar/dist/style.css';
+import AttachmentRow from "@/components/miscellaneous/profile/AttachmentRow";
 
 export default {
   name: "UserProfile",
@@ -709,6 +704,7 @@ export default {
     }
   },
   components: {
+    AttachmentRow,
     AvailabilityRow,
     UpcomingMeeting,
     ProjectCard,

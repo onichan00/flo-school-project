@@ -1,11 +1,11 @@
 <template>
-  <div class="flex flex-col items-start">
-    <div class="flex flex-row items-center gap-2">
+  <div class="flex flex-col items-start my-4 md:my-0">
+    <div class="flex flex-row items-center gap-2 w-full">
       <input id="default-checkbox" type="checkbox" v-model="getTime.available" @change="saveAvailability"
              class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"/>
       <p>{{ getTime.label }}</p>
     </div>
-    <div class="flex flex-col items-center gap-2">
+    <div class="flex flex-col items-center gap-2 w-full">
       <DatePicker
           @change="saveAvailability"
           type="time" format="HH:mm"
