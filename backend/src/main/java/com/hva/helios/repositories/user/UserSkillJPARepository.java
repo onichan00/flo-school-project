@@ -35,6 +35,11 @@ public class UserSkillJPARepository
     }
 
     @Override
+    public UserSkill findByEmail(String email) {
+        return null;
+    }
+
+    @Override
     public UserSkill save(UserSkill entity) {
         return entityManager.merge(entity);
     }

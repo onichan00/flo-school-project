@@ -34,8 +34,8 @@
 
                 <th scope="row" class="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white">
                   <div class="pl-3">
-                    <div class="text-base font-semibold">{{ client.fName }}</div>
-                    <div class="font-normal text-gray-500">{{ client.lName }}</div>
+                    <div class="text-base font-semibold">{{ client.first_name }}</div>
+                    <div class="font-normal text-gray-500">{{ client.last_name }}</div>
                   </div>
                 </th>
                 <td class="py-4 px-6">
@@ -85,8 +85,8 @@
 
                 <th scope="row" class="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white">
                   <div class="pl-3">
-                    <div class="text-base font-semibold">{{ client.fName }}</div>
-                    <div class="font-normal text-gray-500">{{ client.lName }}</div>
+                    <div class="text-base font-semibold">{{ client.first_name }}</div>
+                    <div class="font-normal text-gray-500">{{ client.last_name }}</div>
                   </div>
                 </th>
                 <td class="py-4 px-6">

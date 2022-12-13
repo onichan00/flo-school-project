@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class UserSkill {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id = 0L;
     private int level;
     @ManyToOne(cascade = CascadeType.ALL)

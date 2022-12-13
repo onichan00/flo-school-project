@@ -1,0 +1,36 @@
+stages:
+  - deploy
+
+deploy_fe:
+  stage: deploy
+  image: node:latest
+  tags:
+    - hva
+  only:
+    refs:
+      - main
+    changes:
+      - "frontend/**/*"
+  script:
+    - apt-get update && apt-get install -y curl
+    - curl -fsSL https://railway.app/install.sh | sh
+    - export RAILWAY_TOKEN=${963abe25-642a-4bfc-ba20-6a60a7f2892d}
+    - cd frontend
+    - railway up --service=helios-fe-app -d
+
+deploy_be:
+  stage: deploy
+  image: node:latest
+  tags:
+    - hva
+  only:
+    refs:
+      - main
+    changes:
+      - "backend/**/*"
+  script:
+    - apt-get update && apt-get install -y curl
+    - curl -fsSL https://railway.app/install.sh | sh
+    - export RAILWAY_TOKEN=${91a8fde9-8775-4b9d-bc20-9b1bd0616859}
+    - cd backend
+    - railway up --service=helios-be-app -d
