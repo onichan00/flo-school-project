@@ -350,7 +350,7 @@ export default {
   name: "ProjectsOverview",
   data() {
     return {
-      projects: this.getProjects,
+      projects: [],
       options: {year: 'numeric', month: 'long', day: 'numeric'},
       selectedProject: null,
       toggleEdit: false,
@@ -372,8 +372,8 @@ export default {
     }
   },
   created() {
-    // this.getProjectData();
-    this.getProjects();
+    this.getProjectData();
+    // this.getProjects();
   },
   methods: {
     dateFormatter(date) {
@@ -398,11 +398,18 @@ export default {
     },
 
     getProjectData() {
-      const id = this.$route.params.id;
+      const id = localStorage.getItem("id");
 
-      axios.get(process.env.VUE_APP_API_URL + `/api/projects/${id}`)
+      axios.get(process.env.VUE_APP_API_URL + `/api/projects/client/${id}`)
           .then((res) => {
+            console.log(res.data)
 
+
+            for (let i = 0; i < res.data.length; i++) {
+              this.projects.push(res.data[i])
+            }
+
+            console.log(this.projects)
           })
           .catch((err) => {
             console.log(err);
@@ -410,9 +417,13 @@ export default {
     },
 
     getProjects() {
-      axios.get(process.env.VUE_APP_API_URL + `/api/projects`)
+      const id = localStorage.getItem("id");
+
+      axios.get(process.env.VUE_APP_API_URL + "/api/projects" + id)
           .then((res) => {
             this.projects = res.data;
+
+            console.log(res.data)
             console.log(this.projects)
           })
           .catch((err) => {

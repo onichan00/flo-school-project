@@ -1,5 +1,6 @@
 package com.hva.helios.rest;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.Project;
 import com.hva.helios.models.user.Client;
@@ -8,7 +9,10 @@ import com.hva.helios.repositories.testRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:4040", maxAge = 3600)
 @RestController
@@ -43,7 +47,7 @@ public class ProjectController {
                 project.get("name").asText()
                 ,client
                 ,project.get("status").asInt()
-                ,LocalDate.now()
+                , LocalDate.now()
                 ,project.get("description").asText()
         );
 
@@ -53,12 +57,13 @@ public class ProjectController {
 
     @GetMapping("client/{client_id}")
     public List<Project> getProjectsByClient(@PathVariable String client_id) {
-        List<Project> projects = new ArrayList<>();
+//        List<Project> projects = new ArrayList<>();
         Client client = clientRepository.findById(Long.parseLong(client_id));
+//
+//        for (Project project : getProject()) if (project.getClient().equals(client)) projects.add(project);
+//
 
-        for (Project project : getProject()) if (project.getClient().equals(client)) projects.add(project);
-
-        return null;
+        return projectRepository.findAllByClient(client);
     }
 
     @GetMapping("{id}")

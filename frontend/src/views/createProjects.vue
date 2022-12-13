@@ -57,16 +57,16 @@
                   </div>
                 </div>
               </div>
-              <div class="flex justify-end">
-                <button
-                    class="w-full object-right rounded-lg font-medium bg-white px-4 py-1.5 text-white disabled:opacity-25 disabled:cursor-not-allowed"
-                    style="background-color:#F15922"
-                    @click="submitProject"
-                    :disabled="allFilledIn || this.clicked"
-                > Sla dit project op
-                </button>
-              </div>
             </form>
+            <div class="flex justify-end">
+              <button
+                  class="w-full object-right rounded-lg font-medium bg-white px-4 py-1.5 text-white disabled:opacity-25 disabled:cursor-not-allowed"
+                  style="background-color:#F15922"
+                  @click="submitProject"
+                  :disabled="allFilledIn || this.clicked"
+              > Sla dit project op
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -38,13 +38,13 @@ public class Project {
     protected Project() {
 
     }
-    public Project(String name, Client client,ArrayList<Specialist> specialists,int status, LocalDate created, String description) {
+    public Project(String name, Client client,int status, LocalDate created, String description) {
         this.name = name;
         this.status = status;
         this.created = created;
         this.description = description;
         this.client = client;
-        this.specialists = new HashSet<>(specialists);
+//        this.specialists = new HashSet<>(specialists);
         // TODO - Add specialists to the backend
 
     }
