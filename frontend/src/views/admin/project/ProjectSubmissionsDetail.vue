@@ -2,9 +2,10 @@
   <div class="container mx-auto px-10 py-4">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div class="p-4 shadow-md rounded-md border border-gray-200 text-left">
+
         <p><strong>Naam:</strong> {{ dataObject.name }}</p>
-        <p><strong>Company:</strong>{{ clientOfThisProject.company }}</p>
-        <p><strong>Client: </strong>{{ specialistFullName(clientOfThisProject) }}</p>
+        <!--        <p><strong>Company:</strong>{{ clientOfThisProject.company }}</p>-->
+        <!--        <p><strong>Client: </strong>{{ specialistFullName(clientOfThisProject) }}</p>-->
         <p><strong>Gemaakt op: </strong>{{ formatDate(dataObject.created) }}</p>
       </div>
       <div class="relative py-8 flex items-center justify-center p-4 shadow-md rounded-md border border-gray-200">
@@ -89,6 +90,10 @@
       <h2><strong>Project description</strong></h2>
       <p>{{ dataObject.description }}</p>
     </div>
+    <button v-on:click="deleteProject" type="button"
+            class="float-right focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+      Delete project
+    </button>
   </div>
 
   <div id="addSpecialistModal" tabindex="-1" aria-hidden="true"
@@ -145,13 +150,13 @@
 </template>
 
 <script>
-import {specialistFullName, firstLetterUpperCase, formatDate} from "@/plugins/textManipulation.js";
+import {firstLetterUpperCase, formatDate, specialistFullName} from "@/plugins/textManipulation.js";
 import {Icon} from '@iconify/vue';
 import editProjectStatus from "@/components/admin/project/editProjectStatus";
+import axios from "axios";
 
 export default {
   name: "ProjectSubmissionsDetail",
-  inject: ['projects', 'specialists', 'clients'],
 
   data() {
     return {
@@ -159,6 +164,8 @@ export default {
       specialistsOfThisProject: [],
       clientOfThisProject: null,
       availableSpecialists: [],
+      specialists: null,
+      clients: null,
       modalObj: null,
       classObject: {
         'bg-green-100': this.dataObject === 0
@@ -166,8 +173,9 @@ export default {
     }
   },
 
-  created() {
-    this.dataObject = this.findProjectFromRouteParam(this.$route.params.id);
+  async created() {
+    await this.findProjectFromRouteParam(this.$route.params.id);
+
     this.specialistsOfThisProject = this.getSpecialistOfThisProject();
     this.clientOfThisProject = this.findClientFromId(this.dataObject.client);
     this.availableSpecialists = this.findAvailableSpecialists();
@@ -182,8 +190,33 @@ export default {
       history.back()
     },
 
-    findProjectFromRouteParam(id) {
-      return this.projects.find(element => element.id === parseInt(id));
+    deleteProject() {
+      const id = this.$route.params.id
+      axios.delete(process.env.VUE_APP_API_URL + "/api/projects/" + id)
+          .then((res) => {
+            console.log(res)
+          })
+    },
+
+    async getAllSpecialists() {
+      await axios.get(process.env.VUE_APP_API_URL + "/api/users/speccialist")
+          .then((res) => {
+            console.log(res.data)
+            this.specialists = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+    async findProjectFromRouteParam(id) {
+      await axios.get(process.env.VUE_APP_API_URL + "/api/projects/" + id)
+          .then((res) => {
+            console.log(res.data)
+            this.dataObject = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
     },
 
     findSpecialistFromId(id) {
@@ -192,7 +225,7 @@ export default {
 
     findAvailableSpecialists() {
       return this.specialists.filter((val) => {
-        return this.dataObject.specialists.indexOf(val.id) == -1;
+        return this.dataObject.specialists.indexOf(val.id) === -1;
       })
     },
 
@@ -200,10 +233,18 @@ export default {
       return this.clients.find(element => element.id === parseInt(id));
     },
 
-    getSpecialistOfThisProject() {
+    async getSpecialistOfThisProject() {
       const projectId = this.$route.params.id;
       const project = this.findProjectFromRouteParam(projectId);
       let newSpecialists = [];
+
+      await axios.get(process.env.VUE_APP_API_URL + "/api/users/specialist")
+          .then((res) => {
+            this.specialistsOfThisProject = res.data
+          })
+          .catch((err) => {
+            console.log(err);
+          })
 
       for (let i = 0; i < project.specialists.length; i++) {
         newSpecialists.push(

@@ -1,27 +1,28 @@
 <template>
-<!--  &lt;!&ndash;  <img alt="Vue logo" src="./assets/logo.png">&ndash;&gt;-->
-<!--  <LandingPage v-if="showLandingPage"/>-->
-<!--  <Login v-if="showLogin"/>-->
+  <!--  <img alt="Vue logo" src="./assets/logo.png">-->
+  <!--  <LandingPage v-if="showLandingPage"/>-->
+  <!--  <Login v-if="showLogin"/>-->
+  <!--  <RegisterPage v-if="showRegister"/>-->
+  <div v-if="this.loginStatus === false">
+    <router-view/>
+  </div>
 
-<!--  <div v-if="!showLandingPage && !showLogin">-->
-<!--&lt;!&ndash;    <Sidebar/>&ndash;&gt;-->
-<!--    <div :style="{ 'margin-left': sidebarWidth }">-->
-<!--&lt;!&ndash;      <PageHeader/>&ndash;&gt;-->
-<!--&lt;!&ndash;      <router-view/>&ndash;&gt;-->
-<!--&lt;!&ndash;      <Footer></Footer>&ndash;&gt;-->
-<!--    </div>-->
-<!--  </div>-->
-  <ClientNavbar></ClientNavbar>
+  <div v-show="this.loginStatus === true">
+    <Sidebar/>
+    <div :style="{ 'margin-left': sidebarWidth }">
+      <PageHeader/>
+      <router-view/>
+
+      <Footer></Footer>
+    </div>
+  </div>
 </template>
 
 <script>
-import Sidebar from "@/components/miscellaneous/sidebar/Sidebar.vue";
+import Sidebar from "@/components/miscellaneous/sidebar/Sidebar";
 import {sidebarWidth} from '@/components/miscellaneous/sidebar/state.js'
 import PageHeader from "@/components/PageHeader";
-import Footer from "@/components/Footer.vue";
-import LandingPage from "@/views/landingPage";
-import Login from "@/views/Login";
-import ClientNavbar from '@/components/ClientNavbar.vue';
+import Footer from "@/components/Footer";
 
 // Models
 import client from "@/models/client";
@@ -29,23 +30,23 @@ import specialist from "@/models/specialist";
 import project from "@/models/project";
 import availableHour from "@/models/availableHour";
 import skill from "@/models/skill";
-
 // Dummy data
 import clientsData from "@/assets/data/clients.json";
 import projectsData from "@/assets/data/projects.json";
 import specialistsData from "@/assets/data/specialists.json";
 import availableHoursData from "@/assets/data/availableHours.json";
 import skillsData from "@/assets/data/skills.json";
+import ClientHomePage from "@/views/ClientHomePage.vue";
 
 export default {
   name: 'App',
   components: {
-    // Sidebar,
-    // Footer,
-    // PageHeader,
+    // RegisterPage,
+    Sidebar,
+    Footer,
+    PageHeader,
     // Login,
     // LandingPage
-    ClientNavbar
   },
 
   data() {
@@ -54,11 +55,32 @@ export default {
       projects: [],
       clients: [],
       availableHours: [],
-      skills: []
+      skills: [],
+      loginStatus: false,
+      isAdmin: false,
+      isClient: false,
+      isSpecialist: false,
     }
+  },
+  mounted() {
+    if (localStorage.getItem("id") != null) {
+
+      console.log("test")
+      this.loginStatus = true;
+      if (localStorage.getItem("isAdmin") === true) {
+        this.isAdmin = true;
+      }
+      if (localStorage.getItem("isClient") === true) {
+        this.isClient = true;
+      }
+      if (localStorage.getItem("isSpecialist") === true) {
+        this.isSpecialist = true;
+      }
+    } else return false
   },
 
   computed: {
+
     showLandingPage() {
       if (this.$route.path == "/landing-page") {
         return true
@@ -69,6 +91,14 @@ export default {
 
     showLogin() {
       if (this.$route.path == "/login") {
+        return true
+      } else {
+        return false
+      }
+    },
+
+    showRegister() {
+      if (this.$route.path == "/register") {
         return true
       } else {
         return false

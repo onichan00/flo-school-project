@@ -14,7 +14,7 @@ import java.util.Map;
 @Table
 public class AvailableHour {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id = 0L;
 
     @OneToMany(cascade = CascadeType.ALL)

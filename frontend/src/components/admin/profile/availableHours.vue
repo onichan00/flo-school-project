@@ -125,6 +125,7 @@ export default {
     }
   },
   created() {
+    console.log(this.availableHours);
     this.hours = this.availableHours;
   },
   computed: {
@@ -144,6 +145,9 @@ export default {
         let calculatedTotalHours = 0;
 
         const hour = this.hours;
+        console.log(hour)
+
+        // "sunday", "saturday", "tuesday", "wednesday", "thursday", "friday", "monday"
 
         const mondayDif = new Date(`${dayString} ${hour.monday.end}`).getHours() - new Date(`${dayString} ${hour.monday.start}`).getHours();
         const tuesdayDif = new Date(`${dayString} ${hour.tuesday.end}`).getHours() - new Date(`${dayString} ${hour.tuesday.start}`).getHours();

@@ -1,6 +1,7 @@
 package com.hva.helios.repositories.user;
 
 import com.hva.helios.models.Project;
+import com.hva.helios.models.user.Admin;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.hour.AvailableHour;
 import com.hva.helios.models.user.skill.UserSkill;
@@ -40,6 +41,18 @@ public class SpecialistJPARepository
     @Override
     public Specialist findById(long id) {
         return entityManager.find(Specialist.class, id);
+    }
+
+    @Override
+    public Specialist findByEmail(String email) {
+        TypedQuery<Specialist> query =
+                entityManager.createQuery("SELECT specialist from Specialist specialist",Specialist.class);
+        for (Specialist specialist : query.getResultList()){
+            if (specialist.getEmail().equals(email)){
+                return specialist;
+            };
+        };
+        return null;
     }
 
     @Override

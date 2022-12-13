@@ -11,7 +11,7 @@ public class ClientData {
     ArrayList<Client> clients;
 
     Client client1 = new Client(
-            "dennis.moes2@hva.nl",
+            "dennis.moes@hva.nl",
             "password123",
             "john",
             "",
@@ -26,7 +26,7 @@ public class ClientData {
     );
 
     Client client2 = new Client(
-            "dennis.moes2@hva.nl",
+            "dennis.moes1@hva.nl",
             "password123",
             "yahia",
             "",

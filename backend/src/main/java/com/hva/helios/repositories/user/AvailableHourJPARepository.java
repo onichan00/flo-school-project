@@ -36,6 +36,11 @@ public class AvailableHourJPARepository
     }
 
     @Override
+    public AvailableHour findByEmail(String email) {
+        return null;
+    }
+
+    @Override
     public AvailableHour save(AvailableHour entity) {
 //        for (Map.Entry<String,String> entry : gfg.entrySet())
 //            System.out.println("Key = " + entry.getKey() +

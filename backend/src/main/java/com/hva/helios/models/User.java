@@ -22,6 +22,8 @@ public class User {
     private String zipCode;
     private String address;
 
+    private Long userType;
+
     protected User() {
 
     }
@@ -38,6 +40,19 @@ public class User {
         this.city = city;
         this.zipCode = zipCode;
         this.address = address;
+    }
+
+    public User(Long id, Long userType){
+        this.userType = userType;
+        this.id = id;
+    }
+
+    public Long getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Long userType) {
+        this.userType = userType;
     }
 
     public long getId() {

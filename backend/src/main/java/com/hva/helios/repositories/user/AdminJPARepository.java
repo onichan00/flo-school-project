@@ -32,6 +32,17 @@ public class AdminJPARepository
     }
 
     @Override
+    public Admin findByEmail(String email) {
+        TypedQuery<Admin> query = entityManager.createQuery("SELECT admin from Admin admin",Admin.class);
+        for (Admin admin : query.getResultList()){
+            if (admin.getEmail().equals(email)){
+                return admin;
+            };
+        };
+        return null;
+    }
+
+    @Override
     public Admin save(Admin entity) {
         return entityManager.merge(entity);
     }

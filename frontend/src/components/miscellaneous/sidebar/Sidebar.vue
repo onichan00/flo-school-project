@@ -16,14 +16,14 @@
 
           <ul class="space-y-2 mt-2">
 
-            <SidebarLink to="/dashboard" icon="fas fa-dashboard"
+            <SidebarLink to="/admin" icon="fas fa-dashboard"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Dashboard
             </SidebarLink>
-            <SidebarLink to="/notifications" icon="fas fa-bell"
+<!--            <SidebarLink to="/notifications" icon="fas fa-bell"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Notifications
-            </SidebarLink>
+            </SidebarLink>-->
             <SidebarLink to="/specialists" icon="fas fa-code"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Specialists
@@ -59,7 +59,7 @@
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Profile
             </SidebarLink>
-            <SidebarLink to="/login" icon="fas fa-right-from-bracket"
+            <SidebarLink @click="logout" to="/login" icon="fas fa-right-from-bracket"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Logout
             </SidebarLink>
@@ -84,6 +84,13 @@ export default {
   components: {SidebarLink},
   setup() {
     return {collapsed, toggleSidebar, sidebarWidth}
+  },
+  methods: {
+    logout(){
+      localStorage.clear()
+      this.$router.push("/")
+
+    }
   }
 }
 </script>
