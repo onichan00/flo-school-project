@@ -10,7 +10,7 @@
         <div>
           <p class="text-md font-light">We at Florijn are very pleased to have you as a new user. We are sure that we
             will not disappoint you.</p>
-          <img src="../assets/img/undraw_welcome_re_h3d9-2.svg"
+          <img :src="require('@/assets/img/undraw_hello_re_3evm.svg')"
                class="mb-6 justify-center m-auto"
                style="max-height: 400px">
           <p class="text-md font-medium mb-3">If you already have an account you don't need to sign up</p>
