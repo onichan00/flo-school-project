@@ -3,11 +3,16 @@
   <!--  <LandingPage v-if="showLandingPage"/>-->
   <!--  <Login v-if="showLogin"/>-->
   <!--  <RegisterPage v-if="showRegister"/>-->
-  <div v-if="this.loginStatus === false">
+  <div v-if="!isAdmin && !isClient && !isSpecialist ">
     <router-view/>
   </div>
 
-  <div v-show="this.loginStatus === true">
+  <div v-if="isClient">
+    <client-navbar v-if="isClient"></client-navbar>
+    <router-view/>
+  </div>
+
+  <div v-if="isAdmin">
     <Sidebar/>
     <div :style="{ 'margin-left': sidebarWidth }">
       <PageHeader/>
@@ -15,7 +20,7 @@
 
       <Footer></Footer>
     </div>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -37,12 +42,14 @@ import specialistsData from "@/assets/data/specialists.json";
 import availableHoursData from "@/assets/data/availableHours.json";
 import skillsData from "@/assets/data/skills.json";
 import ClientHomePage from "@/views/ClientHomePage.vue";
+import ClientNavbar from "@/components/ClientNavbar";
 
 export default {
   name: 'App',
   components: {
     // RegisterPage,
     Sidebar,
+    ClientNavbar,
     Footer,
     PageHeader,
     // Login,
@@ -56,30 +63,58 @@ export default {
       clients: [],
       availableHours: [],
       skills: [],
-      loginStatus: false,
+      loginStatus: null,
       isAdmin: false,
       isClient: false,
-      isSpecialist: false,
+      isSpecialist: false
     }
   },
   mounted() {
+    console.log(this.isClient)
     if (localStorage.getItem("id") != null) {
 
       console.log("test")
       this.loginStatus = true;
-      if (localStorage.getItem("isAdmin") === true) {
-        this.isAdmin = true;
-      }
-      if (localStorage.getItem("isClient") === true) {
-        this.isClient = true;
-      }
-      if (localStorage.getItem("isSpecialist") === true) {
-        this.isSpecialist = true;
-      }
+      this.isAdmin = localStorage.getItem("isAdmin")
+      this.isClient = localStorage.getItem("isClient")
+
+      // if (localStorage.getItem("isAdmin") === true) {
+      //   this.isAdmin = true;
+      // }
+      // if (localStorage.getItem("isClient") === true) {
+      //   this.isClient = true;
+      // }
+      // if (localStorage.getItem("isSpecialist") === true) {
+      //   this.isSpecialist = true;
+      // }
     } else return false
   },
 
   computed: {
+    // isAdmin(){
+    //   if (localStorage.getItem("isAdmin")){
+    //     console.log("dit is een admin")
+    //
+    //     return true
+    //   }
+    //   return false;
+    // },
+    // isClient(){
+    //   if (localStorage.getItem("isClient")){
+    //     console.log("dit is een client")
+    //
+    //     return true
+    //   }
+    //   return false;
+    // },
+    // isSpecialist(){
+    //   if (localStorage.getItem("isClient")){
+    //     console.log("dit is een specialist")
+    //
+    //     return true
+    //   }
+    //   return false;
+    // },
 
     showLandingPage() {
       if (this.$route.path == "/landing-page") {

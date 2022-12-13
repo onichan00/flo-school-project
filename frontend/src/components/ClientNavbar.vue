@@ -4,14 +4,14 @@
   <nav class="bg-orange-500 border-gray-200 p-2 dark:bg-gray-900">
     <div class="container flex flex-wrap items-center justify-between mx-auto">
       <div class="flex flex-row">
-        <a href="#" class="flex items-center mr-20">
-          <span class="self-center text-2xl text-white font-bold whitespace-nowrap dark:text-white">FLORIJN</span>
+        <a @click="this.$router.push('/client/dashboard')" class="flex items-center mr-20">
+          <span class="self-center text-2xl text-white font-bold whitespace-nowrap dark:text-white" >FLORIJN</span>
         </a>
 
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
           <ul class="flex flex-col text-white border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
-            <li>
-              <a href="#" class="block py-2 pl-3 pr-4 text-m font-bold hover:bg-gray-100 border-b-2 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Projects</a>
+            <li >
+              <a class="block py-2 pl-3 pr-4 text-m font-bold hover:bg-gray-100 border-b-2 md:hover:bg-transparent md:hover:text-gray-500 md:p-0" @click="this.$router.push('/client/projects-overview')">Projects</a>
             </li>
             <li>
               <a href="#" class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Specialists</a>
@@ -21,6 +21,9 @@
             </li>
             <li>
               <a href="#" class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Contact</a>
+            </li>
+            <li>
+              <a href="#" class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0" @click="logout">Log uit</a>
             </li>
           </ul>
         </div>
@@ -58,7 +61,15 @@
 
 <script>
 export default {
-  name: "ClientNavbar"
+  name: "ClientNavbar",
+
+  methods: {
+    logout(){
+      localStorage.clear()
+      this.$router.push("/")
+
+    },
+  }
 }
 </script>
 
