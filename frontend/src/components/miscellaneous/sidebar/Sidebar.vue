@@ -1,4 +1,4 @@
-  <template>
+<template>
   <aside id="sidebar" class="h-full overflow-y-hidden" :style="{width: sidebarWidth}" aria-label="Sidebar">
     <div @click="toggleSidebar"
          class="overflow-y-auto flex flex-col justify-between h-full py-4  px-3 border-solid border-r-2">
@@ -16,18 +16,15 @@
 
           <ul class="space-y-2 mt-2">
 
-            <SidebarLink to="/dashboard" icon="fas fa-dashboard"
+            <SidebarLink to="/admin" icon="fas fa-dashboard"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Dashboard
             </SidebarLink>
-            <SidebarLink to="/notifications" icon="fas fa-bell"
-                         class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
-              Notifications
-            </SidebarLink>
-            <SidebarLink to="/specialists" icon="fas fa-code"
-                         class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
-              Specialists
-            </SidebarLink>
+            <!--            <SidebarLink to="/notifications" icon="fas fa-bell"
+                                     class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
+                          Notifications
+                        </SidebarLink>-->
+
             <SidebarLink to="/specialists/applications" icon="fas fa-users"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Applications
@@ -36,6 +33,17 @@
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Projects
             </SidebarLink>
+
+            <SidebarLink to="/admin/admins" icon="fa-solid fa-user"
+                         class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
+              Admins
+            </SidebarLink>
+
+            <SidebarLink to="/specialists" icon="fas fa-code"
+                         class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
+              Specialists
+            </SidebarLink>
+
             <SidebarLink to="/clients" icon="fa-solid fa-money-bill-trend-up"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Clients
@@ -55,11 +63,11 @@
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Settings
             </SidebarLink>
-            <SidebarLink to="/profile" icon="fas fa-user"
+            <SidebarLink @click="push" to="/profile" icon="fas fa-user"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Profile
             </SidebarLink>
-            <SidebarLink to="/login" icon="fas fa-right-from-bracket"
+            <SidebarLink @click="logout" to="/login" icon="fas fa-right-from-bracket"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Logout
             </SidebarLink>
@@ -76,7 +84,7 @@
 
 <script>
 import SidebarLink from './SidebarLink'
-import {collapsed, toggleSidebar, sidebarWidth} from './state'
+import {collapsed, sidebarWidth, toggleSidebar} from './state'
 
 export default {
   name: "ComponentsSidebar",
@@ -84,6 +92,17 @@ export default {
   components: {SidebarLink},
   setup() {
     return {collapsed, toggleSidebar, sidebarWidth}
+  },
+  methods: {
+    push(){
+      this.$router.push("/profile/" + localStorage.getItem("id"))
+    },
+    logout() {
+      localStorage.clear()
+      this.$router.push("/").then(() => {
+        this.$router.go()
+      })
+    }
   }
 }
 </script>

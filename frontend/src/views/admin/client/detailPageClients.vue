@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "detailPageClients",
   inject: ['clients'],
@@ -56,10 +58,24 @@ export default {
   },
 
   created() {
-    this.selectedClient = this.findClientFromRouteParam(this.$route.params.id);
+    this.getClient();
   },
 
   methods: {
+
+    async getClient() {
+      const id = this.$route.params.id;
+
+      await axios.get(process.env.VUE_APP_API_URL + `/api/users/client/${id}`)
+          .then((res) => {
+            this.selectedClient = res.data;
+            console.log(this.selectedClient)
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
     setFirstLetterUppercase(str) {
       if (str) str = str.charAt(0).toUpperCase() + str.slice(1);
 

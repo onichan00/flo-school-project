@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dashboard-section">
     <div class="relative"
          style='background-image: linear-gradient(to right, #F15922 , #f18a22); height: 300px'>
       <!-- Header -->
@@ -348,3 +348,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.dashboard-section {
+  height: 100vh;
+}
+</style>

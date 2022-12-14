@@ -1,7 +1,15 @@
 package com.hva.helios.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="user_table")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
-    private int id;
+    @Id
+    @GeneratedValue
+    private long id = 0L;
+
     private String email;
     private String password;
     private String first_name;
@@ -9,12 +17,18 @@ public class User {
     private String last_name;
     private String photo;
     private String bio;
-    private float phone;
+    private String phone;
+    private String city;
+    private String zipCode;
+    private String address;
 
-//    private ProfileExtension profileExtension;
+    private Long userType;
 
-    public User(int id, String email, String password, String first_name, String second_name, String last_name, String photo, String bio, float phone) {
-        this.id = id;
+    protected User() {
+
+    }
+
+    public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address) {
         this.email = email;
         this.password = password;
         this.first_name = first_name;
@@ -23,14 +37,29 @@ public class User {
         this.photo = photo;
         this.bio = bio;
         this.phone = phone;
-//        this.profileExtension = profileExtension;
+        this.city = city;
+        this.zipCode = zipCode;
+        this.address = address;
     }
 
-    public int getId() {
+    public User(Long id, Long userType){
+        this.userType = userType;
+        this.id = id;
+    }
+
+    public Long getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Long userType) {
+        this.userType = userType;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -90,104 +119,35 @@ public class User {
         this.bio = bio;
     }
 
-    public float getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(float phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public User(int id) {
-        this.id = id;
-        this.email = "Not given";
-        this.password = "Not given";
-        this.first_name = "Not given";
-        this.second_name = "Not given";
-        this.last_name = "Not given";
-        this.photo = "Not given";
-        this.bio = "Not given";
-        this.phone = 0;
-        this.profileExtension = null;
+    public String getCity() {
+        return city;
     }
 
-    public int getId() {
-        return id;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public String getEmail() {
-        return email;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getAddress() {
+        return address;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    public String getSecond_name() {
-        return second_name;
-    }
-
-    public void setSecond_name(String second_name) {
-        this.second_name = second_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
-    public int getPhone() {
-        return phone;
-    }
-
-    public void setPhone(int phone) {
-        this.phone = phone;
-    }
-
-    public ProfileExtension getProfileExtension() {
-        return profileExtension;
-    }
-
-    public void setProfileExtension(ProfileExtension profileExtension) {
-        this.profileExtension = profileExtension;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

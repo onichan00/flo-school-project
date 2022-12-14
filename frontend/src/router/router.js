@@ -1,23 +1,71 @@
 import {createRouter, createWebHashHistory} from "vue-router";
 
 // Views
-import UnknownRoute from "@/components/404-page"
-import projectSubmissions from "@/views/admin/project/projectSubmissions";
 import projectSubmissionsDetail from "@/views/admin/project/ProjectSubmissionsDetail";
 import clientSubmitions from "@/views/admin/client/clientSubmitions";
 import Profile from "@/views/admin/profile";
-import Dashboard from "@/views/admin/dashboard";
+import Admin from "@/views/admin/dashboard.vue";
+import Login from "@/views/Login.vue";
+import Register from "@/views/RegisterPage.vue";
+import LandingPage from "@/views/landingPage.vue";
+import Specialists from "@/views/admin/specialist/Specialists";
+import Client from "@/views/admin/client/detailPageClients";
 
 // Components
+import UnknownRoute from "@/components/404-page"
 import SpecialistApplications from "@/components/SpecialistApplications";
 import SpecialistApplicationModal from "@/components/SpecialistApplicationModal";
+import ProjectsOverview from "@/views/ProjectsOverview";
+import projectSubmissions from "@/views/admin/project/projectSubmissions";
+import ClientHomePage from "@/views/ClientHomePage";
+import CreateProjects from "@/views/createProjects";
+import CreateAdmins from "@/components/admin/CreateAdmins";
+import AdminsTable from "@/components/admin/AdminsTable";
+import AdminDetail from "@/components/admin/AdminDetail";
 
 export const router = createRouter({
     history: createWebHashHistory(),
     routes: [
-        {path: '/', component: Dashboard},
-        {path: '/profile/:id', name: 'profile', component: Profile},
-        {path: '/:pathMatch(.*)', component: UnknownRoute},
+        {
+            path: '/admin',
+            name: 'Admin dashboard',
+            component: Admin
+        },
+        {
+            path: '/admin/admins',
+            name: 'Admin gebruikers',
+            component: AdminsTable
+        },
+        {
+            path: '/admin/create-admin',
+            name: 'Nieuwe Admin aanmaken',
+            component: CreateAdmins
+        },
+        {
+            path: '/admin/detail/:id',
+            name: 'Admin detail',
+            component: AdminDetail
+        },
+        {
+            path: '/',
+            name: 'Landing-page',
+            component: LandingPage
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login
+        },
+        {
+            path: '/register',
+            name: 'Register',
+            component: Register
+        },
+        {
+            path: '/profile/:id',
+            name: 'Profile',
+            component: Profile
+        },
         {
             path: '/specialists/applications',
             component: SpecialistApplications,
@@ -27,20 +75,24 @@ export const router = createRouter({
             }]
         },
         {
-            path: '/dashboard',
-            name: 'Dashboard',
-            component: () => import('../views/admin/dashboard.vue')
+            path: '/projects',
+            name: 'Project',
+            component: projectSubmissions
         },
         {
-            path: '/projects', name: 'Projects', component: projectSubmissions,
+            path: '/create-project',
+            name: 'Create Project',
+            component: CreateProjects
         },
         {
-            path: '/projects/:id', name: 'Project', component: projectSubmissionsDetail,
+            path: '/projects/:id',
+            name: 'Project details',
+            component: projectSubmissionsDetail,
         },
         {
             path: '/specialists',
             name: 'Specialists',
-            component: () => import('../views/admin/specialist/Specialists.vue')
+            component: Specialists,
         },
         {
             path: '/clients',
@@ -48,8 +100,35 @@ export const router = createRouter({
             component: clientSubmitions,
         },
         {
-            path: '/client/:id', name: 'Client', component: () => import('../views/admin/client/detailPageClients')
+            path: '/client/projects-overview',
+            name: 'Projects',
+            component: ProjectsOverview,
         },
-
+        {
+            path: '/client/:id',
+            name: 'Client',
+            component: Client
+        },
+        {
+            path: '/client/dashboard',
+            name: 'Client dashboard',
+            component:  ClientHomePage
+        },
+        {
+            path: '/:pathMatch(.*)',
+            component: UnknownRoute
+        },
     ]
+})
+
+router.beforeEach((to,from) => {
+    console.log(to)
+
+    // Whitelisted routes when logged out
+    const accessibleLoggedOutRoutes = ['Landing-page', 'Profile', 'Login', 'Register']
+
+    if (!accessibleLoggedOutRoutes.includes(to.name) && localStorage.getItem("id") === null) {
+        return { name: 'Landing-page' }
+    }
+
 })

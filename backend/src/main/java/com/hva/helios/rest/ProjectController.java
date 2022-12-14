@@ -1,74 +1,84 @@
 package com.hva.helios.rest;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.Project;
-import com.hva.helios.repositories.ProjectsRepository;
-import org.springframework.http.ResponseEntity;
+import com.hva.helios.models.user.Client;
+import com.hva.helios.repositories.EntityRepository;
+import com.hva.helios.repositories.testRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Project controller for the Projects Repository
- * @author Simon Vriesema
- */
+@CrossOrigin(origins = "http://localhost:4040", maxAge = 3600)
 @RestController
-@RequestMapping("/projects")
+@RequestMapping("projects")
 public class ProjectController {
-    private final ProjectsRepository PROJECT_REPO;
 
-    public ProjectController(ProjectsRepository PROJECT_REPO){
-        this.PROJECT_REPO = PROJECT_REPO;
-    }
+    @Autowired
+    private testRepo projectRepository;
+
+    @Autowired
+    private EntityRepository<Client>  clientRepository;
+
+//    @Autowired
+//    private EntityRepository<Project>  projectRepository;
 
     @GetMapping("")
-    public List<Project> getAll() {
-        return PROJECT_REPO.getAll(PROJECT_REPO.getProjects());
+    public List<Project> getProject() {
+        return projectRepository.findAll();
     }
 
     /**
-     * Get project by id
-     * @param id - id of the project
-     * @return - the project
-     */
-    @GetMapping(path = "{id}", produces = "application/json")
-    public Project getProject(@PathVariable int id) {
-        Project project = PROJECT_REPO.getByItem(new Project(id), PROJECT_REPO.getProjects());
-
-        if (project == null) throw new NotFoundException(String.format("No project found with id: %d", id));
-
-        return project;
-    }
-
-    /**
-     * Save project
-     * @param project - project that needs to be saved
-     * @return - the project that is saved
+     * Add Project to the BE
+     * @param project = project to add
+     * @return save project to the backend
      */
     @PostMapping("")
-    public Project saveProject(@RequestBody Project project) {
-        Project item = PROJECT_REPO.saveItem(project);
+    public Project addProject(@RequestBody ObjectNode project) {
+        Client client = clientRepository.findById(project.get("client_id").asLong());
 
-        URI location = ServletUriComponentsBuilder.
-                fromCurrentRequest().path("/{id}")
-                .buildAndExpand(item.getId()).toUri();
+        //sets the properties of the Project object, including the name, client, status, date, and description of the project.
+        Project project1 = new Project(
+                project.get("name").asText()
+                ,client
+                ,project.get("status").asInt()
+                , LocalDate.now()
+                ,project.get("description").asText()
+        );
 
-        return ResponseEntity.created(location).body(project).getBody();
+        //saves the Project object to the projectRepository and returns it.
+        return projectRepository.save(project1);
     }
 
-    /**
-     * Delete project
-      * @param id - id of project that has to be deleted
-     * @return - the project that is deleted
-     */
-    @DeleteMapping(path = "{id}", produces = "application/json")
-    public Project deleteProject(@PathVariable int id) {
-        Project item = PROJECT_REPO.deleteById(id);
+    @GetMapping("client/{client_id}")
+    public List<Project> getProjectsByClient(@PathVariable String client_id) {
+//        List<Project> projects = new ArrayList<>();
+        Client client = clientRepository.findById(Long.parseLong(client_id));
+//
+//        for (Project project : getProject()) if (project.getClient().equals(client)) projects.add(project);
+//
 
-        if (item == null) throw new NotFoundException(String.format("No project found with id: %d", id));
+        return projectRepository.findAllByClient(client);
+    }
 
-        return ResponseEntity.ok(item).getBody();
+    @GetMapping("{id}")
+    public Project getProject(@PathVariable long id) {
+        return projectRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Project could not be found"));
+
+    }
+
+    @DeleteMapping("{id}")
+    public long deleteProject(@PathVariable long id) {
+        System.out.println(id);
+        Project project = getProject(id);
+        projectRepository.delete(project);
+
+        return id;
     }
 }
