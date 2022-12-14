@@ -4,7 +4,7 @@
       <div class="h-24 flex flex-row justify-between">
         <img
             class="w-40 h-40 rounded-full ring-8 ring-white object-cover absolute -mt-20 ml-8"
-            src="https://images.unsplash.com/photo-1558203728-00f45181dd84?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2074&q=80"
+            :src="this.user.photo"
             alt="Bordered avatar"
         >
       <div />
@@ -14,9 +14,9 @@
       </button>
     </div>
     <div class="w-full text-left px-8 py-4">
-      <p class="text-2xl">John Doe</p>
-      <p class="text-gray-400">Amsterdam - Backend</p>
-      <p class="mt-4 w-full md:w-2/3">Ik ben John en ik ben een software engineer die zich specialiseert in het ontwikkelen van de back-end van een website of applicatie. Dit omvat de server-side logica, databasebeheer en integratie van front-end elementen. Ik werk vaak nauw samen met front-end developers om ervoor te zorgen dat de front-end elementen goed geïntegreerd zijn met de back-end systemen.</p>
+      <p class="text-2xl">{{ this.user.first_name.charAt(0).toUpperCase() + "." + this.user.second_name + " " + this.user.last_name}}</p>
+      <p class="text-gray-400">{{ this.user.city }} - Backend</p>
+      <p class="mt-4 w-full md:w-2/3">{{this.user.bio}}</p>
 
       <div class="mt-4">
         <p class="font-medium">Attachments</p>
@@ -353,11 +353,13 @@ import AvailabilityRow from "@/components/miscellaneous/profile/AvailabilityRow"
 import 'vue-datepicker-next/index.css';
 import 'v-calendar/dist/style.css';
 import AttachmentRow from "@/components/miscellaneous/profile/AttachmentRow";
+import axios from "axios";
 
 export default {
   name: "UserProfile",
   data() {
     return {
+      user: null,
       langObj: {
         formatLocale: {
           firstDayOfWeek: 1
@@ -530,6 +532,10 @@ export default {
       ],
     }
   },
+
+  created() {
+    this.getUser();
+  },
   computed: {
     attributes() {
       return [
@@ -606,6 +612,20 @@ export default {
       }
 
       return this.sameDay(meeting.start, meeting.end) ? sameDayMeeting : multiDayMeeting;
+    },
+
+    async getUser() {
+
+      let id = this.$route.params.id
+      await axios.get(process.env.VUE_APP_API_URL + `/api/users/` + id)
+          .then((res) => {
+            this.user = res.data;
+            console.log(this.admin = res.data)
+
+          })
+          .catch((err) => {
+            console.log(err);
+          })
     },
     getMeetingType(type) {
       // Available Colors: gray, red, orange, yellow, green, teal, blue, indigo, purple, pink

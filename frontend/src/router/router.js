@@ -19,6 +19,9 @@ import ProjectsOverview from "@/views/ProjectsOverview";
 import projectSubmissions from "@/views/admin/project/projectSubmissions";
 import ClientHomePage from "@/views/ClientHomePage";
 import CreateProjects from "@/views/createProjects";
+import CreateAdmins from "@/components/admin/CreateAdmins";
+import AdminsTable from "@/components/admin/AdminsTable";
+import AdminDetail from "@/components/admin/AdminDetail";
 
 export const router = createRouter({
     history: createWebHashHistory(),
@@ -27,6 +30,21 @@ export const router = createRouter({
             path: '/admin',
             name: 'Admin dashboard',
             component: Admin
+        },
+        {
+            path: '/admin/admins',
+            name: 'Admin gebruikers',
+            component: AdminsTable
+        },
+        {
+            path: '/admin/create-admin',
+            name: 'Nieuwe Admin aanmaken',
+            component: CreateAdmins
+        },
+        {
+            path: '/admin/detail/:id',
+            name: 'Admin detail',
+            component: AdminDetail
         },
         {
             path: '/',

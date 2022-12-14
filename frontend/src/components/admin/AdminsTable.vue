@@ -1,50 +1,20 @@
 <template>
+  <div id="specialistsInfo" class="grid grid-cols-3 gap-4">
+    <div class="p-6 bg-white rounded-lg text-left border border-gray-200">
+      <!--      <svg class="mb-2 w-10 h-10 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path><path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path></svg>-->
+      <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">
+        <i class="fa-solid fa-code bg-orange"></i> Aantal Admins</p>
+      <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ admins.length }}</h5>
+    </div>
+    <div class="p-6 bg-white rounded-lg text-left border border-gray-200 hover:bg-orange-50" @click="this.$router.push('/admin/create-admin')" id="aanmakenKnop">
+      <!--      <svg class="mb-2 w-10 h-10 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"></path><path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path></svg>-->
+      <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">
+        <i ></i> Admin Aanmaken</p>
+      <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">+</h5>
+    </div>
+  </div>
   <br>
   <div id="specialistsTable" class="overflow-x-auto relative">
-    <div class="flex justify-between items-center pb-4  dark:bg-gray-900">
-      <button id="dropdownDefault" data-dropdown-toggle="dropdown"
-              class="bg-gray-50 border border-gray-300 text-gray-900 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              type="button">Filter
-        <svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-             xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-        </svg>
-      </button>
-      <!-- Dropdown menu -->
-      <div id="dropdown"
-           class="hidden z-10 w-44 bg-white rounded text-left divide-y divide-gray-100 shadow dark:bg-gray-700">
-        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
-          <li>
-            <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Name</a>
-          </li>
-          <li>
-            <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Email</a>
-          </li>
-          <li>
-            <a href="#"
-               class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Position</a>
-          </li>
-          <li>
-            <a href="#"
-               class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Available</a>
-          </li>
-        </ul>
-      </div>
-      <label for="table-search" class="sr-only">Search</label>
-      <div class="relative">
-        <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-          <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor"
-               viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clip-rule="evenodd"></path>
-          </svg>
-        </div>
-        <input type="text" id="table-search-users"
-               class="block p-2 pl-10 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-200 focus:ring-orange-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-               placeholder="Search for Specialists">
-      </div>
-    </div>
     <div class="overflow-x-auto relative shadow-md border border-gray-200 sm:rounded-lg">
       <table class="w-full text-sm rounded-md text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs border-b text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -54,10 +24,7 @@
             Name
           </th>
           <th scope="col" class="py-3 px-6">
-            <!--              Position-->
-          </th>
-          <th scope="col" class="py-3 px-6">
-            Status
+                          email
           </th>
           <th scope="col" class="py-3 px-6">
             Action
@@ -66,28 +33,21 @@
         </thead>
         <tbody>
 
-        <tr v-for="specialist in specialists" :key="specialist.id" @click="selectItem(specialist)"
-            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-orange-50 dark:hover:bg-gray-600">
+        <tr v-for="admin in admins" :key="admin.id"
+            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-orange-50 dark:hover:bg-gray-600"
+            @click="this.$router.push('/admin/detail/' + admin.id)">
 
           <th scope="row" class="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white">
             <div class="pl-3">
-              <div class="text-base font-semibold">{{ specialist.firstName }}</div>
-              <div class="font-normal text-gray-500">{{ specialist.email }}</div>
+              <div class="font-normal text-gray-500">{{ admin.first_name.charAt(0).toUpperCase() + "." + admin.last_name}}</div>
             </div>
           </th>
           <td class="py-4 px-6">
-            {{ specialist.position }}
+            {{ admin.email }}
           </td>
           <td class="py-4 px-6">
-            <div class="flex items-center">
-              <div class="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>
-              {{ specialist.status }}
-            </div>
-          </td>
-          <td class="py-4 px-6">
-            <a v-on:click="toUser(specialist.id)" class="font-medium text-orange-500 hover:underline"
-               data-modal-toggle="defaultModal">Edit
-              user</a>
+            <a class="font-medium text-orange-500 hover:underline"
+               data-modal-toggle="defaultModal" @click="this.$router.push('/admin/detail/' + admin.id)">Bekijk admin</a>
           </td>
         </tr>
 
@@ -106,10 +66,12 @@
       <form action="#" class="relative bg-white rounded-lg shadow dark:bg-gray-700">
         <!-- Modal header -->
         <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+<!--            Edit user (id = {{ specialists.id }})-->
+          </h3>
           <button type="button"
                   class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                  data-modal-toggle="defaultModal">
+                  data-modal-toggle="defaultModal" >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd"
                     d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -194,120 +156,27 @@
 <script>
 import axios from "axios";
 
+
 export default {
-  name: "ComponentsSpecialistsTable",
+  name: "AdminsTable",
 
   data() {
     return {
-      // specialists: [
-      //   {
-      //     'id': 1,
-      //     'firstName': "Dennis Moes",
-      //     'email': "denniscmoes@gmail.com",
-      //     'position': "React Developer",
-      //     'status': "Online",
-      //     'phoneNumber': '+31612345678',
-      //   }, {
-      //     'id': 1,
-      //     'firstName': "Dennis Moes",
-      //     'email': "denniscmoes@gmail.com",
-      //     'position': "React Developer",
-      //     'status': "Online",
-      //     'phoneNumber': '+31612345678',
-      //   }, {
-      //     'id': 1,
-      //     'firstName': "Dennis Moes",
-      //     'email': "denniscmoes@gmail.com",
-      //     'position': "React Developer",
-      //     'status': "Online",
-      //     'phoneNumber': '+31612345678',
-      //   }, {
-      //     'id': 1,
-      //     'firstName': "Dennis Moes",
-      //     'email': "denniscmoes@gmail.com",
-      //     'position': "React Developer",
-      //     'status': "Online",
-      //     'phoneNumber': '+31612345678',
-      //   }, {
-      //     'id': 1,
-      //     'firstName': "Dennis Moes",
-      //     'email': "denniscmoes@gmail.com",
-      //     'position': "React Developer",
-      //     'status': "Online",
-      //     'phoneNumber': '+31612345678',
-      //   }, {
-      //     'id': 1,
-      //     'firstName': "Dennis Moes",
-      //     'email': "denniscmoes@gmail.com",
-      //     'position': "React Developer",
-      //     'status': "Online",
-      //     'phoneNumber': '+31612345678',
-      //   }, {
-      //     'id': 1,
-      //     'firstName': "Dennis Moes",
-      //     'email': "denniscmoes@gmail.com",
-      //     'position': "React Developer",
-      //     'status': "Online",
-      //     'phoneNumber': '+31612345678',
-      //   }, {
-      //     'id': 1,
-      //     'firstName': "Dennis Moes",
-      //     'email': "denniscmoes@gmail.com",
-      //     'position': "React Developer",
-      //     'status': "Online",
-      //     'phoneNumber': '+31612345678',
-      //   }, {
-      //     'id': 1,
-      //     'firstName': "Dennis Moes",
-      //     'email': "denniscmoes@gmail.com",
-      //     'position': "React Developer",
-      //     'status': "Online",
-      //     'phoneNumber': '+31612345678',
-      //   }, {
-      //     'id': 1,
-      //     'firstName': "Dennis Moes",
-      //     'email': "denniscmoes@gmail.com",
-      //     'position': "React Developer",
-      //     'status': "Online",
-      //     'phoneNumber': '+31612345678',
-      //   }, {
-      //     'id': 1,
-      //     'firstName': "Dennis Moes",
-      //     'email': "denniscmoes@gmail.com",
-      //     'position': "React Developer",
-      //     'status': "Online",
-      //     'phoneNumber': '+31612345678',
-      //   }, {
-      //     'id': 1,
-      //     'firstName': "Dennis Moes",
-      //     'email': "denniscmoes@gmail.com",
-      //     'position': "React Developer",
-      //     'status': "Online",
-      //     'phoneNumber': '+31612345678',
-      //   }
-      // ]
-
-      specialists: null
+      admins: null
     }
   },
 
   created() {
-    this.getSpecialists();
+    this.getAdmins();
   },
 
   methods: {
-    toUser(id) {
-      this.$router.push(`/profile/${id}`).then((e) => {
-        this.$router.go()
-      })
-    },
+    async getAdmins() {
 
-    async getSpecialists() {
-      const id = this.$route.params.id;
-
-      await axios.get(process.env.VUE_APP_API_URL + `/api/users/specialist`)
+      await axios.get(process.env.VUE_APP_API_URL + `/api/users/admins`)
           .then((res) => {
-            this.specialists = res.data;
+            this.admins = res.data.admin;
+
           })
           .catch((err) => {
             console.log(err);
@@ -330,4 +199,11 @@ export default {
   margin: auto;
   max-width: 1140px;
 }
+#specialistsInfo {
+  margin: auto;
+  max-width: 1140px;
+}
+/*#aanmakenKnop:hover {*/
+/*  background-color: lightgrey;*/
+/*}*/
 </style>

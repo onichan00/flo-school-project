@@ -39,6 +39,15 @@ public class UserController {
         return users;
     }
 
+    @GetMapping("/admins")
+    public Map<String, List<? extends User>> getAllAdmins() {
+        Map<String, List<? extends User>> users = new HashMap<>();
+
+        users.put("admin", adminRepository.findAll());
+
+        return users;
+    }
+
     @GetMapping("count")
     public int countUsers() {
         int amount = 0;

@@ -203,7 +203,7 @@ export default {
         if (response.isClient === true) {
           localStorage.setItem("isClient", "true")
 
-          this.$router.push("/notfound")
+          this.$router.push("/client/dashboard")
         }
 
         if (response.isSpecialist === true) {

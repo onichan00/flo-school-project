@@ -158,7 +158,7 @@ export default {
         status: 0,
         created: "2022-12-05",
         specialists: null,
-        clients: null,
+        client_id: null,
         name: this.newProjectData.name,
         description: this.newProjectData.description,
       }

@@ -24,10 +24,7 @@
                                      class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
                           Notifications
                         </SidebarLink>-->
-            <SidebarLink to="/specialists" icon="fas fa-code"
-                         class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
-              Specialists
-            </SidebarLink>
+
             <SidebarLink to="/specialists/applications" icon="fas fa-users"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Applications
@@ -36,6 +33,17 @@
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Projects
             </SidebarLink>
+
+            <SidebarLink to="/admin/admins" icon="fa-solid fa-user"
+                         class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
+              Admins
+            </SidebarLink>
+
+            <SidebarLink to="/specialists" icon="fas fa-code"
+                         class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
+              Specialists
+            </SidebarLink>
+
             <SidebarLink to="/clients" icon="fa-solid fa-money-bill-trend-up"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Clients
@@ -55,7 +63,7 @@
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Settings
             </SidebarLink>
-            <SidebarLink to="/profile" icon="fas fa-user"
+            <SidebarLink @click="push" to="/profile" icon="fas fa-user"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Profile
             </SidebarLink>
@@ -86,6 +94,9 @@ export default {
     return {collapsed, toggleSidebar, sidebarWidth}
   },
   methods: {
+    push(){
+      this.$router.push("/profile/" + localStorage.getItem("id"))
+    },
     logout() {
       localStorage.clear()
       this.$router.push("/").then(() => {
