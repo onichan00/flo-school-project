@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table
-public class Specialist extends User {
+public class Specialist{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id = 0L;
@@ -28,23 +28,24 @@ public class Specialist extends User {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<UserSkill> skills;
 
+    @OneToOne
+    private User user;
+
     protected Specialist() {}
 
-    public Specialist(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills) {
-        super(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address);
-
+    public Specialist(User user, int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills) {
+        this.user = user;
         this.available = available;
         this.specialistType = specialistType;
 
 //        this.projects = projects;
 //        this.skills = skills;
     }
-    public Specialist(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address){
-        super(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address);
+    public Specialist(User user){
+        this.user = user;
 
     }
 
-    @Override
     public long getId() {
         return id;
     }
@@ -115,7 +116,6 @@ public class Specialist extends User {
         }
     }
 
-    @Override
     public void setId(long id) {
         this.id = id;
     }

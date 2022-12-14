@@ -28,7 +28,7 @@ public class User {
 
     }
 
-    public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address) {
+    public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType) {
         this.email = email;
         this.password = password;
         this.first_name = first_name;
@@ -40,6 +40,7 @@ public class User {
         this.city = city;
         this.zipCode = zipCode;
         this.address = address;
+        this.userType = userType;
     }
 
     public User(Long id, Long userType){

@@ -1,13 +1,13 @@
 package com.hva.helios.rest;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.Project;
 import com.hva.helios.models.user.Client;
-import com.hva.helios.models.user.skill.Skill;
 import com.hva.helios.repositories.EntityRepository;
 import com.hva.helios.repositories.testRepo;
+import com.hva.helios.repositories.user.ClientJPARepository;
+import com.hva.helios.repositories.user.UserJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +25,10 @@ public class ProjectController {
     private testRepo projectRepository;
 
     @Autowired
-    private EntityRepository<Client>  clientRepository;
+    private ClientJPARepository clientRepository;
+
+//    @Autowired
+//    private UserJPARepository clientRepository;
 
 //    @Autowired
 //    private EntityRepository<Project>  projectRepository;
@@ -61,8 +64,14 @@ public class ProjectController {
     }
 
     @GetMapping("client/{client_id}")
-    public List<Project> getProjectsByClientId(@PathVariable String client_id) {
-        return projectRepository.findAllByClient(clientRepository.findById(Long.parseLong(client_id)));
+    public List<Project> getProjectsByClient(@PathVariable String client_id) {
+//        List<Project> projects = new ArrayList<>();
+        Client client = clientRepository.findClientByUserId(Long.parseLong(client_id));
+//
+//        for (Project project : getProject()) if (project.getClient().equals(client)) projects.add(project);
+//
+
+        return projectRepository.findAllByClient(client);
     }
 
     @GetMapping("{id}")

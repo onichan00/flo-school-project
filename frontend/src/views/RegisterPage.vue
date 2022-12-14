@@ -192,25 +192,32 @@ export default {
       if (request.status === 200) {
 
         let response = request.data
-
+        let userType = response.userType
         localStorage.setItem("id", response.id)
+        localStorage.setItem("userType", response.userType)
 
-        if (response.isAdmin === true) {
-          localStorage.setItem("isAdmin", "true")
 
-          this.$router.push("/admin")
+        if (userType === 0) {
+          this.$router.push("/admin").then( () => {
+            this.$router.go()
+          })
         }
-        if (response.isClient === true) {
-          localStorage.setItem("isClient", "true")
+        if (userType === 1) {
 
-          this.$router.push("/client/dashboard")
+          this.$router.push("/client/dashboard").then( () => {
+            this.$router.go().then( () => {
+              this.$router.go()
+            })
+          })
         }
 
-        if (response.isSpecialist === true) {
-          localStorage.setItem("isSpecialist", "true")
+        if (userType === 2) {
 
-          this.$router.push("/notfound")
+          this.$router.push("/notfound").then( () => {
+            this.$router.go()
+          })
         }
+        // location.reload()
       }
     }
   }
