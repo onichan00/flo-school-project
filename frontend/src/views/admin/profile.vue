@@ -1,65 +1,70 @@
 <template>
-  <div class="m-4 rounded-lg overflow-hidden shadow shadow-md">
-    <div class="w-full h-48 banner" />
-      <div class="h-24 flex flex-row justify-between">
-        <img
-            class="w-40 h-40 rounded-full ring-8 ring-white object-cover absolute -mt-20 ml-8"
-            :src="this.user.photo"
-            alt="Bordered avatar"
-        >
-      <div />
-      <button @click="openEditUserInfoModal" type="button" class="m-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-        <span class="sr-only">Edit Profile</span>
-      </button>
-    </div>
-    <div class="w-full text-left px-8 py-4">
-      <p class="text-2xl">{{ this.user.first_name.charAt(0).toUpperCase() + "." + this.user.second_name + " " + this.user.last_name}}</p>
-      <p class="text-gray-400">{{ this.user.city }} - Backend</p>
-      <p class="mt-4 w-full md:w-2/3">{{this.user.bio}}</p>
+  <div v-if="!userObj">
+    <p>Loading</p>
+  </div>
+  <div v-else>
+    <div class="m-4 rounded-lg overflow-hidden shadow shadow-md">
+      <div class="w-full h-48 banner" />
+        <div class="h-24 flex flex-row justify-between">
+          <img
+              class="w-40 h-40 rounded-full ring-8 ring-white object-cover absolute -mt-20 ml-8"
+              src="https://images.unsplash.com/photo-1558203728-00f45181dd84?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2074&q=80"
+              alt="Bordered avatar"
+          >
+        <div />
+        <button @click="openEditUserInfoModal" type="button" class="m-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+          <span class="sr-only">Edit Profile</span>
+        </button>
+      </div>
+      <div class="w-full text-left px-8 py-4">
+        <p class="text-2xl">{{ userFullName(this.userObj, true) }}</p>
+        <p class="text-gray-400">{{ userObj.city }} - {{ this.firstLetterUpperCase(userObj.specialistType) }}</p>
+        <p class="mt-4 w-full md:w-2/3">Ik ben John en ik ben een software engineer die zich specialiseert in het ontwikkelen van de back-end van een website of applicatie. Dit omvat de server-side logica, databasebeheer en integratie van front-end elementen. Ik werk vaak nauw samen met front-end developers om ervoor te zorgen dat de front-end elementen goed geïntegreerd zijn met de back-end systemen.</p>
 
-      <div class="mt-4">
-        <p class="font-medium">Attachments</p>
-        <ul class="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 divide-y">
-          <AttachmentRow v-for="(attachment, index) in attachments" :key="index" :attachment="attachment"/>
-        </ul>
+        <div class="mt-4">
+          <p class="font-medium">Attachments</p>
+          <ul class="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 divide-y">
+            <AttachmentRow v-for="(attachment, index) in attachments" :key="index" :attachment="attachment"/>
+          </ul>
+        </div>
+
+        <!-- TODO - Add to project buttons -->
+  <!--      <div class="flex flex-row space-x-2 mt-4">-->
+  <!--        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 focus:outline-none">Default</button>-->
+  <!--        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 focus:outline-none">Default</button>-->
+  <!--      </div>-->
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
+      <p class="text-xl mb-4">Vaardigheden</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <SkillBadge v-for="(skill, index) in skills" :key="index" :skill="skill" @skillClicked="openSkillModal"/>
+
+        <button @click="openSkillModal(null)" class="bg-green-100 hover:bg-green-200 text-green-900 p-4 rounded-md flex items-center justify-center">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+        </button>
       </div>
 
-      <!-- TODO - Add to project buttons -->
-<!--      <div class="flex flex-row space-x-2 mt-4">-->
-<!--        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 focus:outline-none">Default</button>-->
-<!--        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 focus:outline-none">Default</button>-->
-<!--      </div>-->
-    </div>
-  </div>
-
-  <!-- Skills -->
-  <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
-    <p class="text-xl mb-4">Vaardigheden</p>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <SkillBadge v-for="(skill, index) in skills" :key="index" :skill="skill" @skillClicked="openSkillModal"/>
-
-      <button @click="openSkillModal(null)" class="bg-green-100 hover:bg-green-200 text-green-900 p-4 rounded-md flex items-center justify-center">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-      </button>
     </div>
 
-  </div>
-
-  <!-- Projects -->
-  <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
-    <p class="text-xl mb-4">Projecten</p>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-      <ProjectCard v-for="(item, index) in projects" :key="index" :project="item" />
+    <!-- Projects -->
+    <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
+      <p class="text-xl mb-4">Projecten</p>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <ProjectCard v-for="(item, index) in projects" :key="index" :project="item" />
+      </div>
     </div>
-  </div>
 
-  <!-- Availability -->
-  <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
-    <p class="text-xl">Beschikbaar: {{ availableHours }} uren</p>
-    <p>{{sortedWeekDays}}</p>
-    <div class="flex flex-col md:flex-row mt-4 justify-between gap-2">
-      <AvailabilityRow v-for="(hour, index) in hours" :key="index" :time="hour" @saveAvailability="saveAvailability"/>
+    <!-- Availability -->
+    <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
+      <p class="text-xl">Beschikbaar: <span class="font-semibold">{{ availableHours }}</span> uren</p>
+      <p>{{ getWeekFromWeek }}</p>
+      <div class="flex flex-col md:flex-row mt-4 justify-between gap-2">
+        <AvailabilityRow v-for="(hour, index) in hours" :key="index" :time="hour" @saveAvailability="saveAvailability"/>
+      </div>
     </div>
   </div>
 
@@ -69,23 +74,25 @@
 
     <div class="flex flex-col md:flex-row">
       <div class="w-full md:w-2/3 md:pr-10">
-        <div class="divide-y">
-          <UpcomingMeeting v-for="(meeting, index) in futureMeetings" :key="index" :meeting="meeting" @meetingClicked="openUpcomingMeetingModal"/>
+        <DatePicker :lang="langObj" v-model:open="meetingRangeOpen" v-model:value="meetingsDateRange" type="date" range placeholder="Select a date range" :clearable="false">
+          <template #footer>
+            <div class="text-left flex flex-row flex-nowrap gap-2"> <!-- FIXME The button row doesn't overflow scroll so it looks forced and breaks the width -->
+              <button class="mx-btn mx-btn-next" @click="selectMeetingRange(1)">Deze week</button>
+              <button class="mx-btn mx-btn-next" @click="selectMeetingRange(2)">Deze maand</button>
+              <button class="mx-btn mx-btn-next" @click="selectMeetingRange(3)">Volgende maand</button>
+            </div>
+          </template>
+        </DatePicker>
+        <div v-if="meetingsInDateRange.length !== 0" class="divide-y">
+          <UpcomingMeeting v-for="(meeting, index) in meetingsInDateRange" :key="index" :meeting="meeting" @meetingClicked="openUpcomingMeetingModal"/>
         </div>
-
-<!--        <div class="flex flex-row items-center">-->
-<!--          <button v-if="firstPage" @click="previousPage" class="inline-flex items-center px-4 py-2 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">-->
-<!--            <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>-->
-<!--            Previous-->
-<!--          </button>-->
-<!--          <button v-if="lastPage" @click="nextPage" class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">-->
-<!--            Next-->
-<!--            <svg aria-hidden="true" class="w-5 h-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>-->
-<!--          </button>-->
-<!--        </div>-->
+        <div v-else class="flex flex-col items-center mt-8">
+          <svg class="w-32 h-32" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+          <p class="text-xl w-1/2 text-center">Er zijn geen vergaderingen in het geselecteerde datumbereik</p>
+        </div>
       </div>
       <div class="w-full md:w-1/3 mt-4 md:mt-0 flex flex-col">
-        <v-calendar is-expanded :attributes="attributes">
+        <v-calendar ref="calendar" is-expanded :attributes="attributes">
           <template #day-popover="{ dayTitle, attributes }">
             <div class="text-xs text-gray-300 font-semibold text-center">
               {{ dayTitle }}
@@ -106,7 +113,7 @@
     </div>
   </div>
 
-  <!-- Main modal -->
+  <!-- Skill modal -->
   <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
     <div class="relative w-full h-full max-w-2xl md:h-auto">
       <!-- Modal content -->
@@ -313,10 +320,20 @@
             <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecteer een optie</label>
             <select id="type" v-model="selectedMeeting.type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
               <option selected disabled value="-1">Kies een type</option>
-              <option value="0">Vergadering</option>
+              <option value="0">Werk</option>
               <option value="1">Vrije dag</option>
-              <option value="2">Vakantie</option>
+              <option value="2">Ziekte/afwezigheid</option>
+              <option value="3">Vakantie</option>
+              <option value="4">Andere</option>
             </select>
+<!--            <ul class="mt-4 overflow-hidden divide-x items-center w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 sm:flex">-->
+<!--              <MeetingType :type="selectedMeeting.type" :value="0" :title="'Werk'" :color="'bg-orange-500'"/>-->
+<!--              <MeetingType :type="selectedMeeting.type" :value="1" :title="'Vrije Dag'" :color="'bg-blue-500'"/>-->
+<!--              <MeetingType :type="selectedMeeting.type" :value="2" :title="'Ziekte'" :color="'bg-pink-500'"/>-->
+<!--              <MeetingType :type="selectedMeeting.type" :value="3" :title="'Vakantie'" :color="'bg-green-500'"/>-->
+<!--              <MeetingType :type="selectedMeeting.type" :value="4" :title="'Andere'" :color="'bg-gray-500'"/>-->
+<!--            </ul>-->
+
           </div>
 
           <div>
@@ -352,19 +369,24 @@ import AvailabilityRow from "@/components/miscellaneous/profile/AvailabilityRow"
 
 import 'vue-datepicker-next/index.css';
 import 'v-calendar/dist/style.css';
+import 'vue-datepicker-next/locale/nl';
 import AttachmentRow from "@/components/miscellaneous/profile/AttachmentRow";
 import axios from "axios";
 
+import { userFullName, firstLetterUpperCase } from "@/plugins/textManipulation";
+import MeetingType from "@/components/miscellaneous/profile/MeetingType";
+
+// TODO Create a backend route that with params gets all the correct meetings
 export default {
   name: "UserProfile",
   data() {
     return {
-      user: null,
       langObj: {
         formatLocale: {
           firstDayOfWeek: 1
-        }
+        },
       },
+      userObj: null,
       meetingPagination: {
         meetingPerPage: 3,
         currentPage: 0,
@@ -421,6 +443,7 @@ export default {
       upcomingMeetingModal: null,
       selectedSkill: new Skill(),
       selectedMeeting: new UpcomingMeetingClass(),
+      meetingsDateRange: null,
       masks: {
         input: 'YYYY-MM-DD hh:mm',
       },
@@ -490,7 +513,7 @@ export default {
           "type": 2
         },
         {
-          "title": "Meeting with Leslie Alexander",
+          "title": "Work meeting with Leslie Alexander",
           "start": new Date(2023, 0, 10, 17, 0),
           "end": new Date(2023, 0, 10, 18, 0),
           "location": "Starbucks",
@@ -530,11 +553,9 @@ export default {
           "type": 2
         }
       ],
+      meetingRangeOpen: false,
+      selectedWeek: new Date(),
     }
-  },
-
-  created() {
-    this.getUser();
   },
   computed: {
     attributes() {
@@ -542,36 +563,64 @@ export default {
           ...this.upcomingMeetings.map(meeting => this.meetingFormat(meeting))
       ]
     },
-    futureMeetings() {
-      const now = new Date();
-      const meetings = [];
-
-      this.upcomingMeetings.forEach(meeting => {
-        if (this.getEpochTime(meeting.end) > this.getEpochTime(now)) {
-          meetings.push(meeting);
-        }
-      })
-
-      return meetings;
-    },
     availableHours() {
       let calculatedTotalHours = 0;
+
+      // TODO Calculate hours on the minutes and not hours
 
       this.hours.forEach(hour => {
         let start = hour.start;
         let end = hour.end;
 
         const difference = end.getHours() - start.getHours();
+        // const difference = (end.getHours() - start.getHours());
+
+        const diff = Math.abs(end - start);
+        const minutes = Math.floor((diff/1000)/60);
 
         if (hour.available) {
+          // calculatedTotalHours += Math.ceil(minutes / 60 );
           calculatedTotalHours += difference;
         }
       })
 
       return calculatedTotalHours;
     },
+    meetingsInDateRange() {
+      const start = this.meetingsDateRange[0];
+      const end = this.meetingsDateRange[1];
+
+      const meetingsInThisRange = [];
+
+      this.upcomingMeetings.forEach(meeting => {
+        const afterStart = this.getEpochTime(start) <= this.getEpochTime(meeting.start);
+        const beforeEnd = this.getEpochTime(end) > this.getEpochTime(meeting.end);
+
+        // TODO - Add a filter to show the meetings within the date range, if its a meeting of multiple days that goes
+        //  beyond the before and after boolean
+
+        const sameDay = this.sameDay(meeting.start, meeting.end);
+
+        if (afterStart && beforeEnd) {
+          meetingsInThisRange.push(meeting);
+        }
+      })
+
+      this.moveCalendarToSelectedMonth(start);
+
+      return meetingsInThisRange;
+    },
+    getWeekFromWeek() {
+      return this.selectedWeek.getWeek;
+    }
+  },
+  created() {
+    this.selectMeetingRange(1);
+
+    this.getUserData();
   },
   mounted() {
+    // TODO - change sort method to return the sorted days so that the get method can sort them and then add them to hours
     this.sortWeekDays();
 
     // eslint-disable-next-line no-undef
@@ -582,6 +631,22 @@ export default {
     this.upcomingMeetingModal = new Modal(document.querySelector("#upcomingMeetingModal"));
   },
   methods: {
+    userFullName,
+    firstLetterUpperCase,
+
+    getUserData() {
+      const userID = this.$route.params.id
+
+      axios.get(`http://localhost:8080/api/users/${userID}`)
+          .then(res => {
+            console.log(res.data);
+            this.userObj = res.data;
+          })
+          .catch(err => {
+            console.log(err);
+          })
+    },
+
     meetingFormat(meeting) {
       const multiDayMeeting = {
         highlight: {
@@ -613,36 +678,34 @@ export default {
 
       return this.sameDay(meeting.start, meeting.end) ? sameDayMeeting : multiDayMeeting;
     },
-
-    async getUser() {
-
-      let id = this.$route.params.id
-      await axios.get(process.env.VUE_APP_API_URL + `/api/users/` + id)
-          .then((res) => {
-            this.user = res.data;
-            console.log(this.admin = res.data)
-
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-    },
     getMeetingType(type) {
       // Available Colors: gray, red, orange, yellow, green, teal, blue, indigo, purple, pink
       let color;
 
+      // Work           | Orange
+      // Free day       | Blue
+      // Sick / absent  | Pink
+      // Vacation       | Green
+      // Other          | Gray
+
       switch (type) {
-        case 0: // Meeting
+        case 0: // Work
           color = "orange"
           break;
-        case 1: // Free day
-          color = "teal";
+        case 1: // Free Day
+          color = "blue"
           break;
-        case 2: // Vacation
+        case 2: // Sick / Absent
+          color = "pink"
+          break;
+        case 3: // Vacation
           color = "green"
           break;
+        case 4: // Other
+          color = "gray"
+          break;
         default:
-          color = "red";
+          color = "indigo";
       }
 
       return color;
@@ -654,6 +717,12 @@ export default {
     },
     getEpochTime(date) {
       return date.getTime() / 1000;
+    },
+
+    epochToDate() {
+      var utcSeconds = 1234567890; // set epoch here
+      var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      d.setUTCSeconds(utcSeconds);
     },
 
     setFullDay() {
@@ -679,6 +748,45 @@ export default {
       })
 
       this.hours = unsortedDays;
+    },
+    selectMeetingRange(type) {
+      // 1 = Next week | 2 = This month | 3 = Next month
+
+      const today = new Date();
+
+      let startDate;
+      let endDate;
+
+      switch (type) {
+        case 1:
+          endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+
+          this.meetingsDateRange = [today, endDate];
+          break;
+        case 2:
+          startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+          endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+          this.meetingsDateRange = [startDate, endDate];
+          break;
+        case 3:
+          startDate = new Date(today.getFullYear(), today.getMonth() + 1, 1)
+          endDate = new Date(today.getFullYear(), today.getMonth() + 2, 0);
+
+          this.meetingsDateRange = [startDate, endDate];
+          break;
+      }
+
+      this.meetingRangeOpen = false;
+    },
+
+    async moveCalendarToSelectedMonth(date) {
+      const calendar = this.$refs.calendar;
+      console.log(calendar);
+
+      if (calendar) {
+        await calendar.move({ month: date.getMonth() + 1, year: date.getFullYear() });
+      }
     },
 
     saveAvailability(n) {
