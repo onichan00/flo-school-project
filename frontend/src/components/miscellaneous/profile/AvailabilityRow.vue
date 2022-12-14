@@ -49,7 +49,7 @@ export default {
     // Disable all the hours after the end time
     notAfterEndTime(date) {
       return date > this.getTime.end;
-    }
+    },
   },
   computed: {
     getTime() { // Round to the nearest 15 minutes
@@ -66,6 +66,7 @@ export default {
 
       return time;
     },
+
     isAvailable() {
       return !this.time.available;
     },
