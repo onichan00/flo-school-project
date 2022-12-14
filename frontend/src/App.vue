@@ -20,7 +20,7 @@
 
       <Footer></Footer>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -41,7 +41,6 @@ import projectsData from "@/assets/data/projects.json";
 import specialistsData from "@/assets/data/specialists.json";
 import availableHoursData from "@/assets/data/availableHours.json";
 import skillsData from "@/assets/data/skills.json";
-import ClientHomePage from "@/views/ClientHomePage.vue";
 import ClientNavbar from "@/components/ClientNavbar";
 
 export default {
@@ -177,7 +176,7 @@ export default {
 
   setup() {
     return {sidebarWidth}
-  }
+  },
 }
 </script>
 

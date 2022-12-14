@@ -14,7 +14,9 @@
                class="mb-6 justify-center m-auto"
                style="max-height: 400px">
           <p class="text-md font-medium mb-3">If you already have an account you don't need to sign up</p>
-          <button @click="this.$router.push('/login')" type="submit" class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-black"> Sign in</button>
+          <button @click="this.$router.push('/login')" type="submit"
+                  class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-black"> Sign in
+          </button>
           <br>
           <br>
         </div>
@@ -95,7 +97,8 @@
 
               <div class="flex items-center justify-between grid md:grid-cols-2 md:gap-6">
                 <div>
-                  <label for="countries" class="block mb-2 text-left text-sm font-medium text-gray-900 dark:text-gray-400">Select
+                  <label for="countries"
+                         class="block mb-2 text-left text-sm font-medium text-gray-900 dark:text-gray-400">Select
                     an option</label>
                   <select v-model="userType" id="countries"
                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -105,7 +108,8 @@
                   </select>
                 </div>
                 <div>
-                  <label for="countries" class="block mb-2 text-left text-sm font-medium text-gray-900 dark:text-gray-400">Select
+                  <label for="countries"
+                         class="block mb-2 text-left text-sm font-medium text-gray-900 dark:text-gray-400">Select
                     an option</label>
                   <select v-model="gender" id="countries"
                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -146,7 +150,7 @@
 
 <script>
 import axios from "axios";
-import { useToast } from "vue-toastification";
+import {useToast} from "vue-toastification";
 
 export default {
   name: "RegisterPage"
@@ -170,7 +174,7 @@ export default {
   },
 
   methods: {
-    async registerRequest(){
+    async registerRequest() {
       console.log("test")
       let request = await axios.post(process.env.VUE_APP_API_URL + "/api/users/register", {
         email: this.email,
@@ -185,24 +189,24 @@ export default {
         this.toast.error("check gegevens na")
       })
 
-      if (request.status === 200){
+      if (request.status === 200) {
 
         let response = request.data
 
-        localStorage.setItem("id",response.id)
+        localStorage.setItem("id", response.id)
 
-        if (response.isAdmin === true){
+        if (response.isAdmin === true) {
           localStorage.setItem("isAdmin", "true")
 
           this.$router.push("/admin")
         }
-        if (response.isClient === true){
+        if (response.isClient === true) {
           localStorage.setItem("isClient", "true")
 
           this.$router.push("/notfound")
         }
 
-        if (response.isSpecialist === true){
+        if (response.isSpecialist === true) {
           localStorage.setItem("isSpecialist", "true")
 
           this.$router.push("/notfound")

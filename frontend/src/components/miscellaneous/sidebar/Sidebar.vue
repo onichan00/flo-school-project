@@ -1,4 +1,4 @@
-  <template>
+<template>
   <aside id="sidebar" class="h-full overflow-y-hidden" :style="{width: sidebarWidth}" aria-label="Sidebar">
     <div @click="toggleSidebar"
          class="overflow-y-auto flex flex-col justify-between h-full py-4  px-3 border-solid border-r-2">
@@ -20,10 +20,10 @@
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Dashboard
             </SidebarLink>
-<!--            <SidebarLink to="/notifications" icon="fas fa-bell"
-                         class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
-              Notifications
-            </SidebarLink>-->
+            <!--            <SidebarLink to="/notifications" icon="fas fa-bell"
+                                     class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
+                          Notifications
+                        </SidebarLink>-->
             <SidebarLink to="/specialists" icon="fas fa-code"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Specialists
@@ -76,7 +76,7 @@
 
 <script>
 import SidebarLink from './SidebarLink'
-import {collapsed, toggleSidebar, sidebarWidth} from './state'
+import {collapsed, sidebarWidth, toggleSidebar} from './state'
 
 export default {
   name: "ComponentsSidebar",
@@ -86,10 +86,11 @@ export default {
     return {collapsed, toggleSidebar, sidebarWidth}
   },
   methods: {
-    logout(){
+    logout() {
       localStorage.clear()
-      this.$router.push("/")
-
+      this.$router.push("/").then(() => {
+        this.$router.go()
+      })
     }
   }
 }

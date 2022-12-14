@@ -15,7 +15,9 @@
           <img :src="require('../assets/img/undraw_sign_in_re_o58h-2.svg')"
                class="mb-6">
           <p class="text-md font-medium mb-3">Wait, don't have an account yet? What are you waiting for? Sign up!</p>
-          <button @click="this.$router.push('/register')" type="submit" class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-black"> Sign up</button>
+          <button @click="this.$router.push('/register')" type="submit"
+                  class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-black"> Sign up
+          </button>
           <br>
           <br>
         </div>
@@ -76,7 +78,7 @@
 
 <script>
 import axios from "axios";
-import { useToast } from "vue-toastification";
+import {useToast} from "vue-toastification";
 
 
 export default {
@@ -91,8 +93,8 @@ export default {
   },
 
   methods: {
-    async loginRequest(){
-      let request = await axios.post(process.env.VUE_APP_API_URL+ "/api/users/login", {
+    async loginRequest() {
+      let request = await axios.post(process.env.VUE_APP_API_URL + "/api/users/login", {
         email: this.email,
         password: this.password,
       }).catch((err) => {
@@ -100,24 +102,23 @@ export default {
         this.toast.error("email or password are not correct")
       })
 
-      if (request.status === 200){
+      if (request.status === 200) {
 
         let response = request.data
 
-        localStorage.setItem("id",response.id)
+        localStorage.setItem("id", response.id)
 
-        if (response.isAdmin === true){
+        if (response.isAdmin === true) {
           localStorage.setItem("isAdmin", "true")
-
           this.$router.push("/admin")
         }
-        if (response.isClient === true){
+        if (response.isClient === true) {
           localStorage.setItem("isClient", "true")
 
           this.$router.push("/client/dashboard")
         }
 
-        if (response.isSpecialist === true){
+        if (response.isSpecialist === true) {
           localStorage.setItem("isSpecialist", "true")
 
           this.$router.push("/notfound")
