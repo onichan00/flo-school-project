@@ -14,7 +14,7 @@ deploy_fe:
   script:
     - apt-get update && apt-get install -y curl
     - curl -fsSL https://railway.app/install.sh | sh
-    - export RAILWAY_TOKEN=${963abe25-642a-4bfc-ba20-6a60a7f2892d}
+    - export RAILWAY_TOKEN=963abe25-642a-4bfc-ba20-6a60a7f2892d
     - cd frontend
     - railway up --service=helios-fe-app -d
 
@@ -31,6 +31,6 @@ deploy_be:
   script:
     - apt-get update && apt-get install -y curl
     - curl -fsSL https://railway.app/install.sh | sh
-    - export RAILWAY_TOKEN=${91a8fde9-8775-4b9d-bc20-9b1bd0616859}
+    - export RAILWAY_TOKEN=91a8fde9-8775-4b9d-bc20-9b1bd0616859
     - cd backend
     - railway up --service=helios-be-app -d
