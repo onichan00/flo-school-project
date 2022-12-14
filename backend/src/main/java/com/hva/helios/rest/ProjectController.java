@@ -1,5 +1,6 @@
 package com.hva.helios.rest;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.Project;
@@ -39,31 +40,28 @@ public class ProjectController {
      * @return save project to the backend
      */
     @PostMapping("")
-    public Project addProject(@RequestBody ObjectNode project) {
-        Client client = clientRepository.findById(project.get("client_id").asLong());
+    public Project addProject(@RequestBody Project project) {
+//        Client client = clientRepository.findById(project.get("client_id").asLong());
 
         //sets the properties of the Project object, including the name, client, status, date, and description of the project.
-        Project project1 = new Project(
-                project.get("name").asText()
-                ,client
-                ,project.get("status").asInt()
-                , LocalDate.now()
-                ,project.get("description").asText()
-        );
+//        Project project1 = new Project(
+//                project.get("name").asText()
+//                ,client
+//                ,project.get("banner_url").asText()
+//                ,project.get("status").asInt()
+//                , LocalDate.now()
+//                ,project.get("description").asText(),
+//                null,
+//                project.get("client")
+//        );
 
-        //saves the Project object to the projectRepository and returns it.
-        return projectRepository.save(project1);
+        // Saves the Project object to the projectRepository and returns it.
+        return projectRepository.save(project);
     }
 
     @GetMapping("client/{client_id}")
-    public List<Project> getProjectsByClient(@PathVariable String client_id) {
-//        List<Project> projects = new ArrayList<>();
-        Client client = clientRepository.findById(Long.parseLong(client_id));
-//
-//        for (Project project : getProject()) if (project.getClient().equals(client)) projects.add(project);
-//
-
-        return projectRepository.findAllByClient(client);
+    public List<Project> getProjectsByClientId(@PathVariable String client_id) {
+        return projectRepository.findAllByClient(clientRepository.findById(Long.parseLong(client_id)));
     }
 
     @GetMapping("{id}")

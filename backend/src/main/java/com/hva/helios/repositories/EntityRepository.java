@@ -31,6 +31,4 @@ public interface EntityRepository<E> {
      * @return The entity that has been deleted
      */
     E deleteById(long id);
-
-
 }

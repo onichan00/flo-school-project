@@ -3,12 +3,12 @@
   <!--  <LandingPage v-if="showLandingPage"/>-->
   <!--  <Login v-if="showLogin"/>-->
   <!--  <RegisterPage v-if="showRegister"/>-->
-  <div v-if="!isAdmin && !isClient && !isSpecialist ">
+  <div v-if="!isAdmin && !isClient && !isSpecialist">
     <router-view/>
   </div>
 
   <div v-if="isClient">
-    <client-navbar v-if="isClient"></client-navbar>
+    <client-navbar v-if="isClient && this.$route.path !== '/create-project'"></client-navbar>
     <router-view/>
   </div>
 

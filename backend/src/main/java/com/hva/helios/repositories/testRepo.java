@@ -15,5 +15,4 @@ import java.util.Optional;
 @Repository
 public interface testRepo extends JpaRepository<Project,Long>{
     List<Project> findAllByClient(Client client);
-
 }

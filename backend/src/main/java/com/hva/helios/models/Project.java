@@ -23,6 +23,7 @@ public class Project {
     private int status;
     private LocalDate created;
     private String description;
+    private String bannerUrl;
 
     @ManyToMany
     private Set<Specialist> specialists;
@@ -31,25 +32,27 @@ public class Project {
 //    @JoinColumn(name = "client_id")
     private Client client;
 
-
-//    @OneToMany
-//    private ArrayList<UserSkill> skills;
+    @OneToMany
+    private List<Skill> skills;
 
     protected Project() {
 
     }
-    public Project(String name, Client client,int status, LocalDate created, String description) {
+
+    public Project(String name, String bannerUrl, int status, LocalDate created, String description, Client client, List<Skill> skills) {
         this.name = name;
         this.status = status;
         this.created = created;
         this.description = description;
         this.client = client;
+        this.bannerUrl = bannerUrl;
+        this.skills = skills;
 //        this.specialists = new HashSet<>(specialists);
         // TODO - Add specialists to the backend
 
     }
 
-    public Project(String name,int status, LocalDate created, String description) {
+    public Project(String name, String bannerUrl, int status, LocalDate created, String description) {
         this.name = name;
         this.status = status;
         this.created = created;
@@ -111,5 +114,21 @@ public class Project {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public String getBannerUrl() {
+        return bannerUrl;
+    }
+
+    public void setBannerUrl(String bannerUrl) {
+        this.bannerUrl = bannerUrl;
+    }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
     }
 }

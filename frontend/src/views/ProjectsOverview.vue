@@ -1,17 +1,17 @@
 <template>
 
-<!--  Full Page-->
+  <!--  Full Page-->
   <div style='background-image: linear-gradient(to right, #F15922 , #f17822);
   height: 400px;
   border-radius: 0% 0% 2% 2%;'>
 
-<!--    Two Columns-->
+    <!--    Two Columns-->
     <div class="max-w-6xl m-auto flex flex-row rounded-lg">
 
-<!--      Projects Section-->
+      <!--      Projects Section-->
       <div class="bg-white max-h-screen w-1/4 p-2 rounded-lg m-1 shadow-lg overflow-y">
 
-<!--        Project Header-->
+        <!--        Project Header-->
         <div class="mb-3 m-2">
           <div class="flex flex-row justify-between items-center mb-1">
             <div>
@@ -72,7 +72,8 @@
                      placeholder="Zoeken..." required>
             </div>
             <button
-                @click="this.$router.push('/create-project')" class="p-2.5 ml-2 text-sm font-medium text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg">
+                @click="this.$router.push('/create-project')"
+                class="p-2.5 ml-2 text-sm font-medium text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                    xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -85,17 +86,22 @@
         <div class="overflow-y-scroll max-h-full">
           <div
               class="text-left rounded-lg p-2 m-3 cursor-pointer transition ease-in-out delay-0 bg-white-500 hover:-translate-y-1 hover:scale-110 hover:bg-gray-100 hover:shadow-sm duration-300"
-              v-for="(project) in projects" :key="project">
+              v-for="(project) in projects" :key="project"
+              :class="[ selectedProject?.id === project.id ? selectedRowStyle : notSelectedRowStyle ]">
             <div @click="selectProject(project)">
               <div class="flex flex-row justify-between">
                 <div class="flex flex-row mr-2">
-
-                  <div v-if="project.status === 0"><i class="text-red-500 fa-solid fa-circle fa-2xs mx-1 mr-2"></i></div>
+                  <div v-if="project.status === -1"><i class="text-red-500 fa-solid fa-circle fa-2xs mx-1 mr-2"></i>
+                  </div>
+                  <div v-else-if="project.status === 0"><i
+                      class="text-gray-300 fa-solid fa-2xs fa-circle mx-1 mr-2"></i></div>
                   <div v-else-if="project.status === 1"><i
-                      class="text-yellow-300 fa-solid fa-2xs fa-circle mx-1 mr-2"></i></div>
-                  <div v-else><i class="text-green-500 fa-solid fa-circle fa-2xs mx-1 mr-2"></i></div>
+                      class="text-green-400 fa-solid fa-2xs fa-circle mx-1 mr-2"></i></div>
+                  <div v-else-if="project.status === 2"><i
+                      class="text-green-500 fa-solid fa-2xs fa-circle mx-1 mr-2"></i></div>
+                  <div v-else-if="project.status === 3"><i
+                      class="text-green-600 fa-solid fa-2xs fa-circle mx-1 mr-2"></i></div>
                   <h1 class="font-medium text-lg">{{ project.name }}</h1>
-
                 </div>
                 <div>
                   <button
@@ -215,7 +221,9 @@
                   <select v-model="selectedStatus" id="countries"
                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
                     <option selected>Kies de huidige status</option>
-                    <option v-for="status in statusses" :key="{ id: status.id, text: status.name }" @click="changeStatus(selectedProject, status.id)">{{ status.name }}</option>
+                    <option v-for="status in statusses" :key="{ id: status.id, text: status.name }"
+                            @click="changeStatus(selectedProject, status.id)">{{ status.name }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -223,7 +231,8 @@
           </div>
         </div>
 
-        <div class="overflow-y-scroll m-auto m-3 p-2" v-if="selectedProject" v-bind="selectedProject" v-show='!toggleEdit'>
+        <div class="overflow-y-scroll m-auto m-3 p-2" v-if="selectedProject" v-bind="selectedProject"
+             v-show='!toggleEdit'>
           <div>
             <div class="flex flex-row justify-between">
               <h1 class="text-black text-3xl font-medium">
@@ -250,21 +259,31 @@
               <h1>
                 Projecteigenaar: U
               </h1>
+
               <div class="flex flex-row mr-2">
-                <div v-if="selectedProject.status === 0"><h1>Status: <a
+                <div v-if="selectedProject.status === -1"><h1>Status: <a
                     class="py-0.0 px-1.5 bg-gradient-to-r from-red-500 to-orange-600 text-white font-medium rounded-2xl">
                   Geannuleerd</a></h1></div>
+                <div v-else-if="selectedProject.status === 0"><h1>Status: <a
+                    class="py-0.0 px-1.5 bg-gradient-to-r from-gray-400 to-gray-500 text-white font-medium rounded-2xl">
+                  Concept</a></h1></div>
                 <div v-else-if="selectedProject.status === 1"><h1>Status: <a
-                    class="py-0.0 px-1.5 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white font-medium rounded-2xl">
-                  Gepauzeerd</a></h1></div>
-                <div v-else><h1>Status: <a
-                    class="py-0.0 px-1.5 bg-gradient-to-r from-green-400 to-green-500 text-white font-medium rounded-2xl">
-                  Actief</a></h1></div>
+                    class="py-0.0 px-1.5 bg-gradient-to-r from-green-300 to-green-400 text-white font-medium rounded-2xl">
+                  Actief</a></h1>
+                </div>
+                <div v-else-if="selectedProject.status === 2"><h1>Status: <a
+                    class="py-0.0 px-1.5 bg-gradient-to-r from-green-400 to-green-400 text-white font-medium rounded-2xl">
+                  Actief</a></h1>
+                </div>
+                <div v-else-if="selectedProject.status === 3"><h1>Status: <a
+                    class="py-0.0 px-1.5 bg-gradient-to-r from-green-500 to-green-600 text-white font-medium rounded-2xl">
+                  Actief</a></h1>
+                </div>
               </div>
             </div>
             <hr>
             <div>
-              <img class="rounded-lg mt-3 m-auto" :src="require('../assets/img/FlorijnBanner.jpeg')"
+              <img class="rounded-lg mt-3 m-auto" :src="selectedProject.bannerUrl"
                    style="display:block; max-height:200px; width: 100%; object-fit: cover">
               <h1 class="mt-3 font-medium text-xl text-gray-700">Project beschrijving
               </h1>
@@ -279,9 +298,9 @@
               <p>
                 Er zijn nog geen skills toegevoegd voor dit project helaas
               </p>
-<!--              <div>-->
-<!--                <a class="bg-gray-200 border border-2 border-gray-300 px-2 py-1 rounded-lg">Frikandel Speciaal</a>-->
-<!--              </div>-->
+              <!--              <div>-->
+              <!--                <a class="bg-gray-200 border border-2 border-gray-300 px-2 py-1 rounded-lg">Frikandel Speciaal</a>-->
+              <!--              </div>-->
             </div>
             <div>
               <h1 class="mt-3 font-medium text-xl text-gray-700">
@@ -290,15 +309,15 @@
               <div
                   class="rounded-lg p-1 flex flex-row w-full cursor-pointer transition ease-in-out delay-0 bg-white-500 hover:-translate-y-1 hover:scale-105 hover:bg-gray-100 hover:shadow-sm duration-300">
                 <div class="flex flex row">
-<!--                  <img class="h-12 rounded-3xl" :src="require('@/assets/img/undraw_male_avatar_re_y880.svg')">-->
-<!--                  <div class="ml-2">-->
-<!--                    <div>-->
-<!--                      <h1 class="text-lg font-medium">Dennis Kanker</h1>-->
-<!--                    </div>-->
-<!--                    <div>-->
-<!--                      <h2 class="text-sm text-black font-thin text-gray-400">Piemelsaus@kanker.aids</h2>-->
-<!--                    </div>-->
-<!--                  </div>-->
+                  <!--                  <img class="h-12 rounded-3xl" :src="require('@/assets/img/undraw_male_avatar_re_y880.svg')">-->
+                  <!--                  <div class="ml-2">-->
+                  <!--                    <div>-->
+                  <!--                      <h1 class="text-lg font-medium">Dennis Kanker</h1>-->
+                  <!--                    </div>-->
+                  <!--                    <div>-->
+                  <!--                      <h2 class="text-sm text-black font-thin text-gray-400">Piemelsaus@kanker.aids</h2>-->
+                  <!--                    </div>-->
+                  <!--                  </div>-->
                 </div>
                 <p>
                   Er zijn nog geen specialisten toegevoegd voor dit project helaas
@@ -310,7 +329,8 @@
                 Aankondigingen
               </h1>
               <div class="pt-3 pb-3 flex items-center flex-column justify-center w-full">
-                <div class="flex flex-col items-center justify-center w-full h-64 border-1 border-gray-300 rounded-lg  bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                <div
+                    class="flex flex-col items-center justify-center w-full h-64 border-1 border-gray-300 rounded-lg  bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                   <div class="flex flex-col items-center justify-center pt-5 pb-6">
                   </div>
                 </div>
@@ -320,9 +340,19 @@
               <label class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Plaats aankondiging</label>
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>                </div>
-                <input type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-orange-500 focus:border-orange-500 " placeholder="Plaats een aankondiging voor de specialisten van dit project">
-                <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg text-sm px-4 py-2 ">Plaats</button>
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+                  </svg>
+                </div>
+                <input type="search" id="default-search"
+                       class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-orange-500 focus:border-orange-500 "
+                       placeholder="Plaats een aankondiging voor de specialisten van dit project">
+                <button type="submit"
+                        class="text-white absolute right-2.5 bottom-2.5 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg text-sm px-4 py-2 ">
+                  Plaats
+                </button>
               </div>
             </form>
           </div>
@@ -359,7 +389,9 @@ export default {
         {id: 1, name: 'Gepauzeerd'},
         {id: 2, name: 'Actief'}
       ],
-      selectedStatus: null
+      selectedStatus: null,
+      selectedRowStyle: "bg-gray-100 shadow-sm text-black",
+      notSelectedRowStyle: "text-gray-900",
     }
   },
   computed: {
@@ -373,20 +405,18 @@ export default {
   },
   created() {
     this.getProjectData();
-    // this.getProjects();
   },
   methods: {
     dateFormatter(date) {
       const formatDate = new Date(date)
       const yyyy = formatDate.getFullYear();
-      let mm = formatDate.toLocaleString('default', { month: 'long' }); // Months start at 0!
+      let mm = formatDate.toLocaleString('default', {month: 'long'}); // Months start at 0!
       let dd = formatDate.getDate();
 
       const formattedDate = dd + ' ' + mm + ' ' + yyyy;
       return formattedDate;
     },
     selectProject(element) {
-      console.log(element)
       if (element === this.selectedProject) {
         return null;
       }
@@ -394,7 +424,7 @@ export default {
     },
 
     changeStatus(project, statusId) {
-      project.status =  statusId;
+      project.status = statusId;
     },
 
     getProjectData() {
@@ -402,14 +432,9 @@ export default {
 
       axios.get(process.env.VUE_APP_API_URL + `/api/projects/client/${id}`)
           .then((res) => {
-            console.log(res.data)
-
-
             for (let i = 0; i < res.data.length; i++) {
               this.projects.push(res.data[i])
             }
-
-            console.log(this.projects)
           })
           .catch((err) => {
             console.log(err);

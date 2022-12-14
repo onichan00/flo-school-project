@@ -5,23 +5,22 @@
     <div class="container flex flex-wrap items-center justify-between mx-auto">
       <div class="flex flex-row">
         <a @click="this.$router.push('/client/dashboard')" class="flex items-center mr-20">
-          <span class="self-center text-2xl text-white font-bold whitespace-nowrap dark:text-white">FLORIJN</span>
+          <span class="cursor-pointer self-center text-2xl text-white font-bold whitespace-nowrap dark:text-white">FLORIJN</span>
         </a>
 
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
           <ul class="flex flex-col text-white border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0">
             <li>
-              <a class="block py-2 pl-3 pr-4 text-m font-bold hover:bg-gray-100 border-b-2 md:hover:bg-transparent md:hover:text-gray-500 md:p-0"
-                 @click="this.$router.push('/client/projects-overview')">Projects</a>
+              <a class="cursor-pointer block py-2 pl-3 pr-4 text-m font-bold hover:bg-gray-100 border-b-2 md:hover:bg-transparent md:hover:text-gray-500 md:p-0"
+                 @click="this.$router.push('/client/projects-overview')">Projecten</a>
             </li>
             <li>
               <a href="#"
-                 class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Specialists</a>
+                 class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Specialisten</a>
             </li>
             <li>
               <a href="#"
-                 class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">About
-                Us</a>
+                 class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Over ons</a>
             </li>
             <li>
               <a href="#"
