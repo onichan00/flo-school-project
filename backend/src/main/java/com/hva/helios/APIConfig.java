@@ -9,7 +9,7 @@ public class APIConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns("http://localhost:*", "https://*.hva.nl:*")
+                .allowedOriginPatterns("http://localhost:*", "https://*.hva.nl:*","https://helios-fe-app-production.up.railway.app:*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 }
