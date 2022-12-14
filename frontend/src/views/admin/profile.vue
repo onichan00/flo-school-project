@@ -636,8 +636,8 @@ export default {
 
     getUserData() {
       const userID = this.$route.params.id
-
-      axios.get(`http://localhost:8080/api/users/${userID}`)
+      console.log('URL', `${process.env.VUE_APP_API_URL}/api/users/${userID}`);
+      axios.get(`${process.env.VUE_APP_API_URL}/api/users/${userID}`)
           .then(res => {
             console.log(res.data);
             this.userObj = res.data;
