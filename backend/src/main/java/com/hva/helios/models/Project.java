@@ -1,7 +1,7 @@
 package com.hva.helios.models;
 
 import com.hva.helios.data.SkillData;
-import com.hva.helios.data.SpecialistData;
+//import com.hva.helios.data.SpecialistData;
 import com.hva.helios.models.user.Client;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.skill.Skill;

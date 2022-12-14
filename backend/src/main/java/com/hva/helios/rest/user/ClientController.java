@@ -1,7 +1,10 @@
 package com.hva.helios.rest.user;
 
+import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.user.Client;
 import com.hva.helios.repositories.EntityRepository;
+import com.hva.helios.repositories.user.AdminJPARepository;
+import com.hva.helios.repositories.user.ClientJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +14,9 @@ import java.util.List;
 @RequestMapping("/users/client")
 public class ClientController {
     @Autowired
-    private EntityRepository<Client> clientRepository;
+    private ClientJPARepository clientRepository;
+    @Autowired
+    private AdminJPARepository adminJPARepository;
 
     @GetMapping("")
     public List<Client> getAllClients() {
@@ -19,8 +24,9 @@ public class ClientController {
     }
 
     @GetMapping("{id}")
-    public Client getClient(@PathVariable int id) {
-        return clientRepository.findById(id);
+    public Client getClient(@PathVariable long id) {
+        Client client = clientRepository.findById(id).orElseThrow(() -> new NotFoundException("Project could not be found"));
+        return client;
     }
 
     @PostMapping("")
@@ -29,7 +35,7 @@ public class ClientController {
     }
 
     @DeleteMapping("{id}")
-    public Client deleteClient(@PathVariable int id) {
-        return clientRepository.deleteById(id);
+    public void deleteClient(@PathVariable long id) {
+        clientRepository.deleteById(id);
     }
 }

@@ -1,7 +1,9 @@
 package com.hva.helios.rest.user;
 
+import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.user.Admin;
 import com.hva.helios.repositories.EntityRepository;
+import com.hva.helios.repositories.user.AdminJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +13,7 @@ import java.util.List;
 @RequestMapping("/users/admin")
 public class AdminController {
     @Autowired
-    private EntityRepository<Admin> adminRepository;
+    private AdminJPARepository adminRepository;
 
     @GetMapping("")
     public List<Admin> getAllAdmins() {
@@ -19,8 +21,8 @@ public class AdminController {
     }
 
     @GetMapping("{id}")
-    public Admin getAdmin(@PathVariable int id) {
-        return adminRepository.findById(id);
+    public Admin getAdmin(@PathVariable long id) {
+        return adminRepository.findById(id).orElseThrow(() -> new NotFoundException("admin could not be found"));
     }
 
     @PostMapping
@@ -29,7 +31,7 @@ public class AdminController {
     }
 
     @DeleteMapping("{id}")
-    public Admin deleteAdmin(@PathVariable int id) {
-        return adminRepository.deleteById(id);
+    public void deleteAdmin(@PathVariable long id) {
+        adminRepository.deleteById(id);
     }
 }

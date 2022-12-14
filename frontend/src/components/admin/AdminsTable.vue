@@ -35,15 +35,15 @@
 
         <tr v-for="admin in admins" :key="admin.id"
             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-orange-50 dark:hover:bg-gray-600"
-            @click="this.$router.push('/admin/detail/' + admin.id)">
+            @click="this.$router.push('/admin/detail/' + admin.user.id)">
 
           <th scope="row" class="flex items-center py-4 px-6 text-gray-900 whitespace-nowrap dark:text-white">
             <div class="pl-3">
-              <div class="font-normal text-gray-500">{{ admin.first_name.charAt(0).toUpperCase() + "." + admin.last_name}}</div>
+              <div class="font-normal text-gray-500">{{ admin.user.first_name.charAt(0).toUpperCase() + "." + admin.user.last_name}}</div>
             </div>
           </th>
           <td class="py-4 px-6">
-            {{ admin.email }}
+            {{ admin.user.email }}
           </td>
           <td class="py-4 px-6">
             <a class="font-medium text-orange-500 hover:underline"
@@ -173,9 +173,10 @@ export default {
   methods: {
     async getAdmins() {
 
-      await axios.get(process.env.VUE_APP_API_URL + `/api/users/admins`)
+      await axios.get(process.env.VUE_APP_API_URL + `/api/users/admin`)
           .then((res) => {
-            this.admins = res.data.admin;
+            this.admins = res.data;
+            console.log(res.data[0].user)
 
           })
           .catch((err) => {

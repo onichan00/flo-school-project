@@ -65,7 +65,7 @@
 
             </form>
             <button class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
-                    style="background-color:#F15922 " @click="loginRequest()"> Sign in
+                    style="background-color:#F15922 " @click="loginRequest"> Sign in
             </button>
           </div>
         </div>
@@ -94,6 +94,7 @@ export default {
 
   methods: {
     async loginRequest() {
+      console.log("wtkkf")
       let request = await axios.post(process.env.VUE_APP_API_URL + "/api/users/login", {
         email: this.email,
         password: this.password,
@@ -105,17 +106,17 @@ export default {
       if (request.status === 200) {
 
         let response = request.data
-
+        let userType = response.userType
         localStorage.setItem("id", response.id)
+        localStorage.setItem("userType", response.userType)
 
-        if (response.isAdmin === true) {
-          localStorage.setItem("isAdmin", "true")
+
+        if (userType === 0) {
           this.$router.push("/admin").then( () => {
             this.$router.go()
           })
         }
-        if (response.isClient === true) {
-          localStorage.setItem("isClient", "true")
+        if (userType === 1) {
 
           this.$router.push("/client/dashboard").then( () => {
             this.$router.go().then( () => {
@@ -124,8 +125,7 @@ export default {
           })
         }
 
-        if (response.isSpecialist === true) {
-          localStorage.setItem("isSpecialist", "true")
+        if (userType === 2) {
 
           this.$router.push("/notfound").then( () => {
             this.$router.go()

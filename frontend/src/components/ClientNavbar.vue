@@ -39,7 +39,7 @@
                 id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
                 data-dropdown-placement="bottom">
           <span class="sr-only">Open user menu</span>
-          <img class="w-8 h-8 rounded-full" alt="user photo">
+          <img class="w-8 h-8 rounded-full" alt="user photo" :src="this.user.photo">
         </button>
         <!-- Dropdown menu -->
         <div
@@ -104,21 +104,20 @@ export default {
     },
 
     getUserData() {
-      axios.get(process.env.VUE_APP_API_URL + `/api/users/client/${this.userId}`)
+      axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
           .then((res) => {
             this.user = res.data;
+            console.log(res.data)
           })
           .catch((err) => {
             console.log(err);
           })
+
+      console.log(this.user)
     },
   },
   computed: {
-    fullName() {
-      return this.user.first_name.charAt(0).toUpperCase() + this.user.first_name.slice(1)
-          + ' '
-          + this.user.last_name.charAt(0).toUpperCase() + this.user.last_name.slice(1);
-    }
+
   }
 }
 </script>

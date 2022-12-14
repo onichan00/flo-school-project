@@ -6,6 +6,8 @@ import com.hva.helios.models.Project;
 import com.hva.helios.models.user.Client;
 import com.hva.helios.repositories.EntityRepository;
 import com.hva.helios.repositories.testRepo;
+import com.hva.helios.repositories.user.ClientJPARepository;
+import com.hva.helios.repositories.user.UserJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +25,10 @@ public class ProjectController {
     private testRepo projectRepository;
 
     @Autowired
-    private EntityRepository<Client>  clientRepository;
+    private ClientJPARepository clientRepository;
+
+//    @Autowired
+//    private UserJPARepository clientRepository;
 
 //    @Autowired
 //    private EntityRepository<Project>  projectRepository;
@@ -40,7 +45,9 @@ public class ProjectController {
      */
     @PostMapping("")
     public Project addProject(@RequestBody ObjectNode project) {
-        Client client = clientRepository.findById(project.get("client_id").asLong());
+
+        Client client = clientRepository.findClientByUserId(project.get("client_id").asLong());
+        System.out.println(client);
 
         //sets the properties of the Project object, including the name, client, status, date, and description of the project.
         Project project1 = new Project(
@@ -58,7 +65,7 @@ public class ProjectController {
     @GetMapping("client/{client_id}")
     public List<Project> getProjectsByClient(@PathVariable String client_id) {
 //        List<Project> projects = new ArrayList<>();
-        Client client = clientRepository.findById(Long.parseLong(client_id));
+        Client client = clientRepository.findClientByUserId(Long.parseLong(client_id));
 //
 //        for (Project project : getProject()) if (project.getClient().equals(client)) projects.add(project);
 //

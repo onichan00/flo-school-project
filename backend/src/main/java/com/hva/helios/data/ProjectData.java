@@ -1,12 +1,12 @@
 package com.hva.helios.data;
 
 import com.hva.helios.models.Project;
-import com.hva.helios.models.user.Specialist;
-import com.hva.helios.models.user.skill.Skill;
-import com.hva.helios.models.user.skill.UserSkill;
-import com.hva.helios.repositories.user.SpecialistJPARepository;
-import com.hva.helios.rest.UserController;
-import com.hva.helios.rest.user.SpecialistController;
+//import com.hva.helios.models.user.Specialist;
+//import com.hva.helios.models.user.skill.Skill;
+//import com.hva.helios.models.user.skill.UserSkill;
+//import com.hva.helios.repositories.user.SpecialistJPARepository;
+//import com.hva.helios.rest.UserController;
+//import com.hva.helios.rest.user.SpecialistController;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -121,7 +121,7 @@ export default {
   methods: {
     async createRequest() {
       console.log("test")
-      let request = await axios.post(process.env.VUE_APP_API_URL + "/api/users/register", {
+      let request = await axios.post(process.env.VUE_APP_API_URL + "/api/users/admin/create", {
         email: this.email,
         password: this.password,
         first_name: this.first_name,
