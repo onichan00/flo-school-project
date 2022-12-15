@@ -17,26 +17,32 @@ public class Client{
     private long id = 0L;
 
     private String website;
-    @ManyToMany
-    private List<Project> projects;
+//    @ManyToMany
+//    private List<Project> projects;
 
-    @OneToOne
-    private User user;
+//    @OneToOne
+//    private User user;
 
 
-    protected Client() {}
+    public Client() {
 
-    public Client(User user, String website) {
-        ;
+    }
 
-        this.user = user;
+//    public Client(User user, String website) {
+//        ;
+//
+//        this.user = user;
+//        this.website = website;
+////        this.projects = projects;
+//    }
+    public Client(String website) {
         this.website = website;
 //        this.projects = projects;
     }
 
-    public Client(User user){
-        this.user = user;
-    }
+//    public Client(User user){
+//        this.user = user;
+//    }
 
     public String getWebsite() {
         return website;
@@ -46,13 +52,13 @@ public class Client{
         this.website = website;
     }
 
-    public List<Project> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
-    }
+//    public List<Project> getProjects() {
+//        return projects;
+//    }
+//
+//    public void setProjects(List<Project> projects) {
+//        this.projects = projects;
+//    }
 
     public long getId() {
         return id;
@@ -62,11 +68,11 @@ public class Client{
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 }

@@ -13,17 +13,17 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id = 0L;
 
-    @OneToOne
+//    @OneToOne
 //    @JoinColumn(name = "user_id")
-    private User user;
+//    private User user;
 
-    public User getUser() {
-        return user;
-    }
+//    public User getUser() {
+//        return user;
+//    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     // TODO - Add a rights system
 //    private ArrayList<String> rights;
@@ -33,9 +33,9 @@ public class Admin {
 
     }
 
-    public Admin(User user) {
-        this.user = user;
-    }
+//    public Admin(User user) {
+//        this.user = user;
+//    }
 
 
 

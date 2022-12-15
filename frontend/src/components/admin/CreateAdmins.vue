@@ -128,7 +128,10 @@ export default {
         second_name: this.preposition,
         last_name: this.last_name,
         phone: this.phonenumber,
-        userType: this.userType
+        userType: this.userType,
+        admin_id: null,
+        client_id: null,
+        specialist: null
       }).catch((err) => {
         console.log(err)
         this.toast.error("check gegevens na")
