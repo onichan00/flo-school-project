@@ -40,23 +40,24 @@ public class ProjectController {
      * @param project = project to add
      * @return save project to the backend
      */
-    @PostMapping("{client_id}")
-    public Project addProject(@RequestBody Project project, @PathVariable long client_id) {
-//        Client client = clientRepository.findById(project.get("client_id").asLong());
+    @PostMapping("")
+    public Project addProject(@RequestBody Project project, @RequestParam long clientId) {
+        // finding the necessary user bt its id gotten from the request parameter( which is declared as ?clientId = this.userId in the postrequest, see frontend
+        Client client = clientRepository.findById(clientId);
 
-        //sets the properties of the Project object, including the name, client, status, date, and description of the project.
-        Project project1 = new Project(
-                        project.getName()
-                        , project.getBannerUrl()
-                        , project.getStatus()
-                        , LocalDate.now()
-                        , project.getDescription()
-                        , clientRepository.findById(client_id)
-                        , project.getSkills()
-                );
+        // check if the client is even found
+        if (client == null){
+            throw new NotFoundException("Client could not be found");
+        }
+
+        // set the found client to the client of the project that has been created in the parameters with @RequestBody
+        project.setClient(client);
+
+        // set the data to now since the project just got created
+        project.setCreated(LocalDate.now());
 
         // Saves the Project object to the projectRepository and returns it.
-        return projectRepository.save(project1);
+        return projectRepository.save(project);
     }
 
     @GetMapping("client/{client_id}")

@@ -35,10 +35,12 @@ public class Project {
     @OneToMany
     private List<Skill> skills;
 
+    // empty constructor for spring boot auto config Todo: im not 100% sure about this, either remove this todo if correct or correct the comment
     public Project() {
 
     }
 
+    // constructor with all attributes
     public Project(String name, String bannerUrl, int status, LocalDate created, String description, Client client, List<Skill> skills) {
         this.name = name;
         this.status = status;
@@ -52,6 +54,20 @@ public class Project {
 
     }
 
+    // project constructor without declared owner, this can be set through the setter
+    public Project(String name, String bannerUrl, int status, LocalDate created, String description, List<Skill> skills) {
+        this.name = name;
+        this.status = status;
+        this.created = created;
+        this.description = description;
+        this.bannerUrl = bannerUrl;
+        this.skills = skills;
+//        this.specialists = new HashSet<>(specialists);
+        // TODO - Add specialists to the backend
+
+    }
+
+    // TODO: idk what this is? or does anyone fill in this commend
     public Project(String name, String bannerUrl, int status, LocalDate created, String description) {
         this.name = name;
         this.status = status;

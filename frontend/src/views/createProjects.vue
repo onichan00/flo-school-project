@@ -144,10 +144,10 @@ export default {
         description: this.description,
         bannerUrl: this.bannerUrl,
         skills: this.projectSkills,
-        client_id: this.client
       }
 
-      axios.post(process.env.VUE_APP_API_URL + '/api/projects/' + this.userId, requestBody)
+      // user id wordt meegestuurd als @RequestParam voor backend onder de naam van clientId
+      axios.post(process.env.VUE_APP_API_URL + '/api/projects/?clientId=' + this.userId, requestBody)
           .then((res) => {
             this.toast.success(`Project genaamd: "${this.name}", is met success aangemaakt`, {
               position: "bottom-center",
