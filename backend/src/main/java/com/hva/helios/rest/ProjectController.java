@@ -3,18 +3,14 @@ package com.hva.helios.rest;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.Project;
-import com.hva.helios.models.user.Client;
-import com.hva.helios.repositories.EntityRepository;
+import com.hva.helios.models.User;
 import com.hva.helios.repositories.testRepo;
-import com.hva.helios.repositories.user.ClientJPARepository;
 import com.hva.helios.repositories.user.UserJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:4040", maxAge = 3600)
 @RestController
@@ -24,11 +20,11 @@ public class ProjectController {
     @Autowired
     private testRepo projectRepository;
 
-    @Autowired
-    private ClientJPARepository clientRepository;
-
 //    @Autowired
-//    private UserJPARepository clientRepository;
+//    private ClientJPARepository clientRepository;
+
+    @Autowired
+    private UserJPARepository userRepository;
 
 //    @Autowired
 //    private EntityRepository<Project>  projectRepository;
@@ -46,13 +42,13 @@ public class ProjectController {
     @PostMapping("")
     public Project addProject(@RequestBody ObjectNode project) {
 
-        Client client = clientRepository.findClientByUserId(project.get("client_id").asLong());
-        System.out.println(client);
+        User user = userRepository.findById(project.get("client_id").asLong())
+                .orElseThrow(() -> new NotFoundException("user could not be found"));
 
         //sets the properties of the Project object, including the name, client, status, date, and description of the project.
         Project project1 = new Project(
                 project.get("name").asText()
-                ,client
+                ,user
                 ,project.get("status").asInt()
                 , LocalDate.now()
                 ,project.get("description").asText()
@@ -63,14 +59,16 @@ public class ProjectController {
     }
 
     @GetMapping("client/{client_id}")
-    public List<Project> getProjectsByClient(@PathVariable String client_id) {
+    public List<Project> getProjectsByClient(@PathVariable long client_id) {
 //        List<Project> projects = new ArrayList<>();
-        Client client = clientRepository.findClientByUserId(Long.parseLong(client_id));
+
+        User user = userRepository.findById(client_id)
+                .orElseThrow(() -> new NotFoundException("user could not be found"));
 //
 //        for (Project project : getProject()) if (project.getClient().equals(client)) projects.add(project);
 //
 
-        return projectRepository.findAllByClient(client);
+        return projectRepository.findAllByUser(user);
     }
 
     @GetMapping("{id}")

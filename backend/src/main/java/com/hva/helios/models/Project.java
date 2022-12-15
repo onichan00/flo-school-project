@@ -29,7 +29,7 @@ public class Project {
 
     @ManyToOne
 //    @JoinColumn(name = "client_id")
-    private Client client;
+    private User user;
 
 
 //    @OneToMany
@@ -38,12 +38,12 @@ public class Project {
     protected Project() {
 
     }
-    public Project(String name, Client client,int status, LocalDate created, String description) {
+    public Project(String name, User user,int status, LocalDate created, String description) {
         this.name = name;
         this.status = status;
         this.created = created;
         this.description = description;
-        this.client = client;
+        this.user = user;
 //        this.specialists = new HashSet<>(specialists);
         // TODO - Add specialists to the backend
 
@@ -105,11 +105,19 @@ public class Project {
         this.description = description;
     }
 
-    public Client getClient() {
-        return client;
+    public User getUser() {
+        return user;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setUser(User user) {
+        this.user = user;
     }
+
+    //    public Client getClient() {
+//        return client;
+//    }
+//
+//    public void setClient(Client client) {
+//        this.client = client;
+//    }
 }
