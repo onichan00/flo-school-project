@@ -55,7 +55,7 @@ public class HeliosApplication implements CommandLineRunner {
 	public void run(String... args) {
 		System.out.println("Running CommandLine Startup");
 //
-//		createInitialSkillData();
+		createInitialSkillData();
 //		createInitialProjectData();
 //
 //		createInitialSpecialistData();
@@ -63,17 +63,17 @@ public class HeliosApplication implements CommandLineRunner {
 //		createInitialAdminData();
 	}
 
-//	private void createInitialSkillData() {
-//		List<Skill> skills = skillRepo.findAll();
-//		if (skills.size() > 0) return;
-//		System.out.println("Configuring some initial skills in the repository");
-//
-//		SkillData skillData = new SkillData();
-//
-//		for (Skill skill : skillData.getAvailableSkills()) {
-//			skillRepo.save(skill);
-//		}
-//	}
+	private void createInitialSkillData() {
+		List<Skill> skills = skillRepo.findAll();
+		if (skills.size() > 0) return;
+		System.out.println("Configuring some initial skills in the repository");
+
+		SkillData skillData = new SkillData();
+
+		for (Skill skill : skillData.getAvailableSkills()) {
+			skillRepo.save(skill);
+		}
+	}
 //
 //	private void createInitialProjectData() {
 //		List<Project> projects = projectRepo.findAll();

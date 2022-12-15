@@ -160,7 +160,7 @@ public class UserController {
         if (userType == 2){
             User newUser = userRepository.save(user);
 
-            newUser.setSpecialist(new Specialist(newUser));
+            newUser.setSpecialist(new Specialist());
 
 
 
@@ -194,7 +194,7 @@ public class UserController {
         if (userType == 2){
             User newUser = userRepository.save(user);
 
-            newUser.setSpecialist(new Specialist(newUser));
+            newUser.setSpecialist(new Specialist());
 
 
 

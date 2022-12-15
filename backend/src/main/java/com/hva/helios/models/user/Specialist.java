@@ -28,23 +28,22 @@ public class Specialist{
     @OneToMany(cascade = CascadeType.ALL)
     private Set<UserSkill> skills;
 
-    @OneToOne
-    private User user;
+//    @OneToOne
+//    private User user;
 
-    protected Specialist() {}
+    public Specialist() {}
 
-    public Specialist(User user, int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills) {
-        this.user = user;
+    public Specialist(int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills) {
         this.available = available;
         this.specialistType = specialistType;
 
 //        this.projects = projects;
 //        this.skills = skills;
     }
-    public Specialist(User user){
-        this.user = user;
-
-    }
+//    public Specialist(User user){
+//        this.user = user;
+//
+//    }
 
     public long getId() {
         return id;

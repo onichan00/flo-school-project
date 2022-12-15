@@ -42,7 +42,7 @@ public class ProjectController {
     @PostMapping("")
     public Project addProject(@RequestBody Project project, @RequestParam long clientId) {
         // finding the necessary user bt its id gotten from the request parameter( which is declared as ?clientId = this.userId in the postrequest, see frontend
-        User user = userRepository.findById(clientId);
+        User user = userRepository.findById(clientId).orElseThrow(() -> new NotFoundException("user not found"));
 
         // check if the client is even found
         if (user == null){
