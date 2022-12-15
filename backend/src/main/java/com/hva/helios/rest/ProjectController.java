@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.Project;
 import com.hva.helios.models.user.Client;
+import com.hva.helios.models.user.skill.Skill;
 import com.hva.helios.repositories.EntityRepository;
 import com.hva.helios.repositories.testRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,24 +40,23 @@ public class ProjectController {
      * @param project = project to add
      * @return save project to the backend
      */
-    @PostMapping("")
-    public Project addProject(@RequestBody Project project) {
+    @PostMapping("{client_id}")
+    public Project addProject(@RequestBody Project project, @PathVariable long client_id) {
 //        Client client = clientRepository.findById(project.get("client_id").asLong());
 
         //sets the properties of the Project object, including the name, client, status, date, and description of the project.
-//        Project project1 = new Project(
-//                project.get("name").asText()
-//                ,client
-//                ,project.get("banner_url").asText()
-//                ,project.get("status").asInt()
-//                , LocalDate.now()
-//                ,project.get("description").asText(),
-//                null,
-//                project.get("client")
-//        );
+        Project project1 = new Project(
+                        project.getName()
+                        , project.getBannerUrl()
+                        , project.getStatus()
+                        , LocalDate.now()
+                        , project.getDescription()
+                        , clientRepository.findById(client_id)
+                        , project.getSkills()
+                );
 
         // Saves the Project object to the projectRepository and returns it.
-        return projectRepository.save(project);
+        return projectRepository.save(project1);
     }
 
     @GetMapping("client/{client_id}")

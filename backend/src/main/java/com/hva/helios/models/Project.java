@@ -35,7 +35,7 @@ public class Project {
     @OneToMany
     private List<Skill> skills;
 
-    protected Project() {
+    public Project() {
 
     }
 
@@ -59,6 +59,8 @@ public class Project {
         this.description = description;
         // TODO - Add specialists to the backend
     }
+
+
 
     public long getId() {
         return id;
