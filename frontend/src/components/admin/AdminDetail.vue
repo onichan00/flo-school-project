@@ -122,6 +122,32 @@ export default {
           })
     },
 
+    async setAdmin() {
+
+      let id = this.$route.params.id
+      await axios.put(process.env.VUE_APP_API_URL + `/api/users/update`, {
+        id: this.admin.id,
+        email: this.admin.email,
+        password: this.admin.password,
+        first_name: this.admin.first_name,
+        second_name: this.admin.preposition,
+        last_name: this.admin.last_name,
+        phone: this.admin.phonenumber,
+        userType: this.admin.userType,
+        admin_id: this.admin.admin.id,
+        client_id: null,
+        specialist: null
+      })
+          .then((res) => {
+            this.admin = res.data;
+            console.log(this.admin = res.data)
+
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
     selectItem(element) {
       if (element === this.selectedOffer) {
         return null;

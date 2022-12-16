@@ -3,10 +3,9 @@ package com.hva.helios.rest;
 import com.hva.helios.models.user.*;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.User;
-import com.hva.helios.repositories.EntityRepository;
-//import com.hva.helios.repositories.user.AdminJPARepository;
-//import com.hva.helios.repositories.user.ClientJPARepository;
-//import com.hva.helios.repositories.user.SpecialistJPARepository;
+import com.hva.helios.repositories.user.AdminJPARepository;
+import com.hva.helios.repositories.user.ClientJPARepository;
+import com.hva.helios.repositories.user.SpecialistJPARepository;
 import com.hva.helios.repositories.user.UserJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,20 +17,62 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("users")
 public class UserController {
-//    @Autowired
-//    private AdminJPARepository adminRepository;
-
-//    @Autowired
-//    private ClientJPARepository clientRepository;
-
-//    @Autowired
-//    private SpecialistJPARepository specialistRepository;
+    @Autowired
+    private AdminJPARepository adminRepository;
+//
+    @Autowired
+    private ClientJPARepository clientRepository;
+//
+    @Autowired
+    private SpecialistJPARepository specialistRepository;
 //
     @Autowired
     private UserJPARepository userRepository;
 //    @Autowired
+//    private UserRepository userRepository;
+//    @Autowired
 //    private AdminJPARepository adminJPARepository;
 
+
+//    @PutMapping("/update")
+//    public User updateUserById(@RequestBody User user){
+//        Long userType = user.getUserType();
+//        Long id = user.getId();
+//
+//        if (userType == 0){
+//            User oldUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
+//
+//            oldUser.setFirst_name(user.getFirst_name());
+//            oldUser.setEmail(user.getEmail());
+//            oldUser.setPassword(user.getPassword());
+//            oldUser.setSecond_name(user.getSecond_name());
+//            oldUser.setLast_name(user.getLast_name());
+//            oldUser.setPhone(user.getPhone());
+//
+//            userRepository.
+//            return oldUser;
+//
+//        }
+//        if (userType == 1){
+//            //TODO implement request parameters
+//            Client client = new Client("webosaito");
+//            clientRepository.save(client);
+//            user.setClient(client);
+//            User nUser = userRepository.save(user);
+//
+//            return nUser;
+//        }
+//        if (userType == 2){
+//            Specialist specialist = new Specialist();
+//            specialistRepository.save(specialist);
+//            user.setSpecialist(specialist);
+//            User nUser = userRepository.save(user);
+//
+//            return nUser;
+//        }
+//
+//        throw new NotFoundException("register failed");
+//    }
     @GetMapping("")
     public List<User> getAllUsers() {
 //        Map<String, List<? extends User>> users = new HashMap<>();
@@ -138,69 +179,77 @@ public class UserController {
 
     @PostMapping("register")
     public LoginResponse register(@RequestBody User user) {
-       Long userType = user.getUserType();
 
-
-       if (userType == 0){
-//           Admin admin = new Admin(newUser);
-           User newUser = userRepository.save(user);
-           newUser.setAdmin(new Admin());
-//           Admin admin1 = adminRepository.save(admin);
-            return new LoginResponse(user.getId(),userType);
-
-       }
-        if (userType == 1){
-            User newUser = userRepository.save(user);
-//            Client client =
-
-            newUser.setClient(new Client());
-
-            return new LoginResponse(newUser.getId(), newUser.getUserType());
-        }
-        if (userType == 2){
-            User newUser = userRepository.save(user);
-
-            newUser.setSpecialist(new Specialist());
-
-
-
-            return new LoginResponse(newUser.getId(), newUser.getUserType());
+        // email unique check
+        if (userRepository.findByEmail(user.getEmail()) != null){
+            throw new NotFoundException("user with this email already exists");
         }
 
-        throw new NotFoundException("Register failed");
-    }
-
-    @PostMapping("admin/create")
-    public LoginResponse createAdmin(@RequestBody User user) {
         Long userType = user.getUserType();
 
-
         if (userType == 0){
-//           Admin admin = new Admin(newUser);
-            User newUser = userRepository.save(user);
-            newUser.setAdmin(new Admin());
-//           Admin admin1 = adminRepository.save(admin);
-            return new LoginResponse(user.getId(),userType);
+            Admin admin = new Admin();
+            adminRepository.save(admin);
+            user.setAdmin(admin);
+            User nUser = userRepository.save(user);
+            return new LoginResponse(nUser.getId(),nUser.getUserType());
 
         }
         if (userType == 1){
+            //TODO implement request parameters
+            Client client = new Client("webosaito");
+            clientRepository.save(client);
+            user.setClient(client);
             User newUser = userRepository.save(user);
-//            Client client =
-
-            newUser.setClient(new Client());
 
             return new LoginResponse(newUser.getId(), newUser.getUserType());
         }
         if (userType == 2){
+            Specialist specialist = new Specialist();
+            specialistRepository.save(specialist);
+            user.setSpecialist(specialist);
             User newUser = userRepository.save(user);
-
-            newUser.setSpecialist(new Specialist());
-
-
 
             return new LoginResponse(newUser.getId(), newUser.getUserType());
         }
 
-        throw new NotFoundException("Creation failed");
+        throw new NotFoundException("register failed");
     }
+
+
+
+//    @PostMapping("admin/create")
+//    public LoginResponse createAdmin(@RequestBody User user) {
+//        Long userType = user.getUserType();
+//
+//
+//        if (userType == 0){
+//           Admin admin = new Admin();
+//           adminRepository.save(admin);
+//            user.setAdmin(admin);
+//            User nUser = userRepository.save(user);
+//            return new LoginResponse(nUser.getId(),nUser.getUserType());
+//
+//        }
+//
+//        throw new NotFoundException("Creation failed");
+//    }
+
+//    @PostMapping("admin/create")
+//    public LoginResponse createAdmin(@RequestBody User user) {
+//        Long userType = user.getUserType();
+//
+//        if (userType == 0) {
+//            Admin admin = adminRepository.save(new Admin());
+////            user.setAdmin(admin);
+//            userRepository.save(user).setAdmin(admin);
+//            return new LoginResponse(user.getId(), userType);
+//        }
+//
+//
+////        throw new NotFoundException("user is not of type admins");
+//
+//        throw new NotFoundException("Creation failed");
+//    }
+
 }

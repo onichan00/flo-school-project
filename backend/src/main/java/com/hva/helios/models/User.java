@@ -53,6 +53,10 @@ public class User {
         this.address = address;
         this.userType = userType;
     }
+    public User(User user, Admin admin){
+        User user2 = user;
+        this.admin =admin;
+    }
 
     public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType, Client client) {
         this.email = email;

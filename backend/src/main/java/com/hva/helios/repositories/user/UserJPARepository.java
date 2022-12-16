@@ -1,6 +1,7 @@
 package com.hva.helios.repositories.user;
 
 import com.hva.helios.models.User;
+import com.hva.helios.models.user.Admin;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.repositories.EntityRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,6 +18,11 @@ import java.util.Optional;
 @Transactional
 public interface UserJPARepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
+
+//    User save(User user, Admin admin);
+//    Admin saveAdmin(Admin admin);
+
+
 //    Specialist findSpecialistByUser(User user);
 
 }

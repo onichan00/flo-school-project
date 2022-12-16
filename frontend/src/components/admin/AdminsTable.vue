@@ -162,7 +162,7 @@ export default {
 
   data() {
     return {
-      admins: null
+      admins: []
     }
   },
 
