@@ -5,11 +5,17 @@
   <!--  <RegisterPage v-if="showRegister"/>-->
   <div v-if="!isAdmin && !isClient && !isSpecialist">
     <router-view/>
+    <Footer class="max-w-16"></Footer>
   </div>
 
-  <div v-if="isClient">
-    <client-navbar v-if="isClient && this.$route.path !== '/create-project'"></client-navbar>
-    <router-view/>
+  <div class="flex flex-col h-screen justify-between" v-if="isClient">
+    <div>
+      <div class="min-h-screen">
+        <client-navbar v-if="isClient && this.$route.path !== '/create-project'"></client-navbar>
+        <router-view/>
+      </div>
+      <Footer v-if="this.$route.path !== '/client/projects-overview'" class="max-w-16"></Footer>
+    </div>
   </div>
 
   <div v-if="isAdmin">
@@ -18,7 +24,6 @@
       <PageHeader/>
       <router-view/>
 
-      <Footer></Footer>
     </div>
   </div>
 </template>
