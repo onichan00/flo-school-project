@@ -27,18 +27,18 @@
                    class="hidden z-10 text-left w-44 bg-white rounded-lg divide-y divide-gray-100 shadow dark:bg-gray-700">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault1">
                   <li>
-                    <a @click='sortStatus()' class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Status</a>
+                    <a @click='sortStatus()' class="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Status</a>
                   </li>
                   <li>
-                    <a @click='sortAlphabetically()' class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alfabetisch
+                    <a @click='sortAlphabetically()' class="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alfabetisch
                       A-Z</a>
                   </li>
                   <li>
-                    <a @click='sortAlphabeticallyReverse()' class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alfabetisch
+                    <a @click='sortAlphabeticallyReverse()' class="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alfabetisch
                       Z-A</a>
                   </li>
                   <li>
-                    <a @click='sortNewToOld()' class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Aanmaakdatum</a>
+                    <a @click='sortNewToOld()' class="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Aanmaakdatum</a>
                   </li>
                 </ul>
               </div>
@@ -50,17 +50,17 @@
           </div>
           <form class="flex items-center">
             <label for="simple-search"></label>
-            <div class="relative w-full">
-              <div class="absolute inset-y-0 left-0 flex items-center pl-3">
-                <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20"
-                     xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd"
-                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                        clip-rule="evenodd"></path>
-                </svg>
-              </div>
+            <div class="w-full">
+<!--              <div class="absolute inset-y-0 left-0 flex items-center ">-->
+<!--&lt;!&ndash;                <svg aria-hidden="true" class="relative w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20"&ndash;&gt;-->
+<!--&lt;!&ndash;                     xmlns="http://www.w3.org/2000/svg">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <path fill-rule="evenodd"&ndash;&gt;-->
+<!--&lt;!&ndash;                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"&ndash;&gt;-->
+<!--&lt;!&ndash;                        clip-rule="evenodd"></path>&ndash;&gt;-->
+<!--&lt;!&ndash;                </svg>&ndash;&gt;-->
+<!--              </div>-->
               <input type="text" id="simple-search" v-on:keyup.enter="searchProject(this.searchTerm)" v-model="this.searchTerm"
-                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 p-2.5 "
+                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 pl-3 w-full p-2.5 "
                      placeholder="Zoeken...">
             </div>
             <button
@@ -75,9 +75,9 @@
           </form>
         </div>
 
-        <div class="overflow-y-scroll max-h-full">
+        <div class="overflow-visible max-h-full">
           <div
-              class="text-left rounded-lg p-2 m-3 cursor-pointer transition ease-in-out delay-0 bg-white-500 hover:-translate-y-1 hover:scale-110 hover:bg-gray-100 hover:shadow-sm duration-300"
+              class="text-left rounded-lg p-2 m-2 cursor-pointer transition ease-in-out delay-0 bg-white-500 hover:-translate-y-1 hover:scale-110 hover:bg-gray-100 hover:shadow-md duration-300"
               v-for="(project) in this.projects" :key="project"
               :class="[ selectedProject?.id === project.id ? selectedRowStyle : notSelectedRowStyle ]">
             <div @click="selectProject(project)">
@@ -96,16 +96,6 @@
                   <h1 class="font-medium text-lg">{{ project.name }}</h1>
                 </div>
                 <div>
-                  <button
-                      class="p-1.5 text-sm font-medium text-gray-500 rounded-3xl hover:bg-gray-200"
-                      data-dropdown-toggle="dropdown">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                         xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-                    </svg>
-                    <span class="sr-only">Search</span>
-                  </button>
                   <div id="dropdown"
                        class="hidden z-10 text-left w-44 bg-white rounded-lg divide-y divide-gray-100 shadow dark:bg-gray-700">
                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
@@ -131,116 +121,104 @@
 
       <div class="bg-white w-3/4 rounded-lg m-1 text-left max-h-fit shadow-lg">
 
-        <div class="px-4 py-3 h-auto" v-show='toggleEdit' v-if="selectedProject" v-bind="selectedProject">
-          <div class="relative  bg-white rounded-lg dark:bg-gray-700">
-            <div class="flex flex-col text-left">
-              <div class="flex items-start pt-2 mb-1 justify-between rounded-t dark:border-gray-600">
-                <h3 class="text-3xl 1 font-medium text-gray-900 dark:text-white">Bewerk dit project</h3>
-                <button @click='toggleEdit = !toggleEdit' type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-3xl text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M6 18L18 6M6 6l12 12"></path>
-                  </svg>
-                </button>
-              </div>
-              <p class="mb-1 text-md font-normal text-gray-600 pb-3">Druk op "Enter" om veranderingen op te slaan</p>
-            </div>
+<!--        <div class="px-4 py-3 h-auto" v-show='toggleEdit' v-if="selectedProject" v-bind="selectedProject">-->
+<!--          <div class="relative  bg-white rounded-lg dark:bg-gray-700">-->
+<!--            <div class="flex flex-col text-left">-->
+<!--              <div class="flex items-start pt-2 mb-1 justify-between rounded-t dark:border-gray-600">-->
+<!--                <h3 class="text-3xl 1 font-medium text-gray-900 dark:text-white">Bewerk dit project</h3>-->
+<!--                <button @click='toggleEdit = !toggleEdit' type="button"-->
+<!--                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-3xl text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">-->
+<!--                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"-->
+<!--                       xmlns="http://www.w3.org/2000/svg">-->
+<!--                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+<!--                          d="M6 18L18 6M6 6l12 12"></path>-->
+<!--                  </svg>-->
+<!--                </button>-->
+<!--              </div>-->
+<!--              <p class="mb-1 text-md font-normal text-gray-600 pb-3">Druk op "Enter" om veranderingen op te slaan</p>-->
+<!--            </div>-->
 
-            <hr>
+<!--            <hr>-->
 
-            <form class="h-fit pt-3">
-              <div class="mb-6">
-                <label for="name" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Project
-                  naam</label>
-                <input type="text" id="name"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5k:bg-gray-700"
-                       placeholder="Schrijf hier de naam" v-model.lazy="selectedProject.name">
-              </div>
-              <div class="mb-6">
-                <label for="bannerUrl" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Banner URL</label>
-                <input type="url" id="bannerUrl"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5k:bg-gray-700"
-                       placeholder="Kopieer en plak hier de URL van de banner" v-model.lazy="selectedProject.bannerUrl">
-              </div>
-              <div class="flex flex-row w-full">
-                <div class="w-1/2 mr-1">
-                  <h1 class="text-md font-medium text-gray-900 mb-2">Skills</h1>
-                  <form class="flex items-center mb-4">
-                    <label for="simple-search" class="sr-only"></label>
-                    <div class="relative w-full">
-                      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
-                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                          <path fill-rule="evenodd"
-                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                      </div>
-                      <input type="text" id="simple-search"
-                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
-                             placeholder="Zoek skill">
-                    </div>
-                  </form>
-                  <div class="flex flex-column flex-wrap mb-2">
-                    <div class="mb-4" v-for="skill in selectedProject.skills" :key="skill.id">
-                      <a class="bg-gray-200 border border-2 border-gray-300 px-2 py-1 rounded-lg">{{ skill.name }}
-                      <a  @click="deleteSkill(skill)" class="cursor-pointer"><i class="fa-solid fa-xmark"></i></a></a>
-                    </div>
-                  </div>
-                </div>
+<!--            <form class="h-fit pt-3">-->
+<!--              <div class="mb-6">-->
+<!--                <label for="name" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Project-->
+<!--                  naam</label>-->
+<!--                <input type="text" id="name"-->
+<!--                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5k:bg-gray-700"-->
+<!--                       placeholder="Schrijf hier de naam" v-model.lazy="selectedProject.name">-->
+<!--              </div>-->
+<!--              <div class="mb-6">-->
+<!--                <label for="bannerUrl" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Banner URL</label>-->
+<!--                <input type="url" id="bannerUrl"-->
+<!--                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5k:bg-gray-700"-->
+<!--                       placeholder="Kopieer en plak hier de URL van de banner" v-model.lazy="selectedProject.bannerUrl">-->
+<!--              </div>-->
+<!--              <div class="flex flex-row w-full">-->
+<!--                <div class="w-1/2 mr-1">-->
+<!--                  <h1 class="text-md font-medium text-gray-900 mb-2">Skills</h1>-->
+<!--                  <form class="flex items-center mb-4">-->
+<!--                    <label for="simple-search" class="sr-only"></label>-->
+<!--                    <div class="relative w-full">-->
+<!--                      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">-->
+<!--                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"-->
+<!--                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">-->
+<!--                          <path fill-rule="evenodd"-->
+<!--                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"-->
+<!--                                clip-rule="evenodd"></path>-->
+<!--                        </svg>-->
+<!--                      </div>-->
+<!--                      <input type="text" id="simple-search"-->
+<!--                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"-->
+<!--                             placeholder="Zoek skill">-->
+<!--                    </div>-->
+<!--                  </form>-->
+<!--                  <div class="flex flex-column flex-wrap mb-2">-->
+<!--                    <div class="mb-4" v-for="(skill, index) in selectedProject.skills" :key="skill.id">-->
+<!--                      <a class="bg-gray-200 border border-2 border-gray-300 px-2 py-1 rounded-lg">{{ skill.name }}-->
+<!--                      <a  @click="del(index)" class="cursor-pointer"><i class="fa-solid fa-xmark"></i></a></a>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
 
-                <div class="w-1/2 ml-1">
+<!--                <div class="w-1/2 ml-1">-->
 
-                  <label for="countries" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Selecteer
-                    de status van dit project</label>
-                  <select disabled v-model="selectedStatus" id="countries"
-                          class="cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
-                    <option selected>Kies de huidige status</option>
-                    <option v-for="status in statusses" :key="{ id: status.id, text: status.name }"
-                            @click="changeStatus(selectedProject, status.id)">{{ status.name }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="mb-4">
-                <label for="description" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Beschrijving</label>
-                <textarea id="description" rows="4"
-                          class="block p-2.5 w-full h-64 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"
-                          placeholder="Schrijf hier de beschrijving..."
-                          v-model.lazy="selectedProject.description"></textarea>
-              </div>
-            </form>
+<!--                  <label for="countries" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Selecteer-->
+<!--                    de status van dit project</label>-->
+<!--                  <select disabled v-model="selectedStatus" id="countries"-->
+<!--                          class="cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">-->
+<!--                    <option selected>Kies de huidige status</option>-->
+<!--                    <option v-for="status in statusses" :key="{ id: status.id, text: status.name }"-->
+<!--                            @click="changeStatus(selectedProject, status.id)">{{ status.name }}-->
+<!--                    </option>-->
+<!--                  </select>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="mb-4">-->
+<!--                <label for="description" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Beschrijving</label>-->
+<!--                <textarea id="description" rows="4"-->
+<!--                          class="block p-2.5 w-full h-64 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"-->
+<!--                          placeholder="Schrijf hier de beschrijving..."-->
+<!--                          v-model.lazy="selectedProject.description"></textarea>-->
+<!--              </div>-->
+<!--            </form>-->
 
-            <hr>
+<!--            <hr>-->
 
-            <div class="w-full mt-4">
-              <div class="float-right space-x-2 border-gray-200 mb-4">
-                <button type="button" class="p-2 text-md font-medium text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg">Bijwerkingen opslaan</button>
-              </div>
-            </div>
-          </div>
-        </div>
+<!--            <div class="w-full mt-4">-->
+<!--              <div class="float-right space-x-2 border-gray-200 mb-4">-->
+<!--                <button type="button" class="p-2 text-md font-medium text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg">Bijwerkingen opslaan</button>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div class="overflow-y-scroll m-auto m-3 p-2" v-if="selectedProject" v-bind="selectedProject"
-             v-show='!toggleEdit'>
+        <div class="overflow-y-scroll m-auto m-3 p-2" v-if="selectedProject" v-bind="selectedProject">
           <div>
             <div class="flex flex-row justify-between">
               <h1 class="text-black text-3xl font-medium">
                 {{ selectedProject.name }}
               </h1>
-              <div>
-                <button
-                    @click='toggleEdit = !toggleEdit'
-                    class="p-2.5 ml-2 text-sm font-medium text-gray-500 rounded-3xl hover:bg-gray-200">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                  </svg>
-                </button>
-              </div>
             </div>
 
             <div class="text-m font-normal mb-3">
@@ -248,7 +226,7 @@
                 Aangemaakt op: {{ this.dateFormatter(selectedProject.created) }}
               </h1>
               <h1>
-                Projecteigenaar: U
+                Projecteigenaar: {{ selectedProject.client.first_name + " " + selectedProject.client.last_name }}
               </h1>
 
               <div class="flex flex-row mr-2">
@@ -260,15 +238,15 @@
                   Concept</a></h1></div>
                 <div v-else-if="selectedProject.status === 1"><h1>Status: <a
                     class="py-0.0 px-1.5 bg-gradient-to-r from-green-300 to-green-400 text-white font-medium rounded-2xl">
-                  Actief</a></h1>
+                  Geaccepteerd</a></h1>
                 </div>
                 <div v-else-if="selectedProject.status === 2"><h1>Status: <a
                     class="py-0.0 px-1.5 bg-gradient-to-r from-green-400 to-green-400 text-white font-medium rounded-2xl">
-                  Actief</a></h1>
+                  Bezig</a></h1>
                 </div>
                 <div v-else-if="selectedProject.status === 3"><h1>Status: <a
                     class="py-0.0 px-1.5 bg-gradient-to-r from-green-500 to-green-600 text-white font-medium rounded-2xl">
-                  Actief</a></h1>
+                  Afgerond</a></h1>
                 </div>
               </div>
             </div>

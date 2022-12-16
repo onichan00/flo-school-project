@@ -3,22 +3,27 @@
   <!--  <LandingPage v-if="showLandingPage"/>-->
   <!--  <Login v-if="showLogin"/>-->
   <!--  <RegisterPage v-if="showRegister"/>-->
-  <div v-if="userType == -1">
+  <div v-if="!isAdmin && !isClient && !isSpecialist">
     <router-view/>
+    <Footer class="max-w-16"></Footer>
   </div>
 
-  <div v-if="userType == 1">
-    <client-navbar></client-navbar>
-    <router-view/>
+  <div class="flex flex-col h-screen justify-between" v-if="isClient">
+    <div>
+      <div class="min-h-screen">
+        <client-navbar v-if="isClient && this.$route.path !== '/create-project'"></client-navbar>
+        <router-view/>
+      </div>
+      <Footer v-if="this.$route.path !== '/client/projects-overview'" class="max-w-16"></Footer>
+    </div>
   </div>
 
-  <div v-show="this.userType == 0">
+  <div v-if="isAdmin">
     <Sidebar/>
     <div :style="{ 'margin-left': sidebarWidth }">
       <PageHeader/>
       <router-view/>
 
-      <Footer></Footer>
     </div>
   </div>
 </template>
@@ -63,15 +68,19 @@ export default {
       availableHours: [],
       skills: [],
       loginStatus: null,
-      userType: -1
+      isAdmin: false,
+      isClient: false,
+      isSpecialist: false
     }
   },
   mounted() {
+    console.log(this.isClient)
     if (localStorage.getItem("id") != null) {
-      this.loginStatus = true;
-      this.userType = localStorage.getItem("userType")
 
-      console.log("usertype is: "+this.userType)
+      console.log("test")
+      this.loginStatus = true;
+      this.isAdmin = localStorage.getItem("isAdmin")
+      this.isClient = localStorage.getItem("isClient")
 
       // if (localStorage.getItem("isAdmin") === true) {
       //   this.isAdmin = true;
@@ -111,29 +120,29 @@ export default {
     //   return false;
     // },
 
-    // showLandingPage() {
-    //   if (this.$route.path == "/landing-page") {
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // },
-    //
-    // showLogin() {
-    //   if (this.$route.path == "/login") {
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // },
-    //
-    // showRegister() {
-    //   if (this.$route.path == "/register") {
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // }
+    showLandingPage() {
+      if (this.$route.path == "/landing-page") {
+        return true
+      } else {
+        return false
+      }
+    },
+
+    showLogin() {
+      if (this.$route.path == "/login") {
+        return true
+      } else {
+        return false
+      }
+    },
+
+    showRegister() {
+      if (this.$route.path == "/register") {
+        return true
+      } else {
+        return false
+      }
+    }
 
   },
 
