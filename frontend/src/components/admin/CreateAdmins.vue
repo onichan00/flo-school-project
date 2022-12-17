@@ -83,7 +83,7 @@
 
           </form>
           <button @click="createRequest" class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
-                  style="background-color:#F15922 "> Sign up
+                  style="background-color:#F15922 "> Aanmaken
           </button>
           <button @click="this.$router.push('/admin/admins')"
                   class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
@@ -119,6 +119,7 @@ export default {
   },
 
   methods: {
+    //TODO: make it so the button cant be pressed after succesfull creation
     async createRequest() {
       console.log("test")
       let request = await axios.post(process.env.VUE_APP_API_URL + "/api/users/register", {

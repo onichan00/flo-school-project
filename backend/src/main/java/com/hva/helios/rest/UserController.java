@@ -30,8 +30,14 @@ public class UserController {
     private UserJPARepository userRepository;
 
 
+    @DeleteMapping("/delete/{id}")
+    public void deleteUserById(@PathVariable long id){
+        userRepository.deleteById(id);
+
+    }
+
     @PutMapping("/update")
-    public User updateUserById(@RequestBody User user) {
+    public User updateUser(@RequestBody User user) {
         //TODO: Implement update for other usertypes
         //TODO: Implement update for other usertypes
         //TODO: Implement update for other usertypes

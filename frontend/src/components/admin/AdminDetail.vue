@@ -83,7 +83,11 @@
 
           </form>
           <button @click="setAdmin" class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
-                  style="background-color:#F15922 "> Sign up
+                  style="background-color:#F15922 "> Bijwerken
+          </button>
+          <button @click="deleteAdmin"
+                  class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
+                  style="background-color:red "> Verwijderen
           </button>
           <button @click="this.$router.push('/admin/admins')"
                   class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
@@ -134,11 +138,13 @@ export default {
   },
 
   methods: {
+    //TODO: make it so the update and delete button cant be pressed after succesful update/deletion
     async getAdmin() {
 
       await axios.get(process.env.VUE_APP_API_URL + `/api/users/` + this.id)
           .then((res) => {
             let adminData = res.data
+
 
             console.log(adminData)
             this.first_name = adminData.first_name
@@ -151,6 +157,21 @@ export default {
 
           })
           .catch((err) => {
+            this.toast.error("Er is iets misgegaan, zie: " + err.message)
+            console.log(err);
+          })
+    },
+
+    async deleteAdmin() {
+
+      await axios.delete(process.env.VUE_APP_API_URL + `/api/users/delete/` + this.id)
+          .then((res) => {
+            if (res.status == 200) {
+              this.toast.success("Admin succesvol verwijderd")
+            }
+          })
+          .catch((err) => {
+            this.toast.error("Er is iets misgegaan, zie: " + err.message)
             console.log(err);
           })
     },
@@ -169,13 +190,15 @@ export default {
         last_name: this.last_name,
         phone: this.phone,
         userType: this.userType,
-       })
+      })
           .then((res) => {
-            // this.admin = res.data;
-            console.log(res.data)
+            if (res.status == 200) {
+              this.toast.success("Admin succesvol bijgewerkt")
+            }
 
           })
           .catch((err) => {
+            this.toast.error("Er is iets misgegaan, zie: " + err.message)
             console.log(err);
           })
     },
