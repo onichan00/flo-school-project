@@ -40,7 +40,7 @@
                 </div>
                 <div>
                   <label for="phone" class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefoonnummer</label>
-                  <input v-model="phonenumber" type="phone" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900
+                  <input v-model="phone" type="phone" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900
                 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5
                 dark:focus:border-blue-500" placeholder="06 12 34 56 78" required="">
                 </div>
@@ -111,7 +111,7 @@ export default {
       first_name: null,
       preposition: null,
       last_name: null,
-      phonenumber: null,
+      phone: null,
       userType: 0,
       gender: null,
       toast: useToast(),
@@ -127,7 +127,7 @@ export default {
         first_name: this.first_name,
         second_name: this.preposition,
         last_name: this.last_name,
-        phone: this.phonenumber,
+        phone: this.phone,
         userType: this.userType,
         admin_id: null,
         client_id: null,

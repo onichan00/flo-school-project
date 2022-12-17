@@ -19,42 +19,50 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private AdminJPARepository adminRepository;
-//
+    //
     @Autowired
     private ClientJPARepository clientRepository;
-//
+    //
     @Autowired
     private SpecialistJPARepository specialistRepository;
-//
+    //
     @Autowired
     private UserJPARepository userRepository;
-//    @Autowired
-//    private UserRepository userRepository;
-//    @Autowired
-//    private AdminJPARepository adminJPARepository;
 
 
-//    @PutMapping("/update")
-//    public User updateUserById(@RequestBody User user){
-//        Long userType = user.getUserType();
-//        Long id = user.getId();
-//
-//        if (userType == 0){
-//            User oldUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
-//
-//            oldUser.setFirst_name(user.getFirst_name());
-//            oldUser.setEmail(user.getEmail());
-//            oldUser.setPassword(user.getPassword());
-//            oldUser.setSecond_name(user.getSecond_name());
-//            oldUser.setLast_name(user.getLast_name());
-//            oldUser.setPhone(user.getPhone());
-//
-//            userRepository.
-//            return oldUser;
-//
-//        }
+    @PutMapping("/update")
+    public User updateUserById(@RequestBody User user) {
+        //TODO: Implement update for other usertypes
+        //TODO: Implement update for other usertypes
+        //TODO: Implement update for other usertypes
+        //TODO: !!!!
+
+        // save attributes that get used multiple times
+        Long userType = user.getUserType();
+        Long id = user.getId();
+
+        // we get the old user from JPA
+        // im not sure if we need to put this inside of the ifstatements each time or not but for now this works
+        User oUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
+
+        // check what the usertype is
+        if (userType == 0) {
+
+            // we update the old user from jpa
+            oUser.setFirst_name(user.getFirst_name());
+            oUser.setSecond_name(user.getSecond_name());
+            oUser.setLast_name(user.getLast_name());
+            oUser.setEmail(user.getEmail());
+            oUser.setPhone(user.getPhone());
+            oUser.setPassword(user.getPassword());
+            // if admin had any data u could probably do oUser.getAdmin.setWhateverUNeed(user.getadmin and stuff depending if u return a admin object or admin id)
+
+            // we save the old user and return it
+            return userRepository.save(oUser);
+
+            //TODO: remove this when other types have been implemented
+        } else throw new NotFoundException("updating has yet to be implemented for this user type");
 //        if (userType == 1){
-//            //TODO implement request parameters
 //            Client client = new Client("webosaito");
 //            clientRepository.save(client);
 //            user.setClient(client);
@@ -72,7 +80,8 @@ public class UserController {
 //        }
 //
 //        throw new NotFoundException("register failed");
-//    }
+    }
+
     @GetMapping("")
     public List<User> getAllUsers() {
 //        Map<String, List<? extends User>> users = new HashMap<>();
@@ -88,17 +97,17 @@ public class UserController {
     }
 
     @GetMapping("admins")
-    public List<User> getAllAdmins(){
+    public List<User> getAllAdmins() {
         return userRepository.findAll().stream().filter(user -> user.getUserType() == 0).collect(Collectors.toList());
     }
 
     @GetMapping("specialists")
-    public List<User> getAllSpecialists(){
+    public List<User> getAllSpecialists() {
         return userRepository.findAll().stream().filter(user -> user.getUserType() == 2).collect(Collectors.toList());
     }
 
     @GetMapping("clients")
-    public List<User> getAllClients(){
+    public List<User> getAllClients() {
         return userRepository.findAll().stream().filter(user -> user.getUserType() == 1).collect(Collectors.toList());
     }
 
@@ -171,9 +180,9 @@ public class UserController {
 
 
         if (user.getPassword().equals(loginBody.password())) {
-            return new LoginResponse(user.getId(),user.getUserType());
+            return new LoginResponse(user.getId(), user.getUserType());
         }
-        return new LoginResponse(-1l,-1);
+        return new LoginResponse(-1l, -1);
 
     }
 
@@ -181,21 +190,22 @@ public class UserController {
     public LoginResponse register(@RequestBody User user) {
 
         // email unique check
-        if (userRepository.findByEmail(user.getEmail()) != null){
+        if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new NotFoundException("user with this email already exists");
         }
 
+        System.out.println("sout" + user.getPhone());
         Long userType = user.getUserType();
 
-        if (userType == 0){
+        if (userType == 0) {
             Admin admin = new Admin();
             adminRepository.save(admin);
             user.setAdmin(admin);
             User nUser = userRepository.save(user);
-            return new LoginResponse(nUser.getId(),nUser.getUserType());
+            return new LoginResponse(nUser.getId(), nUser.getUserType());
 
         }
-        if (userType == 1){
+        if (userType == 1) {
             //TODO implement request parameters
             Client client = new Client("webosaito");
             clientRepository.save(client);
@@ -204,7 +214,9 @@ public class UserController {
 
             return new LoginResponse(newUser.getId(), newUser.getUserType());
         }
-        if (userType == 2){
+        if (userType == 2) {
+            //TODO implement request parameters
+
             Specialist specialist = new Specialist();
             specialistRepository.save(specialist);
             user.setSpecialist(specialist);
@@ -215,7 +227,6 @@ public class UserController {
 
         throw new NotFoundException("register failed");
     }
-
 
 
 //    @PostMapping("admin/create")
