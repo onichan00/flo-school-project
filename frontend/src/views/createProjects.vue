@@ -39,6 +39,7 @@
                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
                 ></textarea>
               </div>
+              <!--TODO Weg klikken van skills implementeren-->
               <div>
                 <label for="search" class="block text-left mb-2 text-m font-medium text-gray-900 dark:text-white">
                   Type de naam van een skill
@@ -99,7 +100,7 @@
 </template>
 
 <script>
-import {ref, computed} from 'vue'
+import {computed, ref} from 'vue'
 import axios from 'axios';
 import {useToast} from "vue-toastification";
 

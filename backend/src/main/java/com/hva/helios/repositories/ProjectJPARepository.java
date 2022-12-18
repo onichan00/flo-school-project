@@ -77,7 +77,7 @@ public class ProjectJPARepository
                 entityManager.createQuery("SELECT project from Project project", Project.class);
 
         for (Project project : query.getResultList()){
-            if (project.getClient().equals(client)){
+            if (project.getUser().equals(client)){
                 projects.add(project);
             };
         };

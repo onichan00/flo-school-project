@@ -1,6 +1,7 @@
 package com.hva.helios.repositories;
 
 import com.hva.helios.models.Project;
+import com.hva.helios.models.User;
 import com.hva.helios.models.user.Client;
 import com.hva.helios.models.user.skill.Skill;
 import org.springframework.data.domain.Sort;
@@ -14,5 +15,6 @@ import java.util.Optional;
 
 @Repository
 public interface testRepo extends JpaRepository<Project,Long>{
-    List<Project> findAllByClient(Client client);
+    List<Project> findAllByUser(User user);
+
 }

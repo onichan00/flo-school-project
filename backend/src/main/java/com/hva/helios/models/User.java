@@ -1,5 +1,9 @@
 package com.hva.helios.models;
 
+import com.hva.helios.models.user.Admin;
+import com.hva.helios.models.user.Client;
+import com.hva.helios.models.user.Specialist;
+
 import javax.persistence.*;
 
 @Entity
@@ -21,14 +25,21 @@ public class User {
     private String city;
     private String zipCode;
     private String address;
-
     private Long userType;
+    @OneToOne
+    Client client;
+    @OneToOne
+    Admin admin;
+    @OneToOne
+    Specialist specialist;
+
+
 
     protected User() {
 
     }
 
-    public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address) {
+    public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType) {
         this.email = email;
         this.password = password;
         this.first_name = first_name;
@@ -40,11 +51,72 @@ public class User {
         this.city = city;
         this.zipCode = zipCode;
         this.address = address;
+        this.userType = userType;
+    }
+    public User(User user, Admin admin){
+        User user2 = user;
+        this.admin =admin;
+    }
+
+    public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType, Client client) {
+        this.email = email;
+        this.password = password;
+        this.first_name = first_name;
+        this.second_name = second_name;
+        this.last_name = last_name;
+        this.photo = photo;
+        this.bio = bio;
+        this.phone = phone;
+        this.city = city;
+        this.zipCode = zipCode;
+        this.address = address;
+        this.userType = userType;
+        this.client = client;
+    }
+
+    public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType, Admin admin) {
+        this.email = email;
+        this.password = password;
+        this.first_name = first_name;
+        this.second_name = second_name;
+        this.last_name = last_name;
+        this.photo = photo;
+        this.bio = bio;
+        this.phone = phone;
+        this.city = city;
+        this.zipCode = zipCode;
+        this.address = address;
+        this.userType = userType;
+        this.admin = admin;
+    }
+
+    public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType, Specialist specialist) {
+        this.email = email;
+        this.password = password;
+        this.first_name = first_name;
+        this.second_name = second_name;
+        this.last_name = last_name;
+        this.photo = photo;
+        this.bio = bio;
+        this.phone = phone;
+        this.city = city;
+        this.zipCode = zipCode;
+        this.address = address;
+        this.userType = userType;
+        this.specialist = specialist;
     }
 
     public User(Long id, Long userType){
         this.userType = userType;
         this.id = id;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Long getUserType() {
@@ -149,5 +221,21 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+    public Specialist getSpecialist() {
+        return specialist;
+    }
+
+    public void setSpecialist(Specialist specialist) {
+        this.specialist = specialist;
     }
 }
