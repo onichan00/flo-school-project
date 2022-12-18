@@ -31,7 +31,7 @@ public class UserController {
 
 
     @DeleteMapping("/delete/{id}")
-    public void deleteUserById(@PathVariable long id){
+    public void deleteUserById(@PathVariable long id) {
         userRepository.deleteById(id);
 
     }
@@ -51,38 +51,38 @@ public class UserController {
         // im not sure if we need to put this inside of the ifstatements each time or not but for now this works
         User oUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
 
+        oUser.setFirst_name(user.getFirst_name());
+        oUser.setSecond_name(user.getSecond_name());
+        oUser.setLast_name(user.getLast_name());
+        oUser.setEmail(user.getEmail());
+        oUser.setPhone(user.getPhone());
+        oUser.setPassword(user.getPassword());
+
         // check what the usertype is
         if (userType == 0) {
 
             // we update the old user from jpa
-            oUser.setFirst_name(user.getFirst_name());
-            oUser.setSecond_name(user.getSecond_name());
-            oUser.setLast_name(user.getLast_name());
-            oUser.setEmail(user.getEmail());
-            oUser.setPhone(user.getPhone());
-            oUser.setPassword(user.getPassword());
+
             // if admin had any data u could probably do oUser.getAdmin.setWhateverUNeed(user.getadmin and stuff depending if u return a admin object or admin id)
 
             // we save the old user and return it
             return userRepository.save(oUser);
 
+        } else if (userType == 1) {
+            oUser.getClient().setWebsite(user.getClient().getWebsite());
+
+            return userRepository.save(oUser);
+
             //TODO: remove this when other types have been implemented
-        } else throw new NotFoundException("updating has yet to be implemented for this user type");
-//        if (userType == 1){
-//            Client client = new Client("webosaito");
-//            clientRepository.save(client);
-//            user.setClient(client);
-//            User nUser = userRepository.save(user);
-//
-//            return nUser;
-//        }
+        }else throw new NotFoundException("updating has yet to be implemented for this user type");
+
 //        if (userType == 2){
 //            Specialist specialist = new Specialist();
 //            specialistRepository.save(specialist);
 //            user.setSpecialist(specialist);
 //            User nUser = userRepository.save(user);
 //
-//            return nUser;
+//             return userRepository.save(oUser);
 //        }
 //
 //        throw new NotFoundException("register failed");
@@ -193,7 +193,7 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public LoginResponse register(@RequestBody User user) {
+    public User register(@RequestBody User user) {
 
         // email unique check
         if (userRepository.findByEmail(user.getEmail()) != null) {
@@ -205,30 +205,32 @@ public class UserController {
 
         if (userType == 0) {
             Admin admin = new Admin();
-            adminRepository.save(admin);
-            user.setAdmin(admin);
+            Admin savedAdmin = adminRepository.save(admin);
+            user.setAdmin(savedAdmin);
             User nUser = userRepository.save(user);
-            return new LoginResponse(nUser.getId(), nUser.getUserType());
+//            return new LoginResponse(nUser.getId(), nUser.getUserType());
+            return nUser;
 
         }
         if (userType == 1) {
-            //TODO implement request parameters
-            Client client = new Client("webosaito");
-            clientRepository.save(client);
-            user.setClient(client);
+            Client savedClient = clientRepository.save(user.getClient());
+            user.setClient(savedClient);
             User newUser = userRepository.save(user);
 
-            return new LoginResponse(newUser.getId(), newUser.getUserType());
+//            return new LoginResponse(newUser.getId(), newUser.getUserType());
+            return newUser;
         }
-        if (userType == 2) {
-            //TODO implement request parameters
 
-            Specialist specialist = new Specialist();
-            specialistRepository.save(specialist);
-            user.setSpecialist(specialist);
+        // TODO: convert objects from the json to the correct type and set them to the specialists before setting the specialist in the user and saving the user
+        // TODO: TLDR its not functional yet
+        if (userType == 2) {
+
+            Specialist savedSpecialist = specialistRepository.save(user.getSpecialist());
+            user.setSpecialist(savedSpecialist);
             User newUser = userRepository.save(user);
 
-            return new LoginResponse(newUser.getId(), newUser.getUserType());
+//            return new LoginResponse(newUser.getId(), newUser.getUserType());
+            return newUser;
         }
 
         throw new NotFoundException("register failed");
