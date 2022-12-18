@@ -12,10 +12,11 @@
         <p class="absolute bottom-2 right-2 text-gray-400">Total hours clocked</p>
         <p class="text-3xl">200h</p>
       </div>
+      <!--TODO fix this bruh        -->
       <div
           class="relative py-8 flex items-center justify-center p-4 shadow-md rounded-md border border-gray-200 text-left">
         <p class="absolute bottom-2 right-2 text-gray-400">Most valuable coder</p>
-        <p class="text-3xl">{{ specialistFullName(specialistsOfThisProject[0]) }}</p>
+        <!--<p class="text-3xl">{{ specialistFullName(specialistsOfThisProject[0]) }}</p>-->
       </div>
     </div>
     <hr class="my-4"/>
@@ -120,7 +121,7 @@
         </div>
         <!-- Modal body -->
         <div class="p-6 space-y-6">
-          <label for="availableSpecialists" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select
+          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select
             an specialist</label>
           <select id="availableSpecialists"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -194,7 +195,7 @@ export default {
       const id = this.$route.params.id
       axios.delete(process.env.VUE_APP_API_URL + "/api/projects/" + id)
           .then((res) => {
-            this.$router.push('/projects').then( () => {
+            this.$router.push('/projects').then(() => {
               this.$router.go()
             })
             console.log(res)

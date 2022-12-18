@@ -47,6 +47,8 @@ public class Project {
         this.created = created;
         this.description = description;
         this.user = user;
+        this.skills = skills;
+        this.bannerUrl = bannerUrl;
 //        this.specialists = new HashSet<>(specialists);
         // TODO - Add specialists to the backend
 
