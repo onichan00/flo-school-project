@@ -23,6 +23,7 @@ import CreateProjects from "@/views/createProjects";
 import CreateAdmins from "@/components/admin/CreateAdmins";
 import AdminsTable from "@/components/admin/AdminsTable";
 import AdminDetail from "@/components/admin/AdminDetail";
+import ClientProfile from "@/views/ClientProfile";
 
 export const router = createRouter({
     history: createWebHashHistory(),
@@ -119,6 +120,11 @@ export const router = createRouter({
             path: '/client/settings',
             name: 'Client Settings',
             component:  ClientSettings
+        },
+        {
+            path: '/client/profile',
+            name: 'Client Profile',
+            component:  ClientProfile
         },
         {
             path: '/:pathMatch(.*)',
