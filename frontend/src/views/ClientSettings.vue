@@ -98,8 +98,7 @@
               <div class="grid md:grid-cols-3 md:gap-6">
                 <div class="relative z-0 mb-6 w-full group">
                   <label for="floating_first_name"
-                         class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Voornaam
-                    name</label>
+                         class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Voornaam</label>
                   <input v-model="this.user.first_name" type="text" name="floating_first_name" id="floating_first_name"
                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
                          placeholder="John" required/>
