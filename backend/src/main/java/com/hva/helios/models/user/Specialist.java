@@ -17,7 +17,7 @@ public class Specialist{
     private long id = 0L;
 
     private int available;
-    private String specialistType;
+    private String specialistType, approvalStatus;
 
     @OneToOne(cascade = CascadeType.ALL)
     private AvailableHour hours;
@@ -33,9 +33,11 @@ public class Specialist{
 
     public Specialist() {}
 
-    public Specialist(int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills) {
+    public Specialist(int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills,
+                      String approvalStatus) {
         this.available = available;
         this.specialistType = specialistType;
+        this.approvalStatus = approvalStatus;
 
 //        this.projects = projects;
 //        this.skills = skills;
@@ -117,5 +119,13 @@ public class Specialist{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getApprovalStatus() {
+        return approvalStatus;
+    }
+
+    public void setApprovalStatus(String approvalStatus) {
+        this.approvalStatus = approvalStatus;
     }
 }
