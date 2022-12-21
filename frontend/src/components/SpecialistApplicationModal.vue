@@ -57,7 +57,7 @@
 
 <script>
 export default {
-  name: "ApplicationModal",
+  name: "SpecialistApplicationModal",
   props: [
       'selectedSpecialist'
   ],
@@ -67,15 +67,14 @@ export default {
   ],
   data () {
     return {
-      firstName: this.selectedSpecialist.firstName,
-      lastName: this.selectedSpecialist.lastName,
+      name: this.selectedSpecialist.name,
+      photo: this.selectedSpecialist.photo,
+      email: this.selectedSpecialist.email,
+      phone: this.selectedSpecialist.phone,
       age: this.selectedSpecialist.age,
       skills: this.selectedSpecialist.skills,
       preferredHours: this.selectedSpecialist.preferredHours,
-      preferredDays: this.selectedSpecialist.preferredDays,
-      image: this.selectedSpecialist.image,
-      email: this.selectedSpecialist.email,
-      phone: this.selectedSpecialist.phone
+      preferredDays: this.selectedSpecialist.preferredDays
     }
   },
   methods: {
@@ -121,7 +120,7 @@ export default {
   /*max-height: 300px;*/
 }
 .close-modal-btn {
-  background: center no-repeat url("../assets/img/close.png") #eee;
+  background: center no-repeat url("@/assets/img/close.png") #eee;
   background-size: contain;
   color: transparent;
 }
