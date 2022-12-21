@@ -33,10 +33,10 @@ public class SpecialistApplicationsController {
     public ResponseEntity<Specialist> updateApplication(
             @PathVariable("id") long id,
             @RequestBody Specialist specialist) {
-        Specialist updatedSpecialist = repository.getSpecialistById(id);
+        Specialist specialistToUpdate = repository.getSpecialistById(id);
 
-        updatedSpecialist.setApprovalStatus(specialist.getApprovalStatus());
-        repository.save(updatedSpecialist);
+        specialistToUpdate.setApprovalStatus(specialist.getApprovalStatus());
+        repository.save(specialistToUpdate);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(
@@ -45,6 +45,6 @@ public class SpecialistApplicationsController {
                         .fromCurrentRequest()
                         .toUriString()
         );
-        return new ResponseEntity<>(updatedSpecialist, headers, HttpStatus.OK);
+        return new ResponseEntity<>(specialistToUpdate, headers, HttpStatus.OK);
     }
 }

@@ -2,8 +2,8 @@
   <div class="relative flex justify-center">
     <router-view class="fixed top-28 w-96"
                  :selected-specialist="selectedSpecialist"
-                 @approve-application="approveApplication"
-                 @reject-application="rejectApplication"/>
+                 @approve-application="updateApplication"
+                 @reject-application="updateApplication"/>
 
     <div class="overflow-x-auto relative shadow-md border border-gray-200 sm:rounded-lg mt-10">
       <table class="w-full text-sm rounded-md text-left text-gray-500 dark:text-gray-400">
@@ -78,13 +78,26 @@ export default {
       });
       this.$router.push(this.$route.matched[0].path + '/' + this.selectedSpecialist.id);
     },
-    approveApplication(specialist) {
-      specialist.approvalStatus = 1;
-      this.$router.go(-1);
-    },
-    rejectApplication(specialist) {
-      specialist.approvalStatus = 0;
-      this.$router.go(-1);
+    updateApplication(specialist) {
+      fetch(`http://localhost:8080/api/specialists/applications/${specialist.id}`, {
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          approvalStatus: specialist.approvalStatus
+        })
+      }).then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+      }).then(data => {
+        if (data.approvalStatus === specialist.approvalStatus) {
+          this.selectedSpecialist.approvalStatus = specialist.approvalStatus;
+          this.$router.go(-1);
+        }
+      })
     },
     gibApprovedStatus(specialist) {
       if (specialist.approvalStatus === 1) return 'florijn-checkmark.png';
