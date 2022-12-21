@@ -3,7 +3,11 @@ package com.hva.helios.rest.user;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.repositories.user.SpecialistJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -19,13 +23,28 @@ public class SpecialistApplicationsController {
         return repository.findAll();
     }
 
+    @GetMapping("/{id}")
+    public @ResponseBody List<Specialist> findById(
+            @PathVariable("id") long id) {
+        return repository.findById(id);
+    }
+
     @PutMapping("/{id}")
-    public String updateApplication(@PathVariable("id") long id, Specialist specialist) {
-        Specialist updatedSpecialist = repository.save(specialist);
-        return String.format(
-                "Changed application approval status of specialist with ID %d to %s.",
-                updatedSpecialist.getId(),
-                updatedSpecialist.getApprovalStatus()
+    public ResponseEntity<Specialist> updateApplication(
+            @PathVariable("id") long id,
+            @RequestBody Specialist specialist) {
+        Specialist updatedSpecialist = repository.getSpecialistById(id);
+
+        updatedSpecialist.setApprovalStatus(specialist.getApprovalStatus());
+        repository.save(updatedSpecialist);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(
+                "Location",
+                ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .toUriString()
         );
+        return new ResponseEntity<>(updatedSpecialist, headers, HttpStatus.OK);
     }
 }

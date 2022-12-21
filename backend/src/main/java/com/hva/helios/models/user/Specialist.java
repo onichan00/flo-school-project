@@ -17,7 +17,9 @@ public class Specialist{
     private long id = 0L;
 
     private int available;
-    private String specialistType, approvalStatus;
+    private String specialistType;
+
+    private long approvalStatus;
 
     @OneToOne(cascade = CascadeType.ALL)
     private AvailableHour hours;
@@ -28,24 +30,14 @@ public class Specialist{
     @OneToMany(cascade = CascadeType.ALL)
     private Set<UserSkill> skills;
 
-//    @OneToOne
-//    private User user;
-
     public Specialist() {}
 
     public Specialist(int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills,
-                      String approvalStatus) {
+                      long approvalStatus) {
         this.available = available;
         this.specialistType = specialistType;
         this.approvalStatus = approvalStatus;
-
-//        this.projects = projects;
-//        this.skills = skills;
     }
-//    public Specialist(User user){
-//        this.user = user;
-//
-//    }
 
     public long getId() {
         return id;
@@ -83,20 +75,6 @@ public class Specialist{
         this.projects = projects;
     }
 
-    public void addProject(Project project) {
-        projects.add(project);
-        project.getSpecialists().add(this);
-    }
-
-    public void removeProject(long projectId) {
-        Project project = projects.stream().filter(p -> p.getId() == projectId).findFirst().orElse(null);
-
-        if (project != null) {
-            projects.remove(project);
-            project.getSpecialists().remove(this);
-        }
-    }
-
     public Set<UserSkill> getSkills() {
         return skills;
     }
@@ -105,27 +83,15 @@ public class Specialist{
         this.skills = skills;
     }
 
-    public void addSkill(UserSkill skill) {
-        skills.add(skill);
-    }
-
-    public void removeSkill(long skillId) {
-        UserSkill skill = skills.stream().filter(s -> s.getId() == skillId).findFirst().orElse(null);
-
-        if (skill != null) {
-            skills.remove(skill);
-        }
-    }
-
     public void setId(long id) {
         this.id = id;
     }
 
-    public String getApprovalStatus() {
+    public long getApprovalStatus() {
         return approvalStatus;
     }
 
-    public void setApprovalStatus(String approvalStatus) {
+    public void setApprovalStatus(long approvalStatus) {
         this.approvalStatus = approvalStatus;
     }
 }
