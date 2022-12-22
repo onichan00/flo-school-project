@@ -1,4 +1,13 @@
 <template>
+  <form ref="fileUpload">
+    <label for="file-upload-test">Selecteer een bestand: </label>
+    <input ref="fileToUpload" type="file" id="file-upload-test">
+    <button
+        class="btn"
+        id="upload-file"
+        @click.prevent="uploadFile">Upload bestand
+    </button>
+  </form>
   <div class="relative flex justify-center">
     <router-view class="fixed top-28 w-96"
                  :selected-specialist="selectedSpecialist"
@@ -408,6 +417,24 @@ export default {
     },
     calculateAge(dateOfBirth) {
       return Math.floor((Date.now() - dateOfBirth) / (31557600000));
+    },
+    // this method only exists as a front-end implementation test for file uploading
+    uploadFile() {
+      const data = new FormData();
+      data.append(
+          "file",
+          this.$refs.fileToUpload.files[0]
+      );
+
+      fetch(`http://localhost:8080/api/files/upload/${localStorage.getItem("id")}`, {
+        method: "POST",
+        body: data
+      }).then(response => {
+        if (response.ok) {
+          //TODO add proper feedback
+          console.log("Good job! File uploaded!");
+        }
+      })
     }
   }
 }
