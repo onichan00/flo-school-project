@@ -213,7 +213,13 @@ public class UserController {
 
         }
         if (userType == 1) {
-            Client savedClient = clientRepository.save(user.getClient());
+            Client savedClient;
+            if (user.getClient() != null){
+               savedClient = clientRepository.save(user.getClient());
+
+            }else {
+                savedClient = clientRepository.save(new Client());
+            }
             user.setClient(savedClient);
             User newUser = userRepository.save(user);
 
