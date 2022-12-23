@@ -3,9 +3,9 @@
     <button class="absolute border border-gray-300 top-3 right-3 bg-gray-100 px-2 rounded-lg close-modal-btn"
             @click="closeModal">x</button>
     <div class="flex flex-col items-center">
-<!--      <img :src="require('@/assets/img/' + selectedSpecialist.photo)"-->
-<!--           alt="Profile Picture"-->
-<!--           class="border border-gray-300 w-1/2 mb-5 profile-pic">-->
+      <img :src=selectedSpecialist.photo
+           alt="Profile Picture"
+           class="border border-gray-300 w-1/2 mb-5 profile-pic">
       <p class="name-and-age">{{name}} ()</p>
     </div>
     <section class="info-section text-left overflow-x-hidden overflow-y-auto">
