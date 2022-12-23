@@ -4,12 +4,14 @@ import com.hva.helios.models.FileModel;
 import com.hva.helios.repositories.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("files")
@@ -33,10 +35,17 @@ public class FileController {
         else return null;
     }
 
-    @GetMapping("download/{name}")
+    @GetMapping("list")
+    public ResponseEntity<List<FileModel>> listFiles() {
+        List<FileModel> files = fileRepository.findAll();
+
+        return ResponseEntity.status(HttpStatus.OK).body(files);
+    }
+
+    @GetMapping("download/{id}")
     public ResponseEntity<byte[]> download(
-            @PathVariable("name") String name) {
-        FileModel fileModel = fileRepository.findByName(name).get();
+            @PathVariable("id") String id) {
+        FileModel fileModel = fileRepository.findById(id).get();
 
         String header = "attachment; filename=\"" + fileModel.getName() + "\"";
 
