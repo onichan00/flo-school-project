@@ -56,12 +56,9 @@
 </template>
 
 <script>
+
 export default {
   name: "SpecialistApplications",
-  props: [
-  ],
-  components: {
-  },
   data() {
     return {
       counter: 0,
