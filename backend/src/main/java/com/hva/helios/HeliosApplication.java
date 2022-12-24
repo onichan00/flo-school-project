@@ -2,6 +2,7 @@ package com.hva.helios;
 
 import com.hva.helios.data.*;
 import com.hva.helios.models.Project;
+import com.hva.helios.models.User;
 import com.hva.helios.models.user.Admin;
 import com.hva.helios.models.user.Client;
 import com.hva.helios.models.user.Specialist;
@@ -13,6 +14,7 @@ import com.hva.helios.repositories.testRepo;
 //import com.hva.helios.repositories.user.AdminJPARepository;
 //import com.hva.helios.repositories.user.ClientJPARepository;
 //import com.hva.helios.repositories.user.SpecialistJPARepository;
+import com.hva.helios.repositories.user.UserJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.CommandLineRunner;
@@ -34,6 +36,8 @@ public class HeliosApplication implements CommandLineRunner {
 
 	@Autowired
 	private EntityRepository<Skill> skillRepo;
+	@Autowired
+	private UserJPARepository userRepo;
 
 //	@Autowired
 //	private testRepo projectRepo;
@@ -59,7 +63,7 @@ public class HeliosApplication implements CommandLineRunner {
 //		createInitialProjectData();
 //
 //		createInitialSpecialistData();
-//		createInitialClientData();
+		createInitialClientData();
 //		createInitialAdminData();
 	}
 
@@ -72,6 +76,18 @@ public class HeliosApplication implements CommandLineRunner {
 
 		for (Skill skill : skillData.getAvailableSkills()) {
 			skillRepo.save(skill);
+		}
+	}
+
+	private void createInitialClientData() {
+		List<User> users = userRepo.findAll();
+		if (users.size() > 0) return;
+		System.out.println("Configuring some initial users in the repository");
+
+		UserData userData = new UserData();
+
+		for (User user : userData.getClients()) {
+			userRepo.save(user);
 		}
 	}
 //

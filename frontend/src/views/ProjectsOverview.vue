@@ -226,7 +226,7 @@
                 Aangemaakt op: {{ this.dateFormatter(selectedProject.created) }}
               </h1>
               <h1>
-                Projecteigenaar: {{ selectedProject.client.first_name + " " + selectedProject.client.last_name }}
+                Projecteigenaar: U
               </h1>
 
               <div class="flex flex-row mr-2">
@@ -434,6 +434,7 @@ export default {
 
       axios.get(process.env.VUE_APP_API_URL + `/api/projects/client/${id}`)
           .then((res) => {
+            console.log(res)
             for (let i = 0; i < res.data.length; i++) {
               this.projects.push(res.data[i])
             }
