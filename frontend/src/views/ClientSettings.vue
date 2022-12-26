@@ -98,10 +98,11 @@
               <div class="mb-4">
                 <label for="website"
                        class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Website URL</label>
-                <p class="block text-left mb-2 text-sm text-gray-600">Schrijf uw website zodat specialisten weten waarvoor zij werken.</p>
-                <input @change="changeButtonToOne" id="website" rows="4" type="url"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
-                          placeholder="Plak hier de website URL"
+                <p class="block text-left mb-2 text-sm text-gray-600">Schrijf uw website zodat specialisten weten
+                  waarvoor zij werken.</p>
+                <input @change="changeButtonToOne" id="website" type="url"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
+                       placeholder="Plak hier de website URL"
                 >
               </div>
               <div class="mb-4">
@@ -129,10 +130,16 @@
               </div>
 
               <div v-else-if="buttonType === 2" class="float-right space-x-2 border-gray-200 mb-4">
-                <button disabled type="button" class="cursor-not-allowed p-2 text-md font-medium text-gray-400 bg-gray-200 rounded-lg">
-                  <svg role="status" class="inline mr-3 w-5 h-5 text-gray-400 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
-                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
+                <button disabled type="button"
+                        class="cursor-not-allowed p-2 text-md font-medium text-gray-400 bg-gray-200 rounded-lg">
+                  <svg role="status" class="inline mr-3 w-5 h-5 text-gray-400 animate-spin" viewBox="0 0 100 101"
+                       fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="#E5E7EB"/>
+                    <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentColor"/>
                   </svg>
                   Bewerkingen aan het opslaan...
                 </button>
@@ -157,7 +164,8 @@
               <div class="flex items-start pt-2 mb-1 justify-between rounded-t dark:border-gray-600">
                 <h3 class="text-3xl 1 font-medium text-gray-900 dark:text-white">Account</h3>
               </div>
-              <p class="text-md font-normal text-gray-600 pb-3">Deze informatie zal gebruikt worden om contact me u op te nemen.</p>
+              <p class="text-md font-normal text-gray-600 pb-3">Deze informatie zal gebruikt worden om contact me u op
+                te nemen.</p>
             </div>
 
             <hr>
@@ -193,12 +201,13 @@
                          placeholder="Doe" required/>
                 </div>
               </div>
-              <p class="block text-left mb-2 text-sm text-gray-600">Vul uw contact gegevens in zodat wij contact met u kunnen opnemen.</p>
+              <p class="block text-left mb-2 text-sm text-gray-600">Vul uw contact gegevens in zodat wij contact met u
+                kunnen opnemen.</p>
               <div class="grid md:grid-cols-2 md:gap-4">
                 <div class="relative z-0 mb-6 w-full group">
                   <label for="floating_first_name"
                          class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">E-mailadres</label>
-                  <input v-model="this.user.email" type="email"
+                  <input @change="changeButtonToOne" v-model="this.user.email" type="email"
                          name="floating_first_name"
                          id="floating_first_name"
                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
@@ -207,7 +216,7 @@
                 <div class="relative z-0 mb-6 w-full group">
                   <label for="floating_first_name"
                          class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefoonnummer</label>
-                  <input  v-model="this.user.phone" type="text"
+                  <input @change="changeButtonToOne" v-model="this.user.phone" type="text"
                          name="floating_first_name"
                          id="floating_first_name"
                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
@@ -220,7 +229,7 @@
                 <div class="relative z-0 mb-6 w-full group">
                   <label for="floating_first_name"
                          class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Adres</label>
-                  <input v-model="this.user.first_name" type="text"
+                  <input @change="changeButtonToOne" v-model="this.user.first_name" type="text"
                          name="floating_first_name"
                          id="floating_first_name"
                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
@@ -261,10 +270,16 @@
               </div>
 
               <div v-else-if="buttonType === 2" class="float-right space-x-2 border-gray-200 mb-4">
-                <button disabled type="button" class="cursor-not-allowed p-2 text-md font-medium text-gray-400 bg-gray-200 rounded-lg">
-                  <svg role="status" class="inline mr-3 w-5 h-5 text-gray-400 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
-                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
+                <button disabled type="button"
+                        class="cursor-not-allowed p-2 text-md font-medium text-gray-400 bg-gray-200 rounded-lg">
+                  <svg role="status" class="inline mr-3 w-5 h-5 text-gray-400 animate-spin" viewBox="0 0 100 101"
+                       fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="#E5E7EB"/>
+                    <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentColor"/>
                   </svg>
                   Bewerkingen aan het opslaan...
                 </button>
@@ -294,39 +309,104 @@
 
             <hr>
 
+            <div>
+              <h1 class="text-lg font-medium mt-2">
+                Wachtwoord voorwaarden:
+              </h1>
+              <p class="text-md font-normal text-gray-500">
+                - Het wachtwoord moet minstens 14 tekens lang zijn.
+              </p>
+              <p class="text-md font-normal text-gray-500">
+                - Het wachtwoord moet ten minste één hoofdletter (A-Z).
+              </p>
+              <p class="text-md font-normal text-gray-500">
+                - Minstens één kleine letter (a-z)
+              </p>
+              <p class="text-md font-normal text-gray-500">
+                - Minstens één cijfer (0-9)
+              </p>
+              <p class="text-md font-normal text-gray-500">
+                - Minstens één speciaal teken (niet-woordelijk teken) bevatten.
+              </p>
+              <h1 class="text-md font-normal text-gray-500">
+                {{ this.newPassword }}
+              </h1>
+            </div>
+
+
             <form class="h-fit pt-3">
               <div class="grid md:grid-cols-1 md:gap-4">
                 <div class="relative z-0 mb-6 w-full group">
                   <label for="floating_first_name"
-                         class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Huidig wachtwoord</label>
-                  <p class="block text-left mb-2 text-sm text-gray-600">Typ uw huidige wachtwoord zodat wij weten dat u het bent</p>
-                  <input v-model="this.user.password" type="password"
+                         class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Huidig
+                    wachtwoord</label>
+                  <p class="block text-left mb-2 text-sm text-gray-600">Typ uw huidige wachtwoord zodat wij weten dat u
+                    het bent</p>
+                  <input v-model="this.currentPassword" type="password"
                          name="floating_first_name"
                          id="floating_first_name"
                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
-                         placeholder="Johndoe@voorbeeld.nl" required/>
+                         placeholder="*******" required/>
                 </div>
               </div>
 
-              <p class="block text-left mb-2 text-sm text-gray-600">Typ uw nieuwe wachtwoord</p>
+              <p class="block text-left text-sm text-gray-600">Typ uw nieuwe wachtwoord</p>
               <div class="grid md:grid-cols-2 md:gap-4">
-                <div class="relative z-0 mb-6 w-full group">
+                <div class="relative z-0 mb-4 w-full group">
                   <label for="floating_first_name"
-                         class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Nieuw wachtwoord</label>
-                  <input  v-model="this.user.password" type="password"
-                          name="floating_first_name"
-                          id="floating_first_name"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
-                          placeholder="*******" required/>
+                         class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Nieuw
+                    wachtwoord</label>
+                  <input v-model="this.newPassword" @change="passwordChanged()" type="password"
+                         name="floating_first_name"
+                         id="floating_first_name"
+                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                         placeholder="*******" required/>
+
+                  <div class="mt-2">
+
+                    <div class="flex flex-row justify-between">
+                      <h1 class="font-medium text-sm text-gray-900">Wachtwoord sterkte</h1>
+                      <div>
+                        <h1 class="text-red-500 font-semidold" v-if="this.passwordStrength === 1">Zwak</h1>
+                        <h1 class="text-yellow-500 font-semidold" v-else-if="this.passwordStrength === 2">Gemiddeld</h1>
+                        <h1 class="text-green-500 font-semidold" v-else-if="this.passwordStrength === 3">Sterk</h1>
+                      </div>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full mt-2 border border-1 border-gray-400 dark:bg-gray-700">
+                      <div v-if="this.passwordStrength === 0"
+                           class="bg-red-500 text-xs font-medium text-center p-2 leading-none rounded-l-full"
+                           style="width: 0"></div>
+                      <div v-else-if="this.passwordStrength === 1"
+                           class="bg-red-500 text-xs font-medium text-center p-2 leading-none rounded-l-full"
+                           style="width: 33%"></div>
+                      <div v-else-if="this.passwordStrength === 2"
+                           class="bg-yellow-500 text-xs font-medium text-center p-2 leading-none rounded-l-full"
+                           style="width: 66%"></div>
+                      <div v-else-if="this.passwordStrength === 3"
+                           class="bg-green-500 text-xs font-medium text-center p-2 leading-none rounded-full"
+                           style="width: 100%"></div>
+                    </div>
+                    <div>
+                      <p v-if="this.passwordStrength === 0" class="text-md font-normal text-gray-500 pb-3">U heeft uw
+                        wachtwoord nog niet aangepast.</p>
+                      <p v-else-if="this.passwordStrength === 1" class="text-md font-normal text-gray-500 pb-3">Kom op!
+                        U kan wel een beter wachtwoord verzinnen.</p>
+                      <p v-else-if="this.passwordStrength === 2" class="text-md font-normal text-gray-500 pb-3">Uw
+                        wachtwoord kan wel sterker dan dit hoor.</p>
+                      <p v-else-if="this.passwordStrength === 3" class="text-md font-normal text-gray-500 pb-3">Wauw!
+                        Wat een sterk wachtwoord!</p>
+                    </div>
+                  </div>
                 </div>
                 <div class="relative z-0 mb-6 w-full group">
                   <label for="floating_first_name"
-                         class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Herhaal nieuw wachtwoord</label>
-                  <input  v-model="this.user.password" type="password"
-                          name="floating_first_name"
-                          id="floating_first_name"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
-                          placeholder="*******" required/>
+                         class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Herhaal nieuw
+                    wachtwoord</label>
+                  <input v-model="this.repeatNewPassword" @change="checkSamePassword" type="password"
+                         name="floating_first_name"
+                         id="floating_first_name"
+                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                         placeholder="*******" required/>
                 </div>
               </div>
             </form>
@@ -335,8 +415,8 @@
 
             <div class="w-full mt-4">
 
-              <div v-if="buttonType === 1" class="float-right space-x-2 border-gray-200 mb-4">
-                <button @click="updateClientProfile"
+              <div v-if="this.passwordButtonType === 1" @click="updatePassword()" class="float-right space-x-2 border-gray-200 mb-4">
+                <button
                         type="button"
                         class="p-2 text-md font-medium text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg"
                 >
@@ -344,11 +424,17 @@
                 </button>
               </div>
 
-              <div v-else-if="buttonType === 2" class="float-right space-x-2 border-gray-200 mb-4">
-                <button disabled type="button" class="cursor-not-allowed p-2 text-md font-medium text-gray-400 bg-gray-200 rounded-lg">
-                  <svg role="status" class="inline mr-3 w-5 h-5 text-gray-400 animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
-                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
+              <div v-else-if="this.passwordButtonType === 2" class="float-right space-x-2 border-gray-200 mb-4">
+                <button disabled type="button"
+                        class="cursor-not-allowed p-2 text-md font-medium text-gray-400 bg-gray-200 rounded-lg">
+                  <svg role="status" class="inline mr-3 w-5 h-5 text-gray-400 animate-spin" viewBox="0 0 100 101"
+                       fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="#E5E7EB"/>
+                    <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentColor"/>
                   </svg>
                   Wachtwoord aan het opslaan...
                 </button>
@@ -360,7 +446,7 @@
                     class="cursor-not-allowed p-2 text-md font-medium text-gray-400 bg-gray-200 rounded-lg"
                     disabled
                 >
-                  Wachtwoord opslan
+                  Wachtwoord opslaan
                 </button>
               </div>
             </div>
@@ -392,22 +478,86 @@ export default {
       selectedRowStyle: "bg-gray-100 shadow-sm text-black",
       notSelectedRowStyle: "text-gray-900",
       toast: useToast(),
-      buttonType: 0
+      buttonType: 0,
+      passwordButtonType: 0,
+      passwordStrength: 0,
+      newPassword: "",
+      repeatNewPassword: "",
+      currentPassword: "",
     }
   },
+
   created() {
     this.getUserData()
   },
+
   methods: {
     getUserData() {
       axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
           .then((res) => {
             this.user = res.data;
             this.oldUserData = res.data;
-            console.log(res.data)
           })
           .catch((err) => {
             console.log(err);
+          })
+    },
+
+    passwordChanged() {
+      const strongRegex = new RegExp("^(?=.{14,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
+      const mediumRegex = new RegExp("^(?=.{10,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$", "g");
+      const enoughRegex = new RegExp("^(?=.{8,}).*", "g");
+
+      if (this.newPassword.length === 0) {
+        this.passwordStrength = 0
+      } else if (false === enoughRegex.test(this.newPassword)) {
+        this.passwordStrength = 1
+      } else if (strongRegex.test(this.newPassword)) {
+        this.passwordStrength = 3
+      } else if (mediumRegex.test(this.newPassword)) {
+        this.passwordStrength = 2
+      }
+    },
+
+    async updatePassword() {
+      const toast = useToast()
+      this.passwordButtonType = 1;
+
+      await axios.put(process.env.VUE_APP_API_URL + `/api/users/update`,
+          {
+            id: this.user.id,
+            password: this.newPassword,
+            client: this.user.client
+          })
+          .then((res) => {
+            // Get the current time in seconds
+            let timer = 2;
+            // Set an interval to run every 1000 milliseconds (1 second)
+            let interval = setInterval(function () {
+              // Decrement the timer by 1
+              timer--;
+              // If the timer has reached 0, clear the interval and display a message
+              if (timer <= 0) {
+                clearInterval(interval);
+                toast.success("Nieuw wachtwoord succesvol opgeslagen")
+                location.reload()
+              }
+            }, 1000);
+          })
+          .catch((err) => {
+            // Get the current time in seconds
+            let timer = 2;
+
+            // Set an interval to run every 1000 milliseconds (1 second)
+            let interval = setInterval(function () {
+              // Decrement the timer by 1
+              timer--;
+              // If the timer has reached 0, clear the interval and display a message
+              if (timer <= 0) {
+                clearInterval(interval);
+                toast.error("Er is iets misgegaan, zie: " + err.message)
+              }
+            }, 1000);
           })
     },
 
@@ -418,11 +568,12 @@ export default {
           {
             id: this.user.id,
             email: this.user.email,
-            password: this.user.password,
             first_name: this.user.first_name,
             second_name: this.user.second_name,
             last_name: this.user.last_name,
             bio: this.user.bio,
+            zip_code: this.user.zip_code,
+            address: this.user.address,
             phone: this.user.phone,
             userType: this.user.userType,
             client: this.user.client
@@ -461,6 +612,15 @@ export default {
               }
             }, 1000);
           })
+    },
+
+    checkSamePassword() {
+      if (this.newPassword == this.repeatNewPassword) {
+        this.passwordButtonType = 1
+        console.log("this.passwordButtonType = 1")
+      }
+      this.passwordButtonType = 0;
+      console.log("this.passwordButtonType = 0")
     },
 
     changeButtonToOne() {
