@@ -96,16 +96,6 @@
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG of JPG</p>
               </div>
               <div class="mb-4">
-                <label for="website"
-                       class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Website URL</label>
-                <p class="block text-left mb-2 text-sm text-gray-600">Schrijf uw website zodat specialisten weten
-                  waarvoor zij werken.</p>
-                <input @change="changeButtonToOne" id="website" type="url"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
-                       placeholder="Plak hier de website URL"
-                >
-              </div>
-              <div class="mb-4">
                 <label for="description"
                        class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Bio</label>
                 <p class="block text-left mb-2 text-sm text-gray-600">Vertel wat over u zelf.</p>
@@ -229,7 +219,7 @@
                 <div class="relative z-0 mb-6 w-full group">
                   <label for="floating_first_name"
                          class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Adres</label>
-                  <input @change="changeButtonToOne" v-model="this.user.first_name" type="text"
+                  <input @change="changeButtonToOne" v-model="this.user.address" type="text"
                          name="floating_first_name"
                          id="floating_first_name"
                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
@@ -238,7 +228,7 @@
                 <div class="relative z-0 mb-6 w-full group">
                   <label for="floating_first_name"
                          class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Postcode</label>
-                  <input @change="changeButtonToOne" v-model="this.user.second_name" type="text"
+                  <input @change="changeButtonToOne" v-model="this.user.zip_code" type="text"
                          name="floating_first_name"
                          id="floating_first_name"
                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
@@ -247,7 +237,7 @@
                 <div class="relative z-0 mb-6 w-full group">
                   <label for="floating_first_name"
                          class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Plaatsnaam</label>
-                  <input @change="changeButtonToOne" v-model="this.user.second_name" type="text"
+                  <input @change="changeButtonToOne" v-model="this.user.city" type="text"
                          name="floating_first_name"
                          id="floating_first_name"
                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
