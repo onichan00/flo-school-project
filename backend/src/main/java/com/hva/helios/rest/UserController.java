@@ -194,13 +194,13 @@ public class UserController {
 
     @PostMapping("register")
     public User register(@RequestBody User user) {
-
         // email unique check
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new NotFoundException("user with this email already exists");
         }
 
         System.out.println("sout" + user.getPhone());
+        System.out.println(user);
         Long userType = user.getUserType();
 
         if (userType == 0) {
@@ -212,6 +212,7 @@ public class UserController {
             return nUser;
 
         }
+
         if (userType == 1) {
             Client savedClient;
             if (user.getClient() != null){
@@ -230,7 +231,6 @@ public class UserController {
         // TODO: convert objects from the json to the correct type and set them to the specialists before setting the specialist in the user and saving the user
         // TODO: TLDR its not functional yet
         if (userType == 2) {
-
             Specialist savedSpecialist = specialistRepository.save(user.getSpecialist());
             user.setSpecialist(savedSpecialist);
             User newUser = userRepository.save(user);
