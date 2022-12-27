@@ -1,7 +1,6 @@
 package com.hva.helios.repositories;
 
 import com.hva.helios.models.user.skill.Skill;
-import com.hva.helios.repositories.EntityRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

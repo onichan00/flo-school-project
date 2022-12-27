@@ -8,7 +8,7 @@
         <div class="h-24 flex flex-row justify-between">
           <img
               class="w-40 h-40 rounded-full ring-8 ring-white object-cover absolute -mt-20 ml-8"
-              src="https://images.unsplash.com/photo-1558203728-00f45181dd84?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2074&q=80"
+              :src="userObj.photo"
               alt="Bordered avatar"
           >
         <div />
@@ -18,9 +18,9 @@
         </button>
       </div>
       <div class="w-full text-left px-8 py-4">
-        <p class="text-2xl">{{ userFullName(this.userObj, true) }}</p>
-        <p class="text-gray-400">{{ userObj.city }} - {{ this.firstLetterUpperCase(userObj.specialistType) }}</p>
-        <p class="mt-4 w-full md:w-2/3">Ik ben John en ik ben een software engineer die zich specialiseert in het ontwikkelen van de back-end van een website of applicatie. Dit omvat de server-side logica, databasebeheer en integratie van front-end elementen. Ik werk vaak nauw samen met front-end developers om ervoor te zorgen dat de front-end elementen goed geïntegreerd zijn met de back-end systemen.</p>
+        <p class="text-2xl">{{ userFullName(userObj) }}</p>
+        <p class="text-gray-400">{{ firstLetterUpperCase(userObj.city) }}</p>
+        <p class="mt-4 w-full md:w-2/3">{{ userObj.bio }}</p>
 
         <div class="mt-4">
           <p class="font-medium">Attachments</p>
@@ -38,80 +38,83 @@
     </div>
 
     <!-- Skills -->
-    <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
+    <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
       <p class="text-xl mb-4">Vaardigheden</p>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <SkillBadge v-for="(skill, index) in skills" :key="index" :skill="skill" @skillClicked="openSkillModal"/>
+        <SkillBadge v-for="(skill, index) in userObj.specialist.skills" :key="index" :skill="skill" @skillClicked="openSkillModal"/>
 
         <button @click="openSkillModal(null)" class="bg-green-100 hover:bg-green-200 text-green-900 p-4 rounded-md flex items-center justify-center">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
         </button>
       </div>
-
     </div>
 
     <!-- Projects -->
-    <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
+    <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
       <p class="text-xl mb-4">Projecten</p>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <ProjectCard v-for="(item, index) in projects" :key="index" :project="item" />
+      <div v-if="userObj.specialist.projects.length === 0">
+        <p class="text-lg">Geen projecten beschikbaar</p>
+      </div>
+      <div v-else class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <ProjectCard v-for="(item, index) in userObj.specialist.project" :key="index" :project="item" />
       </div>
     </div>
 
     <!-- Availability -->
-    <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
+    <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
       <p class="text-xl">Beschikbaar: <span class="font-semibold">{{ availableHours }}</span> uren</p>
       <p>{{ getWeekFromWeek }}</p>
       <div class="flex flex-col md:flex-row mt-4 justify-between gap-2">
         <AvailabilityRow v-for="(hour, index) in hours" :key="index" :time="hour" @saveAvailability="saveAvailability"/>
       </div>
     </div>
-  </div>
 
-  <!-- Calendar -->
-  <div class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
-    <p class="text-xl">Komende vergaderingen</p>
+    <!-- Calendar -->
+    <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
+      <p class="text-xl">Komende vergaderingen</p>
 
-    <div class="flex flex-col md:flex-row">
-      <div class="w-full md:w-2/3 md:pr-10">
-        <DatePicker :lang="langObj" v-model:open="meetingRangeOpen" v-model:value="meetingsDateRange" type="date" range placeholder="Select a date range" :clearable="false">
-          <template #footer>
-            <div class="text-left flex flex-row flex-nowrap gap-2"> <!-- FIXME The button row doesn't overflow scroll so it looks forced and breaks the width -->
-              <button class="mx-btn mx-btn-next" @click="selectMeetingRange(1)">Deze week</button>
-              <button class="mx-btn mx-btn-next" @click="selectMeetingRange(2)">Deze maand</button>
-              <button class="mx-btn mx-btn-next" @click="selectMeetingRange(3)">Volgende maand</button>
-            </div>
-          </template>
-        </DatePicker>
-        <div v-if="meetingsInDateRange.length !== 0" class="divide-y">
-          <UpcomingMeeting v-for="(meeting, index) in meetingsInDateRange" :key="index" :meeting="meeting" @meetingClicked="openUpcomingMeetingModal"/>
+      <div class="flex flex-col md:flex-row">
+        <div class="w-full md:w-2/3 md:pr-10">
+          <DatePicker :lang="langObj" v-model:open="meetingRangeOpen" v-model:value="meetingsDateRange" type="date" range placeholder="Select a date range" :clearable="false">
+            <template #footer>
+              <div class="text-left flex flex-row flex-nowrap gap-2"> <!-- FIXME The button row doesn't overflow scroll so it looks forced and breaks the width -->
+                <button class="mx-btn mx-btn-next" @click="selectMeetingRange(1)">Deze week</button>
+                <button class="mx-btn mx-btn-next" @click="selectMeetingRange(2)">Deze maand</button>
+                <button class="mx-btn mx-btn-next" @click="selectMeetingRange(3)">Volgende maand</button>
+              </div>
+            </template>
+          </DatePicker>
+          <div v-if="meetingsInDateRange.length !== 0" class="divide-y">
+            <UpcomingMeeting v-for="(meeting, index) in meetingsInDateRange" :key="index" :meeting="meeting" @meetingClicked="openUpcomingMeetingModal"/>
+          </div>
+          <div v-else class="flex flex-col items-center mt-8">
+            <svg class="w-32 h-32" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+            <p class="text-xl w-1/2 text-center">Er zijn geen vergaderingen in het geselecteerde datumbereik</p>
+          </div>
         </div>
-        <div v-else class="flex flex-col items-center mt-8">
-          <svg class="w-32 h-32" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
-          <p class="text-xl w-1/2 text-center">Er zijn geen vergaderingen in het geselecteerde datumbereik</p>
+        <div class="w-full md:w-1/3 mt-4 md:mt-0 flex flex-col">
+          <v-calendar ref="calendar" is-expanded :attributes="attributes">
+            <template #day-popover="{ dayTitle, attributes }">
+              <div class="text-xs text-gray-300 font-semibold text-center">
+                {{ dayTitle }}
+              </div>
+              <calendar-row
+                v-for="attr in attributes"
+                :key="attr.key"
+                :attribute="attr"
+                @click="openUpcomingMeetingModal(attr.customData)"
+                class="cursor-pointer"
+              >
+                {{ attr.customData.title }}
+              </calendar-row>
+            </template>
+          </v-calendar>
+          <button @click="openUpcomingMeetingModal(null)" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-2">Voeg activiteit toe</button>
         </div>
-      </div>
-      <div class="w-full md:w-1/3 mt-4 md:mt-0 flex flex-col">
-        <v-calendar ref="calendar" is-expanded :attributes="attributes">
-          <template #day-popover="{ dayTitle, attributes }">
-            <div class="text-xs text-gray-300 font-semibold text-center">
-              {{ dayTitle }}
-            </div>
-            <calendar-row
-              v-for="attr in attributes"
-              :key="attr.key"
-              :attribute="attr"
-              @click="openUpcomingMeetingModal(attr.customData)"
-              class="cursor-pointer"
-            >
-              {{ attr.customData.title }}
-            </calendar-row>
-          </template>
-        </v-calendar>
-        <button @click="openUpcomingMeetingModal(null)" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-2">Voeg activiteit toe</button>
       </div>
     </div>
   </div>
+
 
   <!-- Skill modal -->
   <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
@@ -210,7 +213,7 @@
   <div id="editUserInfo" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
     <div class="relative w-full h-full max-w-4xl md:h-auto">
       <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <div v-if="userObj" class="relative bg-white rounded-lg shadow dark:bg-gray-700">
         <!-- Modal header -->
         <div class="flex items-center justify-between p-4 border-b rounded-t">
           <h3 class="text-xl font-semibold text-gray-900">
@@ -235,44 +238,44 @@
           </div>
           <div class="mb-6">
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900">E-mail adres</label>
-            <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="john.doe@company.com" required>
+            <input v-model="userObj.email" type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="john.doe@company.com" required>
           </div>
           <div class="grid gap-4 mb-6 md:grid-cols-3">
             <div>
               <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900">Voornaam</label>
-              <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="John" required>
+              <input v-model="userObj.first_name" type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="John" required>
             </div>
             <div>
               <label for="second_name" class="block mb-2 text-sm font-medium text-gray-900">Tweede naam (optioneel)</label>
-              <input type="text" id="second_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Cornelis" required>
+              <input v-model="userObj.second_name" type="text" id="second_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Cornelis" required>
             </div>
             <div>
               <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900">Achternaam</label>
-              <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Doe" required>
+              <input v-model="userObj.last_name" type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Doe" required>
             </div>
           </div>
           <div class="grid gap-4 mb-6 md:grid-cols-2">
             <div>
               <label for="city" class="block mb-2 text-sm font-medium text-gray-900">Stad</label>
-              <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Amsterdam" required>
+              <input v-model="userObj.city" type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Amsterdam" required>
             </div>
             <div>
               <label for="zipcode" class="block mb-2 text-sm font-medium text-gray-900">Postcode</label>
-              <input type="text" id="second_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="1000AA" required>
+              <input v-model="userObj.zipCode" type="text" id="second_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="1000AA" required>
             </div>
           </div>
           <div class="mb-6">
             <label for="address" class="block mb-2 text-sm font-medium text-gray-900">Adres</label>
-            <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Wibautstraat 4B" required>
+            <input v-model="userObj.address" type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Wibautstraat 4B" required>
           </div>
           <div class="mb-6">
             <label for="bio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bio</label>
-            <textarea id="bio" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your bio here..."></textarea>
+            <textarea v-model="userObj.bio" id="bio" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your bio here..."></textarea>
           </div>
         </div>
         <!-- Modal footer -->
         <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-          <button @click="closeEditUserInfoModal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Save</button>
+          <button @click="saveUser" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Save</button>
           <button @click="closeEditUserInfoModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
         </div>
       </div>
@@ -379,6 +382,7 @@ import MeetingType from "@/components/miscellaneous/profile/MeetingType";
 // TODO Create a backend route that with params gets all the correct meetings
 export default {
   name: "UserProfile",
+  props: ['testing'],
   data() {
     return {
       langObj: {
@@ -387,6 +391,7 @@ export default {
         },
       },
       userObj: null,
+      userObjCopy: null,
       meetingPagination: {
         meetingPerPage: 3,
         currentPage: 0,
@@ -623,12 +628,17 @@ export default {
     // TODO - change sort method to return the sorted days so that the get method can sort them and then add them to hours
     this.sortWeekDays();
 
-    // eslint-disable-next-line no-undef
-    this.skillModal = new Modal(document.querySelector("#defaultModal"));
-    // eslint-disable-next-line no-undef
-    this.editUserInfoModal = new Modal(document.querySelector("#editUserInfo"));
-    // eslint-disable-next-line no-undef
-    this.upcomingMeetingModal = new Modal(document.querySelector("#upcomingMeetingModal"));
+    // TODO Change modal to the vue.js modal library
+    // npm i vue-js-modal
+
+    if (this.testing !== null) {
+      /* eslint-disable-next-line no-undef */
+      this.skillModal = new Modal(document.querySelector("#defaultModal"));
+      /* eslint-disable-next-line no-undef */
+      this.editUserInfoModal = new Modal(document.querySelector("#editUserInfo"));
+      /* eslint-disable-next-line no-undef */
+      this.upcomingMeetingModal = new Modal(document.querySelector("#upcomingMeetingModal"));
+    }
   },
   methods: {
     userFullName,
@@ -639,10 +649,23 @@ export default {
 
       axios.get(`http://localhost:8080/api/users/${userID}`)
           .then(res => {
-            console.log(res.data);
             this.userObj = res.data;
+            this.userObjCopy = res.data;
+            console.log(res.data);
           })
           .catch(err => {
+            console.log(err);
+          })
+    },
+
+    saveUser() {
+      const userID = this.$route.params.id;
+
+      axios.put(`http://localhost:8080/api/users/update`, this.userObj)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
             console.log(err);
           })
     },

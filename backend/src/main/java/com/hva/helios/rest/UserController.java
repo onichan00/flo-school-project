@@ -33,23 +33,19 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public void deleteUserById(@PathVariable long id) {
         userRepository.deleteById(id);
-
     }
 
     @PutMapping("/update")
     public User updateUser(@RequestBody User user) {
-        //TODO: Implement update for other usertypes
-        //TODO: Implement update for other usertypes
-        //TODO: Implement update for other usertypes
-        //TODO: !!!!
-
         // save attributes that get used multiple times
         Long userType = user.getUserType();
         Long id = user.getId();
 
         // we get the old user from JPA
-        // im not sure if we need to put this inside of the ifstatements each time or not but for now this works
+        // im not sure if we need to put this inside of the if statements each time or not but for now this works
         User oUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
+
+        System.out.println(oUser);
 
         oUser.setFirst_name(user.getFirst_name());
         oUser.setSecond_name(user.getSecond_name());
@@ -58,34 +54,29 @@ public class UserController {
         oUser.setPhone(user.getPhone());
         oUser.setPassword(user.getPassword());
 
-        // check what the usertype is
         if (userType == 0) {
-
-            // we update the old user from jpa
-
-            // if admin had any data u could probably do oUser.getAdmin.setWhateverUNeed(user.getadmin and stuff depending if u return a admin object or admin id)
-
-            // we save the old user and return it
             return userRepository.save(oUser);
+        }
 
-        } else if (userType == 1) {
-            oUser.getClient().setWebsite(user.getClient().getWebsite());
+        if (userType == 1) {
+            Client client = oUser.getClient();
+            client.setWebsite(client.getWebsite());
+
+            oUser.setClient(client);
 
             return userRepository.save(oUser);
+        }
 
-            //TODO: remove this when other types have been implemented
-        }else throw new NotFoundException("updating has yet to be implemented for this user type");
+        if (userType == 2) {
+            Specialist specialist = oUser.getSpecialist();
+            specialist.setSpecialistType(specialist.getSpecialistType());
 
-//        if (userType == 2){
-//            Specialist specialist = new Specialist();
-//            specialistRepository.save(specialist);
-//            user.setSpecialist(specialist);
-//            User nUser = userRepository.save(user);
-//
-//             return userRepository.save(oUser);
-//        }
-//
-//        throw new NotFoundException("register failed");
+            oUser.setSpecialist(specialist);
+
+            return userRepository.save(oUser);
+        }
+
+        throw new NotFoundException("User not found!");
     }
 
     @GetMapping("")

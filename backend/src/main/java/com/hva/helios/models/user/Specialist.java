@@ -36,9 +36,6 @@ public class Specialist{
     public Specialist(int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills) {
         this.available = available;
         this.specialistType = specialistType;
-
-//        this.projects = projects;
-//        this.skills = skills;
     }
 //    public Specialist(User user){
 //        this.user = user;

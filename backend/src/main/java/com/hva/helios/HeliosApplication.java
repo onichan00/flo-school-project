@@ -1,30 +1,20 @@
 package com.hva.helios;
 
-import com.hva.helios.data.*;
-import com.hva.helios.models.Project;
-import com.hva.helios.models.user.Admin;
-import com.hva.helios.models.user.Client;
+import com.hva.helios.data.SkillData;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.hour.AvailableHour;
 import com.hva.helios.models.user.skill.Skill;
-import com.hva.helios.models.user.skill.UserSkill;
 import com.hva.helios.repositories.EntityRepository;
-import com.hva.helios.repositories.testRepo;
-//import com.hva.helios.repositories.user.AdminJPARepository;
-//import com.hva.helios.repositories.user.ClientJPARepository;
-//import com.hva.helios.repositories.user.SpecialistJPARepository;
+import com.hva.helios.repositories.user.SpecialistJPARepository;
+import com.hva.helios.repositories.user.UserJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @SpringBootApplication
 public class HeliosApplication implements CommandLineRunner {
@@ -35,32 +25,35 @@ public class HeliosApplication implements CommandLineRunner {
 	@Autowired
 	private EntityRepository<Skill> skillRepo;
 
-//	@Autowired
-//	private testRepo projectRepo;
+	@Autowired
+	private UserJPARepository userRepository;
 
-//	@Autowired
-//	private SpecialistJPARepository specialistRepo;
+	@Autowired
+	private SpecialistJPARepository specialistRepository;
 
 	@Autowired
 	private EntityRepository<AvailableHour> availableHourRepo;
-
-//	@Autowired
-//	private ClientJPARepository clientRepo;
-//
-//	@Autowired
-//	private AdminJPARepository adminRepo;
 
 	@Override
 	@Transactional
 	public void run(String... args) {
 		System.out.println("Running CommandLine Startup");
-//
+
 		createInitialSkillData();
-//		createInitialProjectData();
-//
-//		createInitialSpecialistData();
-//		createInitialClientData();
-//		createInitialAdminData();
+		createInitialHoursData();
+	}
+
+	private void createInitialHoursData() {
+		List<AvailableHour> hours = availableHourRepo.findAll();
+		List<Specialist> specialists = specialistRepository.findAll();
+		if (hours.size() > 0) return;
+		System.out.println("Configuring some initial hours in the repository");
+
+		AvailableHour hour = new AvailableHour();
+
+		for (Specialist specialist : specialists) {
+			specialist.setHours(hour);
+		}
 	}
 
 	private void createInitialSkillData() {

@@ -20,14 +20,8 @@ public class ProjectController {
     @Autowired
     private testRepo projectRepository;
 
-//    @Autowired
-//    private ClientJPARepository clientRepository;
-
     @Autowired
     private UserJPARepository userRepository;
-
-//    @Autowired
-//    private EntityRepository<Project>  projectRepository;
 
     @GetMapping("")
     public List<Project> getProject() {
