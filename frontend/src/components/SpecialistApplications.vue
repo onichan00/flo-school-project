@@ -1,4 +1,6 @@
 <template>
+  <FileUpload/>
+  <FileList/>
   <div class="relative flex justify-center">
     <router-view class="fixed top-28 w-96"
                  :selected-specialist="selectedSpecialist"
@@ -57,8 +59,12 @@
 
 <script>
 
+import FileUpload from "@/components/fileHandling/FileUpload.vue";
+import FileList from "@/components/fileHandling/FileList.vue";
+
 export default {
   name: "SpecialistApplications",
+  components: {FileList, FileUpload},
   data() {
     return {
       counter: 0,

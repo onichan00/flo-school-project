@@ -1,13 +1,27 @@
 <template>
-  <div class="file-list-container">
-    <h2>Uploaded Files:</h2>
-    <ul class="list-disc">
-      <li v-for="file in files"
-          :key="file.id">
-        <span class="cursor-pointer" @click="downloadFile(file.id, file.name)">{{ file.name }}</span>
+  <div class="file-list-container border border-light max-w-2xl rounded">
+    <section class="file-list-header border border-light flex justify-around">
+      <span>BESTANDSNAAM</span><span>UPLOADDATUM</span>
+    </section>
+    <ul class="file-list list-none">
+      <li class="relative h-10" v-for="file in files" :key="file.id">
+        <input class="absolute left-2 top-3" type="checkbox" :value="file.id">
+        {{ file.id }} <!-- TODO add file timestamps -->
       </li>
     </ul>
   </div>
+
+
+
+<!--  <div class="file-list-container">-->
+<!--    <h2>Uploaded Files:</h2>-->
+<!--    <ul class="list-disc">-->
+<!--      <li v-for="file in files"-->
+<!--          :key="file.id">-->
+<!--        <span class="cursor-pointer" @click="downloadFile(file.id, file.name)">{{ file.name }}</span>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </div>-->
 </template>
 
 <script>
