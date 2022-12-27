@@ -497,6 +497,7 @@ export default {
           .then((res) => {
             this.user = res.data;
             this.oldUserData = res.data;
+            console.log(this.user.password)
           })
           .catch((err) => {
             console.log(err);
@@ -521,12 +522,21 @@ export default {
 
     async updatePassword() {
       const toast = useToast()
-      this.passwordButtonType = 1;
+      this.passwordButtonType = 2;
+      console.log(this.newPassword)
 
       await axios.put(process.env.VUE_APP_API_URL + `/api/users/update`,
           {
             id: this.user.id,
-            password: this.newPassword,
+            email: this.user.email,
+            first_name: this.user.first_name,
+            second_name: this.user.second_name,
+            last_name: this.user.last_name,
+            bio: this.user.bio,
+            zip_code: this.user.zip_code,
+            address: this.user.address,
+            phone: this.user.phone,
+            userType: this.user.userType,
             client: this.user.client
           })
           .then((res) => {
@@ -615,10 +625,13 @@ export default {
     },
 
     checkSamePassword() {
-      if (this.newPassword == this.repeatNewPassword) {
+      console.log(this.user.password + ", " + this.newPassword + ', ' +  this.repeatNewPassword)
+      if (this.newPassword === this.repeatNewPassword && this.user.password === this.currentPassword) {
         this.passwordButtonType = 1
         console.log("this.passwordButtonType = 1")
+        return;
       }
+
       this.passwordButtonType = 0;
       console.log("this.passwordButtonType = 0")
     },
@@ -629,10 +642,6 @@ export default {
 
     changeButtonToTwo() {
       this.buttonType = 2;
-    },
-
-    changeButtonToZero() {
-      this.buttonType = 0;
     },
 
     selectProject(element) {
