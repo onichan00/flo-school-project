@@ -40,7 +40,7 @@ export default {
     downloadFile(id, fileName) {
       const url = process.env.VUE_APP_API_URL +
       // queries database for specific file
-      fetch(`${process.env.VUE_APP_API_URL}/api/files/download/${id}`, {
+      fetch(`${process.env.VUE_APP_API_URL}/api/files/${id}`, {
         headers: {
           "Content-Type": "application;octet-stream"
         }
