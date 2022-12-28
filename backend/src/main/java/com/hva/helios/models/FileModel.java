@@ -3,6 +3,7 @@ package com.hva.helios.models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -16,6 +17,8 @@ public class FileModel {
 
     private long userId;
 
+    private LocalDateTime timestamp;
+
     @Lob
     private byte[] data;
 
@@ -26,6 +29,7 @@ public class FileModel {
         this.type = type;
         this.data = data;
         this.userId = userId;
+        this.timestamp = LocalDateTime.now();
     }
 
     public String getId() {
@@ -66,5 +70,13 @@ public class FileModel {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 }

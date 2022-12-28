@@ -23,7 +23,8 @@ export default {
   name: "FileUpload",
   data() {
     return {
-      uploadSuccessful: false
+      uploadSuccessful: false,
+      userId: localStorage.getItem("id")
     }
   },
   methods: {
@@ -35,13 +36,19 @@ export default {
           this.$refs.fileToUpload.files[0]
       );
       // posts file to database
-      fetch(`http://localhost:8080/api/files/upload/${localStorage.getItem("id")}`, {
+      fetch(`${process.env.VUE_APP_API_URL}/api/files/upload/${this.userId}`, {
         method: "POST",
-        body: data
+        body: data,
+        headers: {
+          "userId": this.userId
+        }
       }).then(response => {
         if (response.ok) {
           this.uploadSuccessful = true;
+          return response.json();
         }
+      }).then(data => {
+        console.log(data);
       })
     },
     clearForm() {

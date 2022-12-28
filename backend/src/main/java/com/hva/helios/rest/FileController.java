@@ -1,7 +1,7 @@
 package com.hva.helios.rest;
 
 import com.hva.helios.models.FileModel;
-import com.hva.helios.repositories.FileRepository;
+import com.hva.helios.repositories.FileJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,31 +18,41 @@ import java.util.List;
 public class FileController {
 
     @Autowired
-    FileRepository fileRepository;
+    FileJPARepository fileRepository;
 
-    @PostMapping("upload/{id}")
-    public FileModel upload(
-            @RequestBody MultipartFile file,
-            @PathVariable("id") long userId) throws IOException {
-
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        FileModel fileModel = new FileModel(userId, fileName, file.getContentType(), file.getBytes());
-        boolean exists = fileRepository.findByName(fileName).isPresent();
-
-        if (!exists) {
-            return fileRepository.save(fileModel);
-        }
-        else return null;
-    }
-
-    @GetMapping("list")
-    public ResponseEntity<List<FileModel>> listFiles() {
-        List<FileModel> files = fileRepository.findAll();
+    @GetMapping("list/{userId}")
+    public ResponseEntity<List<FileModel>> listFiles(
+            @PathVariable("userId") long id) {
+        List<FileModel> files = fileRepository.findByUserId(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
 
-    @GetMapping("download/{id}")
+    @PostMapping("upload/{userId}")
+//    public FileModel upload(
+    public ResponseEntity<FileModel> upload(
+            @RequestBody MultipartFile file,
+            @PathVariable("userId") long userId) throws IOException {
+
+        if (file == null) {
+            throw new IllegalArgumentException("No file selected.");
+        }
+
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        FileModel fileModel = new FileModel(
+                userId, fileName,
+                file.getContentType(),
+                file.getBytes()
+        );
+
+        FileModel savedFile = fileRepository.save(fileModel);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.LOCATION, savedFile.getId())
+                .body(savedFile);
+    }
+
+    @GetMapping("{id}")
     public ResponseEntity<byte[]> download(
             @PathVariable("id") String id) {
         FileModel fileModel = fileRepository.findById(id).get();

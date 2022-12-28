@@ -1,27 +1,18 @@
 <template>
   <div class="file-list-container border border-light max-w-2xl rounded">
-    <section class="file-list-header border border-light flex justify-around">
+    <section class="file-list-header border-b border-light flex justify-around">
       <span>BESTANDSNAAM</span><span>UPLOADDATUM</span>
     </section>
     <ul class="file-list list-none">
-      <li class="relative h-10" v-for="file in files" :key="file.id">
+      <li class="relative h-10 flex justify-around items-center" v-for="file in files" :key="file.id">
         <input class="absolute left-2 top-3" type="checkbox" :value="file.id">
-        {{ file.id }} <!-- TODO add file timestamps -->
+        <span class="cursor-pointer ml-6 text-blue-600 underline"
+              @click="downloadFile(file.id, file.name)">{{ file.name }} <!-- TODO add file timestamps -->
+        </span>
+        <span>{{ file.timestamp }}</span>
       </li>
     </ul>
   </div>
-
-
-
-<!--  <div class="file-list-container">-->
-<!--    <h2>Uploaded Files:</h2>-->
-<!--    <ul class="list-disc">-->
-<!--      <li v-for="file in files"-->
-<!--          :key="file.id">-->
-<!--        <span class="cursor-pointer" @click="downloadFile(file.id, file.name)">{{ file.name }}</span>-->
-<!--      </li>-->
-<!--    </ul>-->
-<!--  </div>-->
 </template>
 
 <script>
@@ -34,7 +25,7 @@ export default {
   },
   methods: {
     fetchFiles() {
-      fetch("http://localhost:8080/api/files/list")
+      fetch(`${process.env.VUE_APP_API_URL}/api/files/list/${localStorage.getItem("id")}`)
           .then(response => {
             if (response.ok) {
               return response.json();
@@ -47,10 +38,11 @@ export default {
           })
     },
     downloadFile(id, fileName) {
-      // queries database for specific file TODO: make fetch URL more dynamic
-      fetch(`http://localhost:8080/api/files/download/${id}`, {
+      const url = process.env.VUE_APP_API_URL +
+      // queries database for specific file
+      fetch(`${process.env.VUE_APP_API_URL}/api/files/download/${id}`, {
         headers: {
-          "Content-Type": "image/png"
+          "Content-Type": "application;octet-stream"
         }
       }).then(response => {
         if (response.ok) {
