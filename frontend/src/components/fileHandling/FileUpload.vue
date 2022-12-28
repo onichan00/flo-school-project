@@ -1,7 +1,7 @@
 <template>
   <div class="relative container shadow-md border border-gray-200 sm:rounded-lg">
-    <label for="file-upload-test">Selecteer bestand: </label>
-    <input ref="fileToUpload" type="file" id="file-upload-test" @click="clearForm">
+    <label for="file-input">Selecteer bestand: </label>
+    <input ref="fileToUpload" type="file" id="file-input" @click="clearForm">
     <div v-if="uploadSuccessful" class="success-message text-xs">
       Bestand opgeslagen.
     </div>
@@ -29,13 +29,11 @@ export default {
   },
   methods: {
     uploadFile() {
-      // puts value of file selector in form data
       const data = new FormData();
       data.append(
           "file",
           this.$refs.fileToUpload.files[0]
       );
-      // posts file to database
       fetch(`${process.env.VUE_APP_API_URL}/api/files/upload/${this.userId}`, {
         method: "POST",
         body: data,
@@ -48,7 +46,7 @@ export default {
           return response.json();
         }
       }).then(data => {
-        console.log(data);
+        console.log(data); //TODO figure out how to get the uploaded file's ID
       })
     },
     clearForm() {
@@ -86,7 +84,7 @@ export default {
   bottom: 5px;
   left: 10px;
 }
-#file-upload-test {
+#file-input {
   max-width: 230px;
 }
 </style>
