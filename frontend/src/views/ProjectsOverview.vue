@@ -324,6 +324,8 @@
                 </p>
               </div>
             </div>
+
+
             <div>
               <h1 class="mt-3 font-medium text-xl text-gray-700">
                 Aankondigingen
@@ -331,7 +333,10 @@
               <div class="pt-3 pb-3 flex items-center flex-column justify-center w-full">
                 <div
                     class="flex flex-col items-center justify-center w-full h-64 border-1 border-gray-300 rounded-lg  bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                  <div class="flex flex-col items-left text-left justify-center pt-5 pb-6">
+                    <div class="p-6 bg-white rounded-lg text-left" v-for="(announcement, index) of announcements" v-bind:key="index">
+                      <a>{{ announcement.message }}</a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -346,16 +351,18 @@
                           d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
                   </svg>
                 </div>
-                <input type="search" id="default-search"
+                <input v-on:keyup.enter="onNewAnnouncement($event)"  id="default-search"
                        class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-orange-500 focus:border-orange-500 "
                        placeholder="Plaats een aankondiging voor de specialisten van dit project">
-                <button type="submit"
-                        class="text-white absolute right-2.5 bottom-2.5 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg text-sm px-4 py-2 ">
+                <button @click="OnNewAnnouncement($event)"
+                    class="text-white absolute right-2.5 bottom-2.5 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg text-sm px-4 py-2 ">
                   Plaats
                 </button>
+
               </div>
             </form>
           </div>
+
         </div>
         <div class="place-items-center content-center text-center" v-else>
           <div class="flex flex-row min-h-screen justify-center rounded-lg items-center">
@@ -375,6 +382,7 @@
 
 <script>
 import axios from 'axios';
+import {AnnouncementsAdaptor} from "@/models/AnnouncementsAdaptor";
 
 export default {
   name: "ProjectsOverview",
@@ -392,6 +400,7 @@ export default {
       selectedStatus: null,
       selectedRowStyle: "bg-gray-100 shadow-sm text-black",
       notSelectedRowStyle: "text-gray-900",
+      announcements: [],
     }
   },
   computed: {
@@ -403,10 +412,37 @@ export default {
       return count;
     }
   },
+
+  beforeUnmount() {
+    // close down the service with the web socket
+    this.announcementsService.close();
+  },
+
   created() {
+    this.announcementsService = new AnnouncementsAdaptor("http://localhost:8080/api/announcements", this.onReceiveAnnouncement)
     this.getProjectData();
   },
   methods: {
+    onReceiveAnnouncement(message) {
+      // this method is called when an announcement is distributed
+      console.log("Received announcement:", message);
+      message = JSON.parse(message)
+      this.announcements.push(message);
+    },
+
+    onNewAnnouncement(event) {
+      // this method is called when enter is pressed within the input text field
+
+      // TODO: Add first name and second name
+      // for demo purpose of a simple web socket
+      this.announcementsService.sendMessage(event.target.value, "GEBRUIKERSNAAM");
+      // a persistent announcement system would save the announcement here via the REST api
+      // and let the rest controller issue the websocket notification to inform all clients about the update
+
+      // reset the input in the text area
+      event.target.value = "";
+    },
+
     dateFormatter(date) {
       const formatDate = new Date(date)
       const yyyy = formatDate.getFullYear();
