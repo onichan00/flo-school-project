@@ -2,6 +2,7 @@ package com.hva.helios.models.user;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hva.helios.models.Event;
 import com.hva.helios.models.Project;
 import com.hva.helios.models.user.hour.AvailableHour;
 import com.hva.helios.models.user.skill.UserSkill;
@@ -24,16 +25,16 @@ public class Specialist{
     @JsonView(Views.Public.class)
     private String specialistType;
 
-    @JsonView(Views.Public.class)
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonView(Views.Internal.class)
     private AvailableHour hours;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Internal.class)
     private Set<Project> projects;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Internal.class)
     private Set<UserSkill> skills;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -76,6 +77,37 @@ public class Specialist{
         return false;
     }
 
+    public boolean addProject(Project project) {
+        if (project != null) {
+            projects.add(project);
+            project.addSpecialist(this);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeProject(long projectId) {
+        Project project = projects.stream().
+                filter(p -> p.getId() == projectId)
+                .findFirst()
+                .orElse(null);
+
+        return removeProject(project);
+    }
+
+    public boolean removeProject(Project project) {
+        if (project != null) {
+            projects.remove(project);
+            project.removeSpecialist(this);
+
+            return true;
+        }
+
+        return false;
+    }
+
     public long getId() {
         return id;
     }
@@ -110,20 +142,6 @@ public class Specialist{
 
     public void setProjects(Set<Project> projects) {
         this.projects = projects;
-    }
-
-    public void addProject(Project project) {
-        projects.add(project);
-        project.getSpecialists().add(this);
-    }
-
-    public void removeProject(long projectId) {
-        Project project = projects.stream().filter(p -> p.getId() == projectId).findFirst().orElse(null);
-
-        if (project != null) {
-            projects.remove(project);
-            project.getSpecialists().remove(this);
-        }
     }
 
     public Set<UserSkill> getSkills() {

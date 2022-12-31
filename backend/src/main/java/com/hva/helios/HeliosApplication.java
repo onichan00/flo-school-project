@@ -3,7 +3,7 @@ package com.hva.helios;
 import com.hva.helios.data.EventData;
 import com.hva.helios.data.SkillData;
 import com.hva.helios.models.Project;
-import com.hva.helios.models.user.Event;
+import com.hva.helios.models.Event;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.hour.AvailableHour;
 import com.hva.helios.models.user.skill.Skill;

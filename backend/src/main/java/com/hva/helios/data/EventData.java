@@ -1,7 +1,7 @@
 package com.hva.helios.data;
 
 import com.hva.helios.models.enums.EventType;
-import com.hva.helios.models.user.Event;
+import com.hva.helios.models.Event;
 import com.hva.helios.models.user.Specialist;
 
 import java.util.ArrayList;

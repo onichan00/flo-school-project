@@ -3,7 +3,6 @@ package com.hva.helios.models;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 //import com.hva.helios.data.SpecialistData;
-import com.hva.helios.models.user.Event;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.skill.Skill;
 import com.hva.helios.views.Views;
@@ -38,21 +37,21 @@ public class Project {
 
     @ManyToOne
     @JsonSerialize(using = Views.PublicSerializer.class)
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Internal.class)
     private User user;
 
     @ManyToMany
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Internal.class)
     private Set<Specialist> specialists;
 
     @OneToMany
     @JsonSerialize(using = Views.PublicSerializer.class)
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Internal.class)
     private List<Skill> skills;
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.MERGE)
     @JsonSerialize(using = Views.PublicSerializer.class)
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Internal.class)
     private Set<Event> events;
 
     /**
@@ -127,11 +126,34 @@ public class Project {
         return false;
     }
 
-    public boolean associateSpecialist(Specialist specialist) {
+    public boolean addSpecialist(Specialist specialist) {
+        if (specialist != null) {
+            specialists.add(specialist);
+            specialist.addProject(this);
+
+            return true;
+        }
+
         return false;
     }
 
-    public boolean dissociateSpecialist(Specialist specialist) {
+    public boolean removeSpecialist(long specialistId) {
+        Specialist specialist = specialists.stream()
+                .filter(s -> s.getId() == specialistId)
+                .findFirst()
+                .orElse(null);
+
+        return removeSpecialist(specialist);
+    }
+
+    public boolean removeSpecialist(Specialist specialist) {
+        if (specialist != null) {
+            specialists.remove(specialist);
+            specialist.removeProject(this);
+
+            return true;
+        }
+
         return false;
     }
 

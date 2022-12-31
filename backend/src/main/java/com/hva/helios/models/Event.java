@@ -1,9 +1,10 @@
-package com.hva.helios.models.user;
+package com.hva.helios.models;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hva.helios.models.Project;
 import com.hva.helios.models.enums.EventType;
+import com.hva.helios.models.user.Specialist;
 import com.hva.helios.views.Views;
 
 import javax.persistence.*;
@@ -16,13 +17,13 @@ public class Event {
     @JsonView(Views.Public.class)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = { CascadeType.MERGE })
     @JoinColumn(name = "user_id")
     @JsonSerialize(using = Views.PublicSerializer.class)
     @JsonView(Views.Internal.class)
     private Specialist user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = { CascadeType.MERGE })
     @JoinColumn(name = "project_id")
     @JsonSerialize(using = Views.PublicSerializer.class)
     @JsonView(Views.Internal.class)
@@ -49,6 +50,7 @@ public class Event {
 
     @JsonView(Views.Internal.class)
     private String location;
+
     @JsonView(Views.Internal.class)
     private String description;
 
