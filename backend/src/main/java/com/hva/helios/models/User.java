@@ -33,11 +33,7 @@ public class User {
     @OneToOne
     Specialist specialist;
 
-
-
-    protected User() {
-
-    }
+    protected User() {}
 
     public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType) {
         this.email = email;

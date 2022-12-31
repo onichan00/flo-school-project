@@ -2,9 +2,9 @@
 //
 //import com.hva.helios.exceptions.NotFoundException;
 //import com.hva.helios.models.user.Client;
-//import com.hva.helios.repositories.EntityRepository;
-//import com.hva.helios.repositories.user.AdminJPARepository;
-//import com.hva.helios.repositories.user.ClientJPARepository;
+//import com.hva.helios.repositories.interfaces.EntityRepository;
+//import com.hva.helios.repositories.interfaces.jpa.AdminJPARepository;
+//import com.hva.helios.repositories.interfaces.jpa.ClientJPARepository;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.web.bind.annotation.*;
 //

@@ -1,12 +1,13 @@
 package com.hva.helios.models.user;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hva.helios.models.Project;
-import com.hva.helios.models.User;
 import com.hva.helios.models.user.hour.AvailableHour;
 import com.hva.helios.models.user.skill.UserSkill;
+import com.hva.helios.views.Views;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,33 +15,66 @@ import java.util.Set;
 public class Specialist{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(Views.Public.class)
     private long id = 0L;
 
+    @JsonView(Views.Public.class)
     private int available;
+
+    @JsonView(Views.Public.class)
     private String specialistType;
 
+    @JsonView(Views.Public.class)
     @OneToOne(cascade = CascadeType.ALL)
     private AvailableHour hours;
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonView(Views.Public.class)
     private Set<Project> projects;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonView(Views.Public.class)
     private Set<UserSkill> skills;
 
-//    @OneToOne
-//    private User user;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonSerialize(using = Views.PublicSerializer.class)
+    @JsonView(Views.Internal.class)
+    private Set<Event> events;
 
     public Specialist() {}
 
-    public Specialist(int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills) {
+    public Specialist(int available, String specialistType) {
         this.available = available;
         this.specialistType = specialistType;
     }
-//    public Specialist(User user){
-//        this.user = user;
-//
-//    }
+
+    public Specialist(int available, String specialistType, AvailableHour hours, Set<Project> projects, Set<UserSkill> skills, Set<Event> events) {
+        this(available, specialistType);
+
+        this.hours = hours;
+        this.projects = projects;
+        this.skills = skills;
+        this.events = events;
+    }
+
+    public boolean associateEvent(Event event) {
+        if (event != null && event.getUser() == null) {
+            event.associateSpecialist(this);
+            events.add(event);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean dissociateEvent(Event event) {
+        if (event != null && event.getUser() != null) {
+            return events.remove(event) && event.dissociateSpecialist(this);
+        }
+
+        return false;
+    }
 
     public long getId() {
         return id;
@@ -114,5 +148,13 @@ public class Specialist{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 }

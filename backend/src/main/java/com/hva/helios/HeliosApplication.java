@@ -1,12 +1,17 @@
 package com.hva.helios;
 
+import com.hva.helios.data.EventData;
 import com.hva.helios.data.SkillData;
+import com.hva.helios.models.Project;
+import com.hva.helios.models.user.Event;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.hour.AvailableHour;
 import com.hva.helios.models.user.skill.Skill;
-import com.hva.helios.repositories.EntityRepository;
-import com.hva.helios.repositories.user.SpecialistJPARepository;
-import com.hva.helios.repositories.user.UserJPARepository;
+import com.hva.helios.repositories.ProjectJPARepository;
+import com.hva.helios.repositories.interfaces.EntityRepository;
+import com.hva.helios.repositories.interfaces.jpa.EventJPARepository;
+import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
+import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,7 +34,13 @@ public class HeliosApplication implements CommandLineRunner {
 	private UserJPARepository userRepository;
 
 	@Autowired
-	private SpecialistJPARepository specialistRepository;
+	private SpecialistJPARepository specialistRepo;
+
+	@Autowired
+	private EventJPARepository eventRepo;
+
+	@Autowired
+	private ProjectJPARepository projectRepo;
 
 	@Autowired
 	private EntityRepository<AvailableHour> availableHourRepo;
@@ -41,11 +52,12 @@ public class HeliosApplication implements CommandLineRunner {
 
 		createInitialSkillData();
 		createInitialHoursData();
+		createInitialEvents();
 	}
 
 	private void createInitialHoursData() {
 		List<AvailableHour> hours = availableHourRepo.findAll();
-		List<Specialist> specialists = specialistRepository.findAll();
+		List<Specialist> specialists = specialistRepo.findAll();
 		if (hours.size() > 0) return;
 		System.out.println("Configuring some initial hours in the repository");
 
@@ -54,6 +66,25 @@ public class HeliosApplication implements CommandLineRunner {
 		for (Specialist specialist : specialists) {
 			specialist.setHours(hour);
 		}
+	}
+
+	private void createInitialEvents() {
+		List<Event> events = eventRepo.findAll();
+		if (events.size() > 0) return;
+		System.out.println("Configuring some initial events in the repository");
+
+		Specialist specialist = userRepository.findByEmail("specialist").getSpecialist();
+		Project project = projectRepo.findAll().get(0);
+		EventData eventData = new EventData(specialist);
+
+		for (Event event : eventData.getEvents()) {
+			eventRepo.save(event);
+
+			event.associateSpecialist(specialist);
+			event.associateProject(project);
+		}
+
+//		eventRepo.saveAll(eventData.getEvents());
 	}
 
 	private void createInitialSkillData() {

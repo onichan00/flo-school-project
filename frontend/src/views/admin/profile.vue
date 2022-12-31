@@ -62,10 +62,15 @@
 
     <!-- Availability -->
     <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
-      <p class="text-xl">Beschikbaar: <span class="font-semibold">{{ availableHours }}</span> uren</p>
-      <p>{{ getWeekFromWeek }}</p>
+      <div class="flex flex-row justify-between items-center">
+        <p class="text-xl">Beschikbaar: <span class="font-semibold">{{ availableHours }}</span> uren</p>
+        <button @click="saveHours" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
+          <svg class="mr-2 -ml-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+          Save
+        </button>
+      </div>
       <div class="flex flex-col md:flex-row mt-4 justify-between gap-2">
-        <AvailabilityRow v-for="(hour, index) in hours" :key="index" :time="hour" @saveAvailability="saveAvailability"/>
+        <AvailabilityRow v-for="(hour, index) in Object.keys(this.userObj.specialist.hours.days)" :key="index" :label="hour" :time="this.userObj.specialist.hours.days[hour]" @saveAvailability="saveAvailability"/>
       </div>
     </div>
 
@@ -615,9 +620,6 @@ export default {
 
       return meetingsInThisRange;
     },
-    getWeekFromWeek() {
-      return this.selectedWeek.getWeek;
-    }
   },
   created() {
     this.selectMeetingRange(1);
@@ -626,7 +628,7 @@ export default {
   },
   mounted() {
     // TODO - change sort method to return the sorted days so that the get method can sort them and then add them to hours
-    this.sortWeekDays();
+    // this.sortWeekDays();
 
     // TODO Change modal to the vue.js modal library
     // npm i vue-js-modal
@@ -651,11 +653,17 @@ export default {
           .then(res => {
             this.userObj = res.data;
             this.userObjCopy = res.data;
+
+            // FIXME: I get an error saying that the userObj is null
             console.log(res.data);
           })
           .catch(err => {
             console.log(err);
           })
+
+      if (this.userObj !== null) {
+        this.sortWeekDays();
+      }
     },
 
     saveUser() {
@@ -668,6 +676,11 @@ export default {
           .catch((err) => {
             console.log(err);
           })
+    },
+
+    saveHours() {
+      console.log("SAVING!");
+      console.table(this.userObj.specialist.hours);
     },
 
     meetingFormat(meeting) {
@@ -743,8 +756,8 @@ export default {
     },
 
     epochToDate() {
-      var utcSeconds = 1234567890; // set epoch here
-      var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      const utcSeconds = 1234567890; // set epoch here
+      const d = new Date(0); // The 0 there is the key, which sets the date to the epoch
       d.setUTCSeconds(utcSeconds);
     },
 
@@ -764,7 +777,8 @@ export default {
 
       const unsortedDays = Array(7);
 
-      this.hours.forEach(hour => {
+      console.log(this.userObj);
+      this.userObj.specialist.hours.days.forEach(hour => {
         const index = weekOrder[hour.label];
 
         unsortedDays[index] = hour;

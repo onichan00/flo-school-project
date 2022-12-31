@@ -7,8 +7,8 @@
 //import com.hva.helios.models.user.hour.AvailableHour;
 //import com.hva.helios.models.user.skill.Skill;
 //import com.hva.helios.models.user.skill.UserSkill;
-//import com.hva.helios.repositories.EntityRepository;
-//import com.hva.helios.repositories.user.SpecialistJPARepository;
+//import com.hva.helios.repositories.interfaces.EntityRepository;
+//import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.web.bind.annotation.*;
 //

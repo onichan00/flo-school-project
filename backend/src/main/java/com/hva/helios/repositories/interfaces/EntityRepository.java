@@ -1,4 +1,4 @@
-package com.hva.helios.repositories;
+package com.hva.helios.repositories.interfaces;
 
 import java.util.List;
 

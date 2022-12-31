@@ -1,15 +1,15 @@
 package com.hva.helios.rest;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.Project;
 import com.hva.helios.models.User;
-import com.hva.helios.repositories.testRepo;
-import com.hva.helios.repositories.user.UserJPARepository;
+import com.hva.helios.repositories.interfaces.testRepo;
+import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4040", maxAge = 3600)
@@ -47,7 +47,7 @@ public class ProjectController {
         project.setUser(user);
 
         // set the data to now since the project just got created
-        project.setCreated(LocalDate.now());
+        project.setCreated(new Date());
 
         // Saves the Project object to the projectRepository and returns it.
         return projectRepository.save(project);
@@ -70,7 +70,6 @@ public class ProjectController {
     public Project getProject(@PathVariable long id) {
         return projectRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Project could not be found"));
-
     }
 
     @DeleteMapping("{id}")

@@ -1,12 +1,14 @@
 package com.hva.helios.rest;
 
+import com.hva.helios.models.record.LoginBody;
+import com.hva.helios.models.record.LoginResponse;
 import com.hva.helios.models.user.*;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.User;
-import com.hva.helios.repositories.user.AdminJPARepository;
-import com.hva.helios.repositories.user.ClientJPARepository;
-import com.hva.helios.repositories.user.SpecialistJPARepository;
-import com.hva.helios.repositories.user.UserJPARepository;
+import com.hva.helios.repositories.interfaces.jpa.AdminJPARepository;
+import com.hva.helios.repositories.interfaces.jpa.ClientJPARepository;
+import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
+import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -152,34 +154,12 @@ public class UserController {
 
     @PostMapping("login")
     public LoginResponse login(@RequestBody LoginBody loginBody) {
-//        Specialist specialist = specialistRepository.findByEmail(loginBody.email());
-//        Admin admin = adminRepository.findByEmail(loginBody.email());
-//        Client client = clientRepository.findByEmail(loginBody.email());
-//
-//        if (admin != null) {
-//            if (admin.getPassword().equals(loginBody.password())) {
-//                return new LoginResponse(admin.getId(), true, false, false);
-//            }
-//        }
-//        if (specialist != null) {
-//            if (specialist.getPassword().equals(loginBody.password())) {
-//
-//                return new LoginResponse(client.getId(), false, false, true);
-//            }
-//        }
-//        if (client != null) {
-//            if (client.getPassword().equals(loginBody.password())) {
-//                return new LoginResponse(client.getId(), false, true, false);
-//            }
-//        }
-
         User user = userRepository.findByEmail(loginBody.email());
-
 
         if (user.getPassword().equals(loginBody.password())) {
             return new LoginResponse(user.getId(), user.getUserType());
         }
-        return new LoginResponse(-1l, -1);
+        return new LoginResponse(-1L, -1);
 
     }
 

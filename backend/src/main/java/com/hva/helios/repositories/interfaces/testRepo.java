@@ -1,4 +1,4 @@
-package com.hva.helios.repositories;
+package com.hva.helios.repositories.interfaces;
 
 import com.hva.helios.models.Project;
 import com.hva.helios.models.User;

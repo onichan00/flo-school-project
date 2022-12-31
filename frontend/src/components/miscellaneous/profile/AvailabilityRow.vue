@@ -3,7 +3,7 @@
     <div class="flex flex-row items-center gap-2 w-full">
       <input id="availableCheckbox" type="checkbox" v-model="getTime.available" @change="saveAvailability"
              class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"/>
-      <p>{{ getTime.label }}</p>
+      <p>{{ firstLetterUpperCase(getTranslatedLabel) }}</p>
     </div>
     <div class="flex flex-col items-center gap-2 w-full">
       <DatePicker
@@ -32,11 +32,17 @@
 <script>
 import DatePicker from "vue-datepicker-next";
 
+import {firstLetterUpperCase} from "@/plugins/textManipulation";
+
 export default {
   name: 'AvailabilityRow',
-  props: ['time'],
+  props: ['time', 'label'],
   emits: ['saveAvailability'],
+  mounted() {
+    console.log(this.label);
+  },
   methods: {
+    firstLetterUpperCase,
     saveAvailability() {
       this.$emit('saveAvailability', this.time);
     },
@@ -70,6 +76,20 @@ export default {
     isAvailable() {
       return !this.time.available;
     },
+
+    getTranslatedLabel() {
+      const labels = {
+        "sunday": "zondag",
+        "saturday": "zaterdag",
+        "friday": "vrijdag",
+        "thursday": "donderdag",
+        "wednesday": "woensdag",
+        "tuesday": "dinsdag",
+        "monday": "maandag"
+      }
+
+      return labels[this.label];
+    }
   },
   components: {
     DatePicker

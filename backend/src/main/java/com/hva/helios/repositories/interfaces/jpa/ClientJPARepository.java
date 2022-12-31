@@ -1,4 +1,4 @@
-package com.hva.helios.repositories.user;
+package com.hva.helios.repositories.interfaces.jpa;
 
 import com.hva.helios.models.user.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
