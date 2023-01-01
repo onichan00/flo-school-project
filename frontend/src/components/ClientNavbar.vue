@@ -1,7 +1,7 @@
 <template>
 
 
-  <nav class="p-2 dark:bg-gray-900" style='background-image: linear-gradient(to right, #F15922 , #f17822)'>
+  <nav class="sticky top-0 p-2 dark:bg-gray-900 " style='background-image: linear-gradient(to right, #F15922 , #f17822)'>
     <div class="container flex flex-wrap items-center justify-between mx-auto">
       <div class="flex flex-row">
         <a @click="this.$router.push('/client/dashboard')" class="flex items-center mr-20">
@@ -15,15 +15,11 @@
                  @click="this.$router.push('/client/projects-overview')">Projecten</a>
             </li>
             <li>
-              <a href="#"
-                 class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Specialisten</a>
-            </li>
-            <li>
-              <a href="#"
+              <a href="https://florijn.com/aws/dit-zijn-wij/"
                  class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Over ons</a>
             </li>
             <li>
-              <a href="#"
+              <a href="https://florijn.com/aws/contact/"
                  class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Contact</a>
             </li>
             <!--            <li>-->

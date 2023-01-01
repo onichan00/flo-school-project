@@ -83,10 +83,10 @@
           </form>
         </div>
 
-        <div class="overflow-y-scroll max-h-full">
+        <div class="overflow-visible max-h-full">
           <div
-              class="text-left rounded-lg p-2 m-3 cursor-pointer transition ease-in-out delay-0 bg-white-500 hover:-translate-y-1 hover:scale-110 hover:bg-gray-100 hover:shadow-sm duration-300"
-              v-for="(project) in projects" :key="project"
+              class="text-left rounded-lg p-2 m-2 cursor-pointer transition ease-in-out delay-0 bg-white-500 hover:-translate-y-1 hover:scale-110 hover:bg-gray-100 hover:shadow-md duration-300"
+              v-for="(project) in this.projects" :key="project"
               :class="[ selectedProject?.id === project.id ? selectedRowStyle : notSelectedRowStyle ]">
             <div @click="selectProject(project)">
               <div class="flex flex-row justify-between">
@@ -104,16 +104,6 @@
                   <h1 class="font-medium text-lg">{{ project.name }}</h1>
                 </div>
                 <div>
-                  <button
-                      class="p-1.5 text-sm font-medium text-gray-500 rounded-3xl hover:bg-gray-200"
-                      data-dropdown-toggle="dropdown">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                         xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-                    </svg>
-                    <span class="sr-only">Search</span>
-                  </button>
                   <div id="dropdown"
                        class="hidden z-10 text-left w-44 bg-white rounded-lg divide-y divide-gray-100 shadow dark:bg-gray-700">
                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
@@ -135,121 +125,109 @@
           </div>
 
         </div>
+
       </div>
 
       <div class="bg-white w-3/4 rounded-lg m-1 text-left max-h-fit shadow-lg">
 
-        <div class="px-4 py-3 h-auto" v-show='toggleEdit' v-if="selectedProject" v-bind="selectedProject">
-          <div class="relative  bg-white rounded-lg dark:bg-gray-700">
-            <div class="flex flex-col text-left">
-              <div class="flex items-start pt-2 mb-1 justify-between rounded-t dark:border-gray-600">
-                <h3 class="text-3xl 1 font-medium text-gray-900 dark:text-white">Bewerk dit project</h3>
-                <button @click='toggleEdit = !toggleEdit' type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-3xl text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M6 18L18 6M6 6l12 12"></path>
-                  </svg>
-                </button>
-              </div>
-              <p class="mb-1 text-md font-normal text-gray-600">Druk op "Enter" om veranderingen op te slaan</p>
-            </div>
+        <!--        <div class="px-4 py-3 h-auto" v-show='toggleEdit' v-if="selectedProject" v-bind="selectedProject">-->
+        <!--          <div class="relative  bg-white rounded-lg dark:bg-gray-700">-->
+        <!--            <div class="flex flex-col text-left">-->
+        <!--              <div class="flex items-start pt-2 mb-1 justify-between rounded-t dark:border-gray-600">-->
+        <!--                <h3 class="text-3xl 1 font-medium text-gray-900 dark:text-white">Bewerk dit project</h3>-->
+        <!--                <button @click='toggleEdit = !toggleEdit' type="button"-->
+        <!--                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-3xl text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">-->
+        <!--                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"-->
+        <!--                       xmlns="http://www.w3.org/2000/svg">-->
+        <!--                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+        <!--                          d="M6 18L18 6M6 6l12 12"></path>-->
+        <!--                  </svg>-->
+        <!--                </button>-->
+        <!--              </div>-->
+        <!--              <p class="mb-1 text-md font-normal text-gray-600 pb-3">Druk op "Enter" om veranderingen op te slaan</p>-->
+        <!--            </div>-->
 
-            <hr>
+        <!--            <hr>-->
 
-            <div class="pt-3 pb-3 flex items-center justify-center w-full">
-              <label for="dropzone-file"
-                     class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                  <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor"
-                       viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                  </svg>
-                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Klik om een nieuwe project banner up te uploaden</span>
-                    of drag and drop</p>
-                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">(Dit zal de huidige banner verwijderen)</p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG of JPG</p>
-                </div>
-                <input id="dropzone-file" type="file" class="hidden"/>
-              </label>
-            </div>
+        <!--            <form class="h-fit pt-3">-->
+        <!--              <div class="mb-6">-->
+        <!--                <label for="name" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Project-->
+        <!--                  naam</label>-->
+        <!--                <input type="text" id="name"-->
+        <!--                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5k:bg-gray-700"-->
+        <!--                       placeholder="Schrijf hier de naam" v-model.lazy="selectedProject.name">-->
+        <!--              </div>-->
+        <!--              <div class="mb-6">-->
+        <!--                <label for="bannerUrl" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Banner URL</label>-->
+        <!--                <input type="url" id="bannerUrl"-->
+        <!--                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5k:bg-gray-700"-->
+        <!--                       placeholder="Kopieer en plak hier de URL van de banner" v-model.lazy="selectedProject.bannerUrl">-->
+        <!--              </div>-->
+        <!--              <div class="flex flex-row w-full">-->
+        <!--                <div class="w-1/2 mr-1">-->
+        <!--                  <h1 class="text-md font-medium text-gray-900 mb-2">Skills</h1>-->
+        <!--                  <form class="flex items-center mb-4">-->
+        <!--                    <label for="simple-search" class="sr-only"></label>-->
+        <!--                    <div class="relative w-full">-->
+        <!--                      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">-->
+        <!--                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"-->
+        <!--                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">-->
+        <!--                          <path fill-rule="evenodd"-->
+        <!--                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"-->
+        <!--                                clip-rule="evenodd"></path>-->
+        <!--                        </svg>-->
+        <!--                      </div>-->
+        <!--                      <input type="text" id="simple-search"-->
+        <!--                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"-->
+        <!--                             placeholder="Zoek skill">-->
+        <!--                    </div>-->
+        <!--                  </form>-->
+        <!--                  <div class="flex flex-column flex-wrap mb-2">-->
+        <!--                    <div class="mb-4" v-for="(skill, index) in selectedProject.skills" :key="skill.id">-->
+        <!--                      <a class="bg-gray-200 border border-2 border-gray-300 px-2 py-1 rounded-lg">{{ skill.name }}-->
+        <!--                      <a  @click="del(index)" class="cursor-pointer"><i class="fa-solid fa-xmark"></i></a></a>-->
+        <!--                    </div>-->
+        <!--                  </div>-->
+        <!--                </div>-->
 
-            <form class="h-fit">
-              <div class="mb-6">
-                <label for="name" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Project
-                  naam</label>
-                <input type="text" id="name"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5k:bg-gray-700"
-                       placeholder="Schrijf hier de naam" v-model.lazy="selectedProject.name">
-              </div>
-              <div class="mb-6">
-                <label for="description" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Beschrijving</label>
-                <textarea id="description" rows="4"
-                          class="block p-2.5 w-full h-96 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"
-                          placeholder="Schrijf hier de beschrijving..."
-                          v-model.lazy="selectedProject.description"></textarea>
-              </div>
-              <div class="flex flex-row w-full">
-                <div class="w-1/2 mr-1">
+        <!--                <div class="w-1/2 ml-1">-->
 
-                  <h1 class="text-md font-medium text-gray-900 mb-2">Skills</h1>
-                  <form class="flex items-center mb-4">
-                    <label for="simple-search" class="sr-only"></label>
-                    <div class="relative w-full">
-                      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
-                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                          <path fill-rule="evenodd"
-                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                clip-rule="evenodd"></path>
-                        </svg>
-                      </div>
-                      <input type="text" id="simple-search"
-                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
-                             placeholder="Zoek skill">
-                    </div>
-                  </form>
+        <!--                  <label for="countries" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Selecteer-->
+        <!--                    de status van dit project</label>-->
+        <!--                  <select disabled v-model="selectedStatus" id="countries"-->
+        <!--                          class="cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">-->
+        <!--                    <option selected>Kies de huidige status</option>-->
+        <!--                    <option v-for="status in statusses" :key="{ id: status.id, text: status.name }"-->
+        <!--                            @click="changeStatus(selectedProject, status.id)">{{ status.name }}-->
+        <!--                    </option>-->
+        <!--                  </select>-->
+        <!--                </div>-->
+        <!--              </div>-->
+        <!--              <div class="mb-4">-->
+        <!--                <label for="description" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Beschrijving</label>-->
+        <!--                <textarea id="description" rows="4"-->
+        <!--                          class="block p-2.5 w-full h-64 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"-->
+        <!--                          placeholder="Schrijf hier de beschrijving..."-->
+        <!--                          v-model.lazy="selectedProject.description"></textarea>-->
+        <!--              </div>-->
+        <!--            </form>-->
 
-                </div>
+        <!--            <hr>-->
 
-                <div class="w-1/2 ml-1">
+        <!--            <div class="w-full mt-4">-->
+        <!--              <div class="float-right space-x-2 border-gray-200 mb-4">-->
+        <!--                <button type="button" class="p-2 text-md font-medium text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg">Bijwerkingen opslaan</button>-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
 
-                  <label for="countries" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Selecteer
-                    de status van dit project</label>
-                  <select v-model="selectedStatus" id="countries"
-                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
-                    <option selected>Kies de huidige status</option>
-                    <option v-for="status in statusses" :key="{ id: status.id, text: status.name }"
-                            @click="changeStatus(selectedProject, status.id)">{{ status.name }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <div class="overflow-y-scroll m-auto m-3 p-2" v-if="selectedProject" v-bind="selectedProject"
-             v-show='!toggleEdit'>
+        <div class="overflow-y-scroll m-auto m-3 p-2" v-if="selectedProject" v-bind="selectedProject">
           <div>
             <div class="flex flex-row justify-between">
               <h1 class="text-black text-3xl font-medium">
                 {{ selectedProject.name }}
               </h1>
-              <div>
-                <button
-                    @click='toggleEdit = !toggleEdit'
-                    class="p-2.5 ml-2 text-sm font-medium text-gray-500 rounded-3xl hover:bg-gray-200">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                  </svg>
-                  <span class="sr-only">Search</span>
-                </button>
-              </div>
             </div>
 
             <div class="text-m font-normal mb-3">
@@ -269,22 +247,28 @@
                   Concept</a></h1></div>
                 <div v-else-if="selectedProject.status === 1"><h1>Status: <a
                     class="py-0.0 px-1.5 bg-gradient-to-r from-green-300 to-green-400 text-white font-medium rounded-2xl">
-                  Actief</a></h1>
+                  Geaccepteerd</a></h1>
                 </div>
                 <div v-else-if="selectedProject.status === 2"><h1>Status: <a
                     class="py-0.0 px-1.5 bg-gradient-to-r from-green-400 to-green-400 text-white font-medium rounded-2xl">
-                  Actief</a></h1>
+                  Bezig</a></h1>
                 </div>
                 <div v-else-if="selectedProject.status === 3"><h1>Status: <a
                     class="py-0.0 px-1.5 bg-gradient-to-r from-green-500 to-green-600 text-white font-medium rounded-2xl">
-                  Actief</a></h1>
+                  Afgerond</a></h1>
                 </div>
               </div>
             </div>
             <hr>
             <div>
-              <img class="rounded-lg mt-3 m-auto" :src="selectedProject.bannerUrl"
-                   style="display:block; max-height:200px; width: 100%; object-fit: cover">
+              <div v-if='!hasBanner(selectedProject.bannerUrl)'>
+                <img class="rounded-lg mt-3 m-auto" :src="require('@/assets/img/tianyi-ma-WiONHd_zYI4-unsplash.jpg')"
+                     style="display:block; max-height:200px; width: 100%; object-fit: cover">
+              </div>
+              <div v-else>
+                <img class="rounded-lg mt-3 m-auto" :src="selectedProject.bannerUrl"
+                     style="display:block; max-height:200px; width: 100%; object-fit: cover">
+              </div>
               <h1 class="mt-3 font-medium text-xl text-gray-700">Project beschrijving
               </h1>
               <p class="mb-3 font-normal text-gray-600 dark:text-gray-400">
@@ -294,13 +278,11 @@
             <div>
               <h1 class="mt-3 font-medium mb-1 text-xl text-gray-700">Skills
               </h1>
-
-              <p>
-                Er zijn nog geen skills toegevoegd voor dit project helaas
-              </p>
-              <!--              <div>-->
-              <!--                <a class="bg-gray-200 border border-2 border-gray-300 px-2 py-1 rounded-lg">Frikandel Speciaal</a>-->
-              <!--              </div>-->
+              <div class="flex flex-row flex-wrap">
+                <div v-for="skill in selectedProject.skills" :key="skill.id">
+                  <a class="bg-gray-200 border border-2 border-gray-300 px-2 py-1 mr-1 rounded-lg">{{ skill.name }}</a>
+                </div>
+              </div>
             </div>
             <div>
               <h1 class="mt-3 font-medium text-xl text-gray-700">
@@ -324,7 +306,6 @@
                 </p>
               </div>
             </div>
-
 
             <div>
               <h1 class="mt-3 font-medium text-xl text-gray-700">
@@ -355,10 +336,17 @@
                 <form>
                   <label for="chat" class="sr-only">Uw aankondiging</label>
                   <div class="flex items-center px-2 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
-                    <textarea v-on:keyup.enter="onNewAnnouncement($event)" id="chat" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500" placeholder="Uw aankondiging..."></textarea>
+                    <textarea v-on:keyup.enter="onNewAnnouncement($event)" id="chat" rows="1"
+                              class="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"
+                              placeholder="Uw aankondiging..."></textarea>
 
-                    <button @click="OnNewAnnouncement($event)" class="inline-flex justify-center ml-1 p-2 text-orange-500 rounded-full cursor-pointer hover:bg-orange-100 dark:text-orange-500 dark:hover:bg-gray-600">
-                      <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
+                    <button @click="OnNewAnnouncement($event)"
+                            class="inline-flex justify-center ml-1 p-2 text-orange-500 rounded-full cursor-pointer hover:bg-orange-100 dark:text-orange-500 dark:hover:bg-gray-600">
+                      <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20"
+                           xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                      </svg>
                       <span class="sr-only">Stuur aankondiging</span>
                     </button>
                   </div>
@@ -391,9 +379,12 @@ import {AnnouncementsAdaptor} from "@/models/AnnouncementsAdaptor";
 
 export default {
   name: "ProjectsOverview",
+
   data() {
     return {
+      userId: localStorage.getItem('id'),
       projects: [],
+      user:[],
       options: {year: 'numeric', month: 'long', day: 'numeric'},
       selectedProject: null,
       toggleEdit: false,
@@ -408,6 +399,7 @@ export default {
       announcements: [],
     }
   },
+
   computed: {
     activeProjects() {
       let count = 0;
@@ -426,8 +418,19 @@ export default {
   created() {
     this.announcementsService = new AnnouncementsAdaptor("http://localhost:8080/api/announcements", this.onReceiveAnnouncement)
     this.getProjectData();
+    this.getUserData();
   },
   methods: {
+    getUserData() {
+      axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
+          .then((res) => {
+            this.user = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
     onReceiveAnnouncement(message) {
       // this method is called when an announcement is distributed
       console.log("Received announcement:", message);
@@ -436,16 +439,37 @@ export default {
     },
 
     onNewAnnouncement(event) {
-      // this method is called when enter is pressed within the input text field
-
       // TODO: Add first name and second name
       // for demo purpose of a simple web socket
-      this.announcementsService.sendMessage(event.target.value, "GEBRUIKERSNAAM");
+      this.announcementsService.sendMessage(event.target.value, this.user.first_name + " " + this.user.last_name);
       // a persistent announcement system would save the announcement here via the REST api
       // and let the rest controller issue the websocket notification to inform all clients about the update
 
       // reset the input in the text area
       event.target.value = "";
+    },
+    sortAlphabetically() {
+      this.projects.sort((p1, p2) => p1.name.localeCompare(p2.name))
+    },
+
+    sortAlphabeticallyReverse() {
+      this.projects.sort((p1, p2) => p1.name.localeCompare(p2.name)).reverse()
+    },
+
+    sortNewToOld() {
+      this.projects.sort((p1, p2) => p1.created.localeCompare(p2.created))
+    },
+
+    sortStatus() {
+      this.projects.sort((p1, p2) => p1.status - p2.status)
+    },
+
+    searchProject(searchName) {
+      console.log(searchName)
+    },
+
+    deleteSkill(skill) {
+      this.selectedProject.skills.filter(s => s == skill)
     },
 
     dateFormatter(date) {
@@ -457,6 +481,7 @@ export default {
       const formattedDate = dd + ' ' + mm + ' ' + yyyy;
       return formattedDate;
     },
+
     selectProject(element) {
       if (element === this.selectedProject) {
         return null;
@@ -469,9 +494,7 @@ export default {
     },
 
     getProjectData() {
-      const id = localStorage.getItem("id");
-
-      axios.get(process.env.VUE_APP_API_URL + `/api/projects/client/${id}`)
+      axios.get(process.env.VUE_APP_API_URL + `/api/projects/client/${this.userId}`)
           .then((res) => {
             for (let i = 0; i < res.data.length; i++) {
               this.projects.push(res.data[i])
@@ -480,6 +503,15 @@ export default {
           .catch((err) => {
             console.log(err);
           })
+    },
+
+    hasBanner(bannerUrl) {
+      let regexp = "/^https://images.unsplash.com/";
+      console.log(bannerUrl !== "")
+      console.log(bannerUrl != null)
+      console.log(!bannerUrl.startsWith(regexp))
+
+      return (bannerUrl !== "" | bannerUrl != null | !bannerUrl.startsWith(regexp));
     },
 
     getProjects() {
@@ -498,6 +530,7 @@ export default {
     },
   }
 }
+
 </script>
 
 <style scoped>
