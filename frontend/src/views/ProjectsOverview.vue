@@ -330,37 +330,42 @@
               <h1 class="mt-3 font-medium text-xl text-gray-700">
                 Aankondigingen
               </h1>
-              <div class="pt-3 pb-3 flex items-center flex-column justify-center w-full">
-                <div
-                    class="flex flex-col items-center justify-center w-full h-64 border-1 border-gray-300 rounded-lg  bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                  <div class="flex flex-col items-left text-left justify-center pt-5 pb-6">
-                    <div class="p-6 bg-white rounded-lg text-left" v-for="(announcement, index) of announcements" v-bind:key="index">
-                      <a>{{ announcement.message }}</a>
+              <div class="bg-gray-50 border border-1 rounded-lg">
+                <div class="overflow-y-scroll h-72">
+                  <div
+                      class="text-left rounded-lg p-2 m-2 bg-white shadow-sm w-fit"
+                      v-for="(announcement, index) of announcements" v-bind:key="index">
+                    <div>
+                      <div class="flex flex-row justify-between text-gray-400 text-sm space-x-4">
+                        <div>
+                          <a>{{ announcement.user }}</a>
+                        </div>
+                        <div>
+                          <a>{{ announcement.date }}</a>
+                        </div>
+                      </div>
+
+                      <div class="text-black text-lg">
+                        <a>{{ announcement.message }}</a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <form>
-              <label class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Plaats aankondiging</label>
-              <div class="relative">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
-                  </svg>
-                </div>
-                <input v-on:keyup.enter="onNewAnnouncement($event)"  id="default-search"
-                       class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-orange-500 focus:border-orange-500 "
-                       placeholder="Plaats een aankondiging voor de specialisten van dit project">
-                <button @click="OnNewAnnouncement($event)"
-                    class="text-white absolute right-2.5 bottom-2.5 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg text-sm px-4 py-2 ">
-                  Plaats
-                </button>
+
+                <form>
+                  <label for="chat" class="sr-only">Uw aankondiging</label>
+                  <div class="flex items-center px-2 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
+                    <textarea v-on:keyup.enter="onNewAnnouncement($event)" id="chat" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500" placeholder="Uw aankondiging..."></textarea>
+
+                    <button @click="OnNewAnnouncement($event)" class="inline-flex justify-center ml-1 p-2 text-orange-500 rounded-full cursor-pointer hover:bg-orange-100 dark:text-orange-500 dark:hover:bg-gray-600">
+                      <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
+                      <span class="sr-only">Stuur aankondiging</span>
+                    </button>
+                  </div>
+                </form>
 
               </div>
-            </form>
+            </div>
           </div>
 
         </div>
