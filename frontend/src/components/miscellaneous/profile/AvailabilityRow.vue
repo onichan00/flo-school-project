@@ -38,9 +38,6 @@ export default {
   name: 'AvailabilityRow',
   props: ['time', 'label'],
   emits: ['saveAvailability'],
-  mounted() {
-    console.log(this.label);
-  },
   methods: {
     firstLetterUpperCase,
     saveAvailability() {

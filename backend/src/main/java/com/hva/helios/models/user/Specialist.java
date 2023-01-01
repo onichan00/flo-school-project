@@ -38,7 +38,7 @@ public class Specialist{
     private Set<UserSkill> skills;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonSerialize(using = Views.PublicSerializer.class)
+    @JsonSerialize(using = Views.InternalSerializer.class)
     @JsonView(Views.Internal.class)
     private Set<Event> events;
 
@@ -72,6 +72,25 @@ public class Specialist{
     public boolean dissociateEvent(Event event) {
         if (event != null && event.getUser() != null) {
             return events.remove(event) && event.dissociateSpecialist(this);
+        }
+
+        return false;
+    }
+
+    public boolean associateUserSkill(UserSkill userSkill) {
+        if (userSkill != null && userSkill.getSpecialist() == null) {
+            userSkill.associateSpecialist(this);
+            skills.add(userSkill);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean dissociateUserSkill(UserSkill userSkill) {
+        if (userSkill != null && userSkill.getSpecialist() != null) {
+            return skills.remove(userSkill) && userSkill.dissociateSpecialist(this);
         }
 
         return false;

@@ -5,11 +5,14 @@ import com.hva.helios.models.Event;
 import com.hva.helios.models.user.Specialist;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class EventData {
     ArrayList<Event> events;
+
+    private Calendar calendar;
 
     Event event1 = new Event(null, new Date(), new Date(), "Meeting with Apple", EventType.WORK, "Starbucks", "LOREM IPSUM");
     Event event2 = new Event(null, new Date(), new Date(), "Family vacation", EventType.VACATION, "Starbucks", "LOREM IPSUM");

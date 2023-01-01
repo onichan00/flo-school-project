@@ -12,7 +12,7 @@
               alt="Bordered avatar"
           >
         <div />
-        <button @click="openEditUserInfoModal" type="button" class="m-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center">
+        <button @click="editUserInfoModalOpen = true" type="button" class="m-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
           <span class="sr-only">Edit Profile</span>
         </button>
@@ -36,6 +36,10 @@
   <!--      </div>-->
       </div>
     </div>
+
+    <UpcomingMeetingModal :open="upcomingMeetingModalOpen" :meeting="selectedMeeting" @close="upcomingMeetingModalOpen = false"/>
+    <EditUserInfoModal :open="editUserInfoModalOpen" :user="userObj" @close="editUserInfoModalOpen = false"/>
+    <SkillModal :open="skillModalOpen" :skills="skills" :user="userObj"/>
 
     <!-- Skills -->
     <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
@@ -69,11 +73,12 @@
           Save
         </button>
       </div>
-      <div class="flex flex-col md:flex-row mt-4 justify-between gap-2">
-        <AvailabilityRow v-for="(hour, index) in Object.keys(this.userObj.specialist.hours.days)" :key="index" :label="hour" :time="this.userObj.specialist.hours.days[hour]" @saveAvailability="saveAvailability"/>
-      </div>
+<!--      <div class="flex flex-col md:flex-row mt-4 justify-between gap-2">-->
+<!--        <AvailabilityRow v-for="(hour, index) in Object.keys(this.userObj.specialist.hours.days)" :key="index" :label="hour" :time="this.userObj.specialist.hours.days[hour]" @saveAvailability="saveAvailability"/>-->
+<!--      </div>-->
     </div>
 
+    <!-- TODO: When the modal updates, it will also update the value in here. Fix that the value here won't change. -->
     <!-- Calendar -->
     <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
       <p class="text-xl">Komende vergaderingen</p>
@@ -89,8 +94,8 @@
               </div>
             </template>
           </DatePicker>
-          <div v-if="meetingsInDateRange.length !== 0" class="divide-y">
-            <UpcomingMeeting v-for="(meeting, index) in meetingsInDateRange" :key="index" :meeting="meeting" @meetingClicked="openUpcomingMeetingModal"/>
+          <div v-if="eventsInDateRange.length !== 0" class="divide-y">
+            <UpcomingMeeting v-for="(meeting, index) in eventsInDateRange" :key="index" :meeting="meeting" @meetingClicked="openUpcomingMeetingModal"/>
           </div>
           <div v-else class="flex flex-col items-center mt-8">
             <svg class="w-32 h-32" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
@@ -147,7 +152,6 @@
               <option v-for="(skill, index) in skills" :key="index" :value="skill.name">{{ skill.name }}</option>
             </select>
           </div>
-
           <div>
             <label for="understanding-novice" class="text-lg font-medium text-gray-900">Beoordeel uw vaardigheidsniveau</label>
             <ul class="grid gap-4 w-full md:grid-cols-3">
@@ -214,156 +218,6 @@
     </div>
   </div>
 
-  <!-- Edit User Info -->
-  <div id="editUserInfo" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
-    <div class="relative w-full h-full max-w-4xl md:h-auto">
-      <!-- Modal content -->
-      <div v-if="userObj" class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-        <!-- Modal header -->
-        <div class="flex items-center justify-between p-4 border-b rounded-t">
-          <h3 class="text-xl font-semibold text-gray-900">
-            Pas gebruikers Info
-          </h3>
-          <button @click="closeEditUserInfoModal" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
-            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-            <span class="sr-only">Close modal</span>
-          </button>
-        </div>
-        <!-- Modal body -->
-        <div class="p-6 space-y-6 text-left">
-          <div class="flex items-center justify-center w-full">
-            <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-              <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Klik om een profielfoto te uploaden</span></p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">PNG or JPG (MAX. 800x400px)</p>
-              </div>
-              <input id="dropzone-file" type="file" class="hidden" />
-            </label>
-          </div>
-          <div class="mb-6">
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900">E-mail adres</label>
-            <input v-model="userObj.email" type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="john.doe@company.com" required>
-          </div>
-          <div class="grid gap-4 mb-6 md:grid-cols-3">
-            <div>
-              <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900">Voornaam</label>
-              <input v-model="userObj.first_name" type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="John" required>
-            </div>
-            <div>
-              <label for="second_name" class="block mb-2 text-sm font-medium text-gray-900">Tweede naam (optioneel)</label>
-              <input v-model="userObj.second_name" type="text" id="second_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Cornelis" required>
-            </div>
-            <div>
-              <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900">Achternaam</label>
-              <input v-model="userObj.last_name" type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Doe" required>
-            </div>
-          </div>
-          <div class="grid gap-4 mb-6 md:grid-cols-2">
-            <div>
-              <label for="city" class="block mb-2 text-sm font-medium text-gray-900">Stad</label>
-              <input v-model="userObj.city" type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Amsterdam" required>
-            </div>
-            <div>
-              <label for="zipcode" class="block mb-2 text-sm font-medium text-gray-900">Postcode</label>
-              <input v-model="userObj.zipCode" type="text" id="second_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="1000AA" required>
-            </div>
-          </div>
-          <div class="mb-6">
-            <label for="address" class="block mb-2 text-sm font-medium text-gray-900">Adres</label>
-            <input v-model="userObj.address" type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Wibautstraat 4B" required>
-          </div>
-          <div class="mb-6">
-            <label for="bio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bio</label>
-            <textarea v-model="userObj.bio" id="bio" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your bio here..."></textarea>
-          </div>
-        </div>
-        <!-- Modal footer -->
-        <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-          <button @click="saveUser" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Save</button>
-          <button @click="closeEditUserInfoModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Upcoming Meeting Modal -->
-  <div id="upcomingMeetingModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
-    <div class="relative w-full h-full max-w-2xl md:h-auto">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-        <!-- Modal header -->
-        <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-            {{ selectedMeeting.title }}
-          </h3>
-          <button type="button" @click="closeUpcomingMeetingModal" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
-            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-            <span class="sr-only">Close modal</span>
-          </button>
-        </div>
-        <!-- Modal body -->
-        <div class="p-6 space-y-6 text-left">
-          <div>
-            <div class="flex flex-col md:flex-row gap-2 w-full mb-2">
-              <div class="w-full md:w-1/2">
-                <label for="meetingStart" class="block mb-2 text-sm font-medium text-gray-900">Start</label>
-                <DatePicker :lang="langObj" class="w-full" type="datetime" format="DD-MM-YYYY HH:mm" :showMinute="true" :showSecond="false" :minute-step="5" :clearable="false" id="meetingStart" v-model:value="selectedMeeting.start"/>
-              </div>
-              <div class="w-full md:w-1/2">
-                <label for="meetingEnd" class="block mb-2 text-sm font-medium text-gray-900">Eind</label>
-                <DatePicker :lang="langObj" class="w-full" type="datetime" format="DD-MM-YYYY HH:mm" :showMinute="true" :showSecond="false" :minute-step="5" :clearable="false" id="meetingEnd" v-model:value="selectedMeeting.end"/>
-              </div>
-            </div>
-            <div class="flex items-center">
-              <input id="checked-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2">
-              <label for="checked-checkbox" class="ml-2 text-sm font-medium text-gray-900">Hele dag</label>
-            </div>
-          </div>
-          <div>
-            <label for="title" class="block mb-2 text-sm font-medium text-gray-900">Titel</label>
-            <input type="title" id="email" v-model="selectedMeeting.title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Going for lunch with..." required>
-          </div>
-          <div>
-            <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecteer een optie</label>
-            <select id="type" v-model="selectedMeeting.type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-              <option selected disabled value="-1">Kies een type</option>
-              <option value="0">Werk</option>
-              <option value="1">Vrije dag</option>
-              <option value="2">Ziekte/afwezigheid</option>
-              <option value="3">Vakantie</option>
-              <option value="4">Andere</option>
-            </select>
-<!--            <ul class="mt-4 overflow-hidden divide-x items-center w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 sm:flex">-->
-<!--              <MeetingType :type="selectedMeeting.type" :value="0" :title="'Werk'" :color="'bg-orange-500'"/>-->
-<!--              <MeetingType :type="selectedMeeting.type" :value="1" :title="'Vrije Dag'" :color="'bg-blue-500'"/>-->
-<!--              <MeetingType :type="selectedMeeting.type" :value="2" :title="'Ziekte'" :color="'bg-pink-500'"/>-->
-<!--              <MeetingType :type="selectedMeeting.type" :value="3" :title="'Vakantie'" :color="'bg-green-500'"/>-->
-<!--              <MeetingType :type="selectedMeeting.type" :value="4" :title="'Andere'" :color="'bg-gray-500'"/>-->
-<!--            </ul>-->
-
-          </div>
-
-          <div>
-            <label for="location" class="block mb-2 text-sm font-medium text-gray-900">Locatie</label>
-            <input type="location" id="email" v-model="selectedMeeting.location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Wibautstraat 4b" required>
-          </div>
-
-          <div>
-            <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Beschrijving</label>
-            <textarea id="message" rows="4" v-model="selectedMeeting.description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="What is this meeting about..."></textarea>
-          </div>
-
-        </div>
-        <!-- Modal footer -->
-        <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-          <button @click="saveUpcomingMeeting" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Save</button>
-          <button @click="closeUpcomingMeetingModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </template>
 <script>
 import SkillBadge from "@/components/miscellaneous/profile/SkillBadge";
@@ -383,6 +237,10 @@ import axios from "axios";
 
 import { userFullName, firstLetterUpperCase } from "@/plugins/textManipulation";
 import MeetingType from "@/components/miscellaneous/profile/MeetingType";
+import UpcomingMeetingModal from "@/components/modals/profile/UpcomingMeetingModal.vue";
+import upcomingMeeting from "@/components/miscellaneous/profile/UpcomingMeeting.vue";
+import EditUserInfoModal from "@/components/modals/profile/EditUserInfoModal.vue";
+import SkillModal from "@/components/modals/profile/SkillModal.vue";
 
 // TODO Create a backend route that with params gets all the correct meetings
 export default {
@@ -396,14 +254,7 @@ export default {
         },
       },
       userObj: null,
-      userObjCopy: null,
-      meetingPagination: {
-        meetingPerPage: 3,
-        currentPage: 0,
-      },
-      startOfDay: new Date(2022, 11, 12, 9, 0),
-      endOfDay: new Date(2022, 11, 12, 17, 0),
-      hours: [
+      hours: [ // TODO make all references to this object dynamic to the api
         {
           label: "Dinsdag",
           start: new Date(2022, 11, 12, 9, 0),
@@ -457,46 +308,10 @@ export default {
       masks: {
         input: 'YYYY-MM-DD hh:mm',
       },
-      skills: [
-        {
-          "name": "Java",
-          "level": 4,
-        },
-        {
-          "name": "Dart",
-          "level": 4,
-        },
-        {
-          "name": "Python",
-          "level": 2,
-        },
-        {
-          "name": "C++",
-          "level": 0,
-        },
-        {
-          "name": "JavaScript",
-          "level": 2,
-        },
-      ],
-      projects: [
-        {
-          "name": "Project 1",
-          "status": 0
-        },
-        {
-          "name": "Project 2",
-          "status": 1
-        },
-        {
-          "name": "Project 3",
-          "status": 0
-        },
-        {
-          "name": "Project 4",
-          "status": 2
-        }
-      ],
+      skills: null,
+      userSkills: null,
+      projects: null,
+      events: null,
       attachments: [
         {
           "name": "resume_front_end_developer.pdf"
@@ -505,72 +320,20 @@ export default {
           "name": "coverletter_front_end_developer.pdf"
         }
       ],
-      upcomingMeetings: [
-        {
-          "title": "Meeting with Apple",
-          "start": new Date(2022, 11, 8, 17, 0),
-          "end": new Date(2022, 11, 8, 18, 0),
-          "location": "Starbucks",
-          "description": "LOREM IPSUM DESCRIPTION",
-          "type": 0
-        },
-        {
-          "title": "Family Vacation",
-          "start": new Date(2022, 11, 10, 10, 0),
-          "end": new Date(2022, 11, 15, 18, 0),
-          "location": "Starbucks",
-          "description": "LOREM IPSUM DESCRIPTION",
-          "type": 2
-        },
-        {
-          "title": "Work meeting with Leslie Alexander",
-          "start": new Date(2023, 0, 10, 17, 0),
-          "end": new Date(2023, 0, 10, 18, 0),
-          "location": "Starbucks",
-          "description": "LOREM IPSUM DESCRIPTION",
-          "type": 0
-        },
-        {
-          "title": "Meeting with Michale Foster",
-          "start": new Date(2023, 0, 12, 15, 0),
-          "end": new Date(2023, 0, 12, 16, 0),
-          "location": "Costa Coffee at Behead",
-          "description": "LOREM IPSUM DESCRIPTION",
-          "type": 2
-        },
-        {
-          "title": "Meeting with Dries Vincent",
-          "start": new Date(2023, 0, 12, 17, 0),
-          "end": new Date(2023, 0, 12, 18, 0),
-          "location": "Tim Hortons",
-          "description": "LOREM IPSUM DESCRIPTION",
-          "type": 1
-        },
-        {
-          "title": "Meeting with Lindsay Walton",
-          "start": new Date(2023, 0, 14, 10, 0),
-          "end": new Date(2023, 0, 14, 11, 0),
-          "location": "Silver-burn",
-          "description": "LOREM IPSUM DESCRIPTION",
-          "type": 0
-        },
-        {
-          "title": "Meeting with Leslie Alexander",
-          "start": new Date(2023, 0, 14, 12, 0),
-          "end": new Date(2023, 0, 14, 13, 0),
-          "location": "The Glasgow Green",
-          "description": "LOREM IPSUM",
-          "type": 2
-        }
-      ],
+      upcomingMeetings: null,
       meetingRangeOpen: false,
       selectedWeek: new Date(),
+
+      // ModalData
+      upcomingMeetingModalOpen: false,
+      editUserInfoModalOpen: false,
+      skillModalOpen: false,
     }
   },
   computed: {
     attributes() {
       return [
-          ...this.upcomingMeetings.map(meeting => this.meetingFormat(meeting))
+          ...this.userObj.specialist.events.map(meeting => this.meetingFormat(meeting))
       ]
     },
     availableHours() {
@@ -596,23 +359,33 @@ export default {
 
       return calculatedTotalHours;
     },
-    meetingsInDateRange() {
+    eventsInDateRange() {
       const start = this.meetingsDateRange[0];
       const end = this.meetingsDateRange[1];
 
+      start.setHours(0);
+      start.setMinutes(1);
+      start.setSeconds(0);
+
+      end.setHours(23);
+      end.setMinutes(59);
+      end.setSeconds(59);
+
       const meetingsInThisRange = [];
 
-      this.upcomingMeetings.forEach(meeting => {
-        const afterStart = this.getEpochTime(start) <= this.getEpochTime(meeting.start);
-        const beforeEnd = this.getEpochTime(end) > this.getEpochTime(meeting.end);
+      this.events.forEach(event => {
+        // console.log(event);
+        const meetingStart = new Date(event.start);
+        const meetingEnd = new Date(event.end);
+
+        const afterStart = this.getEpochTime(start) <= this.getEpochTime(meetingStart);
+        const beforeEnd = this.getEpochTime(end) > this.getEpochTime(meetingEnd);
 
         // TODO - Add a filter to show the meetings within the date range, if its a meeting of multiple days that goes
         //  beyond the before and after boolean
 
-        const sameDay = this.sameDay(meeting.start, meeting.end);
-
         if (afterStart && beforeEnd) {
-          meetingsInThisRange.push(meeting);
+          meetingsInThisRange.push(event);
         }
       })
 
@@ -625,6 +398,7 @@ export default {
     this.selectMeetingRange(1);
 
     this.getUserData();
+    this.getSkillsData();
   },
   mounted() {
     // TODO - change sort method to return the sorted days so that the get method can sort them and then add them to hours
@@ -638,8 +412,6 @@ export default {
       this.skillModal = new Modal(document.querySelector("#defaultModal"));
       /* eslint-disable-next-line no-undef */
       this.editUserInfoModal = new Modal(document.querySelector("#editUserInfo"));
-      /* eslint-disable-next-line no-undef */
-      this.upcomingMeetingModal = new Modal(document.querySelector("#upcomingMeetingModal"));
     }
   },
   methods: {
@@ -650,20 +422,30 @@ export default {
       const userID = this.$route.params.id
 
       axios.get(`http://localhost:8080/api/users/${userID}`)
-          .then(res => {
-            this.userObj = res.data;
-            this.userObjCopy = res.data;
+        .then(res => {
+          this.userObj = res.data;
+          this.events = res.data.specialist.events;
 
-            // FIXME: I get an error saying that the userObj is null
-            console.log(res.data);
-          })
-          .catch(err => {
-            console.log(err);
-          })
+          // FIXME: I get an error saying that the userObj is null
+          console.log(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        })
 
       if (this.userObj !== null) {
         this.sortWeekDays();
       }
+    },
+
+    getSkillsData() {
+      axios.get("http://localhost:8080/api/skills")
+        .then((res) => {
+          this.skills = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     },
 
     saveUser() {
@@ -684,13 +466,16 @@ export default {
     },
 
     meetingFormat(meeting) {
+      const meetingStart = new Date(meeting.start);
+      const meetingEnd = new Date(meeting.end);
+
       const multiDayMeeting = {
         highlight: {
           start: { fillMode: 'outline', color: this.getMeetingType(meeting.type) },
           base: { fillMode: 'light', color: this.getMeetingType(meeting.type) },
           end: { fillMode: 'outline', color: this.getMeetingType(meeting.type) },
         },
-        dates: { start: meeting.start, end: meeting.end },
+        dates: { start: meetingStart, end: meetingEnd },
         popover: {
           label: meeting.title,
           visibility: 'focus',
@@ -700,7 +485,7 @@ export default {
       }
 
       const sameDayMeeting = {
-        dates: [meeting.start, meeting.end],
+        dates: [meetingStart, meetingEnd],
         popover: {
           label: meeting.title,
           visibility: 'focus',
@@ -712,7 +497,7 @@ export default {
         customData: meeting
       }
 
-      return this.sameDay(meeting.start, meeting.end) ? sameDayMeeting : multiDayMeeting;
+      return this.sameDay(meetingStart, meetingEnd) ? sameDayMeeting : multiDayMeeting;
     },
     getMeetingType(type) {
       // Available Colors: gray, red, orange, yellow, green, teal, blue, indigo, purple, pink
@@ -759,17 +544,6 @@ export default {
       const utcSeconds = 1234567890; // set epoch here
       const d = new Date(0); // The 0 there is the key, which sets the date to the epoch
       d.setUTCSeconds(utcSeconds);
-    },
-
-    setFullDay() {
-      let start = this.selectedMeeting.start;
-      let end = this.selectedMeeting.end;
-
-      start.setHours(0, 1, 0);
-      end.setHours(23, 59, 0);
-
-      this.selectedMeeting.start = start;
-      this.selectedMeeting.end = end;
     },
 
     sortWeekDays() {
@@ -819,7 +593,8 @@ export default {
 
     async moveCalendarToSelectedMonth(date) {
       const calendar = this.$refs.calendar;
-      console.log(calendar);
+      // TODO - This prints undefined
+      // console.log(calendar);
 
       if (calendar) {
         await calendar.move({ month: date.getMonth() + 1, year: date.getFullYear() });
@@ -845,16 +620,16 @@ export default {
     },
 
     openEditUserInfoModal() {
-      this.editUserInfoModal.show();
+      this.editUserInfoModalOpen = true;
     },
     closeEditUserInfoModal() {
       this.editUserInfoModal.hide();
     },
 
     openUpcomingMeetingModal(meeting) {
-      console.log(meeting);
-      this.selectedMeeting = new UpcomingMeetingClass(meeting);
-      this.upcomingMeetingModal.show();
+      this.selectedMeeting = meeting;
+      console.log(this.selectedMeeting);
+      this.upcomingMeetingModalOpen = true;
 
       // TODO When opening the modal, move to the month of the meeting on the calendar
     },
@@ -869,8 +644,11 @@ export default {
     }
   },
   components: {
+    SkillModal,
+    EditUserInfoModal,
+    UpcomingMeetingModal,
     AttachmentRow,
-    AvailabilityRow,
+    // AvailabilityRow,
     UpcomingMeeting,
     ProjectCard,
     SkillBadge,

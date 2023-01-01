@@ -7,11 +7,13 @@ import com.hva.helios.models.Event;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.hour.AvailableHour;
 import com.hva.helios.models.user.skill.Skill;
+import com.hva.helios.models.user.skill.UserSkill;
 import com.hva.helios.repositories.ProjectJPARepository;
 import com.hva.helios.repositories.interfaces.EntityRepository;
 import com.hva.helios.repositories.interfaces.jpa.EventJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
+import com.hva.helios.repositories.user.UserSkillJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -43,6 +45,9 @@ public class HeliosApplication implements CommandLineRunner {
 	private ProjectJPARepository projectRepo;
 
 	@Autowired
+	private UserSkillJPARepository userSkillRepo;
+
+	@Autowired
 	private EntityRepository<AvailableHour> availableHourRepo;
 
 	@Override
@@ -53,6 +58,7 @@ public class HeliosApplication implements CommandLineRunner {
 		createInitialSkillData();
 		createInitialHoursData();
 		createInitialEvents();
+		createInitialUserSkill();
 	}
 
 	private void createInitialHoursData() {
@@ -83,8 +89,6 @@ public class HeliosApplication implements CommandLineRunner {
 			event.associateSpecialist(specialist);
 			event.associateProject(project);
 		}
-
-//		eventRepo.saveAll(eventData.getEvents());
 	}
 
 	private void createInitialSkillData() {
@@ -97,6 +101,19 @@ public class HeliosApplication implements CommandLineRunner {
 		for (Skill skill : skillData.getAvailableSkills()) {
 			skillRepo.save(skill);
 		}
+	}
+
+	private void createInitialUserSkill() {
+		Skill skill = skillRepo.findAll().get(0);
+		Specialist specialist = userRepository.findByEmail("specialist").getSpecialist();
+		List<UserSkill> userSkills = userSkillRepo.findAll();
+		if (userSkills.size() > 0) return;
+		System.out.println("Configuring some initial user skills in the repository");
+
+		UserSkill userSkill = new UserSkill(skill, 4, specialist);
+
+		userSkillRepo.save(userSkill);
+		specialist.associateUserSkill(userSkill);
 	}
 //
 //	private void createInitialProjectData() {

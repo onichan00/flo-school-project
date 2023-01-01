@@ -31,7 +31,6 @@ public class UserController {
     @Autowired
     private UserJPARepository userRepository;
 
-
     @DeleteMapping("/delete/{id}")
     public void deleteUserById(@PathVariable long id) {
         userRepository.deleteById(id);
@@ -212,40 +211,4 @@ public class UserController {
 
         throw new NotFoundException("register failed");
     }
-
-
-//    @PostMapping("admin/create")
-//    public LoginResponse createAdmin(@RequestBody User user) {
-//        Long userType = user.getUserType();
-//
-//
-//        if (userType == 0){
-//           Admin admin = new Admin();
-//           adminRepository.save(admin);
-//            user.setAdmin(admin);
-//            User nUser = userRepository.save(user);
-//            return new LoginResponse(nUser.getId(),nUser.getUserType());
-//
-//        }
-//
-//        throw new NotFoundException("Creation failed");
-//    }
-
-//    @PostMapping("admin/create")
-//    public LoginResponse createAdmin(@RequestBody User user) {
-//        Long userType = user.getUserType();
-//
-//        if (userType == 0) {
-//            Admin admin = adminRepository.save(new Admin());
-////            user.setAdmin(admin);
-//            userRepository.save(user).setAdmin(admin);
-//            return new LoginResponse(user.getId(), userType);
-//        }
-//
-//
-////        throw new NotFoundException("user is not of type admins");
-//
-//        throw new NotFoundException("Creation failed");
-//    }
-
 }

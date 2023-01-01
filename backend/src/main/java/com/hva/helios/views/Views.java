@@ -47,4 +47,30 @@ public class Views {
             jsonGenerator.writeObject(object);
         }
     }
+
+    /**
+     * Serializer that only includes fields annotated with @JsonView(Views.Internal.class)
+     */
+    public static class InternalSerializer extends JsonSerializer<Object> {
+        @Override
+        public void serialize(Object object, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+            // Create a JsonMapper with default view inclusion disabled
+            JsonMapper mapper = JsonMapper.builder()
+                    .configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false)
+                    .build();
+
+            // Set serialization inclusion to always include values
+            mapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
+
+            // Register the JavaTimeModule and disable writing timestamps for date fields
+            mapper.registerModule(new JavaTimeModule()).configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+            // Set the serialization view to the Public view
+            mapper.setConfig(mapper.getSerializationConfig().withView(Internal.class));
+
+            // Set the JsonGenerator's codec to the configured JsonMapper
+            jsonGenerator.setCodec(mapper);
+            jsonGenerator.writeObject(object);
+        }
+    }
 }
