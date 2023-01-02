@@ -43,7 +43,7 @@ public class AnnouncementDistributor extends TextWebSocketHandler {
         // Add the session to the list of active sessions when a connection is established
         sessions.add(session);
         // Log the session id that was added
-        logger.info("Session with id " + session.getId() + " was added");
+        logger.info("Session {} was added", session.getId());
     }
 
     @Override
@@ -51,6 +51,6 @@ public class AnnouncementDistributor extends TextWebSocketHandler {
         // Remove the session from the list of active sessions when the connection is closed
         sessions.remove(session);
         // Log the session id that was removed
-        logger.info("Session with id " + session.getId() + " was removed");
+        logger.info("Session {} was removed", session.getId());
     }
 }
