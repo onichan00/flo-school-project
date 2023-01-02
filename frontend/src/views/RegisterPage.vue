@@ -25,14 +25,14 @@
 
     <section class="md:w-1/2 m-2">
       <div class="flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0">
-        <div class="w-full bg-white rounded-lg md:mt-0 sm:max-w-xl xl:p-0">
-          <a href="#" class="flex text-left items-center mb-6 text-3xl font-semibold text-gray-900 dark:text-white">
+        <div class="w-full text-left  text-black bg-white rounded-lg md:mt-0 sm:max-w-xl xl:p-0">
+          <a href="#" class="flex text-left items-center mb-3 text-3xl font-semibold text-gray-900 dark:text-white">
             Welkom bij Florijn
           </a>
-          <div class="mt-10 space-y-5">
-            <h1 class="text-xl text-left font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Vul het formulier in om u aan te melden
-            </h1>
+          <h1 class="text-2xl font-semibold">
+            Stap {{ this.step + 1 }}/4
+          </h1>
+          <div class="mt-3 space-y-5">
             <form class="text-left space-y-4 md:space-y-6" action="#">
               <div v-if="this.step === 0">
                 <div class="mb-5">
@@ -421,7 +421,7 @@ export default {
         this.toast.error("Er ging wat mis, probeer het later nog eens :(")
       })
 
-      this.step = 4
+      this.step = 3
 
       if (request.status === 200) {
         let response = request.data
