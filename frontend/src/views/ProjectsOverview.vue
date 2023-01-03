@@ -240,11 +240,11 @@
                 <form>
                   <label for="chat" class="sr-only">Uw aankondiging</label>
                   <div class="flex items-center px-2 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
-                    <textarea v-on:keyup.enter="onNewAnnouncement($event)" id="chat" rows="1"
+                    <textarea v-on:keyup.enter="sendMessageAndEmail($event)" id="chat" rows="1"
                               class="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"
                               placeholder="Uw aankondiging..."></textarea>
 
-                    <button @click="OnNewAnnouncement($event)"
+                    <button @click="sendMessageAndEmail($event)"
                             class="inline-flex justify-center ml-1 p-2 text-orange-500 rounded-full cursor-pointer hover:bg-orange-100 dark:text-orange-500 dark:hover:bg-gray-600">
                       <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20"
                            xmlns="http://www.w3.org/2000/svg">
@@ -324,7 +324,38 @@ export default {
     this.getProjectData();
     this.getUserData();
   },
+
   methods: {
+    sendMessageAndEmail(event) {
+      this.sendEmail(event);
+      this.onNewAnnouncement(event);
+    },
+
+    async sendEmail(event) {
+      const currentTimeInMilliseconds = new Date().getTime();
+      const currentTime = new Date(currentTimeInMilliseconds);
+      const time = currentTime.toLocaleString('nl-NL', {hour: '2-digit', minute: '2-digit'})
+
+      const emailData = {
+        //TODO Add specialist data
+        to: "simon.vriesema@icloud.com",
+        name: "Simon Vriesema",
+        from: this.user.first_name + " " + this.user.last_name,
+        subject: this.selectedProject.name,
+        time: time,
+        body: event.target.value
+      }
+
+      await axios.get(process.env.VUE_APP_API_URL + '/api/send-email', {params: emailData})
+          .then(response => {
+            console.log(emailData)
+            console.log(response);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
     getUserData() {
       axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
           .then((res) => {
