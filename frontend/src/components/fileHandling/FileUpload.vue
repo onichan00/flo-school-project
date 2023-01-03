@@ -24,7 +24,8 @@ export default {
   data() {
     return {
       uploadSuccessful: false,
-      userId: localStorage.getItem("id")
+      userId: localStorage.getItem("id"),
+      fileId: ''
     }
   },
   methods: {
@@ -46,7 +47,8 @@ export default {
           return response.json();
         }
       }).then(data => {
-        console.log(data); //TODO figure out how to get the uploaded file's ID
+        this.fileId = data.id;
+        this.$emit('fileId', this.fileId);
       })
     },
     clearForm() {

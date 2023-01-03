@@ -56,13 +56,8 @@
 </template>
 
 <script>
-import SpecialistApplicationModal from "@/components/SpecialistApplicationModal.vue";
-
 export default {
   name: "SpecialistApplications",
-  components: [
-    SpecialistApplicationModal
-  ],
   data() {
     return {
       counter: 0,
