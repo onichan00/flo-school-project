@@ -20,7 +20,7 @@ public class Event {
     @ManyToOne(cascade = { CascadeType.MERGE })
     @JoinColumn(name = "user_id")
     @JsonSerialize(using = Views.PublicSerializer.class)
-    @JsonView(Views.Internal.class)
+    @JsonView(Views.Public.class)
     private Specialist user;
 
     @ManyToOne(cascade = { CascadeType.MERGE })

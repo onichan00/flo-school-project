@@ -5,10 +5,12 @@ import com.hva.helios.models.record.LoginResponse;
 import com.hva.helios.models.user.*;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.User;
+import com.hva.helios.models.user.skill.UserSkill;
 import com.hva.helios.repositories.interfaces.jpa.AdminJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.ClientJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
+import com.hva.helios.repositories.user.UserSkillJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +32,9 @@ public class UserController {
     //
     @Autowired
     private UserJPARepository userRepository;
+
+    @Autowired
+    private UserSkillJPARepository userSkillRepo;
 
     @DeleteMapping("/delete/{id}")
     public void deleteUserById(@PathVariable long id) {
@@ -150,7 +155,6 @@ public class UserController {
                 .orElseThrow(() -> new NotFoundException("Project could not be found"));
     }
 
-
     @PostMapping("login")
     public LoginResponse login(@RequestBody LoginBody loginBody) {
         User user = userRepository.findByEmail(loginBody.email());
@@ -210,5 +214,22 @@ public class UserController {
         }
 
         throw new NotFoundException("register failed");
+    }
+
+    @PostMapping("/specialist/{userId}/skill")
+    public User addUserSkill(@RequestBody UserSkill userSkill, @PathVariable long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            throw new NotFoundException(String.format("The user with ID: %d was not found", userId));
+        }
+
+        UserSkill savedUserSkill = userSkillRepo.save(userSkill);
+
+        Specialist specialist = user.getSpecialist();
+        specialist.associateUserSkill(savedUserSkill);
+        user.setSpecialist(specialist);
+
+        return userRepository.save(user);
     }
 }

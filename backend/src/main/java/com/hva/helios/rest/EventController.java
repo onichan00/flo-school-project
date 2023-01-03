@@ -73,19 +73,8 @@ public class EventController {
      */
     @PostMapping("/")
     public Event createEvent(@RequestBody Event event) {
-        Specialist user = event.getUser();
-        Project project = event.getProject();
-
-//        event.dissociateProject(project);
-//        event.dissociateSpecialist(user);
-
-        return eventRepo.save(event);
-
-//        event.associateProject(project);
-//        event.associateSpecialist(user);
-
-//        return event;
         // Save the event to the repository and return it
+        return eventRepo.save(event);
     }
 
     /**
