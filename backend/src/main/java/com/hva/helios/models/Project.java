@@ -2,7 +2,6 @@ package com.hva.helios.models;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-//import com.hva.helios.data.SpecialistData;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.skill.Skill;
 import com.hva.helios.views.Views;
@@ -36,22 +35,30 @@ public class Project {
     private String bannerUrl;
 
     @ManyToOne
-    @JsonSerialize(using = Views.PublicSerializer.class)
     @JsonView(Views.Internal.class)
+    @JsonSerialize(using = Views.InternalSerializer.class)
     private User user;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        })
+    @JoinTable(name = "project_specialists",
+        joinColumns = { @JoinColumn(name = "project_id") },
+        inverseJoinColumns = { @JoinColumn(name = "specialist_id") })
     @JsonView(Views.Internal.class)
-    private Set<Specialist> specialists;
+    @JsonSerialize(using = Views.InternalSerializer.class)
+    private Set<Specialist> specialists = new HashSet<>();
 
     @OneToMany
-    @JsonSerialize(using = Views.PublicSerializer.class)
     @JsonView(Views.Internal.class)
+    @JsonSerialize(using = Views.InternalSerializer.class)
     private List<Skill> skills;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.MERGE)
-    @JsonSerialize(using = Views.PublicSerializer.class)
     @JsonView(Views.Internal.class)
+    @JsonSerialize(using = Views.InternalSerializer.class)
     private Set<Event> events;
 
     /**
@@ -129,7 +136,7 @@ public class Project {
     public boolean addSpecialist(Specialist specialist) {
         if (specialist != null) {
             specialists.add(specialist);
-            specialist.addProject(this);
+            specialist.getProjects().add(this);
 
             return true;
         }
@@ -149,7 +156,7 @@ public class Project {
     public boolean removeSpecialist(Specialist specialist) {
         if (specialist != null) {
             specialists.remove(specialist);
-            specialist.removeProject(this);
+            specialist.getProjects().remove(this);
 
             return true;
         }

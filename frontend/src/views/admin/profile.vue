@@ -39,7 +39,7 @@
 
     <UpcomingMeetingModal :open="upcomingMeetingModalOpen" :meeting="selectedMeeting" @close="upcomingMeetingModalOpen = false"/>
     <EditUserInfoModal :open="editUserInfoModalOpen" :user="userObj" @close="editUserInfoModalOpen = false"/>
-    <SkillModal :open="skillModalOpen" :skills="skills" :user="userObj"/>
+    <SkillModal :open="skillModalOpen" :skills="skills" :user="userObj" @close="skillModalOpen = false"/>
 
     <!-- Skills -->
     <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
@@ -47,7 +47,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <SkillBadge v-for="(skill, index) in userObj.specialist.skills" :key="index" :skill="skill" @skillClicked="openSkillModal"/>
 
-        <button @click="openSkillModal(null)" class="bg-green-100 hover:bg-green-200 text-green-900 p-4 rounded-md flex items-center justify-center">
+        <button @click="skillModalOpen = true" class="bg-green-100 hover:bg-green-200 text-green-900 p-4 rounded-md flex items-center justify-center">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
         </button>
       </div>
@@ -124,100 +124,6 @@
       </div>
     </div>
   </div>
-
-
-  <!-- Skill modal -->
-  <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
-    <div class="relative w-full h-full max-w-2xl md:h-auto">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow">
-        <!-- Modal header -->
-        <div class="flex items-center justify-between py-4 px-6 border-b rounded-t">
-          <h3 class="text-xl font-semibold text-gray-900">
-            Skill
-          </h3>
-          <button type="button" @click="closeSkillModal" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
-            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-            <span class="sr-only">Close modal</span>
-          </button>
-        </div>
-        <!-- Modal body -->
-        <div class="p-6 space-y-6 text-left">
-
-          <div>
-            <label for="skillSelect" class="text-lg font-medium text-gray-900">Selecteer een nieuwe vaardigheid</label>
-            <select id="skillSelect" v-model="selectedSkill.name"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-florijnOrange-100 focus:border-florijnOrange-200 block w-full p-2.5">
-              <option selected disabled value="">Selecteer een vaardigheid</option>
-              <option v-for="(skill, index) in skills" :key="index" :value="skill.name">{{ skill.name }}</option>
-            </select>
-          </div>
-          <div>
-            <label for="understanding-novice" class="text-lg font-medium text-gray-900">Beoordeel uw vaardigheidsniveau</label>
-            <ul class="grid gap-4 w-full md:grid-cols-3">
-              <li>
-                <input type="radio" id="understanding-novice" name="understanding" class="hidden peer" v-model="selectedSkill.level" :value=0 required>
-                <label for="understanding-novice"
-                       class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer peer-checked:border-florijnOrange-100 peer-checked:text-florijnOrange-100 hover:text-gray-600 hover:bg-florijnOrange-100/10 hover:border-florijnOrange-100/10">
-                  <div class="block">
-                    <div class="w-full text-lg font-semibold">1</div>
-                    <div class="w-full">Beginnende</div> <!-- Novice -->
-                  </div>
-                </label>
-              </li>
-              <li>
-                <input type="radio" id="understanding-competence" name="understanding" class="hidden peer" v-model="selectedSkill.level" :value=1 required>
-                <label for="understanding-competence"
-                       class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer peer-checked:border-florijnOrange-100 peer-checked:text-florijnOrange-100 hover:text-gray-600 hover:bg-florijnOrange-100/10 hover:border-florijnOrange-100/10">
-                  <div class="block">
-                    <div class="w-full text-lg font-semibold">2</div>
-                    <div class="w-full">Semi Beginnende</div> <!-- Competence -->
-                  </div>
-                </label>
-              </li>
-              <li>
-                <input type="radio" id="understanding-proficiency" name="understanding" class="hidden peer" v-model="selectedSkill.level" :value=2 required>
-                <label for="understanding-proficiency"
-                       class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer peer-checked:border-florijnOrange-100 peer-checked:text-florijnOrange-100 hover:text-gray-600 hover:bg-florijnOrange-100/10 hover:border-florijnOrange-100/10">
-                  <div class="block">
-                    <div class="w-full text-lg font-semibold">3</div>
-                    <div class="w-full">Bekwaamd</div> <!-- Proficiency -->
-                  </div>
-                </label>
-              </li>
-              <li>
-                <input type="radio" id="understanding-expert" name="understanding" class="hidden peer" v-model="selectedSkill.level" :value=3 required>
-                <label for="understanding-expert"
-                       class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer peer-checked:border-florijnOrange-100 peer-checked:text-florijnOrange-100 hover:text-gray-600 hover:bg-florijnOrange-100/10 hover:border-florijnOrange-100/10">
-                  <div class="block">
-                    <div class="w-full text-lg font-semibold">4</div>
-                    <div class="w-full">Expert</div> <!-- Expert -->
-                  </div>
-                </label>
-              </li>
-              <li>
-                <input type="radio" id="understanding-mastery" name="understanding" class="hidden peer" v-model="selectedSkill.level" :value=4 required>
-                <label for="understanding-mastery"
-                       class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer peer-checked:border-florijnOrange-100 peer-checked:text-florijnOrange-100 hover:text-gray-600 hover:bg-florijnOrange-100/10 hover:border-florijnOrange-100/10">
-                  <div class="block">
-                    <div class="w-full text-lg font-semibold">5</div>
-                    <div class="w-full">Meester</div> <!-- Mastery -->
-                  </div>
-                </label>
-              </li>
-            </ul>
-
-          </div>
-        </div>
-        <!-- Modal footer -->
-        <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-          <button @click="saveSkill" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Save</button>
-          <button @click="closeSkillModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </template>
 <script>
 import SkillBadge from "@/components/miscellaneous/profile/SkillBadge";
@@ -245,7 +151,6 @@ import SkillModal from "@/components/modals/profile/SkillModal.vue";
 // TODO Create a backend route that with params gets all the correct meetings
 export default {
   name: "UserProfile",
-  props: ['testing'],
   data() {
     return {
       langObj: {
@@ -399,20 +304,6 @@ export default {
 
     this.getUserData();
     this.getSkillsData();
-  },
-  mounted() {
-    // TODO - change sort method to return the sorted days so that the get method can sort them and then add them to hours
-    // this.sortWeekDays();
-
-    // TODO Change modal to the vue.js modal library
-    // npm i vue-js-modal
-
-    if (this.testing !== null) {
-      /* eslint-disable-next-line no-undef */
-      this.skillModal = new Modal(document.querySelector("#defaultModal"));
-      /* eslint-disable-next-line no-undef */
-      this.editUserInfoModal = new Modal(document.querySelector("#editUserInfo"));
-    }
   },
   methods: {
     userFullName,
@@ -606,9 +497,8 @@ export default {
     },
 
     openSkillModal(n) {
-      console.log(n);
-      this.selectedSkill = new Skill(n);
-      this.skillModal.show();
+      // this.selectedSkill = new Skill(n);
+      this.skillModalOpen = true;
     },
     closeSkillModal() {
       this.skillModal.hide();

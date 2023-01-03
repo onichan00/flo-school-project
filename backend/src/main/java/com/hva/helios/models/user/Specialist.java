@@ -9,6 +9,7 @@ import com.hva.helios.models.user.skill.UserSkill;
 import com.hva.helios.views.Views;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -29,20 +30,24 @@ public class Specialist{
     @JsonView(Views.Internal.class)
     private AvailableHour hours;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JsonView(Views.Internal.class)
-    private Set<Project> projects;
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        },
+        mappedBy = "specialists")
+    @JsonView(Views.Public.class)
+    private Set<Project> projects = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     @JsonView(Views.Internal.class)
     private Set<UserSkill> skills;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonSerialize(using = Views.InternalSerializer.class)
     @JsonView(Views.Internal.class)
     private Set<Event> events;
 
-    public Specialist() {}
+    protected Specialist() {}
 
     public Specialist(int available, String specialistType) {
         this.available = available;
@@ -99,7 +104,7 @@ public class Specialist{
     public boolean addProject(Project project) {
         if (project != null) {
             projects.add(project);
-            project.addSpecialist(this);
+            project.getSpecialists().add(this);
 
             return true;
         }

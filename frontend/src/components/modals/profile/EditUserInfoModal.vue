@@ -68,7 +68,7 @@ import { useToast } from "vue-toastification";
 
 export default {
   name: "EditUserInfoModal",
-  components: {CustomModal},
+  components: { CustomModal },
   props: ["open", "user"],
   computed: {
     isOpen() {
