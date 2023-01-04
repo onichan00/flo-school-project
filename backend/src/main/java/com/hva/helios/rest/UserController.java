@@ -48,7 +48,7 @@ public class UserController {
         Long id = user.getId();
 
         // we get the old user from JPA
-        // im not sure if we need to put this inside of the ifstatements each time or not but for now this works
+        // im not sure if we need to put this inside of the if statements each time or not but for now this works
         User oUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
 
         oUser.setFirst_name(user.getFirst_name());

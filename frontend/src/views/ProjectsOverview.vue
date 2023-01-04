@@ -435,6 +435,7 @@ export default {
     getProjectData() {
       axios.get(process.env.VUE_APP_API_URL + `/api/projects/client/${this.userId}`)
           .then((res) => {
+            console.log(res)
             for (let i = 0; i < res.data.length; i++) {
               this.projects.push(res.data[i])
             }
