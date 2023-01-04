@@ -31,7 +31,7 @@ import Footer from "@/components/Footer";
 
 // Models
 import client from "@/models/client";
-import specialist from "@/models/specialist";
+import Specialist from "@/models/specialist";
 import project from "@/models/project";
 import availableHour from "@/models/availableHour";
 import skill from "@/models/skill";
@@ -154,7 +154,7 @@ export default {
 
   created() {
     specialistsData.forEach((element) => {
-      this.specialists.push(new specialist(element));
+      this.specialists.push(new Specialist(element));
     });
 
     projectsData.forEach((element) => {

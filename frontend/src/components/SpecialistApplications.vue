@@ -2,8 +2,8 @@
   <div class="relative flex justify-center">
     <router-view class="fixed top-28 w-96"
                  :selected-specialist="selectedSpecialist"
-                 @approve-application="approveApplication"
-                 @reject-application="rejectApplication"/>
+                 @approve-application="updateApplication"
+                 @reject-application="updateApplication"/>
 
     <div class="overflow-x-auto relative shadow-md border border-gray-200 sm:rounded-lg mt-10">
       <table class="w-full text-sm rounded-md text-left text-gray-500 dark:text-gray-400">
@@ -24,7 +24,7 @@
               @click="onSelect(specialist.id)"
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-orange-50 dark:hover:bg-gray-600 cursor-pointer">
             <td class="py-4 px-6">
-                {{ specialist.firstName }} {{specialist.lastName}}
+                {{ specialist.name}}
             </td>
             <td class="py-4 px-6">
               {{ specialist.age }}
@@ -56,359 +56,79 @@
 </template>
 
 <script>
-import SpecialistApplicationModal from "@/components/SpecialistApplicationModal";
-
 export default {
   name: "SpecialistApplications",
-  props: [
-  ],
-  components: [
-    SpecialistApplicationModal
-  ],
   data() {
     return {
       counter: 0,
       selectedSpecialist: null,
-      specialists: [
-        {
-          id: 1,
-          approved: 'pending',
-          firstName: 'Gregory',
-          lastName: 'Gnomes',
-          age: this.calculateAge(new Date('10/25/1992')),
-          email: 'gregorygnomes@gmail.com',
-          phone: '+31612345678',
-          image: 'profile.png',
-          skills: [
-            {name: 'JavaScript', skillLevel: 4},
-            {name: 'Microsoft Azure', skillLevel : 4},
-            {name: 'MongoDB', skillLevel : 3},
-            {name: 'HTML', skillLevel : 1}
-          ],
-          preferredHours: 32,
-          preferredDays: {
-            mon : true,
-            tue : false,
-            wed : true,
-            thu : true,
-            fri : true
-          }
-        },
-        {
-          id: 2,
-          approved: 'pending',
-          firstName: 'Karel',
-          lastName: 'Aasplank',
-          age: this.calculateAge(new Date('10/24/1992')),
-          email: 'k.aasplank@gmail.com',
-          phone: '+31612345678',
-          image: 'profile.png',
-          skills: [
-            {name: 'JavaScript', skillLevel: 4},
-            {name: 'Microsoft Azure', skillLevel : 4},
-            {name: 'MongoDB', skillLevel : 3},
-            {name: 'HTML', skillLevel : 1}
-          ],
-          preferredHours: 32,
-          preferredDays: {
-            mon : true,
-            tue : false,
-            wed : true,
-            thu : true,
-            fri : true
-          }
-        },
-        {
-          id: 3,
-          approved: 'pending',
-          firstName: 'Frederik',
-          lastName: 'Rietjes',
-          age: this.calculateAge(new Date('10/24/1992')),
-          email: 'f.rietjes@gmail.com',
-          phone: '+31612345678',
-          image: 'profile.png',
-          skills: [
-            {name: 'JavaScript', skillLevel: 4},
-            {name: 'Microsoft Azure', skillLevel : 4},
-            {name: 'MongoDB', skillLevel : 3},
-            {name: 'HTML', skillLevel : 1}
-          ],
-          preferredHours: 32,
-          preferredDays: {
-            mon : true,
-            tue : false,
-            wed : true,
-            thu : true,
-            fri : true
-          }
-        },
-        {
-          id: 4,
-          approved: 'pending',
-          firstName: 'Peter',
-          lastName: 'Plantje',
-          age: this.calculateAge(new Date('10/24/1992')),
-          email: 'pppplantje@gmail.com',
-          phone: '+31612345678',
-          image: 'profile.png',
-          skills: [
-            {name: 'JavaScript', skillLevel: 4},
-            {name: 'Microsoft Azure', skillLevel : 4},
-            {name: 'MongoDB', skillLevel : 3},
-            {name: 'HTML', skillLevel : 1}
-          ],
-          preferredHours: 32,
-          preferredDays: {
-            mon : true,
-            tue : false,
-            wed : true,
-            thu : true,
-            fri : true
-          }
-        },
-        {
-          id: 5,
-          approved: 'pending',
-          firstName: 'Sanne',
-          lastName: 'Schommel',
-          age: this.calculateAge(new Date('10/24/1992')),
-          email: 'sanne.s@gmail.com',
-          phone: '+31612345678',
-          image: 'profile.png',
-          skills: [
-            {name: 'JavaScript', skillLevel: 4},
-            {name: 'Microsoft Azure', skillLevel : 4},
-            {name: 'MongoDB', skillLevel : 3},
-            {name: 'HTML', skillLevel : 1}
-          ],
-          preferredHours: 32,
-          preferredDays: {
-            mon : true,
-            tue : false,
-            wed : true,
-            thu : true,
-            fri : true
-          }
-        },
-        {
-          id: 6,
-          approved: 'pending',
-          firstName: 'Eef',
-          lastName: 'Wentel',
-          age: this.calculateAge(new Date('10/24/1992')),
-          email: 'wentel.eef@gmail.com',
-          phone: '+31612345678',
-          image: 'profile.png',
-          skills: [
-            {name: 'JavaScript', skillLevel: 4},
-            {name: 'Microsoft Azure', skillLevel : 4},
-            {name: 'MongoDB', skillLevel : 3},
-            {name: 'HTML', skillLevel : 1}
-          ],
-          preferredHours: 32,
-          preferredDays: {
-            mon : true,
-            tue : false,
-            wed : true,
-            thu : true,
-            fri : true
-          }
-        },
-        {
-          id: 7,
-          approved: 'pending',
-          firstName: 'Bas',
-          lastName: 'Bos',
-          age: this.calculateAge(new Date('10/24/1992')),
-          email: 'basbos@gmail.com',
-          phone: '+31612345678',
-          image: 'profile.png',
-          skills: [
-            {name: 'JavaScript', skillLevel: 4},
-            {name: 'Microsoft Azure', skillLevel : 4},
-            {name: 'MongoDB', skillLevel : 3},
-            {name: 'HTML', skillLevel : 1}
-          ],
-          preferredHours: 32,
-          preferredDays: {
-            mon : true,
-            tue : false,
-            wed : true,
-            thu : true,
-            fri : true
-          }
-        },
-        {
-          id: 8,
-          approved: 'pending',
-          firstName: 'Rico',
-          lastName: 'Uitenwisser',
-          age: this.calculateAge(new Date('10/24/1992')),
-          email: 'r.uitenwisser@gmail.com',
-          phone: '+31612345678',
-          image: 'profile.png',
-          skills: [
-            {name: 'JavaScript', skillLevel: 4},
-            {name: 'Microsoft Azure', skillLevel : 4},
-            {name: 'MongoDB', skillLevel : 3},
-            {name: 'HTML', skillLevel : 1}
-          ],
-          preferredHours: 32,
-          preferredDays: {
-            mon : true,
-            tue : false,
-            wed : true,
-            thu : true,
-            fri : true
-          }
-        },
-        {
-          id: 9,
-          approved: 'pending',
-          firstName: 'Vito',
-          lastName: 'Vogel',
-          age: this.calculateAge(new Date('10/24/1992')),
-          email: 'vitooovogel@gmail.com',
-          phone: '+31612345678',
-          image: 'profile.png',
-          skills: [
-            {name: 'JavaScript', skillLevel: 4},
-            {name: 'Microsoft Azure', skillLevel : 4},
-            {name: 'MongoDB', skillLevel : 3},
-            {name: 'HTML', skillLevel : 1}
-          ],
-          preferredHours: 32,
-          preferredDays: {
-            mon : true,
-            tue : false,
-            wed : true,
-            thu : true,
-            fri : true
-          }
-        },
-        {
-          id: 10,
-          approved: 'pending',
-          firstName: 'Fons',
-          lastName: 'Fledderbak',
-          age: this.calculateAge(new Date('10/24/1992')),
-          email: 'fledderdekledder@gmail.com',
-          phone: '+31612345678',
-          image: 'profile.png',
-          skills: [
-            {name: 'JavaScript', skillLevel: 4},
-            {name: 'Microsoft Azure', skillLevel : 4},
-            {name: 'MongoDB', skillLevel : 3},
-            {name: 'HTML', skillLevel : 1}
-          ],
-          preferredHours: 32,
-          preferredDays: {
-            mon : true,
-            tue : false,
-            wed : true,
-            thu : true,
-            fri : true
-          }
-        },
-        {
-          id: 11,
-          approved: 'pending',
-          firstName: 'Jan',
-          lastName: 'de Man',
-          age: this.calculateAge(new Date('10/24/1992')),
-          email: 'deman.jan@gmail.com',
-          phone: '+31612345678',
-          image: 'profile.png',
-          skills: [
-            {name: 'JavaScript', skillLevel: 4},
-            {name: 'Microsoft Azure', skillLevel : 4},
-            {name: 'MongoDB', skillLevel : 3},
-            {name: 'HTML', skillLevel : 1}
-          ],
-          preferredHours: 32,
-          preferredDays: {
-            mon : true,
-            tue : false,
-            wed : true,
-            thu : true,
-            fri : true
-          }
-        },
-        {
-          id: 12,
-          approved: 'pending',
-          firstName: 'Lisa',
-          lastName: 'Epel',
-          age: this.calculateAge(new Date('10/24/1992')),
-          email: 'lisa.thebest@gmail.com',
-          phone: '+31612345678',
-          image: 'profile.png',
-          skills: [
-            {name: 'JavaScript', skillLevel: 4},
-            {name: 'Microsoft Azure', skillLevel : 4},
-            {name: 'MongoDB', skillLevel : 3},
-            {name: 'HTML', skillLevel : 1}
-          ],
-          preferredHours: 32,
-          preferredDays: {
-            mon : true,
-            tue : false,
-            wed : true,
-            thu : true,
-            fri : true
-          }
-        },
-        {
-          id: 13,
-          approved: 'pending',
-          firstName: 'Bella',
-          lastName: 'Bolle',
-          age: this.calculateAge(new Date('10/24/1992')),
-          email: 'bollebella@gmail.com',
-          phone: '+31612345678',
-          image: 'profile.png',
-          skills: [
-            {name: 'JavaScript', skillLevel: 4},
-            {name: 'Microsoft Azure', skillLevel : 4},
-            {name: 'MongoDB', skillLevel : 3},
-            {name: 'HTML', skillLevel : 1}
-          ],
-          preferredHours: 32,
-          preferredDays: {
-            mon : true,
-            tue : false,
-            wed : true,
-            thu : true,
-            fri : true
-          }
-        }
-      ]
+      specialists: []
     }
   },
   methods: {
     onSelect(specialistId) {
-      if (this.selectedSpecialist !== null && specialistId === this.selectedSpecialist.email) {this.selectedSpecialist = null;}
+      if (this.selectedSpecialist !== null && specialistId === this.selectedSpecialist.id) {this.selectedSpecialist = null;}
       this.specialists.forEach(specialist => {
         if (specialist.id === specialistId) {this.selectedSpecialist = specialist;}
       });
       this.$router.push(this.$route.matched[0].path + '/' + this.selectedSpecialist.id);
     },
-    approveApplication(specialist) {
-      specialist.approved = true;
-      this.$router.go(-1);
-    },
-    rejectApplication(specialist) {
-      specialist.approved = false;
-      this.$router.go(-1);
+    updateApplication(specialist) {
+      fetch(`http://localhost:8080/api/specialists/applications/${specialist.id}`, {
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          approvalStatus: specialist.approvalStatus
+        })
+      }).then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+      }).then(data => {
+        if (data.approvalStatus === specialist.approvalStatus) {
+          this.selectedSpecialist.approvalStatus = specialist.approvalStatus;
+          this.$router.go(-1);
+        }
+      })
     },
     gibApprovedStatus(specialist) {
-      if (specialist.approved === true) return 'florijn-checkmark.png';
-      else if (specialist.approved === false) return 'florijn-x.png';
+      if (specialist.approvalStatus === 1) return 'florijn-checkmark.png';
+      else if (specialist.approvalStatus === 0) return 'florijn-x.png';
       else return "florijn-pending.png";
     },
     calculateAge(dateOfBirth) {
       return Math.floor((Date.now() - dateOfBirth) / (31557600000));
     }
+  },
+  beforeCreate() {
+    (() => {
+      fetch("http://localhost:8080/api/users/specialists").then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+      }).then(data => {
+        data.forEach(user => {
+          const {
+            first_name: firstName,
+            second_name: secondName,
+            last_name: lastName,
+            email, phone, photo, specialist} = user;
+          const {approvalStatus, id} = specialist;
+
+          this.specialists.push({
+            "name": `${firstName} ${secondName!=="" ? secondName:lastName} ${secondName!=="" ? lastName: ""}`,
+            "email": email,
+            "phone": phone,
+            "photo": photo,
+            "approvalStatus": approvalStatus,
+            "id": id
+          })
+        })
+      })
+    })();
   }
 }
 </script>
@@ -420,8 +140,5 @@ export default {
 }
 .approval-status-icon {
   width: 30px;
-}
-.faded {
-  filter: brightness(70%);
 }
 </style>
