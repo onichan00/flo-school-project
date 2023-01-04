@@ -3,8 +3,11 @@ package com.hva.helios.rest;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hva.helios.exceptions.NotFoundException;
+import com.hva.helios.exceptions.PreConditionFailed;
 import com.hva.helios.models.Project;
 import com.hva.helios.models.User;
+import com.hva.helios.models.user.Specialist;
+import com.hva.helios.models.user.skill.Skill;
 import com.hva.helios.repositories.interfaces.testRepo;
 import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
 import com.hva.helios.views.Views;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @CrossOrigin(origins = "http://localhost:4040", maxAge = 3600)
 @RestController
@@ -86,6 +91,21 @@ public class ProjectController {
         return id;
     }
 
+    @PutMapping("{id}")
+    public Project updateProject(@PathVariable long id, @RequestBody Project toMergeProject) {
+        Project project = projectRepository.findById(id).orElse(null);
+
+        if (project == null) {
+            throw new NotFoundException(String.format("Project with ID: %d was not found", id));
+        }
+
+        if (!Objects.equals(project.getId(), toMergeProject.getId())) {
+            throw new PreConditionFailed(String.format("Project with ID: %d does not match parameter ID: %d", project.getId(), id));
+        }
+
+        return projectRepository.save(toMergeProject);
+    }
+
     @PostMapping("{id}/specialist")
     @JsonView(Views.Public.class)
     public Project addSpecialistToProject(@PathVariable long id, @RequestBody ObjectNode toAddUser) {
@@ -100,10 +120,36 @@ public class ProjectController {
             throw new NotFoundException(String.format("User with ID: %d was not found", toAddUser.get("id").asLong()));
         }
 
-        System.out.println(user);
+        Set<Specialist> specialists = project.getSpecialists();
+        Specialist specialist = user.getSpecialist();
 
-        project.addSpecialist(user.getSpecialist());
-//        user.getSpecialist().addProject(project);
+        if (specialists.contains(specialist)) {
+            project.removeSpecialist(specialist);
+        } else {
+            project.addSpecialist(specialist);
+        }
+
+        projectRepository.save(project);
+
+        return project;
+    }
+
+    @PostMapping("{id}/skills")
+    @JsonView(Views.Public.class)
+    public Project addSkillToProject(@PathVariable long id, @RequestBody Skill skill) {
+        Project project = projectRepository.findById(id).orElse(null);
+
+        if (project == null) {
+            throw new NotFoundException(String.format("Project with ID: %d was not found", id));
+        }
+
+        List<Skill> skills = project.getSkills();
+
+        if (skills.contains(skill)) {
+            project.removeSkill(skill);
+        } else {
+            project.addSkill(skill);
+        }
 
         projectRepository.save(project);
 

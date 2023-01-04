@@ -51,7 +51,14 @@ public class Project {
     @JsonSerialize(using = Views.InternalSerializer.class)
     private Set<Specialist> specialists = new HashSet<>();
 
-    @OneToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        })
+    @JoinTable(name = "project_skills",
+        joinColumns = { @JoinColumn(name = "project_id") },
+        inverseJoinColumns = { @JoinColumn(name = "skill_id") })
     @JsonView(Views.Internal.class)
     @JsonSerialize(using = Views.InternalSerializer.class)
     private List<Skill> skills;
@@ -163,6 +170,37 @@ public class Project {
 
         return false;
     }
+
+    public boolean addSkill(Skill skill) {
+        if (skill != null) {
+            skills.add(skill);
+            skill.getProjects().add(this);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeSkill(long skillId) {
+        Skill skill = skills.stream()
+                .filter(s -> s.getId() == skillId)
+                .findFirst()
+                .orElse(null);
+
+        return removeSkill(skill);
+    }
+
+    public boolean removeSkill(Skill skill) {
+        if (skill != null) {
+            skills.remove(skill);
+            skill.getProjects().remove(this);
+        }
+
+        return false;
+    }
+
+
 
     public long getId() {
         return id;

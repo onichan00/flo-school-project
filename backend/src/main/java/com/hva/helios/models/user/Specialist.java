@@ -17,13 +17,13 @@ import java.util.Set;
 public class Specialist{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Internal.class)
     private long id = 0L;
 
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Internal.class)
     private int available;
 
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Internal.class)
     private String specialistType;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -37,6 +37,7 @@ public class Specialist{
         },
         mappedBy = "specialists")
     @JsonView(Views.Public.class)
+    @JsonSerialize(using = Views.PublicSerializer.class)
     private Set<Project> projects = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL)
