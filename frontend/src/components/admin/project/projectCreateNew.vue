@@ -73,9 +73,9 @@
                         class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500"
                         v-model="newProjectData.specialists">
                   <option selected>Choose a specialist</option>
-                  <option v-for="specialist in availableSpecialists" :key="specialist.id">
+                  <option :value="specialist.id" v-for="specialist in availableSpecialists" :key="specialist.id">
                     {{
-                      specialistFullName(specialist)
+                      specialist.first_name
                     }}
                   </option>
                 </select>
@@ -93,8 +93,8 @@
                         class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500"
                         v-model="newProjectData.clients">
                   <option selected>Choose a client</option>
-                  <option v-for="client in clients" :key="client.id">{{
-                      client.company
+                  <option :value="client.id" v-for="client in clients" :key="client.id">{{
+                      client.first_name
                     }}
                   </option>
                 </select>
@@ -120,13 +120,12 @@ import axios from "axios";
 
 export default {
   name: "projectCreateNew",
-  inject: ["specialists", "clients"],
   props: ['projecten'],
 
   data() {
     return {
-      availableSpecialists: this.specialists,
-      clients: this.clients,
+      availableSpecialists: null,
+      clients: null,
       newProjectData: {
         name: null,
         status: 0,
@@ -139,32 +138,58 @@ export default {
         {id: 1, name: 'Working'},
         {id: 2, name: 'Finished'}
       ],
-      selectedStatus: null
+      selectedStatus: null,
+      selectedClient: null
     }
+  },
+
+  created() {
+    this.getClients()
+    this.getSpecialists()
   },
 
 
   methods: {
     specialistFullName,
+    async getClients() {
+      const id = this.$route.params.id;
 
+      await axios.get(process.env.VUE_APP_API_URL + `/api/users/clients`)
+          .then((res) => {
+            this.clients = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
+    async getSpecialists() {
+      const id = this.$route.params.id;
+
+      await axios.get(process.env.VUE_APP_API_URL + `/api/users/specialists`)
+          .then((res) => {
+            console.log(res.data)
+            this.availableSpecialists = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
 
     createProject() {
       // const requestBody = JSON.parse(JSON.stringify(this.newProjectData))
 
       // const modal = document.getElementById("projectCreate-modal")
-
-
       const requestBody = {
         status: 0,
-        created: "2022-12-05",
-        specialists: null,
-        client_id: null,
+        specialists: this.newProjectData.specialists,
         name: this.newProjectData.name,
         description: this.newProjectData.description,
+        bannerUrl: null,
+        skills: null,
       }
-      console.log(this.newProjectData.status)
       console.log(JSON.stringify(requestBody))
-      axios.post(process.env.VUE_APP_API_URL +'/api/projects/', requestBody)
+      axios.post(process.env.VUE_APP_API_URL + '/api/projects/?clientId=' + this.newProjectData.clients, requestBody)
           .then((res) => {
             console.log(res)
           })

@@ -11,13 +11,15 @@ import java.util.Set;
 
 @Entity
 @Table
-public class Specialist extends User {
+public class Specialist{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id = 0L;
 
     private int available;
     private String specialistType;
+
+    private long approvalStatus;
 
     @OneToOne(cascade = CascadeType.ALL)
     private AvailableHour hours;
@@ -28,23 +30,15 @@ public class Specialist extends User {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<UserSkill> skills;
 
-    protected Specialist() {}
+    public Specialist() {}
 
-    public Specialist(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills) {
-        super(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address);
-
+    public Specialist(int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills,
+                      long approvalStatus) {
         this.available = available;
         this.specialistType = specialistType;
-
-//        this.projects = projects;
-//        this.skills = skills;
-    }
-    public Specialist(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address){
-        super(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address);
-
+        this.approvalStatus = approvalStatus;
     }
 
-    @Override
     public long getId() {
         return id;
     }
@@ -81,20 +75,6 @@ public class Specialist extends User {
         this.projects = projects;
     }
 
-    public void addProject(Project project) {
-        projects.add(project);
-        project.getSpecialists().add(this);
-    }
-
-    public void removeProject(long projectId) {
-        Project project = projects.stream().filter(p -> p.getId() == projectId).findFirst().orElse(null);
-
-        if (project != null) {
-            projects.remove(project);
-            project.getSpecialists().remove(this);
-        }
-    }
-
     public Set<UserSkill> getSkills() {
         return skills;
     }
@@ -103,20 +83,15 @@ public class Specialist extends User {
         this.skills = skills;
     }
 
-    public void addSkill(UserSkill skill) {
-        skills.add(skill);
-    }
-
-    public void removeSkill(long skillId) {
-        UserSkill skill = skills.stream().filter(s -> s.getId() == skillId).findFirst().orElse(null);
-
-        if (skill != null) {
-            skills.remove(skill);
-        }
-    }
-
-    @Override
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getApprovalStatus() {
+        return approvalStatus;
+    }
+
+    public void setApprovalStatus(long approvalStatus) {
+        this.approvalStatus = approvalStatus;
     }
 }

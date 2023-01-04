@@ -5,17 +5,11 @@
   <!--  <RegisterPage v-if="showRegister"/>-->
   <div v-if="!isAdmin && !isClient && !isSpecialist">
     <router-view/>
-    <Footer class="max-w-16"></Footer>
   </div>
 
-  <div class="flex flex-col h-screen justify-between" v-if="isClient">
-    <div>
-      <div class="min-h-screen">
-        <client-navbar v-if="isClient && this.$route.path !== '/create-project'"></client-navbar>
-        <router-view/>
-      </div>
-      <Footer v-if="this.$route.path !== '/client/projects-overview'" class="max-w-16"></Footer>
-    </div>
+  <div v-if="userType == 1">
+    <client-navbar></client-navbar>
+    <router-view/>
   </div>
 
   <div v-if="isAdmin">
@@ -24,6 +18,7 @@
       <PageHeader/>
       <router-view/>
 
+      <Footer></Footer>
     </div>
   </div>
 </template>
@@ -36,7 +31,7 @@ import Footer from "@/components/Footer";
 
 // Models
 import client from "@/models/client";
-import specialist from "@/models/specialist";
+import Specialist from "@/models/specialist";
 import project from "@/models/project";
 import availableHour from "@/models/availableHour";
 import skill from "@/models/skill";
@@ -159,7 +154,7 @@ export default {
 
   created() {
     specialistsData.forEach((element) => {
-      this.specialists.push(new specialist(element));
+      this.specialists.push(new Specialist(element));
     });
 
     projectsData.forEach((element) => {

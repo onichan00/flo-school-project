@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     getUserData() {
-      axios.get(process.env.VUE_APP_API_URL + `/api/users/client/${this.userId}`)
+      axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
           .then((res) => {
             this.user = res.data;
           })
@@ -110,9 +110,9 @@ export default {
   },
   computed: {
     fullName() {
-      return (this.user.first_name.charAt(0).toUpperCase() + this.user.first_name.slice(1))
+      return (String(this.user.first_name).charAt(0).toUpperCase() + String(this.user.first_name).slice(1))
           + ' '
-          + this.user.last_name.charAt(0).toUpperCase() + this.user.last_name.slice(1);
+          + String(this.user.last_name).charAt(0).toUpperCase() + String(this.user.last_name).slice(1);
     }
   }
 }

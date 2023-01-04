@@ -40,7 +40,7 @@
                 </div>
                 <div>
                   <label for="phone" class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefoonnummer</label>
-                  <input v-model="phonenumber" type="phone" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900
+                  <input v-model="phone" type="phone" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900
                 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5
                 dark:focus:border-blue-500" placeholder="06 12 34 56 78" required="">
                 </div>
@@ -83,7 +83,7 @@
 
           </form>
           <button @click="createRequest" class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
-                  style="background-color:#F15922 "> Sign up
+                  style="background-color:#F15922 "> Aanmaken
           </button>
           <button @click="this.$router.push('/admin/admins')"
                   class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
@@ -111,7 +111,7 @@ export default {
       first_name: null,
       preposition: null,
       last_name: null,
-      phonenumber: null,
+      phone: null,
       userType: 0,
       gender: null,
       toast: useToast(),
@@ -119,6 +119,7 @@ export default {
   },
 
   methods: {
+    //TODO: make it so the button cant be pressed after succesfull creation
     async createRequest() {
       console.log("test")
       let request = await axios.post(process.env.VUE_APP_API_URL + "/api/users/register", {
@@ -127,8 +128,11 @@ export default {
         first_name: this.first_name,
         second_name: this.preposition,
         last_name: this.last_name,
-        phone: this.phonenumber,
-        userType: this.userType
+        phone: this.phone,
+        userType: this.userType,
+        admin_id: null,
+        client_id: null,
+        specialist: null
       }).catch((err) => {
         console.log(err)
         this.toast.error("check gegevens na")

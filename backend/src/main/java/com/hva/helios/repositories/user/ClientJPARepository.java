@@ -1,8 +1,10 @@
 package com.hva.helios.repositories.user;
 
+import com.hva.helios.models.User;
 import com.hva.helios.models.user.Admin;
 import com.hva.helios.models.user.Client;
 import com.hva.helios.repositories.EntityRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -13,46 +15,8 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class ClientJPARepository
-        implements EntityRepository<Client> {
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Override
-    public List<Client> findAll() {
-        TypedQuery<Client> query =
-                entityManager.createQuery("SELECT client from Client client", Client.class);
-
-        return query.getResultList();
-    }
-
-    @Override
-    public Client findById(long id) {
-        return entityManager.find(Client.class, id);
-    }
-
-    @Override
-    public Client findByEmail(String email) {
-        TypedQuery<Client> query =
-                entityManager.createQuery("SELECT client from Client client",Client.class);
-        for (Client client : query.getResultList()){
-            if (client.getEmail().equals(email)){
-                return client;
-            };
-        };
-        return null;
-    }
-
-    @Override
-    public Client save(Client entity) {
-        return entityManager.merge(entity);
-    }
-
-    @Override
-    public Client deleteById(long id) {
-        Client client = findById(id);
-        entityManager.remove(client);
-        return client;
-    }
+public interface ClientJPARepository
+        extends JpaRepository<Client, Long> {
+//    Client findClientByUser(User user);
+//    Client findClientByUserId(long id);
 }

@@ -1,11 +1,9 @@
 import dateFormat from "dateformat";
 
 export const specialistFullName = (specialist) => {
-    let firstName = specialist.first_name.charAt(0).toUpperCase() + specialist.first_name.slice(1);
-    let secondName = specialist.second_name ? specialist.second_name.charAt(0).toUpperCase() + "." : "";
-    let lastName = specialist.last_name.charAt(0).toUpperCase() + specialist.last_name.slice(1);
-
-    return `${firstName} ${secondName} ${lastName}`;
+    return (String(specialist.first_name).charAt(0).toUpperCase() + String(specialist.first_name).slice(1))
+        + ' '
+        + String(specialist.last_name).charAt(0).toUpperCase() + String(specialist.last_name).slice(1);
 }
 
 /**

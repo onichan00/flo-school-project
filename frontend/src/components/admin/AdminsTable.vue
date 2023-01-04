@@ -162,7 +162,7 @@ export default {
 
   data() {
     return {
-      admins: null
+      admins: []
     }
   },
 
@@ -175,10 +175,16 @@ export default {
 
       await axios.get(process.env.VUE_APP_API_URL + `/api/users/admins`)
           .then((res) => {
-            this.admins = res.data.admin;
+            // TODO: check if res.status can be used?
+            if (res.data != null) {
+              this.admins = res.data;
+
+              this.toast.success("Admins succesvol opgehaald")
+            }
 
           })
           .catch((err) => {
+            this.toast.error("Er is iets misgegaan, zie: " + err.message)
             console.log(err);
           })
     },

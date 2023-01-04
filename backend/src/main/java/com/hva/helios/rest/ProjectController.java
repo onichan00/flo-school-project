@@ -1,20 +1,16 @@
 package com.hva.helios.rest;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.Project;
-import com.hva.helios.models.user.Client;
-import com.hva.helios.models.user.skill.Skill;
-import com.hva.helios.repositories.EntityRepository;
+import com.hva.helios.models.User;
 import com.hva.helios.repositories.testRepo;
+import com.hva.helios.repositories.user.UserJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:4040", maxAge = 3600)
 @RestController
@@ -24,8 +20,11 @@ public class ProjectController {
     @Autowired
     private testRepo projectRepository;
 
+//    @Autowired
+//    private ClientJPARepository clientRepository;
+
     @Autowired
-    private EntityRepository<Client>  clientRepository;
+    private UserJPARepository userRepository;
 
 //    @Autowired
 //    private EntityRepository<Project>  projectRepository;
@@ -40,28 +39,37 @@ public class ProjectController {
      * @param project = project to add
      * @return save project to the backend
      */
-    @PostMapping("{client_id}")
-    public Project addProject(@RequestBody Project project, @PathVariable long client_id) {
-//        Client client = clientRepository.findById(project.get("client_id").asLong());
+    @PostMapping("")
+    public Project addProject(@RequestBody Project project, @RequestParam long clientId) {
+        // finding the necessary user bt its id gotten from the request parameter( which is declared as ?clientId = this.userId in the postrequest, see frontend
+        User user = userRepository.findById(clientId).orElseThrow(() -> new NotFoundException("user not found"));
 
-        //sets the properties of the Project object, including the name, client, status, date, and description of the project.
-        Project project1 = new Project(
-                        project.getName()
-                        , project.getBannerUrl()
-                        , project.getStatus()
-                        , LocalDate.now()
-                        , project.getDescription()
-                        , clientRepository.findById(client_id)
-                        , project.getSkills()
-                );
+        // check if the client is even found
+        if (user == null){
+            throw new NotFoundException("Client could not be found");
+        }
+
+        // set the found client to the client of the project that has been created in the parameters with @RequestBody
+        project.setUser(user);
+
+        // set the data to now since the project just got created
+        project.setCreated(LocalDate.now());
 
         // Saves the Project object to the projectRepository and returns it.
-        return projectRepository.save(project1);
+        return projectRepository.save(project);
     }
 
     @GetMapping("client/{client_id}")
-    public List<Project> getProjectsByClientId(@PathVariable String client_id) {
-        return projectRepository.findAllByClient(clientRepository.findById(Long.parseLong(client_id)));
+    public List<Project> getProjectsByClient(@PathVariable long client_id) {
+//        List<Project> projects = new ArrayList<>();
+
+        User user = userRepository.findById(client_id)
+                .orElseThrow(() -> new NotFoundException("user could not be found"));
+//
+//        for (Project project : getProject()) if (project.getClient().equals(client)) projects.add(project);
+//
+
+        return projectRepository.findAllByUser(user);
     }
 
     @GetMapping("{id}")

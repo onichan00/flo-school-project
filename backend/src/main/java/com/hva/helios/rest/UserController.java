@@ -3,67 +3,138 @@ package com.hva.helios.rest;
 import com.hva.helios.models.user.*;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.User;
-import com.hva.helios.repositories.EntityRepository;
+import com.hva.helios.repositories.user.AdminJPARepository;
+import com.hva.helios.repositories.user.ClientJPARepository;
+import com.hva.helios.repositories.user.SpecialistJPARepository;
+import com.hva.helios.repositories.user.UserJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 //@CrossOrigin(origins = *, maxAge = 3600)
 @RestController
 @RequestMapping("users")
 public class UserController {
     @Autowired
-    private EntityRepository<Admin> adminRepository;
-
+    private AdminJPARepository adminRepository;
+    //
     @Autowired
-    private EntityRepository<Client> clientRepository;
-
+    private ClientJPARepository clientRepository;
+    //
     @Autowired
-    private EntityRepository<Specialist> specialistRepository;
-
+    private SpecialistJPARepository specialistRepository;
+    //
     @Autowired
-    private EntityRepository<User> userRepository;
+    private UserJPARepository userRepository;
 
-    @GetMapping("")
-    public Map<String, List<? extends User>> getAllUsers() {
-        Map<String, List<? extends User>> users = new HashMap<>();
 
-        users.put("client", clientRepository.findAll());
-        users.put("admin", adminRepository.findAll());
-        users.put("specialist", specialistRepository.findAll());
+    @DeleteMapping("/delete/{id}")
+    public void deleteUserById(@PathVariable long id) {
+        userRepository.deleteById(id);
 
-        return users;
     }
 
-    @GetMapping("/admins")
-    public Map<String, List<? extends User>> getAllAdmins() {
-        Map<String, List<? extends User>> users = new HashMap<>();
+    @PutMapping("/update")
+    public User updateUser(@RequestBody User user) {
+        //TODO: Implement update for other usertypes
+        //TODO: Implement update for other usertypes
+        //TODO: Implement update for other usertypes
+        //TODO: !!!!
 
-        users.put("admin", adminRepository.findAll());
+        // save attributes that get used multiple times
+        Long userType = user.getUserType();
+        Long id = user.getId();
 
-        return users;
+        // we get the old user from JPA
+        // im not sure if we need to put this inside of the if statements each time or not but for now this works
+        User oUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
+
+        oUser.setFirst_name(user.getFirst_name());
+        oUser.setSecond_name(user.getSecond_name());
+        oUser.setLast_name(user.getLast_name());
+        oUser.setEmail(user.getEmail());
+        oUser.setPhone(user.getPhone());
+        oUser.setPassword(user.getPassword());
+
+        // check what the usertype is
+        if (userType == 0) {
+
+            // we update the old user from jpa
+
+            // if admin had any data u could probably do oUser.getAdmin.setWhateverUNeed(user.getadmin and stuff depending if u return a admin object or admin id)
+
+            // we save the old user and return it
+            return userRepository.save(oUser);
+
+        } else if (userType == 1) {
+            oUser.getClient().setWebsite(user.getClient().getWebsite());
+
+            return userRepository.save(oUser);
+
+            //TODO: remove this when other types have been implemented
+        }else throw new NotFoundException("updating has yet to be implemented for this user type");
+
+//        if (userType == 2){
+//            Specialist specialist = new Specialist();
+//            specialistRepository.save(specialist);
+//            user.setSpecialist(specialist);
+//            User nUser = userRepository.save(user);
+//
+//             return userRepository.save(oUser);
+//        }
+//
+//        throw new NotFoundException("register failed");
+    }
+
+    @GetMapping("")
+    public List<User> getAllUsers() {
+//        Map<String, List<? extends User>> users = new HashMap<>();
+
+//        users.put("client", clientRepository.findAll());
+//        users.put("admin", adminRepository.findAll());
+//        users.put("specialist", specialistRepository.findAll());
+
+//        Map<String, List<? extends User>> users = new HashMap<>(userRepository.findAll());
+//
+//        return users;
+        return userRepository.findAll();
+    }
+
+    @GetMapping("admins")
+    public List<User> getAllAdmins() {
+        return userRepository.findAll().stream().filter(user -> user.getUserType() == 0).collect(Collectors.toList());
+    }
+
+    @GetMapping("specialists")
+    public List<User> getAllSpecialists() {
+        return userRepository.findAll().stream().filter(user -> user.getUserType() == 2).collect(Collectors.toList());
+    }
+
+    @GetMapping("clients")
+    public List<User> getAllClients() {
+        return userRepository.findAll().stream().filter(user -> user.getUserType() == 1).collect(Collectors.toList());
     }
 
     @GetMapping("count")
-    public int countUsers() {
+    public long countUsers() {
         int amount = 0;
+//
+//        amount += clientRepository.findAll().size();
+//        amount += adminRepository.findAll().size();
+//        amount += specialistRepository.findAll().size();
 
-        amount += clientRepository.findAll().size();
-        amount += adminRepository.findAll().size();
-        amount += specialistRepository.findAll().size();
+        return userRepository.count();
 
-        return amount;
+//        return amount;
     }
 
     @GetMapping("{id}")
-    public User getUserById(@PathVariable int id) {
-        List<User> users = new ArrayList<>();
+    public User getUserById(@PathVariable long id) {
+//        List<User> users = new ArrayList<>();
 
-        return userRepository.findById(id);
+//        return userRepository.findById(id);
 
 //        users.addAll(clientRepository.findAll());
 //        users.addAll(adminRepository.findAll());
@@ -81,63 +152,129 @@ public class UserController {
 //            throw new NotFoundException("User not found");
 //        }
 //
-//        return user;
+//        User user = userRepository.findById(id)
+//                .orElseThrow(() -> new NotFoundException("Project could not be found"));
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Project could not be found"));
     }
 
 
     @PostMapping("login")
     public LoginResponse login(@RequestBody LoginBody loginBody) {
-        Specialist specialist = specialistRepository.findByEmail(loginBody.email());
-        Admin admin = adminRepository.findByEmail(loginBody.email());
-        Client client = clientRepository.findByEmail(loginBody.email());
+//        Specialist specialist = specialistRepository.findByEmail(loginBody.email());
+//        Admin admin = adminRepository.findByEmail(loginBody.email());
+//        Client client = clientRepository.findByEmail(loginBody.email());
+//
+//        if (admin != null) {
+//            if (admin.getPassword().equals(loginBody.password())) {
+//                return new LoginResponse(admin.getId(), true, false, false);
+//            }
+//        }
+//        if (specialist != null) {
+//            if (specialist.getPassword().equals(loginBody.password())) {
+//
+//                return new LoginResponse(client.getId(), false, false, true);
+//            }
+//        }
+//        if (client != null) {
+//            if (client.getPassword().equals(loginBody.password())) {
+//                return new LoginResponse(client.getId(), false, true, false);
+//            }
+//        }
 
-        if (admin != null) {
-            if (admin.getPassword().equals(loginBody.password())) {
-                return new LoginResponse(admin.getId(), true, false, false);
-            }
-        }
-        if (specialist != null) {
-            if (specialist.getPassword().equals(loginBody.password())) {
+        User user = userRepository.findByEmail(loginBody.email());
 
-                return new LoginResponse(client.getId(), false, false, true);
-            }
-        }
-        if (client != null) {
-            if (client.getPassword().equals(loginBody.password())) {
-                return new LoginResponse(client.getId(), false, true, false);
-            }
-        }
 
-        throw new NotFoundException("Inloggen niet gelukt");
+        if (user.getPassword().equals(loginBody.password())) {
+            return new LoginResponse(user.getId(), user.getUserType());
+        }
+        return new LoginResponse(-1l, -1);
+
     }
 
     @PostMapping("register")
-    public LoginResponse register(@RequestBody User user) {
-       Long userType = user.getUserType();
-
-
-       if (userType == 0){
-           Admin admin = new Admin(user.getEmail(),user.getPassword(), user.getFirst_name(), user.getSecond_name(), user.getLast_name(), user.getPhoto(), user.getBio(), user.getPhone(), user.getCity(), user.getZipCode(), user.getAddress());
-            var adminSave = adminRepository.save(admin);
-            return new LoginResponse(adminSave.getId(),true,false,false);
-
-       }
-        if (userType == 1){
-            Client client = new Client(user.getEmail(),user.getPassword(), user.getFirst_name(), user.getSecond_name(), user.getLast_name(), user.getPhoto(), user.getBio(), user.getPhone(), user.getCity(), user.getZipCode(), user.getAddress());
-
-            var clientSave = clientRepository.save(client);
-
-            return new LoginResponse(clientSave.getId(), false,true,false);
-        }
-        if (userType == 2){
-            Specialist specialist = new Specialist(user.getEmail(),user.getPassword(), user.getFirst_name(), user.getSecond_name(), user.getLast_name(), user.getPhoto(), user.getBio(), user.getPhone(), user.getCity(), user.getZipCode(), user.getAddress());
-
-
-            var specialistSave = specialistRepository.save(specialist);
-
-            return new LoginResponse(specialistSave.getId(), false,false,true);
+    public User register(@RequestBody User user) {
+        // email unique check
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new NotFoundException("user with this email already exists");
         }
 
-        throw new NotFoundException("Register failed");
+        System.out.println("sout" + user.getPhone());
+        System.out.println(user);
+        Long userType = user.getUserType();
+
+        if (userType == 0) {
+            Admin admin = new Admin();
+            Admin savedAdmin = adminRepository.save(admin);
+            user.setAdmin(savedAdmin);
+            User nUser = userRepository.save(user);
+//            return new LoginResponse(nUser.getId(), nUser.getUserType());
+            return nUser;
+
+        }
+
+        if (userType == 1) {
+            Client savedClient;
+            if (user.getClient() != null){
+               savedClient = clientRepository.save(user.getClient());
+
+            }else {
+                savedClient = clientRepository.save(new Client());
+            }
+            user.setClient(savedClient);
+            User newUser = userRepository.save(user);
+
+//            return new LoginResponse(newUser.getId(), newUser.getUserType());
+            return newUser;
+        }
+
+        // TODO: convert objects from the json to the correct type and set them to the specialists before setting the specialist in the user and saving the user
+        // TODO: TLDR its not functional yet
+        if (userType == 2) {
+            Specialist savedSpecialist = specialistRepository.save(user.getSpecialist());
+            user.setSpecialist(savedSpecialist);
+            User newUser = userRepository.save(user);
+
+//            return new LoginResponse(newUser.getId(), newUser.getUserType());
+            return newUser;
+        }
+
+        throw new NotFoundException("register failed");
     }
+
+
+//    @PostMapping("admin/create")
+//    public LoginResponse createAdmin(@RequestBody User user) {
+//        Long userType = user.getUserType();
+//
+//
+//        if (userType == 0){
+//           Admin admin = new Admin();
+//           adminRepository.save(admin);
+//            user.setAdmin(admin);
+//            User nUser = userRepository.save(user);
+//            return new LoginResponse(nUser.getId(),nUser.getUserType());
+//
+//        }
+//
+//        throw new NotFoundException("Creation failed");
+//    }
+
+//    @PostMapping("admin/create")
+//    public LoginResponse createAdmin(@RequestBody User user) {
+//        Long userType = user.getUserType();
+//
+//        if (userType == 0) {
+//            Admin admin = adminRepository.save(new Admin());
+////            user.setAdmin(admin);
+//            userRepository.save(user).setAdmin(admin);
+//            return new LoginResponse(user.getId(), userType);
+//        }
+//
+//
+////        throw new NotFoundException("user is not of type admins");
+//
+//        throw new NotFoundException("Creation failed");
+//    }
+
 }
