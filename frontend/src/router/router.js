@@ -18,6 +18,7 @@ import SpecialistApplicationModal from "@/components/SpecialistApplicationModal"
 import ProjectsOverview from "@/views/ProjectsOverview";
 import projectSubmissions from "@/views/admin/project/projectSubmissions";
 import ClientHomePage from "@/views/ClientHomePage";
+import ClientSettings from "@/views/ClientSettings";
 import CreateProjects from "@/views/createProjects";
 import CreateAdmins from "@/components/admin/CreateAdmins";
 import AdminsTable from "@/components/admin/AdminsTable";
@@ -113,6 +114,11 @@ export const router = createRouter({
             path: '/client/dashboard',
             name: 'Client dashboard',
             component:  ClientHomePage
+        },
+        {
+            path: '/client/settings',
+            name: 'Client Settings',
+            component:  ClientSettings
         },
         {
             path: '/:pathMatch(.*)',
