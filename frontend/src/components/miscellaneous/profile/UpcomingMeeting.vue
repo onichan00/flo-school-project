@@ -1,7 +1,8 @@
 <template>
   <button @click="$emit('meetingClicked', this.meeting)" class="py-4 w-full text-left flex flex-row justify-between hover:bg-gray-100">
     <div class="w-full flex flex-col md:flex-row items-center my-4">
-      <img class="w-14 h-14 mb-4 md:mb-0 rounded-full object-cover" src="https://images.unsplash.com/photo-1558203728-00f45181dd84?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2074&q=80" alt="Rounded avatar">
+      <img class="w-14 h-14 mb-4 md:mb-0 rounded-full object-cover" :src="meeting.project.bannerUrl" alt="Rounded avatar">
+<!--      src="https://images.unsplash.com/photo-1558203728-00f45181dd84?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2074&q=80"-->
       <!-- TODO add a small div with the color of the meeting type -->
       <div class="w-full flex flex-col">
         <p class="px-4">{{ meeting.title }}</p>

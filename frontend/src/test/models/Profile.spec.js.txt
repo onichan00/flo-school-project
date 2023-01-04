@@ -1,0 +1,47 @@
+import { mount } from "@vue/test-utils";
+import Profile from "@/views/admin/profile.vue";
+
+// Manages a component instance in the testbed
+let wrapper;
+
+beforeAll(() => {
+    // Mock the route api
+    const mockRoute = {
+        params: {
+            id: 1
+        }
+    }
+
+    const propsData = {
+        testing: true,
+    }
+
+    const mockRouter = {
+        push: jest.fn(),
+    }
+
+    wrapper = mount(Profile, {
+        props: propsData,
+        global: {
+            mocks: {
+                $route: mockRoute
+            }
+        }
+    });
+});
+
+describe('Sanity test', () => {
+    it('1 should equal 1', () => {
+        expect(1).toBe(1)
+    });
+
+    it('renders properly', () => {
+        expect(wrapper.element.children.length).toBeGreaterThan(0);
+    });
+})
+
+describe('Skill section',  () => {
+    it('Should at least be one skill', () => {
+
+    })
+});

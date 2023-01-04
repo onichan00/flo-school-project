@@ -1,8 +1,8 @@
 package com.hva.helios;
 
-import com.hva.helios.data.*;
+import com.hva.helios.data.EventData;
+import com.hva.helios.data.SkillData;
 import com.hva.helios.models.Project;
-import com.hva.helios.models.User;
 import com.hva.helios.models.user.Admin;
 import com.hva.helios.models.user.Client;
 import com.hva.helios.models.user.Specialist;
@@ -14,19 +14,14 @@ import com.hva.helios.repositories.testRepo;
 //import com.hva.helios.repositories.user.AdminJPARepository;
 //import com.hva.helios.repositories.user.ClientJPARepository;
 //import com.hva.helios.repositories.user.SpecialistJPARepository;
-import com.hva.helios.repositories.user.UserJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @SpringBootApplication
 public class HeliosApplication implements CommandLineRunner {
@@ -36,35 +31,64 @@ public class HeliosApplication implements CommandLineRunner {
 
 	@Autowired
 	private EntityRepository<Skill> skillRepo;
+
 	@Autowired
-	private UserJPARepository userRepo;
+	private UserJPARepository userRepository;
 
-//	@Autowired
-//	private testRepo projectRepo;
+	@Autowired
+	private SpecialistJPARepository specialistRepo;
 
-//	@Autowired
-//	private SpecialistJPARepository specialistRepo;
+	@Autowired
+	private EventJPARepository eventRepo;
+
+	@Autowired
+	private ProjectJPARepository projectRepo;
+
+	@Autowired
+	private UserSkillJPARepository userSkillRepo;
 
 	@Autowired
 	private EntityRepository<AvailableHour> availableHourRepo;
-
-//	@Autowired
-//	private ClientJPARepository clientRepo;
-//
-//	@Autowired
-//	private AdminJPARepository adminRepo;
 
 	@Override
 	@Transactional
 	public void run(String... args) {
 		System.out.println("Running CommandLine Startup");
-//
+
 		createInitialSkillData();
-//		createInitialProjectData();
-//
-//		createInitialSpecialistData();
-		createInitialClientData();
-//		createInitialAdminData();
+		createInitialHoursData();
+		createInitialEvents();
+		createInitialUserSkill();
+	}
+
+	private void createInitialHoursData() {
+		List<AvailableHour> hours = availableHourRepo.findAll();
+		List<Specialist> specialists = specialistRepo.findAll();
+		if (hours.size() > 0) return;
+		System.out.println("Configuring some initial hours in the repository");
+
+		AvailableHour hour = new AvailableHour();
+
+		for (Specialist specialist : specialists) {
+			specialist.setHours(hour);
+		}
+	}
+
+	private void createInitialEvents() {
+		List<Event> events = eventRepo.findAll();
+		if (events.size() > 0) return;
+		System.out.println("Configuring some initial events in the repository");
+
+		Specialist specialist = userRepository.findByEmail("specialist").getSpecialist();
+		Project project = projectRepo.findAll().get(0);
+		EventData eventData = new EventData(specialist);
+
+		for (Event event : eventData.getEvents()) {
+			eventRepo.save(event);
+
+			event.associateSpecialist(specialist);
+			event.associateProject(project);
+		}
 	}
 
 	private void createInitialSkillData() {
@@ -79,16 +103,17 @@ public class HeliosApplication implements CommandLineRunner {
 		}
 	}
 
-	private void createInitialClientData() {
-		List<User> users = userRepo.findAll();
-		if (users.size() > 0) return;
-		System.out.println("Configuring some initial users in the repository");
+	private void createInitialUserSkill() {
+		Skill skill = skillRepo.findAll().get(0);
+		Specialist specialist = userRepository.findByEmail("specialist").getSpecialist();
+		List<UserSkill> userSkills = userSkillRepo.findAll();
+		if (userSkills.size() > 0) return;
+		System.out.println("Configuring some initial user skills in the repository");
 
-		UserData userData = new UserData();
+		UserSkill userSkill = new UserSkill(skill, 4, specialist);
 
-		for (User user : userData.getClients()) {
-			userRepo.save(user);
-		}
+		userSkillRepo.save(userSkill);
+		specialist.associateUserSkill(userSkill);
 	}
 //
 //	private void createInitialProjectData() {

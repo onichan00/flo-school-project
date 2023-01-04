@@ -1,67 +1,206 @@
 package com.hva.helios.models;
 
-import com.hva.helios.data.SkillData;
-//import com.hva.helios.data.SpecialistData;
-import com.hva.helios.models.user.Client;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.skill.Skill;
-import com.hva.helios.models.user.skill.UserSkill;
+import com.hva.helios.views.Views;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity
 @Table
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id = 0L;
+    @JsonView(Views.Public.class)
+    private Long id;
 
+    @Column(nullable = false)
+    @JsonView(Views.Public.class)
     private String name;
+
+    @JsonView(Views.Public.class)
     private int status;
-    private LocalDate created;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonView(Views.Public.class)
+    private Date created;
+
+    @JsonView(Views.Public.class)
     private String description;
+
+    @JsonView(Views.Public.class)
     private String bannerUrl;
 
-    @ManyToMany
-    private Set<Specialist> specialists;
-
     @ManyToOne
-//    @JoinColumn(name = "client_id")
+    @JsonView(Views.Internal.class)
+    @JsonSerialize(using = Views.InternalSerializer.class)
     private User user;
 
-    @OneToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        })
+    @JoinTable(name = "project_specialists",
+        joinColumns = { @JoinColumn(name = "project_id") },
+        inverseJoinColumns = { @JoinColumn(name = "specialist_id") })
+    @JsonView(Views.Internal.class)
+    @JsonSerialize(using = Views.InternalSerializer.class)
+    private Set<Specialist> specialists = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        })
+    @JoinTable(name = "project_skills",
+        joinColumns = { @JoinColumn(name = "project_id") },
+        inverseJoinColumns = { @JoinColumn(name = "skill_id") })
+    @JsonView(Views.Internal.class)
+    @JsonSerialize(using = Views.InternalSerializer.class)
     private List<Skill> skills;
 
-    // empty constructor for spring boot auto config Todo: im not 100% sure about this, either remove this todo if correct or correct the comment
-    public Project() {
+    @OneToMany(mappedBy = "project", cascade = CascadeType.MERGE)
+    @JsonView(Views.Internal.class)
+    @JsonSerialize(using = Views.InternalSerializer.class)
+    private Set<Event> events;
 
+    /**
+     * Default constructor for JPA with default values for fields
+     */
+    protected Project() {
+        // Set default values for fields
+        this.description = "No description given";
+        this.status = -1;
+        this.created = new Date();
     }
 
-    // constructor with all attributes
-    public Project(String name, String bannerUrl, int status, LocalDate created, String description, User user, List<Skill> skills) {
+    public Project(String name, User user, String bannerUrl, int status, Date created, String description, Set<Specialist> specialists, List<Skill> skills, Set<Event> events) {
+        // Call the default constructor to set default values for fields
+        this();
+        // Set the values of the fields using the parameters
         this.name = name;
-        this.status = status;
-        this.created = created;
-        this.description = description;
         this.user = user;
-        this.skills = skills;
         this.bannerUrl = bannerUrl;
-//        this.specialists = new HashSet<>(specialists);
-        // TODO - Add specialists to the backend
-
+        this.status = status;
+        this.created = created;
+        this.description = description;
+        this.specialists = specialists;
+        this.skills = skills;
+        this.events = events;
     }
 
-    // TODO: idk what this is? or does anyone fill in this commend
-    public Project(String name, String bannerUrl, int status, LocalDate created, String description) {
+    public Project(String name, User user) {
+        // Call the default constructor to set default values for fields
+        this();
+        // Set the name and user fields using the parameters
+        this.name = name;
+        this.user = user;
+    }
+
+    public Project(String name, User user, String bannerUrl, int status, Date created, String description) {
+        // call the constructor that takes name and user as parameters
+        this(name, user);
+        // Set the bannerUrl, status, created, and description fields using the parameters
+        this.bannerUrl = bannerUrl;
+        this.status = status;
+        this.created = created;
+        this.description = description;
+    }
+
+    public Project(String name, String bannerUrl, int status, Date created, String description) {
+        // Call the default constructor to set default values for fields
+        this();
+        // Set the name, bannerUrl, status, created, and description fields using the parameters
         this.name = name;
         this.status = status;
         this.created = created;
         this.description = description;
-        // TODO - Add specialists to the backend
     }
+
+    public boolean associateEvent(Event event) {
+        if (event != null && event.getProject() == null) {
+            event.associateProject(this);
+            events.add(event);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean dissociateEvent(Event event) {
+        if (event != null && event.getProject() != null) {
+            return events.remove(event) && event.dissociateProject(this);
+        }
+
+        return false;
+    }
+
+    public boolean addSpecialist(Specialist specialist) {
+        if (specialist != null) {
+            specialists.add(specialist);
+            specialist.getProjects().add(this);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeSpecialist(long specialistId) {
+        Specialist specialist = specialists.stream()
+                .filter(s -> s.getId() == specialistId)
+                .findFirst()
+                .orElse(null);
+
+        return removeSpecialist(specialist);
+    }
+
+    public boolean removeSpecialist(Specialist specialist) {
+        if (specialist != null) {
+            specialists.remove(specialist);
+            specialist.getProjects().remove(this);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean addSkill(Skill skill) {
+        if (skill != null) {
+            skills.add(skill);
+            skill.getProjects().add(this);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeSkill(long skillId) {
+        Skill skill = skills.stream()
+                .filter(s -> s.getId() == skillId)
+                .findFirst()
+                .orElse(null);
+
+        return removeSkill(skill);
+    }
+
+    public boolean removeSkill(Skill skill) {
+        if (skill != null) {
+            skills.remove(skill);
+            skill.getProjects().remove(this);
+        }
+
+        return false;
+    }
+
+
 
     public long getId() {
         return id;
@@ -87,11 +226,11 @@ public class Project {
         this.status = status;
     }
 
-    public LocalDate getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
@@ -133,5 +272,13 @@ public class Project {
 
     public void setSkills(List<Skill> skills) {
         this.skills = skills;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 }

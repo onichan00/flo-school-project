@@ -1,12 +1,15 @@
 package com.hva.helios.models.user;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hva.helios.models.Event;
 import com.hva.helios.models.Project;
-import com.hva.helios.models.User;
 import com.hva.helios.models.user.hour.AvailableHour;
 import com.hva.helios.models.user.skill.UserSkill;
+import com.hva.helios.views.Views;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -14,29 +17,123 @@ import java.util.Set;
 public class Specialist{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(Views.Internal.class)
     private long id = 0L;
 
+    @JsonView(Views.Internal.class)
     private int available;
+
+    @JsonView(Views.Internal.class)
     private String specialistType;
 
     private long approvalStatus;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonView(Views.Internal.class)
     private AvailableHour hours;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Project> projects;
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        },
+        mappedBy = "specialists")
+    @JsonView(Views.Public.class)
+    @JsonSerialize(using = Views.PublicSerializer.class)
+    private Set<Project> projects = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonView(Views.Internal.class)
     private Set<UserSkill> skills;
 
-    public Specialist() {}
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonView(Views.Internal.class)
+    private Set<Event> events;
 
-    public Specialist(int available, String specialistType, AvailableHour hours, List<Project> projects, List<UserSkill> skills,
-                      long approvalStatus) {
+    protected Specialist() {}
+
+    public Specialist(int available, String specialistType, long approvalStatus) {
         this.available = available;
         this.specialistType = specialistType;
         this.approvalStatus = approvalStatus;
+    }
+
+    public Specialist(int available, String specialistType, long approvalStatus, AvailableHour hours, Set<Project> projects, Set<UserSkill> skills, Set<Event> events) {
+        this(available, specialistType, approvalStatus);
+
+        this.hours = hours;
+        this.projects = projects;
+        this.skills = skills;
+        this.events = events;
+    }
+
+    public boolean associateEvent(Event event) {
+        if (event != null && event.getUser() == null) {
+            event.associateSpecialist(this);
+            events.add(event);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean dissociateEvent(Event event) {
+        if (event != null && event.getUser() != null) {
+            return events.remove(event) && event.dissociateSpecialist(this);
+        }
+
+        return false;
+    }
+
+    public boolean associateUserSkill(UserSkill userSkill) {
+        if (userSkill != null && userSkill.getSpecialist() == null) {
+            userSkill.associateSpecialist(this);
+            skills.add(userSkill);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean dissociateUserSkill(UserSkill userSkill) {
+        if (userSkill != null && userSkill.getSpecialist() != null) {
+            return skills.remove(userSkill) && userSkill.dissociateSpecialist(this);
+        }
+
+        return false;
+    }
+
+    public boolean addProject(Project project) {
+        if (project != null) {
+            projects.add(project);
+            project.getSpecialists().add(this);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeProject(long projectId) {
+        Project project = projects.stream().
+                filter(p -> p.getId() == projectId)
+                .findFirst()
+                .orElse(null);
+
+        return removeProject(project);
+    }
+
+    public boolean removeProject(Project project) {
+        if (project != null) {
+            projects.remove(project);
+            project.removeSpecialist(this);
+
+            return true;
+        }
+
+        return false;
     }
 
     public long getId() {
@@ -83,8 +180,28 @@ public class Specialist{
         this.skills = skills;
     }
 
+    public void addSkill(UserSkill skill) {
+        skills.add(skill);
+    }
+
+    public void removeSkill(long skillId) {
+        UserSkill skill = skills.stream().filter(s -> s.getId() == skillId).findFirst().orElse(null);
+
+        if (skill != null) {
+            skills.remove(skill);
+        }
+    }
+
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 
     public long getApprovalStatus() {

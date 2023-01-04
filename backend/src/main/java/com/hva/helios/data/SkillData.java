@@ -1,13 +1,8 @@
 package com.hva.helios.data;
 
-import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.skill.Skill;
 import com.hva.helios.models.user.skill.UserSkill;
-import com.hva.helios.repositories.EntityRepository;
-//import com.hva.helios.repositories.user.SpecialistJPARepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
+//import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +11,6 @@ import java.util.Random;
 public class SkillData {
     Random random = new Random();
     ArrayList<UserSkill> skills;
-
-    /**
-     *
-     */
 
     Skill skill1 = new Skill("OFFICE FRONT-END [MS Office Access]");
     Skill skill2 = new Skill("OFFICE FRONT-END [MS Office Excel]");

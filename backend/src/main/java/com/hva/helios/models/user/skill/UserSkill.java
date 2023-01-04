@@ -27,6 +27,24 @@ public class UserSkill {
         this.specialist = specialist;
     }
 
+    public boolean associateSpecialist(Specialist specialist) {
+        if (specialist != null && this.getSpecialist() == null) {
+            setSpecialist(specialist);
+            specialist.associateUserSkill(this);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean dissociateSpecialist(Specialist specialist) {
+        if (specialist != null && getSpecialist() != null) {
+            return specialist.dissociateUserSkill(this);
+        }
+
+        return false;
+    }
+
     public long getId() {
         return id;
     }
@@ -45,5 +63,13 @@ public class UserSkill {
 
     public void setSkill(Skill skill) {
         this.skill = skill;
+    }
+
+    public Specialist getSpecialist() {
+        return specialist;
+    }
+
+    public void setSpecialist(Specialist specialist) {
+        this.specialist = specialist;
     }
 }

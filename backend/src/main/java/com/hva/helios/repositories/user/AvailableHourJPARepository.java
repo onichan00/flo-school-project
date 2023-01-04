@@ -1,17 +1,14 @@
 package com.hva.helios.repositories.user;
 
 import com.hva.helios.models.user.hour.AvailableHour;
-import com.hva.helios.models.user.hour.Hour;
-import com.hva.helios.repositories.EntityRepository;
+import com.hva.helios.repositories.interfaces.EntityRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 @Transactional

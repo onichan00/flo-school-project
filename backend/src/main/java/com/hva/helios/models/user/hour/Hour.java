@@ -3,6 +3,7 @@ package com.hva.helios.models.user.hour;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Class to set the available hours for that day
@@ -17,12 +18,15 @@ public class Hour {
     @JsonIgnore
     private String label;
     private boolean available;
-    private String hourStart;
-    private String hourEnd;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date hourStart;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date hourEnd;
 
     protected Hour() {}
 
-    public Hour(String label, boolean available, String start, String end) {
+    public Hour(String label, boolean available, Date start, Date end) {
         this.label = label;
         this.available = available;
         this.hourStart = start;
@@ -49,19 +53,15 @@ public class Hour {
         this.available = available;
     }
 
-    public String getHourStart() {
-        return hourStart;
-    }
+    public Date getStart() { return hourStart; }
 
-    public void setHourStart(String start) {
+    public void setHourStart(Date start) {
         this.hourStart = start;
     }
 
-    public String getHourEnd() {
-        return hourEnd;
-    }
+    public Date getEnd() { return hourEnd; }
 
-    public void setHourEnd(String end) {
+    public void setHourEnd(Date end) {
         this.hourEnd = end;
     }
 }

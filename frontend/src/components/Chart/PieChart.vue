@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       chartData: {
-        labels: [ 'Datascience', 'AI', 'IDK' ],
+        labels: [ 'Specialisten', 'Cliënten', 'Projecten' ],
         datasets: [ {
           label: ["Data"],
           data: [40, 20, 12],

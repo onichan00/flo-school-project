@@ -1,4 +1,4 @@
-package com.hva.helios.models.user;
+package com.hva.helios.models.record;
 
 public record LoginResponse(
         Long id,
