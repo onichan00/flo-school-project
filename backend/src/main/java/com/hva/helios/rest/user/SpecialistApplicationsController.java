@@ -1,7 +1,7 @@
 package com.hva.helios.rest.user;
 
 import com.hva.helios.models.user.Specialist;
-import com.hva.helios.repositories.user.SpecialistJPARepository;
+import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
