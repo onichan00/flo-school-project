@@ -20,25 +20,37 @@
               <button
                   class="p-2.5 ml-2 text-sm font-medium text-gray-500 rounded-3xl hover:bg-gray-200"
                   data-dropdown-toggle="dropdown1">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"></path></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                </svg>
                 <span class="sr-only">Search</span>
               </button>
               <div id="dropdown1"
                    class="hidden z-10 text-left w-44 bg-white rounded-lg divide-y divide-gray-100 shadow dark:bg-gray-700">
-                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault1">
+                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
                   <li>
-                    <a @click='sortStatus()' class="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Status</a>
+                    <a @click="sortStatus()"
+                       class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Status</a>
                   </li>
                   <li>
-                    <a @click='sortAlphabetically()' class="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alfabetisch
+                    <a @click="sortAlphabetically()"
+                       class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alphabetical
                       A-Z</a>
                   </li>
                   <li>
-                    <a @click='sortAlphabeticallyReverse()' class="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alfabetisch
+                    <a @click="sortAlphabeticallyReverse()"
+                       class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alphabetical
                       Z-A</a>
                   </li>
                   <li>
-                    <a @click='sortNewToOld()' class="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Aanmaakdatum</a>
+                    <a @click="sortNewToOld()"
+                       class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Newest</a>
+                  </li>
+                  <li>
+                    <a @click="sortOldToNew()"
+                       class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Oldest</a>
                   </li>
                 </ul>
               </div>
@@ -49,19 +61,11 @@
             </h6>
           </div>
           <form class="flex items-center">
-            <label for="simple-search"></label>
+            <label for="simple-search" class="sr-only">Zoeken...</label>
             <div class="w-full">
-<!--              <div class="absolute inset-y-0 left-0 flex items-center ">-->
-<!--&lt;!&ndash;                <svg aria-hidden="true" class="relative w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20"&ndash;&gt;-->
-<!--&lt;!&ndash;                     xmlns="http://www.w3.org/2000/svg">&ndash;&gt;-->
-<!--&lt;!&ndash;                  <path fill-rule="evenodd"&ndash;&gt;-->
-<!--&lt;!&ndash;                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"&ndash;&gt;-->
-<!--&lt;!&ndash;                        clip-rule="evenodd"></path>&ndash;&gt;-->
-<!--&lt;!&ndash;                </svg>&ndash;&gt;-->
-<!--              </div>-->
-              <input type="text" id="simple-search" v-on:keyup.enter="searchProject(this.searchTerm)" v-model="this.searchTerm"
-                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 pl-3 w-full p-2.5 "
-                     placeholder="Zoeken...">
+              <input type="text" id="simple-search"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                     placeholder="Zoeken..." required>
             </div>
             <button
                 @click="this.$router.push('/create-project')"
@@ -117,101 +121,10 @@
           </div>
 
         </div>
+
       </div>
 
       <div class="bg-white w-3/4 rounded-lg m-1 text-left max-h-fit shadow-lg">
-
-<!--        <div class="px-4 py-3 h-auto" v-show='toggleEdit' v-if="selectedProject" v-bind="selectedProject">-->
-<!--          <div class="relative  bg-white rounded-lg dark:bg-gray-700">-->
-<!--            <div class="flex flex-col text-left">-->
-<!--              <div class="flex items-start pt-2 mb-1 justify-between rounded-t dark:border-gray-600">-->
-<!--                <h3 class="text-3xl 1 font-medium text-gray-900 dark:text-white">Bewerk dit project</h3>-->
-<!--                <button @click='toggleEdit = !toggleEdit' type="button"-->
-<!--                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-3xl text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">-->
-<!--                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"-->
-<!--                       xmlns="http://www.w3.org/2000/svg">-->
-<!--                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-<!--                          d="M6 18L18 6M6 6l12 12"></path>-->
-<!--                  </svg>-->
-<!--                </button>-->
-<!--              </div>-->
-<!--              <p class="mb-1 text-md font-normal text-gray-600 pb-3">Druk op "Enter" om veranderingen op te slaan</p>-->
-<!--            </div>-->
-
-<!--            <hr>-->
-
-<!--            <form class="h-fit pt-3">-->
-<!--              <div class="mb-6">-->
-<!--                <label for="name" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Project-->
-<!--                  naam</label>-->
-<!--                <input type="text" id="name"-->
-<!--                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5k:bg-gray-700"-->
-<!--                       placeholder="Schrijf hier de naam" v-model.lazy="selectedProject.name">-->
-<!--              </div>-->
-<!--              <div class="mb-6">-->
-<!--                <label for="bannerUrl" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Banner URL</label>-->
-<!--                <input type="url" id="bannerUrl"-->
-<!--                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5k:bg-gray-700"-->
-<!--                       placeholder="Kopieer en plak hier de URL van de banner" v-model.lazy="selectedProject.bannerUrl">-->
-<!--              </div>-->
-<!--              <div class="flex flex-row w-full">-->
-<!--                <div class="w-1/2 mr-1">-->
-<!--                  <h1 class="text-md font-medium text-gray-900 mb-2">Skills</h1>-->
-<!--                  <form class="flex items-center mb-4">-->
-<!--                    <label for="simple-search" class="sr-only"></label>-->
-<!--                    <div class="relative w-full">-->
-<!--                      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">-->
-<!--                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"-->
-<!--                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">-->
-<!--                          <path fill-rule="evenodd"-->
-<!--                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"-->
-<!--                                clip-rule="evenodd"></path>-->
-<!--                        </svg>-->
-<!--                      </div>-->
-<!--                      <input type="text" id="simple-search"-->
-<!--                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"-->
-<!--                             placeholder="Zoek skill">-->
-<!--                    </div>-->
-<!--                  </form>-->
-<!--                  <div class="flex flex-column flex-wrap mb-2">-->
-<!--                    <div class="mb-4" v-for="(skill, index) in selectedProject.skills" :key="skill.id">-->
-<!--                      <a class="bg-gray-200 border border-2 border-gray-300 px-2 py-1 rounded-lg">{{ skill.name }}-->
-<!--                      <a  @click="del(index)" class="cursor-pointer"><i class="fa-solid fa-xmark"></i></a></a>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="w-1/2 ml-1">-->
-
-<!--                  <label for="countries" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Selecteer-->
-<!--                    de status van dit project</label>-->
-<!--                  <select disabled v-model="selectedStatus" id="countries"-->
-<!--                          class="cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">-->
-<!--                    <option selected>Kies de huidige status</option>-->
-<!--                    <option v-for="status in statusses" :key="{ id: status.id, text: status.name }"-->
-<!--                            @click="changeStatus(selectedProject, status.id)">{{ status.name }}-->
-<!--                    </option>-->
-<!--                  </select>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="mb-4">-->
-<!--                <label for="description" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Beschrijving</label>-->
-<!--                <textarea id="description" rows="4"-->
-<!--                          class="block p-2.5 w-full h-64 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"-->
-<!--                          placeholder="Schrijf hier de beschrijving..."-->
-<!--                          v-model.lazy="selectedProject.description"></textarea>-->
-<!--              </div>-->
-<!--            </form>-->
-
-<!--            <hr>-->
-
-<!--            <div class="w-full mt-4">-->
-<!--              <div class="float-right space-x-2 border-gray-200 mb-4">-->
-<!--                <button type="button" class="p-2 text-md font-medium text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg">Bijwerkingen opslaan</button>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
 
         <div class="overflow-y-scroll m-auto m-3 p-2" v-if="selectedProject" v-bind="selectedProject">
           <div>
@@ -297,38 +210,56 @@
                 </p>
               </div>
             </div>
+
             <div>
               <h1 class="mt-3 font-medium text-xl text-gray-700">
                 Aankondigingen
               </h1>
-              <div class="pt-3 pb-3 flex items-center flex-column justify-center w-full">
-                <div
-                    class="flex flex-col items-center justify-center w-full h-64 border-1 border-gray-300 rounded-lg  bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                  <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <div class="bg-gray-50 border border-1 rounded-lg">
+                <div class="overflow-y-scroll h-72">
+                  <div
+                      v-for="(announcement, index) of announcements" v-bind:key="index">
+                    <div class="text-left rounded-lg p-2 m-2 bg-white shadow-sm w-fit"
+                         v-if="announcement.project === selectedProject.id">
+                      <div class="flex flex-row justify-between text-gray-400 text-sm space-x-4">
+                        <div>
+                          <a>{{ announcement.user }}</a>
+                        </div>
+                        <div>
+                          <a>{{ announcement.date }}</a>
+                        </div>
+                      </div>
+
+                      <div class="text-black text-lg">
+                        <a>{{ announcement.message }}</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
+
+                <form>
+                  <label for="chat" class="sr-only">Uw aankondiging</label>
+                  <div class="flex items-center px-2 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
+                    <textarea v-on:keyup.enter="sendMessageAndEmail($event)" id="chat" rows="1"
+                              class="block p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"
+                              placeholder="Uw aankondiging..."></textarea>
+
+                    <button @click="sendMessageAndEmail($event)"
+                            class="inline-flex justify-center ml-1 p-2 text-orange-500 rounded-full cursor-pointer hover:bg-orange-100 dark:text-orange-500 dark:hover:bg-gray-600">
+                      <svg aria-hidden="true" class="w-6 h-6 rotate-90" fill="currentColor" viewBox="0 0 20 20"
+                           xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                      </svg>
+                      <span class="sr-only">Stuur aankondiging</span>
+                    </button>
+                  </div>
+                </form>
+
               </div>
             </div>
-            <form>
-              <label class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Plaats aankondiging</label>
-              <div class="relative">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
-                  </svg>
-                </div>
-                <input type="search" id="default-search"
-                       class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-orange-500 focus:border-orange-500 "
-                       placeholder="Plaats een aankondiging voor de specialisten van dit project">
-                <button type="submit"
-                        class="text-white absolute right-2.5 bottom-2.5 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg text-sm px-4 py-2 ">
-                  Plaats
-                </button>
-              </div>
-            </form>
           </div>
+
         </div>
         <div class="place-items-center content-center text-center" v-else>
           <div class="flex flex-row min-h-screen justify-center rounded-lg items-center">
@@ -348,12 +279,16 @@
 
 <script>
 import axios from 'axios';
+import {AnnouncementsAdaptor} from "@/models/AnnouncementsAdaptor";
 
 export default {
   name: "ProjectsOverview",
+
   data() {
     return {
+      userId: localStorage.getItem('id'),
       projects: [],
+      user: [],
       options: {year: 'numeric', month: 'long', day: 'numeric'},
       selectedProject: null,
       toggleEdit: false,
@@ -365,7 +300,7 @@ export default {
       selectedStatus: null,
       selectedRowStyle: "bg-gray-100 shadow-sm text-black",
       notSelectedRowStyle: "text-gray-900",
-      searchTerm: ""
+      announcements: [],
     }
   },
 
@@ -376,14 +311,78 @@ export default {
         if (project.status === 2) count++;
       })
       return count;
-    },
+    }
+  },
+
+  beforeUnmount() {
+    // close down the service with the web socket
+    this.announcementsService.close();
   },
 
   created() {
+    this.announcementsService = new AnnouncementsAdaptor("http://localhost:8080/api/announcements", this.onReceiveAnnouncement)
     this.getProjectData();
+    this.getUserData();
   },
 
   methods: {
+    sendMessageAndEmail(event) {
+      this.sendEmail(event);
+      this.onNewAnnouncement(event);
+    },
+
+    async sendEmail(event) {
+      const currentTimeInMilliseconds = new Date().getTime();
+      const currentTime = new Date(currentTimeInMilliseconds);
+      const time = currentTime.toLocaleString('nl-NL', {hour: '2-digit', minute: '2-digit'})
+
+      const emailData = {
+        //TODO Add specialist data
+        to: "simon.vriesema@icloud.com",
+        name: "Simon Vriesema",
+        from: this.user.first_name + " " + this.user.last_name,
+        subject: this.selectedProject.name,
+        time: time,
+        body: event.target.value
+      }
+
+      await axios.get(process.env.VUE_APP_API_URL + '/api/send-email', {params: emailData})
+          .then(response => {
+            console.log(emailData)
+            console.log(response);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
+    getUserData() {
+      axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
+          .then((res) => {
+            this.user = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
+    onReceiveAnnouncement(message) {
+      // this method is called when an announcement is distributed
+      console.log("Received announcement:", message);
+      message = JSON.parse(message)
+      this.announcements.push(message);
+    },
+
+    onNewAnnouncement(event) {
+      // TODO: Add first name and second name
+      // for demo purpose of a simple web socket
+      this.announcementsService.sendMessage(event.target.value, this.user.first_name + " " + this.user.last_name, this.selectedProject.id);
+      // a persistent announcement system would save the announcement here via the REST api
+      // and let the rest controller issue the websocket notification to inform all clients about the update
+
+      // reset the input in the text area
+      event.target.value = "";
+    },
     sortAlphabetically() {
       this.projects.sort((p1, p2) => p1.name.localeCompare(p2.name))
     },
@@ -394,6 +393,10 @@ export default {
 
     sortNewToOld() {
       this.projects.sort((p1, p2) => p1.created.localeCompare(p2.created))
+    },
+
+    sortOldToNew() {
+      this.projects.sort((p1, p2) => p1.created.localeCompare(p2.created)).reverse()
     },
 
     sortStatus() {
@@ -430,9 +433,7 @@ export default {
     },
 
     getProjectData() {
-      const id = localStorage.getItem("id");
-
-      axios.get(process.env.VUE_APP_API_URL + `/api/projects/client/${id}`)
+      axios.get(process.env.VUE_APP_API_URL + `/api/projects/client/${this.userId}`)
           .then((res) => {
             console.log(res)
             for (let i = 0; i < res.data.length; i++) {
@@ -469,6 +470,7 @@ export default {
     },
   }
 }
+
 </script>
 
 <style scoped>

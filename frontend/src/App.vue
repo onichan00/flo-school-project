@@ -7,8 +7,8 @@
     <router-view/>
   </div>
 
-  <div v-if="isClient">
-    <client-navbar v-if="isClient && this.$route.path !== '/create-project'"></client-navbar>
+  <div v-if="userType == 1">
+    <client-navbar></client-navbar>
     <router-view/>
   </div>
 

@@ -404,7 +404,7 @@ export default {
 
   methods: {
     async registerRequest() {
-      
+
       let request = await axios.post(process.env.VUE_APP_API_URL + "/api/users/register", {
         email: this.email,
         password: this.password,
