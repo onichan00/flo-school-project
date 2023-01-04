@@ -328,6 +328,11 @@ export default {
   data() {
     return {
       date: new Date().getFullYear(),
+      userId: localStorage.getItem('id'),
+      projects: [],
+      specialists: [],
+      clients: [],
+      users: []
     }
   }
 }
