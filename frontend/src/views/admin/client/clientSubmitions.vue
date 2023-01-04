@@ -136,7 +136,7 @@ export default {
     async getClients() {
       const id = this.$route.params.id;
 
-      await axios.get(process.env.VUE_APP_API_URL + `/api/users/client`)
+      await axios.get(process.env.VUE_APP_API_URL + `/api/users/clients`)
           .then((res) => {
             this.clients = res.data;
             console.log(this.projecten)
