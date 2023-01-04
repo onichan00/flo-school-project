@@ -21,7 +21,8 @@
                         </span>
                       </div>
                       <div class="relative w-auto pl-4 flex-initial">
-                        <div class="p-3 text-center inline-flex items-center justify-center w-12 h-12 rounded-lg hover:bg-orange-200">
+                        <div
+                            class="p-3 text-center inline-flex items-center justify-center w-12 h-12 rounded-lg hover:bg-orange-200">
                           <a href="#"><i class="fa-solid fa-diagram-project"></i></a>
                         </div>
                       </div>
@@ -50,7 +51,8 @@
                         </span>
                       </div>
                       <div class="relative w-auto pl-4 flex-initial">
-                        <div class="p-3 text-center inline-flex items-center justify-center w-12 h-12 rounded-lg hover:bg-orange-200">
+                        <div
+                            class="p-3 text-center inline-flex items-center justify-center w-12 h-12 rounded-lg hover:bg-orange-200">
                           <a href="#"><i class="fa-solid fa-code"></i></a>
                         </div>
                       </div>
@@ -79,7 +81,8 @@
                         </span>
                       </div>
                       <div class="relative w-auto pl-4 flex-initial">
-                        <div class="p-3 text-center inline-flex items-center justify-center w-12 h-12 rounded-lg hover:bg-orange-200">
+                        <div
+                            class="p-3 text-center inline-flex items-center justify-center w-12 h-12 rounded-lg hover:bg-orange-200">
                           <a href="#"><i class="fas fa-users"></i></a>
                         </div>
                       </div>
@@ -108,7 +111,8 @@
                         </span>
                       </div>
                       <div class="relative w-auto pl-4 flex-initial">
-                        <div class="p-3 text-center inline-flex items-center justify-center w-12 h-12 rounded-lg hover:bg-orange-200">
+                        <div
+                            class="p-3 text-center inline-flex items-center justify-center w-12 h-12 rounded-lg hover:bg-orange-200">
                           <a href="#"><i class="fas fa-percent"></i></a>
                         </div>
                       </div>
@@ -131,7 +135,8 @@
       <div class="px-4 md:px-10 max-w-6xl mx-auto w-full -m-24">
         <div class="flex flex-wrap">
           <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 ">
-            <div class="relative flex flex-col min-w-0 break-words text-white bg-white w-full mb-6 shadow-lg rounded-lg">
+            <div
+                class="relative flex flex-col min-w-0 break-words text-white bg-white w-full mb-6 shadow-lg rounded-lg">
               <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
                 <div class="flex flex-wrap items-center">
                   <div class="relative w-full max-w-full flex-grow flex-1">
@@ -162,7 +167,7 @@
               </div>
               <div class="p-4 flex-auto">
                 <div class="relative">
-                    <PieChart></PieChart>
+                  <PieChart></PieChart>
                 </div>
               </div>
             </div>
@@ -174,7 +179,7 @@
               <div class="rounded-t mb-0 px-4 py-3 border-0">
                 <div class="flex flex-wrap items-center">
                   <div class="relative w-full max-w-full flex-grow flex-1">
-                    <h3  class="font-semibold text-left text-base  text-blueGray-700">
+                    <h3 class="font-semibold text-left text-base  text-blueGray-700">
                       New Specialists (not yet accepted)
                     </h3>
                   </div>
@@ -209,7 +214,8 @@
                       <td class="py-4 px-6">
                         Meta
                       </td>
-                    </tr>                    <tr class="bg-white dark:bg-gray-800">
+                    </tr>
+                    <tr class="bg-white dark:bg-gray-800">
                       <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         Dennis Moes
                       </th>
@@ -219,7 +225,8 @@
                       <td class="py-4 px-6">
                         Meta
                       </td>
-                    </tr>                    <tr class="bg-white dark:bg-gray-800">
+                    </tr>
+                    <tr class="bg-white dark:bg-gray-800">
                       <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         Dennis Moes
                       </th>
@@ -229,7 +236,8 @@
                       <td class="py-4 px-6">
                         Meta
                       </td>
-                    </tr>                    <tr class="bg-white dark:bg-gray-800">
+                    </tr>
+                    <tr class="bg-white dark:bg-gray-800">
                       <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         Dennis Moes
                       </th>
@@ -239,7 +247,8 @@
                       <td class="py-4 px-6">
                         Meta
                       </td>
-                    </tr>                    <tr class="bg-white dark:bg-gray-800">
+                    </tr>
+                    <tr class="bg-white dark:bg-gray-800">
                       <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         Dennis Moes
                       </th>
@@ -289,21 +298,24 @@
                       <td class="py-4 px-6">
                         Florijn
                       </td>
-                    </tr>                    <tr class="bg-white dark:bg-gray-800">
+                    </tr>
+                    <tr class="bg-white dark:bg-gray-800">
                       <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         New App
                       </th>
                       <td class="py-4 px-6">
                         Florijn
                       </td>
-                    </tr>                    <tr class="bg-white dark:bg-gray-800">
+                    </tr>
+                    <tr class="bg-white dark:bg-gray-800">
                       <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         New App
                       </th>
                       <td class="py-4 px-6">
                         Florijn
                       </td>
-                    </tr>                    <tr class="bg-white dark:bg-gray-800">
+                    </tr>
+                    <tr class="bg-white dark:bg-gray-800">
                       <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         New App
                       </th>
@@ -334,6 +346,7 @@
 
 import LineChart from '@/components/Chart/LineChart.vue'
 import PieChart from '@/components/Chart/PieChart.vue'
+import axios from "axios";
 
 export default {
   name: "DashboardView",
@@ -341,10 +354,30 @@ export default {
     LineChart,
     PieChart
   },
+
   data() {
     return {
+      userId: localStorage.getItem('id'),
       date: new Date().getFullYear(),
+      user: [],
+      projects: []
     }
+  },
+
+  methods: {
+    getData() {
+      axios.get(process.env.VUE_APP_API_URL + `/api/projects`)
+          .then((res) => {
+            this.projects = res.data
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    }
+  },
+
+  created() {
+    this.getData()
   }
 }
 </script>

@@ -195,7 +195,6 @@ export default {
             if (res.status == 200) {
               this.toast.success("Admin succesvol bijgewerkt")
             }
-
           })
           .catch((err) => {
             this.toast.error("Er is iets misgegaan, zie: " + err.message)

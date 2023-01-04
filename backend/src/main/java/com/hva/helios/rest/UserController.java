@@ -48,7 +48,7 @@ public class UserController {
         Long id = user.getId();
 
         // we get the old user from JPA
-        // im not sure if we need to put this inside of the ifstatements each time or not but for now this works
+        // im not sure if we need to put this inside of the if statements each time or not but for now this works
         User oUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
 
         oUser.setFirst_name(user.getFirst_name());
@@ -194,13 +194,13 @@ public class UserController {
 
     @PostMapping("register")
     public User register(@RequestBody User user) {
-
         // email unique check
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new NotFoundException("user with this email already exists");
         }
 
         System.out.println("sout" + user.getPhone());
+        System.out.println(user);
         Long userType = user.getUserType();
 
         if (userType == 0) {
@@ -212,8 +212,15 @@ public class UserController {
             return nUser;
 
         }
+
         if (userType == 1) {
-            Client savedClient = clientRepository.save(user.getClient());
+            Client savedClient;
+            if (user.getClient() != null){
+               savedClient = clientRepository.save(user.getClient());
+
+            }else {
+                savedClient = clientRepository.save(new Client());
+            }
             user.setClient(savedClient);
             User newUser = userRepository.save(user);
 
@@ -224,7 +231,6 @@ public class UserController {
         // TODO: convert objects from the json to the correct type and set them to the specialists before setting the specialist in the user and saving the user
         // TODO: TLDR its not functional yet
         if (userType == 2) {
-
             Specialist savedSpecialist = specialistRepository.save(user.getSpecialist());
             user.setSpecialist(savedSpecialist);
             User newUser = userRepository.save(user);

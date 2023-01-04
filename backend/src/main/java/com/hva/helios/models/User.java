@@ -13,7 +13,6 @@ public class User {
     @Id
     @GeneratedValue
     private long id = 0L;
-
     private String email;
     private String password;
     private String first_name;
