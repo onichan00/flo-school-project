@@ -3,7 +3,7 @@
   <!--  <LandingPage v-if="showLandingPage"/>-->
   <!--  <Login v-if="showLogin"/>-->
   <!--  <RegisterPage v-if="showRegister"/>-->
-  <div v-if="!isAdmin && !isClient && !isSpecialist">
+  <div v-if="userType == -1">
     <router-view/>
   </div>
 
@@ -12,7 +12,7 @@
     <router-view/>
   </div>
 
-  <div v-if="isAdmin">
+  <div v-show="this.userType == 0">
     <Sidebar/>
     <div :style="{ 'margin-left': sidebarWidth }">
       <PageHeader/>
@@ -31,7 +31,7 @@ import Footer from "@/components/Footer";
 
 // Models
 import client from "@/models/client";
-import Specialist from "@/models/specialist";
+import specialist from "@/models/specialist";
 import project from "@/models/project";
 import availableHour from "@/models/availableHour";
 import skill from "@/models/skill";
@@ -63,19 +63,15 @@ export default {
       availableHours: [],
       skills: [],
       loginStatus: null,
-      isAdmin: false,
-      isClient: false,
-      isSpecialist: false
+      userType: -1
     }
   },
   mounted() {
-    console.log(this.isClient)
     if (localStorage.getItem("id") != null) {
-
-      console.log("test")
       this.loginStatus = true;
-      this.isAdmin = localStorage.getItem("isAdmin")
-      this.isClient = localStorage.getItem("isClient")
+      this.userType = localStorage.getItem("userType")
+
+      console.log("usertype is: "+this.userType)
 
       // if (localStorage.getItem("isAdmin") === true) {
       //   this.isAdmin = true;
@@ -115,29 +111,29 @@ export default {
     //   return false;
     // },
 
-    showLandingPage() {
-      if (this.$route.path == "/landing-page") {
-        return true
-      } else {
-        return false
-      }
-    },
-
-    showLogin() {
-      if (this.$route.path == "/login") {
-        return true
-      } else {
-        return false
-      }
-    },
-
-    showRegister() {
-      if (this.$route.path == "/register") {
-        return true
-      } else {
-        return false
-      }
-    }
+    // showLandingPage() {
+    //   if (this.$route.path == "/landing-page") {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // },
+    //
+    // showLogin() {
+    //   if (this.$route.path == "/login") {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // },
+    //
+    // showRegister() {
+    //   if (this.$route.path == "/register") {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // }
 
   },
 
@@ -154,7 +150,7 @@ export default {
 
   created() {
     specialistsData.forEach((element) => {
-      this.specialists.push(new Specialist(element));
+      this.specialists.push(new specialist(element));
     });
 
     projectsData.forEach((element) => {
