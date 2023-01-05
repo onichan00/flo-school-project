@@ -50,7 +50,9 @@ public class Specialist{
     @JsonView(Views.Internal.class)
     private Set<Event> events;
 
-    protected Specialist() {}
+    public Specialist() {
+
+    }
 
     public Specialist(int available, String specialistType, long approvalStatus) {
         this.available = available;

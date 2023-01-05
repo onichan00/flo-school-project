@@ -437,7 +437,7 @@ export default {
 
         if (userType === 2) {
 
-          this.$router.push("/notfound").then(() => {
+          this.$router.push("/specialistenPagina").then(() => {
             this.$router.go()
           })
         }

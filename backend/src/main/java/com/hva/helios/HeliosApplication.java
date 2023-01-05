@@ -55,10 +55,10 @@ public class HeliosApplication implements CommandLineRunner {
 	public void run(String... args) {
 		System.out.println("Running CommandLine Startup");
 
-		createInitialSkillData();
-		createInitialHoursData();
-		createInitialEvents();
-		createInitialUserSkill();
+//		createInitialSkillData();
+//		createInitialHoursData();
+//		createInitialEvents();
+//		createInitialUserSkill();
 	}
 
 	private void createInitialHoursData() {
