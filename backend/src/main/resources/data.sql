@@ -14,3 +14,7 @@ insert into USER_TABLE values (4,'testSpecialist','testSpecialist','testSpeciali
 insert into USER_TABLE values (5, 'Straat 45', 'leeg', 'Stad', 'specialist@florijn-app.com', 'Gregory', 'Gnomes', 'wachtwoord', '+31612345678', 'https://tinyurl.com/yc6efeze', '', 2, '1234AB', null, null, 3);
 
 insert into PROJECT values (2, 'https://images.unsplash.com/photo-1614850715649-1d0106293bd1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80', NOW(),' test123', 'Project 1', 0, 2);
+
+insert into PROJECT_SPECIALISTS values (2, 1);
+insert into PROJECT_SPECIALISTS values (2, 2);
+insert into PROJECT_SPECIALISTS values (2, 3);

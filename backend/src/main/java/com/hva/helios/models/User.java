@@ -5,6 +5,7 @@ import com.hva.helios.models.user.Client;
 import com.hva.helios.models.user.Specialist;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="user_table")

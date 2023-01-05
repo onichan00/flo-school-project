@@ -106,8 +106,32 @@ public class UserController {
 
     @GetMapping("specialists")
     public List<User> getAllSpecialists() {
-        return userRepository.findAll().stream().filter(user -> user.getUserType() == 2).collect(Collectors.toList());
+        return userRepository
+                .findAll()
+                .stream()
+                .filter(user -> user.getUserType() == 2)
+                .collect(Collectors.toList());
     }
+
+    /**
+     * Returns a list of all specialists who are assigned to a project with the given id.
+     *
+     * @param id the id of the project
+     * @return a list of specialists assigned to the project with the given id
+     */
+    @GetMapping("specialists/{id}")
+    public List<User> getAllSpecialistsFromProject(@PathVariable long id) {
+        // Get all specialists
+        List<User> specialists = this.getAllSpecialists();
+
+        // Filter the specialists to only include those who are assigned to a project with the given id
+        return specialists.stream()
+                .filter(user -> user.getSpecialist().getProjects()
+                        .stream()
+                        .anyMatch(project -> project.getId() == id))
+                .collect(Collectors.toList());
+    }
+
 
     @GetMapping("clients")
     public List<User> getAllClients() {
@@ -189,10 +213,10 @@ public class UserController {
 
         if (userType == 1) {
             Client savedClient;
-            if (user.getClient() != null){
-               savedClient = clientRepository.save(user.getClient());
+            if (user.getClient() != null) {
+                savedClient = clientRepository.save(user.getClient());
 
-            }else {
+            } else {
                 savedClient = clientRepository.save(new Client());
             }
             user.setClient(savedClient);
