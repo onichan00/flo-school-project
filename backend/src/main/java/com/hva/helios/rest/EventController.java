@@ -1,6 +1,7 @@
 package com.hva.helios.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.exceptions.PreConditionFailed;
 import com.hva.helios.models.Event;
@@ -127,5 +128,22 @@ public class EventController {
 
         // Return an HTTP response with the deleted event
         return ResponseEntity.ok(deletedEvent);
+    }
+
+    @PatchMapping("/{id}/accepted")
+    public Event updateEventAccepted(@PathVariable long id, @RequestBody ObjectNode node) {
+        Event event = eventRepo.findById(id).orElse(null);
+
+        if (event == null) {
+            throw new NotFoundException(String.format("Event with ID: %d was not found", id));
+        }
+
+        if (!Objects.equals(event.getId(), node.get("id").asLong())) {
+            throw new PreConditionFailed(String.format("Event with ID: %d does not match with parameter ID: %d", event.getId(), node.get("id").asLong()));
+        }
+
+        event.setAccepted(node.get("accepted").asInt());
+
+        return eventRepo.save(event);
     }
 }
