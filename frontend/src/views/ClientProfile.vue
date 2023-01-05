@@ -95,7 +95,7 @@ export default {
 
   methods: {
     getUserData() {
-      axios.get(process.env.VUE_APP_API_URL + `/api/users/client/${this.userId}`)
+      axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
           .then((res) => {
             this.user = res.data;
             console.log(this.user)

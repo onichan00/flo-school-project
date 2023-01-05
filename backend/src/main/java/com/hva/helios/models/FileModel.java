@@ -24,7 +24,7 @@ public class FileModel {
 
     public FileModel() {}
 
-    public FileModel( long userId, String name, String type,byte[] data) {
+    public FileModel(long userId, String name, String type,byte[] data) {
         this.name = name;
         this.type = type;
         this.data = data;

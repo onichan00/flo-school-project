@@ -30,6 +30,7 @@ export default {
   },
   methods: {
     uploadFile() {
+      console.log(this.userId)
       const data = new FormData();
       data.append(
           "file",
