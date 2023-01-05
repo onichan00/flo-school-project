@@ -91,6 +91,96 @@
       <h2><strong>Project description</strong></h2>
       <p>{{ dataObject.description }}</p>
     </div>
+    <div class="not-prose relative bg-slate-50 rounded-xl overflow-hidden dark:bg-slate-800/25">
+      <div style="background-position:10px 10px"
+           class="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,#fff,rgba(255,255,255,0.6))] dark:bg-grid-slate-700/25 dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]"></div>
+      <div class="relative rounded-xl overflow-auto p-8 ">
+
+        <div
+            class="w-72 float-left overflow-auto h-72 relative mx-auto bg-white dark:bg-slate-800 dark:highlight-white/5 shadow-lg ring-1 ring-black/5 rounded-xl flex flex-col divide-y dark:divide-slate-200/5">
+          <div  v-on:click="selectSpecialist(specialist)" v-for="specialist in specialists" :key="specialist.id" class="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-600">
+            <img class="w-12 h-12 rounded-full" :src="specialist.photo">
+            <div class="flex flex-col">
+              <strong class="text-slate-900 text-sm font-medium dark:text-slate-200">{{
+                  this.fullName(specialist)
+                }}</strong>
+              <span class="text-slate-500 text-sm font-medium dark:text-slate-400">{{
+                  specialist.specialist.specialistType
+                }}</span>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="absolute inset-0 pointer-events-none border border-black/5 rounded-xl dark:border-white/5"></div>
+    </div>
+
+    <br>
+    <div class="flex items-center p-4 space-x-2 border-t border-gray-200">
+      <button v-on:click="this.acceptedNumber = -1"
+              class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        Afgewezen
+      </button>
+      <button v-on:click="this.acceptedNumber = 1"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Geaccepteerd
+      </button>
+      <button v-on:click="this.acceptedNumber = 0"
+              class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        Nieuw
+      </button>
+      <button v-on:click="this.acceptedNumber = 2"
+              class="bg-[#F05822] hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+        Alles
+      </button>
+    </div>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">
+            Titel
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Locatie
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Aantal minuten
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Beschrijving
+          </th>
+          <th scope="col" class="px-6 py-3">
+            <span class="sr-only">Edit</span>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-on:click="goToEvent(event)" v-for="event in getNewEvents(this.acceptedNumber)" v-bind:key="event.id"
+            class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {{ event.title }}
+          </th>
+          <td class="px-6 py-4">
+            {{ event.location }}
+          </td>
+          <td class="px-6 py-4">
+            {{ event.title }}
+          </td>
+          <td class="px-6 py-4">
+            {{ event.description }}
+          </td>
+          <td class="px-6 py-4 text-right">
+            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <br>
     <button v-on:click="deleteProject" type="button"
             class="float-right focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
       Delete project
@@ -168,6 +258,9 @@ export default {
       specialists: null,
       clients: null,
       modalObj: null,
+      newEvents: null,
+      selectedSpecialist: null,
+      acceptedNumber: 2,
       classObject: {
         'bg-green-100': this.dataObject === 0
       }
@@ -176,10 +269,11 @@ export default {
 
   async created() {
     await this.findProjectFromRouteParam(this.$route.params.id);
+    await this.getAllSpecialists()
 
     this.specialistsOfThisProject = this.getSpecialistOfThisProject();
     this.clientOfThisProject = this.findClientFromId(this.dataObject.client);
-    this.availableSpecialists = this.findAvailableSpecialists();
+    // this.availableSpecialists = this.findAvailableSpecialists();
   },
 
   methods: {
@@ -187,8 +281,28 @@ export default {
     firstLetterUpperCase,
     formatDate,
 
+    getNewEvents(num) {
+      console.log(num)
+      if (num === 2) {
+        return this.dataObject.events;
+      } else {
+        return this.dataObject.events.filter((event) => {
+          return event.accepted === num
+        })
+      }
+    },
+
+    selectSpecialist(specialist) {
+      this.selectedSpecialist = specialist
+      console.log(this.selectedSpecialist)
+    },
+
     declineProject() {
       history.back()
+    },
+
+    goToEvent(event) {
+      this.$router.push('/projects/event/' + event.id)
     },
 
     deleteProject() {
@@ -202,16 +316,21 @@ export default {
           })
     },
 
+    fullName(name) {
+      return (String(name.first_name).charAt(0).toUpperCase() + String(name.first_name).slice(1))
+          + ' '
+          + String(name.last_name).charAt(0).toUpperCase() + String(name.last_name).slice(1);
+    },
+
+
     async getAllSpecialists() {
-      await axios.get(process.env.VUE_APP_API_URL + "/api/users/speccialist")
+      await axios.get(process.env.VUE_APP_API_URL + "/api/users/specialists")
           .then((res) => {
             console.log(res.data)
             this.specialists = res.data;
           })
-          .catch((err) => {
-            console.log(err);
-          })
     },
+
     async findProjectFromRouteParam(id) {
       await axios.get(process.env.VUE_APP_API_URL + "/api/projects/" + id)
           .then((res) => {
@@ -282,5 +401,6 @@ export default {
 
 
 <style scoped>
+.selected {background: #41c69e;}
 
 </style>
