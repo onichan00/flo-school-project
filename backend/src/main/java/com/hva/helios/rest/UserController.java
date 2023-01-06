@@ -211,8 +211,16 @@ public class UserController {
         // TODO: convert objects from the json to the correct type and set them to the specialists before setting the specialist in the user and saving the user
         // TODO: TLDR its not functional yet
         if (userType == 2) {
-            Specialist savedSpecialist = specialistRepository.save(user.getSpecialist());
+            Specialist savedSpecialist;
+
+            if (user.getSpecialist() != null){
+                savedSpecialist = specialistRepository.save(user.getSpecialist());
+            } else {
+                savedSpecialist = specialistRepository.save(new Specialist());
+            }
+
             user.setSpecialist(savedSpecialist);
+
             User newUser = userRepository.save(user);
 
 //            return new LoginResponse(newUser.getId(), newUser.getUserType());

@@ -53,7 +53,9 @@ public class Specialist{
     @JsonSerialize(using = Views.PublicSerializer.class)
     private Set<Event> events;
 
-    protected Specialist() {}
+    public Specialist() {
+
+    }
 
     public Specialist(int available, String specialistType, long approvalStatus) {
         this.available = available;

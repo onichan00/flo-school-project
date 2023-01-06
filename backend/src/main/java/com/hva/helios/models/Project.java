@@ -15,7 +15,7 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(Views.Public.class)
-    private Long id;
+    private Long id = 0L;
 
     @Column(nullable = false)
     @JsonView(Views.Public.class)
@@ -202,8 +202,6 @@ public class Project {
 
         return false;
     }
-
-
 
     public Long getId() {
         return id;
