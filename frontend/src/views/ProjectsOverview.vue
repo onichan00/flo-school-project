@@ -211,7 +211,8 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr v-for="specialist in this.specialists[0]" :key="specialist.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <tr v-for="specialist in this.selectedProject.specialists" :key="specialist.id"
+                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       {{ specialist.first_name + " " + specialist.last_name }}
                     </th>
@@ -299,6 +300,7 @@
 <script>
 import axios from 'axios';
 import {AnnouncementsAdaptor} from "@/models/AnnouncementsAdaptor";
+import specialists from "@/views/admin/specialist/Specialists";
 
 export default {
   name: "ProjectsOverview",
@@ -352,28 +354,29 @@ export default {
     },
 
     async sendEmail(event) {
+      const specialists = this.specialists[0]
       const currentTimeInMilliseconds = new Date().getTime();
       const currentTime = new Date(currentTimeInMilliseconds);
       const time = currentTime.toLocaleString('nl-NL', {hour: '2-digit', minute: '2-digit'})
 
-      const emailData = {
-        //TODO Add specialist data
-        to: "simon.vriesema@icloud.com",
-        name: "Simon Vriesema",
-        from: this.user.first_name + " " + this.user.last_name,
-        subject: this.selectedProject.name,
-        time: time,
-        body: event.target.value
-      }
+      for (let i = 0; i < specialists.length; i++) {
+        const emailData = {
+          to: specialists[i].email,
+          name: specialists[i].first_name + " " + specialists[i].last_name,
+          from: this.user.first_name + " " + this.user.last_name,
+          subject: this.selectedProject.name,
+          time: time,
+          body: event.target.value
+        }
 
-      await axios.get(process.env.VUE_APP_API_URL + '/api/send-email', {params: emailData})
-          .then(response => {
-            console.log(emailData)
-            console.log(response);
-          })
-          .catch((err) => {
-            console.log(err);
-          })
+        await axios.get(process.env.VUE_APP_API_URL + '/api/send-email', {params: emailData})
+            .then(response => {
+              console.log(response);
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+      }
     },
 
     getUserData() {
@@ -437,11 +440,8 @@ export default {
       if (element === this.selectedProject) {
         return null;
       }
-      this.selectedProject = element;
-    },
 
-    changeStatus(project, statusId) {
-      project.status = statusId;
+      this.selectedProject = element;
     },
 
     getProjectData() {
@@ -454,8 +454,8 @@ export default {
             for (let i = 0; i < this.projects.length; i++) {
               axios.get(process.env.VUE_APP_API_URL + `/api/users/specialists/${this.projects[i].id}`)
                   .then((res) => {
-                    this.specialists.push(res.data);
-                    console.log(this.specialists[0])
+                    // Add the specialists to the current project
+                    this.projects[i].specialists = res.data;
                   })
                   .catch((err) => {
                     console.log(err)
@@ -479,9 +479,7 @@ export default {
       axios.get(process.env.VUE_APP_API_URL + "/api/projects" + id)
           .then((res) => {
             this.projects = res.data;
-
             console.log(res.data)
-            console.log(this.projects)
           })
           .catch((err) => {
             console.log(err);
