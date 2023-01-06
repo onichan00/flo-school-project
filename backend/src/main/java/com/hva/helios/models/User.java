@@ -1,38 +1,72 @@
 package com.hva.helios.models;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.hva.helios.models.user.Admin;
 import com.hva.helios.models.user.Client;
 import com.hva.helios.models.user.Specialist;
+import com.hva.helios.views.Views;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="user_table")
+@Table(name = "user_table")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
     @Id
     @GeneratedValue
+    @JsonView(Views.Public.class)
     private long id = 0L;
+
+    @JsonView(Views.Public.class)
     private String email;
+
+    @JsonView(Views.Public.class)
     private String password;
+
+    @JsonView(Views.Public.class)
     private String first_name;
+
+    @JsonView(Views.Public.class)
     private String second_name;
+
+    @JsonView(Views.Public.class)
     private String last_name;
+
+    @JsonView(Views.Public.class)
     private String photo;
+
+    @JsonView(Views.Internal.class)
     private String bio;
+
+    @JsonView(Views.Public.class)
     private String phone;
+
+    @JsonView(Views.Public.class)
     private String city;
+
+    @JsonView(Views.Public.class)
     private String zipCode;
+
+    @JsonView(Views.Public.class)
     private String address;
+
+    @JsonView(Views.Public.class)
     private Long userType;
+
     @OneToOne
+    @JsonView(Views.Internal.class)
     Client client;
+
     @OneToOne
+    @JsonView(Views.Internal.class)
     Admin admin;
+
     @OneToOne
+    @JsonView(Views.Internal.class)
     Specialist specialist;
 
-    protected User() {}
+    protected User() {
+    }
 
     public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType) {
         this.email = email;
@@ -48,9 +82,10 @@ public class User {
         this.address = address;
         this.userType = userType;
     }
-    public User(User user, Admin admin){
+
+    public User(User user, Admin admin) {
         User user2 = user;
-        this.admin =admin;
+        this.admin = admin;
     }
 
     public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType, Client client) {
@@ -101,7 +136,7 @@ public class User {
         this.specialist = specialist;
     }
 
-    public User(Long id, Long userType){
+    public User(Long id, Long userType) {
         this.userType = userType;
         this.id = id;
     }

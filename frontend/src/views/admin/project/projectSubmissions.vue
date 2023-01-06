@@ -30,8 +30,7 @@
                          :project="project"/>
             <div
                 data-modal-toggle="projectCreate-modal"
-                class="flex justify-center items-center bg-gray-100 rounded-md shadow-sm p-4 transition-transform duration-200 cursor-pointer hover:-translate-y-2 text-left"
-                @click="show = !show">
+                class="flex justify-center items-center bg-gray-100 rounded-md shadow-sm p-4 transition-transform duration-200 cursor-pointer hover:-translate-y-2 text-left">
               <Icon class="text-4xl inline-flex items-center" icon="ant-design:plus-outlined"/>
             </div>
           </div>

@@ -5,7 +5,7 @@
 
         <p><strong>Naam:</strong> {{ dataObject.name }}</p>
         <!--        <p><strong>Company:</strong>{{ clientOfThisProject.company }}</p>-->
-        <!--        <p><strong>Client: </strong>{{ specialistFullName(clientOfThisProject) }}</p>-->
+                <p><strong>Client: </strong>{{ specialistFullName(dataObject.user) }}</p>
         <p><strong>Gemaakt op: </strong>{{ formatDate(dataObject.created) }}</p>
       </div>
       <div class="relative py-8 flex items-center justify-center p-4 shadow-md rounded-md border border-gray-200">
@@ -16,7 +16,7 @@
       <div
           class="relative py-8 flex items-center justify-center p-4 shadow-md rounded-md border border-gray-200 text-left">
         <p class="absolute bottom-2 right-2 text-gray-400">Most valuable coder</p>
-        <!--<p class="text-3xl">{{ specialistFullName(specialistsOfThisProject[0]) }}</p>-->
+        <p  class="text-3xl">{{ specialistFullName(specialists[0]) }}</p>
       </div>
     </div>
     <hr class="my-4"/>
