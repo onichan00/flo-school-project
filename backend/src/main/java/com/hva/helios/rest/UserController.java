@@ -1,5 +1,7 @@
 package com.hva.helios.rest;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hva.helios.models.record.LoginBody;
 import com.hva.helios.models.record.LoginResponse;
 import com.hva.helios.models.user.*;
@@ -11,6 +13,7 @@ import com.hva.helios.repositories.interfaces.jpa.ClientJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
 import com.hva.helios.repositories.user.UserSkillJPARepository;
+import com.hva.helios.views.Views;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -152,31 +155,10 @@ public class UserController {
     }
 
     @GetMapping("{id}")
+    @JsonView(Views.Internal.class)
     public User getUserById(@PathVariable long id) {
-//        List<User> users = new ArrayList<>();
-
-//        return userRepository.findById(id);
-
-//        users.addAll(clientRepository.findAll());
-//        users.addAll(adminRepository.findAll());
-//        users.addAll(specialistRepository.findAll());
-//
-//        User user = null;
-//
-////        users.stream().findFirst();
-//
-//        for (User value : users) {
-//            if (value.getId() == id) user = value;
-//        }
-//
-//        if (user == null) {
-//            throw new NotFoundException("User not found");
-//        }
-//
-//        User user = userRepository.findById(id)
-//                .orElseThrow(() -> new NotFoundException("Project could not be found"));
         return userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Project could not be found"));
+                .orElseThrow(() -> new NotFoundException(String.format("User with ID: %d could not be found", id)));
     }
 
     @PostMapping("login")
@@ -240,6 +222,13 @@ public class UserController {
         throw new NotFoundException("register failed");
     }
 
+    /**
+     * Add a new skill to a user's specialist profile.
+     * @param userSkill The new skill to add to the user's specialist profile
+     * @param userId The id of the user whose specialist profile will have the new skill added
+     * @return The updated user object
+     * @throws NotFoundException If the user with the specified ID is not found
+     */
     @PostMapping("/specialist/{userId}/skill")
     public User addUserSkill(@RequestBody UserSkill userSkill, @PathVariable long userId) {
         User user = userRepository.findById(userId).orElse(null);
@@ -248,12 +237,52 @@ public class UserController {
             throw new NotFoundException(String.format("The user with ID: %d was not found", userId));
         }
 
-        UserSkill savedUserSkill = userSkillRepo.save(userSkill);
-
-        Specialist specialist = user.getSpecialist();
-        specialist.associateUserSkill(savedUserSkill);
-        user.setSpecialist(specialist);
+        userSkill = userSkillRepo.save(userSkill);
+        user.getSpecialist().associateUserSkill(userSkill);
 
         return userRepository.save(user);
+    }
+
+    /**
+     * Update a skill in a specialist profile
+     * @param userId The ID of the user whose specialist profile will have the skill updated
+     * @param userSkill The updated skill to be saved to the user's specialist profile
+     * @return The updated user object
+     * @throws NotFoundException If the user with the specified ID is not found
+     */
+    @PatchMapping("/specialist/{userId}/skill")
+    public User updateUserSkill(@PathVariable long userId, @RequestBody UserSkill userSkill) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user == null) {
+            throw new NotFoundException(String.format("The user with ID: %d was not found", userId));
+        }
+
+        userSkillRepo.save(userSkill);
+
+        return user;
+    }
+
+    /**
+     * Delete a skill from a specialist
+     *
+     * @param userId The ID of the user whose specialist profile will have the skill deleted
+     * @param skillId The ID of the skill that will be deleted
+     * @return The updated user object
+     * @throws NotFoundException If the user with the specified ID is not found
+     */
+    @DeleteMapping("/specialist/{userId}/skill/{skillId}")
+    public User deleteUserSkill(@PathVariable long userId, @PathVariable long skillId) {
+        User user = userRepository.findById(userId).orElse(null);
+        UserSkill userSkill = userSkillRepo.findById(skillId);
+
+        if (user == null) {
+            throw new NotFoundException(String.format("The user with ID: %d was not found", userId));
+        }
+
+        userSkill.dissociateSpecialist(user.getSpecialist());
+        userSkillRepo.deleteById(skillId);
+
+        return user;
     }
 }
