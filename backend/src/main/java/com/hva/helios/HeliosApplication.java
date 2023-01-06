@@ -1,18 +1,22 @@
 package com.hva.helios;
 
 import com.hva.helios.data.EventData;
+import com.hva.helios.data.ProjectData;
 import com.hva.helios.data.SkillData;
+import com.hva.helios.data.UserData;
 import com.hva.helios.models.Event;
 import com.hva.helios.models.Project;
+import com.hva.helios.models.User;
+import com.hva.helios.models.user.Admin;
+import com.hva.helios.models.user.Client;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.hour.AvailableHour;
 import com.hva.helios.models.user.skill.Skill;
 import com.hva.helios.models.user.skill.UserSkill;
 import com.hva.helios.repositories.ProjectJPARepository;
 import com.hva.helios.repositories.interfaces.EntityRepository;
-import com.hva.helios.repositories.interfaces.jpa.EventJPARepository;
-import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
-import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
+import com.hva.helios.repositories.interfaces.jpa.*;
+import com.hva.helios.repositories.interfaces.testRepo;
 import com.hva.helios.repositories.user.UserSkillJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,6 +25,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @SpringBootApplication
@@ -39,10 +45,15 @@ public class HeliosApplication implements CommandLineRunner {
 	private SpecialistJPARepository specialistRepo;
 
 	@Autowired
+	private ClientJPARepository clientRepository;
+
+	@Autowired
+	private AdminJPARepository adminRepository;
+	@Autowired
 	private EventJPARepository eventRepo;
 
 	@Autowired
-	private ProjectJPARepository projectRepo;
+	private testRepo projectRepo;
 
 	@Autowired
 	private UserSkillJPARepository userSkillRepo;
@@ -56,9 +67,60 @@ public class HeliosApplication implements CommandLineRunner {
 		System.out.println("Running CommandLine Startup");
 
 		createInitialSkillData();
-//		createInitialHoursData();
-//		createInitialEvents();
-//		createInitialUserSkill();
+		createInitialAdmins();
+		createInitialSpecialists();
+		createInitialClients();
+		createInitialProjects();
+		createInitialHoursData();
+		createInitialEvents();
+		createInitialUserSkill();
+	}
+
+	private void createInitialAdmins() {
+		UserData adminData = new UserData();
+
+		for (User user: adminData.getAdmins()){
+			Admin nAdmin = adminRepository.save(new Admin());
+
+			user.setAdmin(nAdmin);
+
+			userRepository.save(user);
+		}
+	}
+
+	private void createInitialSpecialists() {
+		UserData specialistData = new UserData();
+
+		for (User user: specialistData.getSpecialists()){
+			Specialist nSpecialist = specialistRepo.save(user.getSpecialist());
+
+			user.setSpecialist(nSpecialist);
+
+			userRepository.save(user);
+		}
+	}
+
+	private void createInitialClients() {
+		UserData clientData = new UserData();
+
+		for (User user: clientData.getClients()){
+			Client nClient = clientRepository.save(user.getClient());
+
+			user.setClient(nClient);
+
+			userRepository.save(user);
+		}
+	}
+
+	private void createInitialProjects() {
+		ProjectData projectData = new ProjectData();
+
+		for (Project project: projectData.getProjects()){
+			System.out.println("SOUT "+project.getBannerUrl());
+			project.setUser(userRepository.findByEmail("client"));
+			project.setSpecialists(new HashSet<>(specialistRepo.findById(1)));
+			projectRepo.save(project);
+		}
 	}
 
 	private void createInitialHoursData() {

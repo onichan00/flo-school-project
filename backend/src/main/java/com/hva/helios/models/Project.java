@@ -122,6 +122,7 @@ public class Project {
         this.status = status;
         this.created = created;
         this.description = description;
+        this.bannerUrl = bannerUrl;
     }
 
     public boolean associateEvent(Event event) {
