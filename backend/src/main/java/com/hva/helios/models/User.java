@@ -1,8 +1,10 @@
 package com.hva.helios.models;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.hva.helios.models.user.Admin;
 import com.hva.helios.models.user.Client;
 import com.hva.helios.models.user.Specialist;
+import com.hva.helios.views.Views;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,24 +15,55 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue
+    @JsonView(Views.Public.class)
     private long id = 0L;
+
+    @JsonView(Views.Public.class)
     private String email;
+
+    @JsonView(Views.Public.class)
     private String password;
+
+    @JsonView(Views.Public.class)
     private String first_name;
+
+    @JsonView(Views.Public.class)
     private String second_name;
+
+    @JsonView(Views.Public.class)
     private String last_name;
+
+    @JsonView(Views.Public.class)
     private String photo;
+
+    @JsonView(Views.Internal.class)
     private String bio;
+
+    @JsonView(Views.Public.class)
     private String phone;
+
+    @JsonView(Views.Public.class)
     private String city;
+
+    @JsonView(Views.Public.class)
     private String zipCode;
+
+    @JsonView(Views.Public.class)
     private String address;
+
+    @JsonView(Views.Public.class)
     private Long userType;
+
     @OneToOne
+    @JsonView(Views.Internal.class)
     Client client;
+
     @OneToOne
+    @JsonView(Views.Internal.class)
     Admin admin;
+
     @OneToOne
+    @JsonView(Views.Internal.class)
     Specialist specialist;
 
     protected User() {}

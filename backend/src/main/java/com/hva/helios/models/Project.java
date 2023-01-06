@@ -36,7 +36,7 @@ public class Project {
 
     @ManyToOne
     @JsonView(Views.Internal.class)
-    @JsonSerialize(using = Views.InternalSerializer.class)
+    @JsonSerialize(using = Views.PublicSerializer.class)
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY,
@@ -48,7 +48,7 @@ public class Project {
         joinColumns = { @JoinColumn(name = "project_id") },
         inverseJoinColumns = { @JoinColumn(name = "specialist_id") })
     @JsonView(Views.Internal.class)
-    @JsonSerialize(using = Views.InternalSerializer.class)
+    @JsonSerialize(using = Views.PublicSerializer.class)
     private Set<Specialist> specialists = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY,
@@ -60,12 +60,12 @@ public class Project {
         joinColumns = { @JoinColumn(name = "project_id") },
         inverseJoinColumns = { @JoinColumn(name = "skill_id") })
     @JsonView(Views.Internal.class)
-    @JsonSerialize(using = Views.InternalSerializer.class)
+    @JsonSerialize(using = Views.PublicSerializer.class)
     private List<Skill> skills;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.MERGE)
     @JsonView(Views.Internal.class)
-    @JsonSerialize(using = Views.InternalSerializer.class)
+    @JsonSerialize(using = Views.PublicSerializer.class)
     private Set<Event> events;
 
     /**
@@ -202,11 +202,11 @@ public class Project {
 
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
