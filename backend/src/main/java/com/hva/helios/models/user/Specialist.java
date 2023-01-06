@@ -17,19 +17,20 @@ import java.util.Set;
 public class Specialist{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(Views.Internal.class)
-    private long id = 0L;
+    @JsonView(Views.Public.class)
+    private long id;
 
-    @JsonView(Views.Internal.class)
+    @JsonView(Views.Public.class)
     private int available;
 
-    @JsonView(Views.Internal.class)
+    @JsonView(Views.Public.class)
     private String specialistType;
 
+    @JsonView(Views.Public.class)
     private long approvalStatus;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JsonView(Views.Internal.class)
+    @JsonView(Views.Public.class)
     private AvailableHour hours;
 
     @ManyToMany(fetch = FetchType.LAZY,
@@ -38,16 +39,18 @@ public class Specialist{
             CascadeType.MERGE
         },
         mappedBy = "specialists")
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Internal.class)
     @JsonSerialize(using = Views.PublicSerializer.class)
     private Set<Project> projects = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "specialist")
     @JsonView(Views.Internal.class)
+    @JsonSerialize(using = Views.PublicSerializer.class)
     private Set<UserSkill> skills;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonView(Views.Internal.class)
+    @JsonSerialize(using = Views.PublicSerializer.class)
     private Set<Event> events;
 
     public Specialist() {
@@ -90,8 +93,8 @@ public class Specialist{
 
     public boolean associateUserSkill(UserSkill userSkill) {
         if (userSkill != null && userSkill.getSpecialist() == null) {
-            userSkill.associateSpecialist(this);
             skills.add(userSkill);
+            userSkill.associateSpecialist(this);
 
             return true;
         }

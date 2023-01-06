@@ -32,7 +32,7 @@ public class APIConfig implements WebMvcConfigurer, WebSocketConfigurer {
         registry.addMapping("/**")
                 .allowedOriginPatterns("*")
                 .allowedHeaders("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE");
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
     }
 
     private String getHostIPAddressPattern() {
