@@ -190,24 +190,44 @@
             </div>
             <div>
               <h1 class="mt-3 font-medium text-xl text-gray-700">
-                Specialists
+                Specialisten
               </h1>
-              <div
-                  class="rounded-lg p-1 flex flex-row w-full cursor-pointer transition ease-in-out delay-0 bg-white-500 hover:-translate-y-1 hover:scale-105 hover:bg-gray-100 hover:shadow-sm duration-300">
-                <div class="flex flex row">
-                  <!--                  <img class="h-12 rounded-3xl" :src="require('@/assets/img/undraw_male_avatar_re_y880.svg')">-->
-                  <!--                  <div class="ml-2">-->
-                  <!--                    <div>-->
-                  <!--                      <h1 class="text-lg font-medium">Dennis Kanker</h1>-->
-                  <!--                    </div>-->
-                  <!--                    <div>-->
-                  <!--                      <h2 class="text-sm text-black font-thin text-gray-400">Piemelsaus@kanker.aids</h2>-->
-                  <!--                    </div>-->
-                  <!--                  </div>-->
-                </div>
-                <p>
-                  Er zijn nog geen specialisten toegevoegd voor dit project helaas
-                </p>
+              <div class="relative overflow-x-auto rounded-lg border border-gray-300">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" class="px-3 py-3">
+                      Naam
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Email
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Telefoonnummer
+                    </th>
+                    <th scope="col" class="px-3 py-3">
+                      Bekijk specialist
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr v-for="specialist in this.selectedProject.specialists" :key="specialist.id"
+                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      {{ specialist.first_name + " " + specialist.last_name }}
+                    </th>
+                    <td class="px-6 py-4">
+                      {{ specialist.email }}
+                    </td>
+                    <td class="px-6 py-4">
+                      {{ specialist.phone }}
+                    </td>
+                    <td class="px-3 py-4 hover:text-black hover:pointer-cursor underline">
+                      Klik hier
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
 
@@ -280,6 +300,7 @@
 <script>
 import axios from 'axios';
 import {AnnouncementsAdaptor} from "@/models/AnnouncementsAdaptor";
+import specialists from "@/views/admin/specialist/Specialists";
 
 export default {
   name: "ProjectsOverview",
@@ -301,6 +322,7 @@ export default {
       selectedRowStyle: "bg-gray-100 shadow-sm text-black",
       notSelectedRowStyle: "text-gray-900",
       announcements: [],
+      specialists: []
     }
   },
 
@@ -319,10 +341,10 @@ export default {
     this.announcementsService.close();
   },
 
-  created() {
+  async created() {
     this.announcementsService = new AnnouncementsAdaptor("http://localhost:8080/api/announcements", this.onReceiveAnnouncement)
-    this.getProjectData();
-    this.getUserData();
+    await this.getProjectData();
+    await this.getUserData();
   },
 
   methods: {
@@ -332,28 +354,29 @@ export default {
     },
 
     async sendEmail(event) {
+      const specialists = this.specialists[0]
       const currentTimeInMilliseconds = new Date().getTime();
       const currentTime = new Date(currentTimeInMilliseconds);
       const time = currentTime.toLocaleString('nl-NL', {hour: '2-digit', minute: '2-digit'})
 
-      const emailData = {
-        //TODO Add specialist data
-        to: "simon.vriesema@icloud.com",
-        name: "Simon Vriesema",
-        from: this.user.first_name + " " + this.user.last_name,
-        subject: this.selectedProject.name,
-        time: time,
-        body: event.target.value
-      }
+      for (let i = 0; i < specialists.length; i++) {
+        const emailData = {
+          to: specialists[i].email,
+          name: specialists[i].first_name + " " + specialists[i].last_name,
+          from: this.user.first_name + " " + this.user.last_name,
+          subject: this.selectedProject.name,
+          time: time,
+          body: event.target.value
+        }
 
-      await axios.get(process.env.VUE_APP_API_URL + '/api/send-email', {params: emailData})
-          .then(response => {
-            console.log(emailData)
-            console.log(response);
-          })
-          .catch((err) => {
-            console.log(err);
-          })
+        await axios.get(process.env.VUE_APP_API_URL + '/api/send-email', {params: emailData})
+            .then(response => {
+              console.log(response);
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+      }
     },
 
     getUserData() {
@@ -374,7 +397,6 @@ export default {
     },
 
     onNewAnnouncement(event) {
-      // TODO: Add first name and second name
       // for demo purpose of a simple web socket
       this.announcementsService.sendMessage(event.target.value, this.user.first_name + " " + this.user.last_name, this.selectedProject.id);
       // a persistent announcement system would save the announcement here via the REST api
@@ -383,6 +405,7 @@ export default {
       // reset the input in the text area
       event.target.value = "";
     },
+
     sortAlphabetically() {
       this.projects.sort((p1, p2) => p1.name.localeCompare(p2.name))
     },
@@ -403,14 +426,6 @@ export default {
       this.projects.sort((p1, p2) => p1.status - p2.status)
     },
 
-    searchProject(searchName) {
-      console.log(searchName)
-    },
-
-    deleteSkill(skill) {
-      this.selectedProject.skills.filter(s => s == skill)
-    },
-
     dateFormatter(date) {
       const formatDate = new Date(date)
       const yyyy = formatDate.getFullYear();
@@ -425,19 +440,26 @@ export default {
       if (element === this.selectedProject) {
         return null;
       }
-      this.selectedProject = element;
-    },
 
-    changeStatus(project, statusId) {
-      project.status = statusId;
+      this.selectedProject = element;
     },
 
     getProjectData() {
       axios.get(process.env.VUE_APP_API_URL + `/api/projects/client/${this.userId}`)
           .then((res) => {
-            console.log(res)
             for (let i = 0; i < res.data.length; i++) {
               this.projects.push(res.data[i])
+            }
+
+            for (let i = 0; i < this.projects.length; i++) {
+              axios.get(process.env.VUE_APP_API_URL + `/api/users/specialists/${this.projects[i].id}`)
+                  .then((res) => {
+                    // Add the specialists to the current project
+                    this.projects[i].specialists = res.data;
+                  })
+                  .catch((err) => {
+                    console.log(err)
+                  })
             }
           })
           .catch((err) => {
@@ -447,9 +469,6 @@ export default {
 
     hasBanner(bannerUrl) {
       let regexp = "/^https://images.unsplash.com/";
-      console.log(bannerUrl !== "")
-      console.log(bannerUrl != null)
-      console.log(!bannerUrl.startsWith(regexp))
 
       return (bannerUrl !== "" | bannerUrl != null | !bannerUrl.startsWith(regexp));
     },
@@ -460,9 +479,7 @@ export default {
       axios.get(process.env.VUE_APP_API_URL + "/api/projects" + id)
           .then((res) => {
             this.projects = res.data;
-
             console.log(res.data)
-            console.log(this.projects)
           })
           .catch((err) => {
             console.log(err);

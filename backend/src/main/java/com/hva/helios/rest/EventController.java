@@ -1,6 +1,7 @@
 package com.hva.helios.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.exceptions.PreConditionFailed;
 import com.hva.helios.models.Event;
@@ -127,5 +128,38 @@ public class EventController {
 
         // Return an HTTP response with the deleted event
         return ResponseEntity.ok(deletedEvent);
+    }
+
+    /**
+     * Updates the accepted field of an Event object based on the provided id and request body.
+     *
+     * @param id The ID of the even object to be updates
+     * @param node The request body containing the new accepted value
+     * @return The updated Event object
+     * @throws NotFoundException If no Event object is found with the provided ID
+     * @throws PreConditionFailed If the ID of the Event object does not match the ID in the request body
+     */
+    @PatchMapping("/{id}/accepted")
+    public Event updateEventAccepted(@PathVariable long id, @RequestBody ObjectNode node) {
+        // Attempt to retrieve the event with the given ID
+        Event event = eventRepo.findById(id).orElse(null);
+
+        // Check if the event with the provided ID exists
+        if (event == null) {
+            // If not, throw a NotFoundException
+            throw new NotFoundException(String.format("Event with ID: %d was not found", id));
+        }
+
+        // Check if the ID of the event matches the ID in the request body
+        if (!Objects.equals(event.getId(), node.get("id").asLong())) {
+            // If not, throw a PreConditionFailed exception
+            throw new PreConditionFailed(String.format("Event with ID: %d does not match with parameter ID: %d", event.getId(), node.get("id").asLong()));
+        }
+
+        // Update the accepted field of the Event object
+        event.setAccepted(node.get("accepted").asInt());
+
+        // Save the updated event and return it
+        return eventRepo.save(event);
     }
 }
