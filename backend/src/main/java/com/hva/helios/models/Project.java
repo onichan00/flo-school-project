@@ -36,7 +36,7 @@ public class Project {
 
     @ManyToOne
     @JsonView(Views.Internal.class)
-    @JsonSerialize(using = Views.InternalSerializer.class)
+    @JsonSerialize(using = Views.PublicSerializer.class)
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY,
