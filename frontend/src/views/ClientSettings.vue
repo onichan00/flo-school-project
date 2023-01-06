@@ -85,15 +85,9 @@
             <hr>
 
             <div class="mt-3">
-              <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Huidige banner</label>
-              <img class="mb-2 w-full h-36 rounded-lg border-2"
-                   :src="require('@/assets/img/undraw_coffee_with_friends_3cbj.svg')" alt="Profielfoto">
-            </div>
-
-            <div class="mt-3">
               <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Huidige profielfoto</label>
               <img class="mb-2 w-36 h-36 rounded-lg border-2"
-                   :src="require('@/assets/img/undraw_coffee_with_friends_3cbj.svg')" alt="Profielfoto">
+                   :src="this.profilePicture" alt="Profielfoto">
             </div>
 
 
@@ -101,11 +95,6 @@
 
               <form>
                 <label class="block mb-2 text-sm font-medium text-gray-900">Upload profielfoto</label>
-                <FileUpload></FileUpload>
-              </form>
-
-              <form>
-                <label class="block mb-2 text-sm font-medium text-gray-900">Upload banner</label>
                 <FileUpload></FileUpload>
               </form>
 
@@ -497,16 +486,34 @@ export default {
       newPassword: "",
       repeatNewPassword: "",
       currentPassword: "",
-      images: []
+      images: [],
+      profilePicture: ""
     }
   },
 
   created() {
     this.getUserData()
     this.getImages()
+    this.getProfilePicture()
   },
 
   methods: {
+    async getProfilePicture() {
+      await axios.get(process.env.VUE_APP_API_URL + `/api/files/list/${this.userId}`)
+          .then((res) => {
+            fetch(process.env.VUE_APP_API_URL + `/api/files/${res.data[0].id}`)
+                .then(response => {
+                  if (response.ok) return response.blob();
+                })
+                .then(blob => {
+                  this.profilePicture = URL.createObjectURL(blob)
+                })
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
     async getImages() {
       await axios.get(process.env.VUE_APP_API_URL + `/api/files/list/${this.userId}`)
           .then((res) => {

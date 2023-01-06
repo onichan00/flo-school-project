@@ -34,7 +34,7 @@
                 id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
                 data-dropdown-placement="bottom">
           <span class="sr-only">Open user menu</span>
-          <img class="w-8 h-8 rounded-full" alt="user photo" :src="this.user.photo">
+          <img class="w-8 h-8 rounded-full" alt="user photo" :src="this.profilePicture">
         </button>
         <!-- Dropdown menu -->
         <div
@@ -91,12 +91,30 @@ export default {
     return {
       userId: localStorage.getItem('id'),
       user: [],
+      profilePicture : ""
     }
   },
   created() {
     this.getUserData()
+    this.getProfilePicture()
   },
   methods: {
+    async getProfilePicture() {
+      await axios.get(process.env.VUE_APP_API_URL + `/api/files/list/${this.userId}`)
+          .then((res) => {
+            fetch(process.env.VUE_APP_API_URL + `/api/files/${res.data[0].id}`)
+                .then(response => {
+                  if (response.ok) return response.blob();
+                })
+                .then(blob => {
+                  this.profilePicture = URL.createObjectURL(blob)
+                })
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
     logout() {
       localStorage.clear()
             this.$router.go()
