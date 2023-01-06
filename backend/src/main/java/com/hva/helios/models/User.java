@@ -36,7 +36,7 @@ public class User {
     @JsonView(Views.Public.class)
     private String photo;
 
-    @JsonView(Views.Internal.class)
+    @JsonView(Views.Public.class)
     private String bio;
 
     @JsonView(Views.Public.class)

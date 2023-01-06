@@ -34,7 +34,10 @@ public class Project {
     @JsonView(Views.Public.class)
     private String bannerUrl;
 
-    @ManyToOne
+    @ManyToOne(cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE
+    })
     @JsonView(Views.Internal.class)
     @JsonSerialize(using = Views.PublicSerializer.class)
     private User user;

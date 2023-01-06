@@ -49,7 +49,7 @@ public class Views {
     }
 
     /**
-     * Serializer that only includes fields annotated with @JsonView(Views.Internal.class)
+     * Serializer that includes all fields
      */
     public static class InternalSerializer extends JsonSerializer<Object> {
         @Override
