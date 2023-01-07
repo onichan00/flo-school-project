@@ -62,7 +62,7 @@
           <button @click="updateClient" class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
                   style="background-color:#F15922 "> Bijwerken
           </button>
-          <button @click="deleteClient"
+          <button @click="null"
                   class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
                   style="background-color:red "> Verwijderen
           </button>
@@ -99,21 +99,12 @@ export default {
             }
           })
           .then(data => {
-            const {first_name, second_name, last_name, address, zip_code, city, bio, email, phone} = data;
+            this.client = data;
             this.client.id = this.id;
             this.client.userType = 1;
-            this.client.first_name = first_name;
-            this.client.second_name = second_name;
-            this.client.last_name = last_name;
-            this.client.address = address;
-            this.client.zip_code = zip_code;
-            this.client.city = city;
-            this.client.bio = bio;
-            this.client.email = email;
-            this.client.phone = phone;
           });
     },
-    updateClient() {
+    updateClient() { // TODO serve with .toast
       fetch(process.env.VUE_APP_API_URL + `/api/users/update`,{
         method: 'PUT',
         body: JSON.stringify(this.client),
