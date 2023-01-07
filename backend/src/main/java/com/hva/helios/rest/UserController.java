@@ -8,6 +8,7 @@ import com.hva.helios.models.user.*;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.User;
 import com.hva.helios.models.user.skill.UserSkill;
+import com.hva.helios.repositories.ProjectJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.AdminJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.ClientJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
@@ -39,6 +40,9 @@ public class UserController {
 
     @Autowired
     private UserSkillJPARepository userSkillRepo;
+
+    @Autowired
+    private ProjectJPARepository projectJPARepository;
 
     @DeleteMapping("/delete/{id}")
     public void deleteUserById(@PathVariable long id) {
@@ -142,6 +146,11 @@ public class UserController {
         return userRepository.findAll().stream().filter(user -> user.getUserType() == 1).collect(Collectors.toList());
     }
 
+    /**
+     * Get a single Client user
+     * @param id user id of Client selected in frontend
+     * @return Client with chosen ID
+     */
     @GetMapping("clients/{id}")
     public ResponseEntity<User> getClientById(
             @PathVariable long id) {
@@ -155,7 +164,7 @@ public class UserController {
     /**
      * Create a new Client-type user
      */
-    @PostMapping("/clients")
+    @PostMapping("clients")
     public ResponseEntity<Client> addClient(
             @RequestBody Client client) {
 
