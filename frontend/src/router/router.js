@@ -2,14 +2,15 @@ import {createRouter, createWebHashHistory} from "vue-router";
 
 // Views
 import projectSubmissionsDetail from "@/views/admin/project/ProjectSubmissionsDetail";
-import clientSubmitions from "@/views/admin/client/clientSubmitions";
 import Profile from "@/views/admin/profile";
 import Admin from "@/views/admin/dashboard.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/RegisterPage.vue";
 import LandingPage from "@/views/landingPage.vue";
 import Specialists from "@/views/admin/specialist/Specialists";
-import Client from "@/views/admin/client/detailPageClients";
+import ClientList from "@/views/admin/client/ClientList";
+import CreateClient from "@/views/admin/client/CreateClient.vue";
+import ClientDetail from "@/views/admin/client/ClientDetail.vue";
 
 // Components
 import UnknownRoute from "@/components/404-page"
@@ -99,7 +100,7 @@ export const router = createRouter({
         {
             path: '/clients',
             name: 'Clients',
-            component: clientSubmitions,
+            component: ClientList,
         },
         {
             path: '/client/projects-overview',
@@ -109,7 +110,7 @@ export const router = createRouter({
         {
             path: '/client/:id',
             name: 'Client',
-            component: Client
+            component: ClientDetail
         },
         {
             path: '/client/dashboard',
@@ -125,6 +126,11 @@ export const router = createRouter({
             path: '/client/profile',
             name: 'Client Profile',
             component:  ClientProfile
+        },
+        {
+            path: '/client/create',
+            name: 'Create client',
+            component: CreateClient
         },
         {
             path: '/:pathMatch(.*)',

@@ -15,6 +15,7 @@ import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
 import com.hva.helios.repositories.user.UserSkillJPARepository;
 import com.hva.helios.views.Views;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -139,6 +140,26 @@ public class UserController {
     @GetMapping("clients")
     public List<User> getAllClients() {
         return userRepository.findAll().stream().filter(user -> user.getUserType() == 1).collect(Collectors.toList());
+    }
+
+    @GetMapping("clients/{id}")
+    public ResponseEntity<User> getClientById(
+            @PathVariable long id) {
+        User client = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Client with ID %d could not be found", id)));
+
+        return ResponseEntity.ok()
+                .body(client);
+    }
+
+    /**
+     * Create a new Client-type user
+     */
+    @PostMapping("/clients")
+    public ResponseEntity<Client> addClient(
+            @RequestBody Client client) {
+
+        return null;
     }
 
     @GetMapping("count")
