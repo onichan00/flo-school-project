@@ -139,9 +139,10 @@ export const router = createRouter({
             component:  SpecialistHomePage
         },
         {
-            path: '/specialist/settings',
+            path: '/specialist/settings/:id',
             name: 'Specialist Settings',
             component:  SpecialistSettings
+            // component:  Profile
         },
         {
             path: '/specialist/profile',
@@ -164,7 +165,7 @@ router.beforeEach((to,from) => {
     console.log(to)
 
     // Whitelisted routes when logged out
-    const accessibleLoggedOutRoutes = ['Landing-page', 'Profile', 'Login', 'Register']
+    const accessibleLoggedOutRoutes = ['Landing-page', 'Login', 'Register']
 
     if (!accessibleLoggedOutRoutes.includes(to.name) && localStorage.getItem("id") === null) {
         return { name: 'Landing-page' }

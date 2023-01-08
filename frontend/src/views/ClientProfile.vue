@@ -99,13 +99,15 @@ export default {
     async getProfilePicture() {
       await axios.get(process.env.VUE_APP_API_URL + `/api/files/list/${this.userId}`)
           .then((res) => {
-            fetch(process.env.VUE_APP_API_URL + `/api/files/${res.data[0].id}`)
-                .then(response => {
-                  if (response.ok) return response.blob();
-                })
-                .then(blob => {
-                  this.profilePicture = URL.createObjectURL(blob)
-                })
+            if (res.data.length > 0) {
+              fetch(process.env.VUE_APP_API_URL + `/api/files/${res.data[0].id}`)
+                  .then(response => {
+                    if (response.ok) return response.blob();
+                  })
+                  .then(blob => {
+                    this.profilePicture = URL.createObjectURL(blob)
+                  })
+            }
           })
           .catch((err) => {
             console.log(err);
