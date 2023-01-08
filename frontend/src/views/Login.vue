@@ -124,7 +124,7 @@ export default {
 
         if (userType === 2) {
 
-          this.$router.push("/notfound").then( () => {
+          this.$router.push("/specialist/dashboard").then( () => {
             this.$router.go()
           })
         }
