@@ -5,7 +5,7 @@
 
         <p><strong>Naam:</strong> {{ dataObject.name }}</p>
         <!--        <p><strong>Company:</strong>{{ clientOfThisProject.company }}</p>-->
-                <p><strong>Client: </strong>{{ specialistFullName(dataObject.user) }}</p>
+        <p><strong>Client: </strong>{{ specialistFullName(dataObject.user) }}</p>
         <p><strong>Gemaakt op: </strong>{{ formatDate(dataObject.created) }}</p>
       </div>
       <div class="relative py-8 flex items-center justify-center p-4 shadow-md rounded-md border border-gray-200">
@@ -16,7 +16,7 @@
       <div
           class="relative py-8 flex items-center justify-center p-4 shadow-md rounded-md border border-gray-200 text-left">
         <p class="absolute bottom-2 right-2 text-gray-400">Most valuable coder</p>
-        <p  class="text-3xl">{{ specialistFullName(specialists[0]) }}</p>
+        <p class="text-3xl">{{ specialistFullName(specialists[0]) }}</p>
       </div>
     </div>
     <hr class="my-4"/>
@@ -87,18 +87,20 @@
       </table>
     </div>
     <hr class="my-4"/>
-    <div class="project-description">
+    <div class="project-description py-7">
       <h2><strong>Project description</strong></h2>
       <p>{{ dataObject.description }}</p>
     </div>
+
     <div class="not-prose relative bg-slate-50 rounded-xl overflow-hidden dark:bg-slate-800/25">
       <div style="background-position:10px 10px"
            class="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,#fff,rgba(255,255,255,0.6))] dark:bg-grid-slate-700/25 dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]"></div>
       <div class="relative rounded-xl overflow-auto p-8 ">
 
         <div
-            class="w-72 float-left overflow-auto h-72 relative mx-auto bg-white dark:bg-slate-800 dark:highlight-white/5 shadow-lg ring-1 ring-black/5 rounded-xl flex flex-col divide-y dark:divide-slate-200/5">
-          <div  v-on:click="selectSpecialist(specialist)" v-for="specialist in specialists" :key="specialist.id" class="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-600">
+            class="w-72 float-left overflow-auto h-80 relative mx-auto bg-white dark:bg-slate-800 dark:highlight-white/5 shadow-lg ring-1 ring-black/5 rounded-xl flex flex-col divide-y dark:divide-slate-200/5">
+          <div v-on:click="selectSpecialist(specialist)" v-for="specialist in specialists" :key="specialist.id"
+               class="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-600">
             <img class="w-12 h-12 rounded-full" :src="specialist.photo">
             <div class="flex flex-col">
               <strong class="text-slate-900 text-sm font-medium dark:text-slate-200">{{
@@ -110,6 +112,64 @@
             </div>
           </div>
         </div>
+
+
+        <form class="w-4/5">
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/2 px-3">
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                Titel
+              </label>
+              <input
+                  class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  type="text" placeholder="Doe">
+            </div>
+            <div class="w-full md:w-1/2 px-3">
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                Locatie
+              </label>
+              <input
+                  class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  i type="text" placeholder="Doe">
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full md:w-1/2 px-3">
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                Start en Eind tijd
+              </label>
+              <input
+                  class="appearance-none block w-1/2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 float-left"
+                  type="text" placeholder="Doe">
+              <input
+                  class="appearance-none block w-1/2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  type="text" placeholder="Doe">
+            </div>
+            <div class="w-full md:w-1/2 px-3">
+              <div>
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  Type
+                </label>
+                <select
+                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                  <option>Werk</option>
+                  <option>Vrij</option>
+                  <option>Ziek</option>
+                  <option>Vakantie</option>
+                  <option>Anders</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full px-3">
+              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Beschrijving</label>
+              <textarea id="message" rows="4"
+                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Your message..."></textarea>
+            </div>
+          </div>
+        </form>
 
 
       </div>
@@ -401,6 +461,8 @@ export default {
 
 
 <style scoped>
-.selected {background: #41c69e;}
+.selected {
+  background: #41c69e;
+}
 
 </style>
