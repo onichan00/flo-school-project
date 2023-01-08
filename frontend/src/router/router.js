@@ -14,8 +14,8 @@ import ClientDetail from "@/views/admin/client/ClientDetail.vue";
 
 // Components
 import UnknownRoute from "@/components/404-page"
-import SpecialistApplications from "@/components/SpecialistApplications";
-import SpecialistApplicationModal from "@/components/SpecialistApplicationModal";
+import SpecialistApplications from "@/views/admin/specialist/SpecialistApplications.vue";
+import SpecialistApplicationModal from "@/components/SpecialistApplicationModal.vue";
 import ProjectsOverview from "@/views/ProjectsOverview";
 import projectSubmissions from "@/views/admin/project/projectSubmissions";
 import ClientHomePage from "@/views/ClientHomePage";

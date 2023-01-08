@@ -16,8 +16,11 @@ import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
 import com.hva.helios.repositories.user.UserSkillJPARepository;
 import com.hva.helios.views.Views;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -325,5 +328,41 @@ public class UserController {
         userSkillRepo.deleteById(skillId);
 
         return user;
+    }
+
+    /**
+     * Get all Specialists with an approval status of 'pending' (2)
+     */
+    @GetMapping("/specialists/applications")
+    public List<User> getAllApplications() {
+        return this.getAllSpecialists()
+                .stream()
+                .filter(user -> user.getSpecialist().getApprovalStatus() == 2)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Updates only the approval status of a Specialist
+     * @param id Specialist's user ID
+     * @param specialist basically just the updated approval status
+     * @return updated Specialist and HTTP status
+     */
+    @PutMapping("/specialists/applications/{id}")
+    public ResponseEntity<Specialist> updateApplication(
+            @PathVariable("id") long id,
+            @RequestBody Specialist specialist) {
+        Specialist specialistToUpdate = specialistRepository.getSpecialistById(id);
+
+        specialistToUpdate.setApprovalStatus(specialist.getApprovalStatus());
+        specialistRepository.save(specialistToUpdate);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(
+                "Location",
+                ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .toUriString()
+        );
+        return new ResponseEntity<>(specialistToUpdate, headers, HttpStatus.OK);
     }
 }
