@@ -67,15 +67,6 @@
                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
                      placeholder="Zoeken..." required>
             </div>
-            <button
-                @click="this.$router.push('/create-project')"
-                class="p-2.5 ml-2 text-sm font-medium text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br rounded-lg">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                   xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-              </svg>
-            </button>
           </form>
         </div>
 
@@ -193,49 +184,6 @@
             </div>
             <div>
               <h1 class="mt-3 font-medium text-xl text-gray-700">
-                Specialisten
-              </h1>
-              <div class="relative overflow-x-auto rounded-lg border border-gray-300">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                    <th scope="col" class="px-3 py-3">
-                      Naam
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      Email
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      Telefoonnummer
-                    </th>
-                    <th scope="col" class="px-3 py-3">
-                      Bekijk specialist
-                    </th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr v-for="specialist in this.selectedProject.specialists" :key="specialist.id"
-                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {{ specialist.first_name + " " + specialist.last_name }}
-                    </th>
-                    <td class="px-6 py-4">
-                      {{ specialist.email }}
-                    </td>
-                    <td class="px-6 py-4">
-                      {{ specialist.phone }}
-                    </td>
-                    <td class="px-3 py-4 hover:text-black hover:pointer-cursor underline">
-                      Klik hier
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div>
-              <h1 class="mt-3 font-medium text-xl text-gray-700">
                 Aankondigingen
               </h1>
               <div class="bg-gray-50 border border-1 rounded-lg">
@@ -337,31 +285,31 @@ export default {
       this.onNewAnnouncement(event);
     },
 
-    async sendEmail(event) {
-      const specialists = this.specialists[0]
-      const currentTimeInMilliseconds = new Date().getTime();
-      const currentTime = new Date(currentTimeInMilliseconds);
-      const time = currentTime.toLocaleString('nl-NL', {hour: '2-digit', minute: '2-digit'})
-
-      for (let i = 0; i < specialists.length; i++) {
-        const emailData = {
-          to: specialists[i].email,
-          name: specialists[i].first_name + " " + specialists[i].last_name,
-          from: this.user.first_name + " " + this.user.last_name,
-          subject: this.selectedProject.name,
-          time: time,
-          body: event.target.value
-        }
-
-        await axios.get(process.env.VUE_APP_API_URL + '/api/send-email', {params: emailData})
-            .then(response => {
-              console.log(response);
-            })
-            .catch((err) => {
-              console.log(err);
-            })
-      }
-    },
+    // async sendEmail(event) {
+    //   const specialists = this.specialists[0]
+    //   const currentTimeInMilliseconds = new Date().getTime();
+    //   const currentTime = new Date(currentTimeInMilliseconds);
+    //   const time = currentTime.toLocaleString('nl-NL', {hour: '2-digit', minute: '2-digit'})
+    //
+    //   for (let i = 0; i < specialists.length; i++) {
+    //     const emailData = {
+    //       to: specialists[i].email,
+    //       name: specialists[i].first_name + " " + specialists[i].last_name,
+    //       from: this.user.first_name + " " + this.user.last_name,
+    //       subject: this.selectedProject.name,
+    //       time: time,
+    //       body: event.target.value
+    //     }
+    //
+    //     await axios.get(process.env.VUE_APP_API_URL + '/api/send-email', {params: emailData})
+    //         .then(response => {
+    //           console.log(response);
+    //         })
+    //         .catch((err) => {
+    //           console.log(err);
+    //         })
+    //   }
+    // },
 
     getUserData() {
       axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
