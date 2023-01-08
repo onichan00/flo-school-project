@@ -354,7 +354,8 @@ export default {
     },
 
     async sendEmail(event) {
-      const specialists = this.specialists[0]
+      const specialists = this.selectedProject.specialists
+      console.log(specialists)
       const currentTimeInMilliseconds = new Date().getTime();
       const currentTime = new Date(currentTimeInMilliseconds);
       const time = currentTime.toLocaleString('nl-NL', {hour: '2-digit', minute: '2-digit'})

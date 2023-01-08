@@ -15,6 +15,7 @@ import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
 import com.hva.helios.repositories.user.UserSkillJPARepository;
 import com.hva.helios.views.Views;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -107,14 +108,41 @@ public class UserController {
         return userRepository.findAll().stream().filter(user -> user.getUserType() == 0).collect(Collectors.toList());
     }
 
+    /**
+     * Handles a GET request to retrieve all specialists.
+     *
+     * @return a list of all specialists in the database
+     */
     @GetMapping("specialists")
     public List<User> getAllSpecialists() {
-        return userRepository
-                .findAll()
-                .stream()
+        // Retrieve all users from the database
+        List<User> users = userRepository.findAll();
+
+        // Filter the list to include only specialists (users with user type 2)
+        // Return the list of specialists
+        return users.stream()
                 .filter(user -> user.getUserType() == 2)
                 .collect(Collectors.toList());
     }
+
+
+    /**
+     * Handles a GET request to check if an email is already in use.
+     *
+     * @param email the email to check
+     * @return a bad request response if the email is already in use, or an OK response if it is not
+     */
+    @GetMapping("check-email/{email}")
+    public ResponseEntity<Void> checkEmail(@PathVariable String email) {
+        // Check if a user with the specified email exists in the database
+        if (userRepository.findByEmail(email) != null) {
+            // If a user with the email exists, return a bad request response
+            return ResponseEntity.badRequest().build();
+        }
+        // If a user with the email does not exist, return an OK response
+        return ResponseEntity.ok().build();
+    }
+
 
     /**
      * Returns a list of all specialists who are assigned to a project with the given id.
@@ -216,7 +244,7 @@ public class UserController {
             if (user.getSpecialist() != null){
                 savedSpecialist = specialistRepository.save(user.getSpecialist());
             } else {
-                savedSpecialist = specialistRepository.save(new Specialist());
+                savedSpecialist = specialistRepository.save(user.getSpecialist());
             }
 
             user.setSpecialist(savedSpecialist);
