@@ -67,6 +67,9 @@ public class UserController {
         oUser.setEmail(user.getEmail());
         oUser.setPhone(user.getPhone());
         oUser.setPassword(user.getPassword());
+        oUser.setAddress(user.getAddress());
+        oUser.setZipCode(user.getZipCode());
+        oUser.setCity(user.getCity());
 
         if (userType == 0) {
             return userRepository.save(oUser);

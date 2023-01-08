@@ -43,16 +43,22 @@
                 </div>
               </div>
             </div>
-            <div class="grid md:grid-cols-2 md:gap-6">
+            <div class="grid md:grid-cols-3 md:gap-6">
               <div>
-                <label for="password" class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Wachtwoord</label>
-                <input v-model="client.password" type="password" name="password" id="password" placeholder="••••••••"
+                <label for="password" class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Adres</label>
+                <input v-model="client.address" type="text" name="password" id="password" placeholder="Straat"
                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
                        required>
               </div>
               <div>
-                <label for="repeat-password" class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Herhaal Wachtwoord</label>
-                <input v-model="client.password" type="password" name="password" id="repeat-password" placeholder="••••••••"
+                <label for="password" class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Postcode</label>
+                <input v-model="client.zipCode" type="text" name="text" id="password" placeholder="Postcode"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                       required>
+              </div>
+              <div>
+                <label for="repeat-password" class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Stad</label>
+                <input v-model="client.city" type="text" name="text" id="repeat-password" placeholder="Stad"
                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
                        required>
               </div>
@@ -62,10 +68,10 @@
           <button @click="updateClient" class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
                   style="background-color:#F15922 "> Bijwerken
           </button>
-          <button @click="null"
-                  class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
-                  style="background-color:red "> Verwijderen
-          </button>
+<!--          <button @click="null"-->
+<!--                  class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"-->
+<!--                  style="background-color:red "> Verwijderen-->
+<!--          </button>--> <!-- TODO decide what to do with this -->
           <button @click="this.$router.push('/clients')"
                   class="w-full rounded-lg font-medium bg-white px-4 py-1.5 text-white"
                   style="background-color:red "> Annuleren
@@ -114,7 +120,10 @@ export default {
       }).then(response => {
         if (response.ok) {
           this.$router.push("/clients");
+          return response.json();
         }
+      }).then(data => {
+        console.log(data);
       })
     },
     //TODO decide what to do with 'deleted' clients
