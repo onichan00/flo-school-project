@@ -362,7 +362,9 @@ export default {
     },
 
     goToEvent(event) {
-      this.$router.push('/projects/event/' + event.id)
+      this.$router.push('/projects/event/' + event.id).then(() => {
+        this.$router.go()
+      })
     },
 
     deleteProject() {

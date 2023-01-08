@@ -21,7 +21,6 @@
 
 <script>
 import axios from "axios";
-import {useToast} from "vue-toastification";
 
 export default {
   name: "projectEvent",
@@ -30,6 +29,7 @@ export default {
     return {
       title: "hallo",
       eventData: null,
+      params: {}
     }
   },
 
@@ -39,9 +39,11 @@ export default {
 
   methods: {
     reject() {
-      this.eventData.accepted = -1;
+      this.params = {"id": this.eventData.id, "accepted": -1}
 
-      axios.put(process.env.VUE_APP_API_URL + "/api/events/" + this.eventData.id, this.eventData)
+      // this.eventData.project = null;
+
+      axios.patch(process.env.VUE_APP_API_URL + "/api/events/" + this.eventData.id + "/accepted", this.params)
           .then((res) => {
             console.log(res);
             this.$router.push('/projects/' + this.eventData.project.id)
@@ -52,9 +54,11 @@ export default {
     },
 
     accept() {
-      this.eventData.accepted = 1;
+      this.params = {"id": this.eventData.id, "accepted": 1}
 
-      axios.put(process.env.VUE_APP_API_URL + "/api/events/" + this.eventData.id, this.eventData)
+      // this.eventData.project = null;
+
+      axios.patch(process.env.VUE_APP_API_URL + "/api/events/" + this.eventData.id + "/accepted", this.params)
           .then((res) => {
             console.log(res);
             this.$router.push('/projects/' + this.eventData.project.id)
