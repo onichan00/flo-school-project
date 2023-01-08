@@ -1,24 +1,37 @@
 export default class UpcomingMeeting {
-    title;
+    id;
+    user;
+    project;
     start;
     end;
+    title;
+    eventType;
     location;
     description;
-    type;
+    accepted;
 
     constructor(obj = null) {
-        const now = new Date();
-        const endTime = new Date();
+        const isNull = obj === null;
 
-        now.setMinutes(0);
-        endTime.setMinutes(0);
-        endTime.setHours(endTime.getHours() + 1);
+        const today = new Date();
+        console.log(today.getFullYear(), today.getMonth(), today.getDate())
 
-        this.title = obj !== null ? obj.title : "";
-        this.start = obj !== null ? obj.start : now;
-        this.end = obj !== null ? obj.end : endTime;
-        this.location = obj !== null ? obj.location : "";
-        this.description = obj !== null ? obj.description : "";
-        this.type = obj !== null ? obj.type : -1;
+        const startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 9, 0, 0);
+        const endTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 17, 0, 0);
+
+        this.id = isNull ? 0 : obj.id;
+        this.user = isNull ? { id: 0 } : obj.user;
+        this.project = isNull ? { id: 0 } : obj.project;
+
+        this.start = isNull ? startTime : obj.start;
+        this.end = isNull ? endTime : obj.end;
+
+        this.title = isNull ? "" : obj.title;
+        this.eventType = isNull ? "" : obj.eventType;
+        this.location = isNull ? "" : obj.location;
+        this.description = isNull ? "" : obj.description;
+        this.accepted = isNull ? 0 : obj.accepted;
     }
+
+
 }

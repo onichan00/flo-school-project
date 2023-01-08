@@ -63,4 +63,15 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, header)
                 .body(fileModel.getData());
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<byte[]> delete(
+            @PathVariable("id") String id) {
+
+        FileModel fileModel = fileRepository.findById(id).get();
+        fileRepository.deleteById(id);
+
+        return ResponseEntity.ok()
+                .body(fileModel.getData());
+    }
 }
