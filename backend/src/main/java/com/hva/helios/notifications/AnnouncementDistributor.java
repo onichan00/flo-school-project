@@ -2,7 +2,6 @@ package com.hva.helios.notifications;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -13,13 +12,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles WebSocket connections and broadcasts messages to all connected clients.
+ * @author Simon Vriesema
+ */
 @Component
 public class AnnouncementDistributor extends TextWebSocketHandler {
     // Declare a logger instance to log messages
-    public final static Logger logger = LoggerFactory.getLogger(AnnouncementDistributor.class);
+    private static final Logger logger = LoggerFactory.getLogger(AnnouncementDistributor.class);
     // Declare a list to store active WebSocket sessions
-    List<WebSocketSession> sessions = new ArrayList<>();
+    private final List<WebSocketSession> sessions = new ArrayList<>();
 
+    /**
+     * Handles incoming messages and broadcasts them to all connected clients.
+     *
+     * @param session the WebSocket session that the message was received from
+     * @param message the received message
+     */
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) {
         // Log the number of active sessions
@@ -39,17 +48,28 @@ public class AnnouncementDistributor extends TextWebSocketHandler {
         }
     }
 
+    /**
+     * Adds a newly established WebSocket session to the list of active sessions.
+     *
+     * @param session the newly established WebSocket session
+     */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
-        // Add the session to the list of active sessions when a connection is established
+        // Add the session to the list of active sessions
         sessions.add(session);
         // Log the session id that was added
         logger.info("Session {} was added", session.getId());
     }
 
+    /**
+     * Removes a closed WebSocket session from the list of active sessions.
+     *
+     * @param session the closed WebSocket session
+     * @param status  the close status
+     */
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        // Remove the session from the list of active sessions when the connection is closed
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+        // Remove the session from the list of active sessions
         sessions.remove(session);
         // Log the session id that was removed
         logger.info("Session {} was removed", session.getId());

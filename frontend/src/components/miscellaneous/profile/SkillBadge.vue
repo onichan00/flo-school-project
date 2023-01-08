@@ -1,9 +1,9 @@
 <template>
   <button
       @click="$emit('skillClicked', this.skill)"
-      class="bg-blue-100 hover:bg-blue-200 text-blue-900 p-4 rounded-md"
+      class="bg-orange-200 hover:bg-orange-300 text-orange-700 hover:text-orange-800 p-4 rounded-md"
   >
-    {{ skill.name }}
+    {{ getSkill.skill.name }}
   </button>
 </template>
 
@@ -12,6 +12,11 @@ export default {
   name: "SkillBadge",
   props: ["skill"],
   emits: ["skillClicked"],
+  computed: {
+    getSkill() {
+      return this.skill;
+    }
+  }
 }
 </script>
 

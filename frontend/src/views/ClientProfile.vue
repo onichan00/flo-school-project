@@ -15,7 +15,7 @@
           <div class="flex justify-start px-5 -mt-12">
               <span class="block relative h-48 w-48">
                 <img class='mx-auto object-cover rounded-full h-48 w-48 bg-white p-2'
-                     :src="require('@/assets/img/undraw_female_avatar_re_l6cx-2.svg')">
+                     :src="this.profilePicture">
               </span>
             <div class="ml-2 grid place-items-center h-36">
               <div class="text-left max-h-10">
@@ -42,7 +42,7 @@
                   <h1 class="font-medium text-xl text-black">Projecten</h1>
                 </div>
                 <div>
-                  <a class="text-gray-600 hover:text-black hover:underline cursor-pointer">Bekijk alle projecten ></a>
+                  <a @click="this.$router.push('/client/projects-overview')" class="text-gray-600 hover:text-black hover:underline cursor-pointer">Bekijk alle projecten ></a>
                 </div>
 
               </div>
@@ -51,7 +51,7 @@
               </div>
               <div class="grid grid-cols-1" v-else>
                 <div class="p-1 overflow-hidden" v-for="(project) in this.projects" :key="project">
-                  <a @click="this.$route.push('/client/projects-overview')"
+                  <a @click="this.$router.push('/client/projects-overview')"
                      class="flex flex-col cursor-pointer items-center bg-white border rounded-lg shadow-md md:flex-row md:max-w-xl hover:bg-gray-100">
                     <img class="object-cover rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
                          :src="project.bannerUrl" alt="Banner">
@@ -84,18 +84,36 @@ export default {
     return {
       userId: localStorage.getItem('id'),
       user: [],
-      projects: []
+      projects: [],
+      profilePicture: ""
     }
   },
 
   created() {
     this.getUserData();
     this.getProjectData()
+    this.getProfilePicture();
   },
 
   methods: {
+    async getProfilePicture() {
+      await axios.get(process.env.VUE_APP_API_URL + `/api/files/list/${this.userId}`)
+          .then((res) => {
+            fetch(process.env.VUE_APP_API_URL + `/api/files/${res.data[0].id}`)
+                .then(response => {
+                  if (response.ok) return response.blob();
+                })
+                .then(blob => {
+                  this.profilePicture = URL.createObjectURL(blob)
+                })
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
     getUserData() {
-      axios.get(process.env.VUE_APP_API_URL + `/api/users/client/${this.userId}`)
+      axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
           .then((res) => {
             this.user = res.data;
             console.log(this.user)

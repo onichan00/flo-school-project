@@ -84,17 +84,23 @@
 
             <hr>
 
+            <div class="mt-3">
+              <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Huidige profielfoto</label>
+              <img class="mb-2 w-36 h-36 rounded-lg border-2"
+                   :src="this.profilePicture" alt="Profielfoto">
+            </div>
+
+
+            <div class="flex flex-row space-x-4 mt-3">
+
+              <form>
+                <label class="block mb-2 text-sm font-medium text-gray-900">Upload profielfoto</label>
+                <FileUpload></FileUpload>
+              </form>
+
+            </div>
+
             <form class="h-fit pt-3">
-              <div class="mb-3">
-                <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Huidige Profielfoto</label>
-                <img class="mb-2 w-36 h-36 rounded-lg border-2"
-                     :src="require('@/assets/img/undraw_coffee_with_friends_3cbj.svg')" alt="Profielfoto">
-                <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Upload Profielfoto</label>
-                <input
-                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                    aria-describedby="file_input_help" id="file_input" type="file">
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG of JPG</p>
-              </div>
               <div class="mb-4">
                 <label for="description"
                        class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Bio</label>
@@ -451,9 +457,15 @@
 <script>
 import axios from "axios";
 import {useToast} from "vue-toastification";
+import FileUpload from "@/components/fileHandling/FileUpload";
 
 export default {
   name: "ClientSettings",
+
+  components: {
+    FileUpload,
+  },
+
   data() {
     return {
       userId: localStorage.getItem('id'),
@@ -474,14 +486,45 @@ export default {
       newPassword: "",
       repeatNewPassword: "",
       currentPassword: "",
+      images: [],
+      profilePicture: ""
     }
   },
 
   created() {
     this.getUserData()
+    this.getImages()
+    this.getProfilePicture()
   },
 
   methods: {
+    async getProfilePicture() {
+      await axios.get(process.env.VUE_APP_API_URL + `/api/files/list/${this.userId}`)
+          .then((res) => {
+            fetch(process.env.VUE_APP_API_URL + `/api/files/${res.data[0].id}`)
+                .then(response => {
+                  if (response.ok) return response.blob();
+                })
+                .then(blob => {
+                  this.profilePicture = URL.createObjectURL(blob)
+                })
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
+    async getImages() {
+      await axios.get(process.env.VUE_APP_API_URL + `/api/files/list/${this.userId}`)
+          .then((res) => {
+            this.images = res.data;
+            console.log(this.images)
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
     timer(duration) {
       let seconds = duration;
 

@@ -7,9 +7,10 @@ import com.hva.helios.models.user.Specialist;
 import com.hva.helios.views.Views;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-@Table(name = "user_table")
+@Table(name="user_table")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
     @Id
@@ -35,7 +36,7 @@ public class User {
     @JsonView(Views.Public.class)
     private String photo;
 
-    @JsonView(Views.Internal.class)
+    @JsonView(Views.Public.class)
     private String bio;
 
     @JsonView(Views.Public.class)
@@ -65,8 +66,7 @@ public class User {
     @JsonView(Views.Internal.class)
     Specialist specialist;
 
-    protected User() {
-    }
+    protected User() {}
 
     public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType) {
         this.email = email;
@@ -82,10 +82,9 @@ public class User {
         this.address = address;
         this.userType = userType;
     }
-
-    public User(User user, Admin admin) {
+    public User(User user, Admin admin){
         User user2 = user;
-        this.admin = admin;
+        this.admin =admin;
     }
 
     public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType, Client client) {
@@ -136,7 +135,7 @@ public class User {
         this.specialist = specialist;
     }
 
-    public User(Long id, Long userType) {
+    public User(Long id, Long userType){
         this.userType = userType;
         this.id = id;
     }

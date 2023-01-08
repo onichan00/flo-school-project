@@ -233,14 +233,6 @@
 
               <div v-else-if="this.step===2">
                 <form class="text-left h-fit pt-3">
-                  <div class="mb-3">
-                    <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Upload
-                      Profielfoto</label>
-                    <input
-                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                        aria-describedby="file_input_help" id="file_input" type="file">
-                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG of JPG</p>
-                  </div>
 
                   <div v-if="this.accountType === 2">
 
@@ -445,16 +437,12 @@ export default {
 
         if (userType === 2) {
 
-          this.$router.push("/notfound").then(() => {
+          this.$router.push("/specialistenPagina").then(() => {
             this.$router.go()
           })
         }
         // location.reload()
       }
-    },
-
-    nextStep() {
-      this.step++
     },
 
     checkEmailAndPassword() {

@@ -1,5 +1,8 @@
 package com.hva.helios.models.user.hour;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hva.helios.views.Views;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -17,9 +20,12 @@ import java.util.Map;
 public class AvailableHour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(Views.Public.class)
     private long id = 0L;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonView(Views.Public.class)
+    @JsonSerialize(using = Views.PublicSerializer.class)
     private Map<String, Hour> days = new HashMap<>();
 
     public AvailableHour() {

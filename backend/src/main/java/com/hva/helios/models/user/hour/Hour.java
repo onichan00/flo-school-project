@@ -1,6 +1,8 @@
 package com.hva.helios.models.user.hour;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.hva.helios.views.Views;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,15 +15,21 @@ import java.util.Date;
 public class Hour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id = 0L;
+    @JsonView(Views.Public.class)
+    private Long id;
 
-    @JsonIgnore
+    @JsonView(Views.Public.class)
     private String label;
+
+    @JsonView(Views.Public.class)
     private boolean available;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonView(Views.Public.class)
     private Date hourStart;
+
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonView(Views.Public.class)
     private Date hourEnd;
 
     protected Hour() {}
@@ -33,35 +41,43 @@ public class Hour {
         this.hourEnd = end;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public String getlabel() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLabel() {
         return label;
     }
 
-    public void setlabel(String label) {
+    public void setLabel(String label) {
         this.label = label;
     }
 
-    public boolean isavailable() {
+    public boolean isAvailable() {
         return available;
     }
 
-    public void setavailable(boolean available) {
+    public void setAvailable(boolean available) {
         this.available = available;
     }
 
-    public Date getStart() { return hourStart; }
-
-    public void setHourStart(Date start) {
-        this.hourStart = start;
+    public Date getHourStart() {
+        return hourStart;
     }
 
-    public Date getEnd() { return hourEnd; }
+    public void setHourStart(Date hourStart) {
+        this.hourStart = hourStart;
+    }
 
-    public void setHourEnd(Date end) {
-        this.hourEnd = end;
+    public Date getHourEnd() {
+        return hourEnd;
+    }
+
+    public void setHourEnd(Date hourEnd) {
+        this.hourEnd = hourEnd;
     }
 }

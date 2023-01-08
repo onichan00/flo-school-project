@@ -8,10 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * A class that holds and generates data for the Skills of the user and Project
+ * @author Simon Vriesema
+ */
 public class SkillData {
     Random random = new Random();
     ArrayList<UserSkill> skills;
 
+    // Declare skills
     Skill skill1 = new Skill("OFFICE FRONT-END [MS Office Access]");
     Skill skill2 = new Skill("OFFICE FRONT-END [MS Office Excel]");
     Skill skill3 = new Skill("OFFICE FRONT-END [MS Office Access VBA]");
@@ -106,10 +111,18 @@ public class SkillData {
 //        this.skills = new ArrayList<>(List.of(userSkill1, userSkill2, userSkill3, userSkill4, userSkill5));
     }
 
+    /**
+     * Returns a list of all skills for the user.
+     * @return a list of UserSkill objects
+     */
     public ArrayList<UserSkill> getUserSkills() {
         return skills;
     }
 
+    /**
+     * Returns a list of all available skills.
+     * @return a list of Skill objects
+     */
     public ArrayList<Skill> getAvailableSkills() {
         return new ArrayList<>(List.of(skill1, skill2, skill3, skill4, skill5, skill6, skill7, skill7, skill8, skill9, skill10
                 , skill11, skill12, skill13, skill14, skill15, skill16, skill17, skill18, skill19, skill20, skill21, skill22, skill23
@@ -121,6 +134,11 @@ public class SkillData {
         ));
     }
 
+    /**
+     * Returns a list of random skills for the user.
+     * @param amount the number of skills to return
+     * @return a list of UserSkill objects
+     */
     public ArrayList<UserSkill> getRandomSkills(int amount) {
         ArrayList<UserSkill> tempSkills = new ArrayList<>();
 
