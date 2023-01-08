@@ -8,6 +8,7 @@ import com.hva.helios.models.Project;
 import com.hva.helios.models.User;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.skill.Skill;
+import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
 import com.hva.helios.repositories.interfaces.testRepo;
 import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
 import com.hva.helios.views.Views;
@@ -15,10 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:4040", maxAge = 3600)
 @RestController
@@ -30,6 +29,10 @@ public class ProjectController {
 
     @Autowired
     private UserJPARepository userRepository;
+
+    @Autowired
+    private SpecialistJPARepository specialistRepository;
+
 
     @GetMapping("")
     public List<Project> getProject() {
@@ -79,6 +82,48 @@ public class ProjectController {
     public Project getProject(@PathVariable long id) {
         return projectRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Project could not be found"));
+    }
+
+    @GetMapping("specialist/{id}")
+    @JsonView(Views.Internal.class)
+    public List<Project> getProjectsBySpecialist(@PathVariable long id) {
+
+        // this version is made in case we decide to use the user id that is stored in the session to find the specific specialist
+        var specialistFromUserId = userRepository.findAll().stream()
+                .filter(user -> user.getUserType() == 2 && user.getId() == id)
+                .map(user -> user.getSpecialist())
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("no specialist found"));
+
+        return projectRepository.findAll()
+                .stream()
+                .filter(project -> project.getSpecialists().contains(specialistFromUserId))
+                .collect(Collectors.toList());
+
+//        // this version is used if we decide to use th specific specialist id
+//        var specialist = specialistRepository.getSpecialistById(id);
+//
+//        return projectRepository.findAll()
+//                .stream()
+//                .filter(project -> project.getSpecialists().contains(specialist))
+//                .collect(Collectors.toList());
+
+
+        // this version is made in case streams didnt work, its an elementary version of the above
+//        var projects = projectRepository.findAll();
+//
+//        var AllProjects = new ArrayList<Project>();
+//
+//        for (Project project : projects) {
+//            if (project.getSpecialists().contains(specialist)){
+//                AllProjects.add(project);
+//            }
+//        }
+//
+//        return AllProjects;
+
+//        return projectRepository.findAllBySpecialist(userId);
+
     }
 
     @DeleteMapping("{id}")

@@ -104,7 +104,11 @@ public class UserController {
 
     @GetMapping("admins")
     public List<User> getAllAdmins() {
-        return userRepository.findAll().stream().filter(user -> user.getUserType() == 0).collect(Collectors.toList());
+        return userRepository
+                .findAll()
+                .stream()
+                .filter(user -> user.getUserType() == 0)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("specialists")
@@ -113,6 +117,15 @@ public class UserController {
                 .findAll()
                 .stream()
                 .filter(user -> user.getUserType() == 2)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("clients")
+    public List<User> getAllClients() {
+        return userRepository
+                .findAll()
+                .stream()
+                .filter(user -> user.getUserType() == 1)
                 .collect(Collectors.toList());
     }
 
@@ -136,10 +149,7 @@ public class UserController {
     }
 
 
-    @GetMapping("clients")
-    public List<User> getAllClients() {
-        return userRepository.findAll().stream().filter(user -> user.getUserType() == 1).collect(Collectors.toList());
-    }
+
 
     @GetMapping("count")
     public long countUsers() {
