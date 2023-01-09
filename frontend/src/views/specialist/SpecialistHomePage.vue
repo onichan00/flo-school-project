@@ -10,7 +10,7 @@
         </a>
       </div>
       <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-        <img :src="require('@/assets/img/undraw_organizing_projects_re_9p1k.svg')" alt="mockup">
+        <img :src="require('@/assets/img/undraw_programming_re_kg9v.svg')" alt="mockup">
       </div>
     </div>
   </section>
@@ -21,7 +21,7 @@
         <h2 class="mb-4 text-4xl font-extrabold text-gray-900 dark:text-white">Hoe werkt het?</h2>
         <p class="text-gray-500 sm:text-xl dark:text-gray-400">Hier kunt u (heel) gemakkelijk projecten inzien en in contact blijven met uw team. Zo werkt het:</p>
       </div>
-      <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
+      <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-12 md:space-y-0">
         <div>
           <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 dark:bg-primary-900">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -29,20 +29,6 @@
           <h3 class="mb-2 text-xl font-bold dark:text-white">Beginnen</h3>
           <p class="text-gray-500 dark:text-gray-400">Ga naar de "Projecten" pagina</p>
         </div>
-<!--        <div>-->
-<!--          <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 dark:bg-primary-900">-->
-<!--            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>-->
-<!--          </div>-->
-<!--          <h3 class="mb-2 text-xl font-bold dark:text-white">Creëren</h3>-->
-<!--          <p class="text-gray-500 dark:text-gray-400">Vul het formulier in om een project aan te maken, druk vervolgens op "Sla dit Project op".</p>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 dark:bg-primary-900">-->
-<!--            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>-->
-<!--          </div>-->
-<!--          <h3 class="mb-2 text-xl font-bold dark:text-white">Afwachten</h3>-->
-<!--          <p class="text-gray-500 dark:text-gray-400">Wij gaan hard aan de slag met het vinden van specialisten voor uw project.</p>-->
-<!--        </div>-->
         <div>
           <div class="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 dark:bg-primary-900">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
