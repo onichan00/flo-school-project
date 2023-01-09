@@ -2,12 +2,14 @@
   <div class="container rounded-lg bg-white px-4 py-5">
     <button class="absolute border border-gray-300 top-3 right-3 bg-gray-100 px-2 rounded-lg close-modal-btn"
             @click="closeModal">x</button>
-    <div class="flex flex-col items-center">
-      <img :src=selectedSpecialist.photo
-           alt="Profile Picture"
-           class="border border-gray-300 w-1/2 mb-5 profile-pic">
-      <p class="name-and-age">{{name}} ()</p>
+    <div class="flex justify-center">
+      <div class="pp-container">
+        <img :src=selectedSpecialist.photo
+             alt="Profile Picture"
+             class="mb-5">
+      </div>
     </div>
+    <p class="name-and-age">{{name}} ()</p>
     <section class="info-section text-left overflow-x-hidden overflow-y-auto">
 <!--      <p class="text-lg mt-5">Skills:</p>-->
 <!--      <ul class="list-disc">-->
@@ -132,8 +134,11 @@ export default {
   background-size: contain;
   color: transparent;
 }
-.profile-pic {
+.pp-container {
   border-radius: 50%;
+  overflow: hidden;
+  width: 200px;
+  height: 200px;
 }
 .day-cell {
   border: 1px solid #919194;

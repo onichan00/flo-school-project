@@ -1,16 +1,20 @@
 <template>
   <div v-if="!userObj">
-    <p>Loading</p>
+    <p>Loading...</p>
   </div>
   <div v-else>
     <div class="m-4 rounded-lg overflow-hidden shadow shadow-md">
       <div class="w-full h-48 banner" />
         <div class="h-24 flex flex-row justify-between">
           <img
+            v-if="profileImage"
+            :src="profileImage"
             class="w-40 h-40 rounded-full ring-8 ring-white object-cover absolute -mt-20 ml-8"
-            :src="userObj.photo"
             alt="Bordered avatar"
           >
+          <div v-else class="inline-flex items-center justify-center w-40 h-40 object-cover absolute -mt-20 ml-8 bg-gray-100 rounded-full">
+            <span class="text-2xl font-medium text-gray-600">{{ getInitials }}</span>
+          </div>
         <div />
         <button @click="editUserInfoModalOpen = true" type="button" class="m-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
@@ -24,15 +28,15 @@
 
         <div class="mt-4">
           <p class="font-medium">Attachments</p>
-          <ul class="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 divide-y">
-            <AttachmentRow v-for="(attachment, index) in attachments" :key="index" :attachment="attachment"/>
+          <ul v-if="files !== null" class="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 divide-y">
+            <AttachmentRow v-for="attachment in getAttachments" :key="attachment.id" :attachment="attachment"/>
           </ul>
         </div>
       </div>
     </div>
 
     <UpcomingMeetingModal :open="upcomingMeetingModalOpen" :user="userObj" :meeting="selectedMeeting" :projects="userObj.specialist.projects" @close="upcomingMeetingModalOpen = false" @deleted="removeEvent" @updated="updateEvent"/>
-    <EditUserInfoModal :open="editUserInfoModalOpen" :user="userObj" @close="editUserInfoModalOpen = false" @updated="updateUser"/>
+    <EditUserInfoModal :open="editUserInfoModalOpen" :user="userObj" :profileImage="profileImage" @close="editUserInfoModalOpen = false" @updated="updateUser"/>
     <SkillModal :open="skillModalOpen" :skills="skills" :user="userObj" :selectedSkill="selectedSkill" @close="skillModalOpen = false" @updated="updateSkills"/>
 
     <!-- Skills -->
@@ -122,6 +126,8 @@
         </div>
       </div>
     </div>
+
+    <FileUpload />
   </div>
 </template>
 <script>
@@ -155,6 +161,7 @@ import UserSkill from "@/models/userSkill";
 import Skill from "@/models/skill";
 import UpcomingMeetingClass from "@/models/upcomingMeeting";
 import {proxyObjToJson} from "@/plugins/objectManipulation";
+import FileUpload from "@/components/fileHandling/FileUpload.vue";
 
 // TODO Create a backend route that with params gets all the correct meetings
 export default {
@@ -167,73 +174,14 @@ export default {
         },
       },
       userObj: null,
-      hours: [ // TODO make all references to this object dynamic to the api
-        {
-          label: "Dinsdag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: true
-        },
-        {
-          label: "Zaterdag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: false
-        },
-        {
-          label: "Maandag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: true
-        },
-        {
-          label: "Woensdag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: true
-        },
-
-        {
-          label: "Vrijdag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: true
-        },
-        {
-          label: "Zondag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: false
-        },
-        {
-          label: "Donderdag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: true
-        },
-      ],
-      skillModal: null,
-      editUserInfoModal: null,
-      upcomingMeetingModal: null,
-
       meetingsDateRange: null,
-      masks: {
-        input: 'YYYY-MM-DD hh:mm',
-      },
       skills: null,
       projects: null,
       events: null,
-      attachments: [
-        {
-          "name": "resume_front_end_developer.pdf"
-        },
-        {
-          "name": "coverletter_front_end_developer.pdf"
-        }
-      ],
-      upcomingMeetings: null,
+      files: [],
       meetingRangeOpen: false,
-      selectedWeek: new Date(),
+
+      profileImage: null,
 
       // Selected data
       selectedSkill: new UserSkill(),
@@ -259,6 +207,12 @@ export default {
     },
     getUser() {
       return this.userObj;
+    },
+    getInitials() {
+      const firstName = this.userObj.first_name[0].toUpperCase();
+      const lastName = this.userObj.last_name[0].toUpperCase();
+
+      return firstName + lastName;
     },
     eventsInDateRange() {
       const start = this.meetingsDateRange[0];
@@ -294,12 +248,26 @@ export default {
 
       return meetingsInThisRange;
     },
+    getAttachments() {
+      const files = [];
+
+      for (const file in this.files) {
+        const obj = this.files[file];
+
+        if (obj.type === "application/pdf") {
+          files.push(obj);
+        }
+      }
+
+      return files;
+    },
   },
   created() {
     this.selectMeetingRange(1);
 
     this.getUserData();
     this.getSkillsData();
+    this.getFiles();
   },
   methods: {
     userFullName,
@@ -314,8 +282,7 @@ export default {
           this.events = res.data.specialist.events;
           this.userSkills = res.data.specialist.skills;
 
-          // FIXME: I get an error saying that the userObj is null
-          console.log(res.data);
+          this.processImage(res.data.photo);
         })
         .catch(err => {
           console.log(err);
@@ -326,6 +293,44 @@ export default {
       axios.get("http://localhost:8080/api/skills")
         .then((res) => {
           this.skills = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+
+    getFiles() {
+      const ID = this.$route.params.id;
+      const URL = `${process.env.VUE_APP_API_URL}/api/files/list/${ID}`;
+      const PROTOCOL = "GET"
+
+      axios({ url: URL, method: PROTOCOL })
+        .then((res) => {
+          console.log(res);
+          this.files = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+
+    processImage(FILE_ID) {
+      const URL = `${process.env.VUE_APP_API_URL}/api/files/${FILE_ID}`;
+      const METHOD = "GET";
+      const RESPONSE_TYPE = "blob";
+
+      axios({ url: URL, method: METHOD, responseType: RESPONSE_TYPE })
+        .then((res) => {
+          console.log(res.data);
+          const file = res.data;
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+
+          reader.onload = (evt) => {
+            console.log(evt.target.result.replaceAll(" ", ""));
+            this.profileImage = evt.target.result;
+            console.log(this.profileImage);
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -389,7 +394,6 @@ export default {
     getMeetingType(type) {
       // Available Colors: gray, red, orange, yellow, green, teal, blue, indigo, purple, pink
       let color;
-      console.log(type);
 
       switch (type) {
         case -1: // Declined
@@ -462,7 +466,6 @@ export default {
     },
 
     openUpcomingMeetingModal(meeting) {
-      console.log(proxyObjToJson(meeting));
       this.selectedMeeting = new UpcomingMeetingClass(meeting);
       this.upcomingMeetingModalOpen = true;
     },
@@ -470,7 +473,6 @@ export default {
     removeEvent(event) {
       this.userObj.specialist.events = this.userObj.specialist.events.filter(evt => evt.id !== event.id);
     },
-
     updateEvent(event) {
       console.log("EVENT", event);
       const index = this.userObj.specialist.events.findIndex(evt => evt.id === event.id);
@@ -483,6 +485,7 @@ export default {
     },
   },
   components: {
+    FileUpload,
     AvailabilityRow,
     SkillModal,
     EditUserInfoModal,

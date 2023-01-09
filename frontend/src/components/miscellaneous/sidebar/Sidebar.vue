@@ -1,7 +1,9 @@
 <template>
-  <aside id="sidebar" class="h-full overflow-y-hidden" :style="{width: sidebarWidth}" aria-label="Sidebar">
-    <div @click="toggleSidebar"
-         class="overflow-y-auto flex flex-col justify-between h-full py-4  px-3 border-solid border-r-2">
+  <aside
+      @mouseenter="toggleSidebar(false)"
+      @mouseleave="toggleSidebar(true)"
+      id="sidebar" class="h-full overflow-y-hidden" :style="{width: sidebarWidth}" aria-label="Sidebar">
+    <div class="overflow-y-auto flex flex-col justify-between h-full py-4  px-3 border-solid border-r-2">
       <div>
           <span v-if="collapsed">
           <h1 style="font-weight: 900; font-size: 40px; color: #F15922;">F</h1>

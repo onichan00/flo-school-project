@@ -7,11 +7,25 @@
           <div class="flex flex-col md:flex-row gap-2 w-full mb-2">
             <div class="w-full md:w-1/2">
               <label for="meetingStart" class="block mb-1 text-sm font-medium text-gray-900">Start</label>
-              <DatePicker :lang="langObj" class="w-full" type="datetime" format="DD-MM-YYYY HH:mm" :showMinute="true" :showSecond="false" :minute-step="5" :clearable="false" id="meetingStart" v-model:value="getMeeting.start"/>
+              <DatePicker
+                  :lang="langObj" class="w-full"
+                  type="datetime" format="DD-MM-YYYY HH:mm"
+                  :showMinute="true" :showSecond="false"
+                  :minute-step="5" :clearable="false"
+                  id="meetingStart" v-model:value="getMeeting.start"
+                  :disabled-time="notAfterEndTime"
+              />
             </div>
             <div class="w-full md:w-1/2">
               <label for="meetingEnd" class="block mb-1 text-sm font-medium text-gray-900">End</label>
-              <DatePicker :lang="langObj" class="w-full" type="datetime" format="DD-MM-YYYY HH:mm" :showMinute="true" :showSecond="false" :minute-step="5" :clearable="false" id="meetingEnd" v-model:value="getMeeting.end"/>
+              <DatePicker
+                  :lang="langObj" class="w-full"
+                  type="datetime" format="DD-MM-YYYY HH:mm"
+                  :showMinute="true" :showSecond="false"
+                  :minute-step="5" :clearable="false"
+                  id="meetingEnd" v-model:value="getMeeting.end"
+                  :disabled-time="notBeforeStartTime"
+              />
             </div>
           </div>
           <div>
@@ -150,6 +164,13 @@ export default {
           useToast().error("Iets ging mis tijdens het verwijderen");
         })
     },
+
+    notBeforeStartTime(date) {
+      return new Date(date) < this.meeting.start;
+    },
+    notAfterEndTime(date) {
+      return new Date(date) > this.meeting.end;
+    },
   },
   watch: {
     meeting(value) {
@@ -160,6 +181,8 @@ export default {
     isOpen() {
       return this.open;
     },
+    // TODO: Make sure the user can't start after the end time and vice versa
+
     getMeeting() {
       let time = this.meeting;
 
