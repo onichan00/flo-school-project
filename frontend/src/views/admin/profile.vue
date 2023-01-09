@@ -1,16 +1,20 @@
 <template>
   <div v-if="!userObj">
-    <p>Loading</p>
+    <p>Loading...</p>
   </div>
   <div v-else>
     <div class="m-4 rounded-lg overflow-hidden shadow shadow-md">
       <div class="w-full h-48 banner" />
         <div class="h-24 flex flex-row justify-between">
           <img
-              class="w-40 h-40 rounded-full ring-8 ring-white object-cover absolute -mt-20 ml-8"
-              :src="userObj.photo"
-              alt="Bordered avatar"
+            v-if="profileImage"
+            :src="profileImage"
+            class="w-40 h-40 rounded-full ring-8 ring-white object-cover absolute -mt-20 ml-8"
+            alt="Bordered avatar"
           >
+          <div v-else class="inline-flex items-center justify-center w-40 h-40 object-cover absolute -mt-20 ml-8 bg-gray-100 rounded-full">
+            <span class="text-2xl font-medium text-gray-600">{{ getInitials }}</span>
+          </div>
         <div />
         <button @click="editUserInfoModalOpen = true" type="button" class="m-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
@@ -18,36 +22,30 @@
         </button>
       </div>
       <div class="w-full text-left px-8 py-4">
-        <p class="text-2xl">{{ userFullName(userObj) }}</p>
-        <p class="text-gray-400">{{ firstLetterUpperCase(userObj.city) }}</p>
-        <p class="mt-4 w-full md:w-2/3">{{ userObj.bio }}</p>
+        <p class="text-2xl">{{ userFullName(getUser) }}</p>
+        <p class="text-gray-400">{{ firstLetterUpperCase(getUser.city) }}</p>
+        <p class="mt-4 w-full md:w-2/3">{{ getUser.bio }}</p>
 
         <div class="mt-4">
           <p class="font-medium">Attachments</p>
-          <ul class="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 divide-y">
-            <AttachmentRow v-for="(attachment, index) in attachments" :key="index" :attachment="attachment"/>
+          <ul v-if="files !== null" class="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 divide-y">
+            <AttachmentRow v-for="attachment in getAttachments" :key="attachment.id" :attachment="attachment"/>
           </ul>
         </div>
-
-        <!-- TODO - Add to project buttons -->
-  <!--      <div class="flex flex-row space-x-2 mt-4">-->
-  <!--        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 focus:outline-none">Default</button>-->
-  <!--        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 focus:outline-none">Default</button>-->
-  <!--      </div>-->
       </div>
     </div>
 
-    <UpcomingMeetingModal :open="upcomingMeetingModalOpen" :meeting="selectedMeeting" @close="upcomingMeetingModalOpen = false"/>
-    <EditUserInfoModal :open="editUserInfoModalOpen" :user="userObj" @close="editUserInfoModalOpen = false"/>
-    <SkillModal :open="skillModalOpen" :skills="skills" :user="userObj" @close="skillModalOpen = false"/>
+    <UpcomingMeetingModal :open="upcomingMeetingModalOpen" :user="userObj" :meeting="selectedMeeting" :projects="userObj.specialist.projects" @close="upcomingMeetingModalOpen = false" @deleted="removeEvent" @updated="updateEvent"/>
+    <EditUserInfoModal :open="editUserInfoModalOpen" :user="userObj" :profileImage="profileImage" @close="editUserInfoModalOpen = false" @updated="updateUser"/>
+    <SkillModal :open="skillModalOpen" :skills="skills" :user="userObj" :selectedSkill="selectedSkill" @close="skillModalOpen = false" @updated="updateSkills"/>
 
     <!-- Skills -->
     <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
       <p class="text-xl mb-4">Vaardigheden</p>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <SkillBadge v-for="(skill, index) in userObj.specialist.skills" :key="index" :skill="skill" @skillClicked="openSkillModal"/>
+        <SkillBadge v-for="(skill, index) in userSkills" :key="index" :skill="skill" @skillClicked="openSkillModal"/>
 
-        <button @click="skillModalOpen = true" class="bg-green-100 hover:bg-green-200 text-green-900 p-4 rounded-md flex items-center justify-center">
+        <button @click="openSkillModal(new UserSkill())" class="bg-green-100 hover:bg-green-200 text-green-900 p-4 rounded-md flex items-center justify-center">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
         </button>
       </div>
@@ -60,28 +58,19 @@
         <p class="text-lg">Geen projecten beschikbaar</p>
       </div>
       <div v-else class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <ProjectCard v-for="(item, index) in userObj.specialist.project" :key="index" :project="item" />
+        <ProjectCard v-for="project in userObj.specialist.projects" :key="project.id" :project="project" />
       </div>
     </div>
 
     <!-- Availability -->
     <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
-      <div class="flex flex-row justify-between items-center">
-        <p class="text-xl">Beschikbaar: <span class="font-semibold">{{ availableHours }}</span> uren</p>
-        <button @click="saveHours" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2">
-          <svg class="mr-2 -ml-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
-          Save
-        </button>
-      </div>
-<!--      <div class="flex flex-col md:flex-row mt-4 justify-between gap-2">-->
-<!--        <AvailabilityRow v-for="(hour, index) in Object.keys(this.userObj.specialist.hours.days)" :key="index" :label="hour" :time="this.userObj.specialist.hours.days[hour]" @saveAvailability="saveAvailability"/>-->
-<!--      </div>-->
+      <p class="text-xl">Beschikbaarheid</p>
+      <AvailabilityRow :hours="userObj.specialist.hours"/>
     </div>
 
-    <!-- TODO: When the modal updates, it will also update the value in here. Fix that the value here won't change. -->
     <!-- Calendar -->
     <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
-      <p class="text-xl">Komende vergaderingen</p>
+      <p class="text-xl">Komende vergaderingen (aantal: {{ eventsInDateRange.length }})</p>
 
       <div class="flex flex-col md:flex-row">
         <div class="w-full md:w-2/3 md:pr-10">
@@ -95,7 +84,7 @@
             </template>
           </DatePicker>
           <div v-if="eventsInDateRange.length !== 0" class="divide-y">
-            <UpcomingMeeting v-for="(meeting, index) in eventsInDateRange" :key="index" :meeting="meeting" @meetingClicked="openUpcomingMeetingModal"/>
+            <UpcomingMeeting v-for="meeting in eventsInDateRange" :key="meeting.id" :meeting="meeting" @meetingClicked="openUpcomingMeetingModal"/>
           </div>
           <div v-else class="flex flex-col items-center mt-8">
             <svg class="w-32 h-32" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
@@ -120,33 +109,59 @@
             </template>
           </v-calendar>
           <button @click="openUpcomingMeetingModal(null)" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-2">Voeg activiteit toe</button>
+          <div class="flex flex-row space-x-2 w-full mt-2">
+            <div class="flex flex-col w-full text-center">
+              <div class="w-full h-4 bg-red-500 rounded-sm" />
+              <p>Afgewezen</p>
+            </div>
+            <div class="flex flex-col w-full text-center">
+              <div class="w-full h-4 bg-blue-400 rounded-sm" />
+              <p>Geen status</p>
+            </div>
+            <div class="flex flex-col w-full text-center">
+              <div class="w-full h-4 bg-green-400 rounded-sm" />
+              <p>Aanvaard</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
+    <FileUpload />
   </div>
 </template>
 <script>
-import SkillBadge from "@/components/miscellaneous/profile/SkillBadge";
-import Skill from "@/models/skill";
-import UpcomingMeetingClass from "@/models/upcomingMeeting";
-import ProjectCard from "@/components/miscellaneous/ProjectCard";
-import UpcomingMeeting from "@/components/miscellaneous/profile/UpcomingMeeting";
+// Packages
 import DatePicker from 'vue-datepicker-next';
-import CalendarRow from "@/components/miscellaneous/profile/CalendarRow";
-import AvailabilityRow from "@/components/miscellaneous/profile/AvailabilityRow";
+import axios from "axios";
 
+// Styling
 import 'vue-datepicker-next/index.css';
 import 'v-calendar/dist/style.css';
 import 'vue-datepicker-next/locale/nl';
-import AttachmentRow from "@/components/miscellaneous/profile/AttachmentRow";
-import axios from "axios";
 
+// Components
+import ProjectCard from "@/components/admin/profile/ProjectCard";
+import AttachmentRow from "@/components/miscellaneous/profile/AttachmentRow";
+import CalendarRow from "@/components/miscellaneous/profile/CalendarRow";
+import SkillBadge from "@/components/miscellaneous/profile/SkillBadge";
+import UpcomingMeeting from "@/components/miscellaneous/profile/UpcomingMeeting.vue";
+import AvailabilityRow from "@/components/miscellaneous/profile/AvailabilityRow.vue";
+
+// Methods
 import { userFullName, firstLetterUpperCase } from "@/plugins/textManipulation";
-import MeetingType from "@/components/miscellaneous/profile/MeetingType";
+
+// Modals
 import UpcomingMeetingModal from "@/components/modals/profile/UpcomingMeetingModal.vue";
-import upcomingMeeting from "@/components/miscellaneous/profile/UpcomingMeeting.vue";
 import EditUserInfoModal from "@/components/modals/profile/EditUserInfoModal.vue";
 import SkillModal from "@/components/modals/profile/SkillModal.vue";
+
+// Models
+import UserSkill from "@/models/userSkill";
+import Skill from "@/models/skill";
+import UpcomingMeetingClass from "@/models/upcomingMeeting";
+import {proxyObjToJson} from "@/plugins/objectManipulation";
+import FileUpload from "@/components/fileHandling/FileUpload.vue";
 
 // TODO Create a backend route that with params gets all the correct meetings
 export default {
@@ -159,75 +174,18 @@ export default {
         },
       },
       userObj: null,
-      hours: [ // TODO make all references to this object dynamic to the api
-        {
-          label: "Dinsdag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: true
-        },
-        {
-          label: "Zaterdag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: false
-        },
-        {
-          label: "Maandag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: true
-        },
-        {
-          label: "Woensdag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: true
-        },
-
-        {
-          label: "Vrijdag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: true
-        },
-        {
-          label: "Zondag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: false
-        },
-        {
-          label: "Donderdag",
-          start: new Date(2022, 11, 12, 9, 0),
-          end: new Date(2022, 11, 12, 17, 0),
-          available: true
-        },
-      ],
-      skillModal: null,
-      editUserInfoModal: null,
-      upcomingMeetingModal: null,
-      selectedSkill: new Skill(),
-      selectedMeeting: new UpcomingMeetingClass(),
       meetingsDateRange: null,
-      masks: {
-        input: 'YYYY-MM-DD hh:mm',
-      },
       skills: null,
-      userSkills: null,
       projects: null,
       events: null,
-      attachments: [
-        {
-          "name": "resume_front_end_developer.pdf"
-        },
-        {
-          "name": "coverletter_front_end_developer.pdf"
-        }
-      ],
-      upcomingMeetings: null,
+      files: [],
       meetingRangeOpen: false,
-      selectedWeek: new Date(),
+
+      profileImage: null,
+
+      // Selected data
+      selectedSkill: new UserSkill(),
+      selectedMeeting: new UpcomingMeetingClass(),
 
       // ModalData
       upcomingMeetingModalOpen: false,
@@ -236,33 +194,25 @@ export default {
     }
   },
   computed: {
+    UserSkill() {
+      return UserSkill
+    },
     attributes() {
       return [
           ...this.userObj.specialist.events.map(meeting => this.meetingFormat(meeting))
       ]
     },
-    availableHours() {
-      let calculatedTotalHours = 0;
+    userSkills() {
+      return this.userObj.specialist.skills;
+    },
+    getUser() {
+      return this.userObj;
+    },
+    getInitials() {
+      const firstName = this.userObj.first_name[0].toUpperCase();
+      const lastName = this.userObj.last_name[0].toUpperCase();
 
-      // TODO Calculate hours on the minutes and not hours
-
-      this.hours.forEach(hour => {
-        let start = hour.start;
-        let end = hour.end;
-
-        const difference = end.getHours() - start.getHours();
-        // const difference = (end.getHours() - start.getHours());
-
-        const diff = Math.abs(end - start);
-        const minutes = Math.floor((diff/1000)/60);
-
-        if (hour.available) {
-          // calculatedTotalHours += Math.ceil(minutes / 60 );
-          calculatedTotalHours += difference;
-        }
-      })
-
-      return calculatedTotalHours;
+      return firstName + lastName;
     },
     eventsInDateRange() {
       const start = this.meetingsDateRange[0];
@@ -278,7 +228,7 @@ export default {
 
       const meetingsInThisRange = [];
 
-      this.events.forEach(event => {
+      this.userObj.specialist.events.forEach(event => {
         // console.log(event);
         const meetingStart = new Date(event.start);
         const meetingEnd = new Date(event.end);
@@ -298,12 +248,26 @@ export default {
 
       return meetingsInThisRange;
     },
+    getAttachments() {
+      const files = [];
+
+      for (const file in this.files) {
+        const obj = this.files[file];
+
+        if (obj.type === "application/pdf") {
+          files.push(obj);
+        }
+      }
+
+      return files;
+    },
   },
   created() {
     this.selectMeetingRange(1);
 
     this.getUserData();
     this.getSkillsData();
+    this.getFiles();
   },
   methods: {
     userFullName,
@@ -316,17 +280,13 @@ export default {
         .then(res => {
           this.userObj = res.data;
           this.events = res.data.specialist.events;
+          this.userSkills = res.data.specialist.skills;
 
-          // FIXME: I get an error saying that the userObj is null
-          console.log(res.data);
+          this.processImage(res.data.photo);
         })
         .catch(err => {
           console.log(err);
         })
-
-      if (this.userObj !== null) {
-        this.sortWeekDays();
-      }
     },
 
     getSkillsData() {
@@ -339,21 +299,62 @@ export default {
         })
     },
 
+    getFiles() {
+      const ID = this.$route.params.id;
+      const URL = `${process.env.VUE_APP_API_URL}/api/files/list/${ID}`;
+      const PROTOCOL = "GET"
+
+      axios({ url: URL, method: PROTOCOL })
+        .then((res) => {
+          console.log(res);
+          this.files = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+
+    processImage(FILE_ID) {
+      const URL = `${process.env.VUE_APP_API_URL}/api/files/${FILE_ID}`;
+      const METHOD = "GET";
+      const RESPONSE_TYPE = "blob";
+
+      axios({ url: URL, method: METHOD, responseType: RESPONSE_TYPE })
+        .then((res) => {
+          console.log(res.data);
+          const file = res.data;
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+
+          reader.onload = (evt) => {
+            console.log(evt.target.result.replaceAll(" ", ""));
+            this.profileImage = evt.target.result;
+            console.log(this.profileImage);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+
     saveUser() {
       const userID = this.$route.params.id;
 
       axios.put(`http://localhost:8080/api/users/update`, this.userObj)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     },
 
-    saveHours() {
-      console.log("SAVING!");
-      console.table(this.userObj.specialist.hours);
+    updateSkills(value) {
+      this.userObj.specialist.skills = value;
+    },
+
+    updateUser(value) {
+      this.userObj = value;
     },
 
     meetingFormat(meeting) {
@@ -362,9 +363,9 @@ export default {
 
       const multiDayMeeting = {
         highlight: {
-          start: { fillMode: 'outline', color: this.getMeetingType(meeting.type) },
-          base: { fillMode: 'light', color: this.getMeetingType(meeting.type) },
-          end: { fillMode: 'outline', color: this.getMeetingType(meeting.type) },
+          start: { fillMode: 'outline', color: this.getMeetingType(meeting.accepted) },
+          base: { fillMode: 'light', color: this.getMeetingType(meeting.accepted) },
+          end: { fillMode: 'outline', color: this.getMeetingType(meeting.accepted) },
         },
         dates: { start: meetingStart, end: meetingEnd },
         popover: {
@@ -383,7 +384,7 @@ export default {
           isInteractive: true
         },
         bar: {
-          color: this.getMeetingType(meeting.type)
+          color: this.getMeetingType(meeting.accepted)
         },
         customData: meeting
       }
@@ -394,30 +395,18 @@ export default {
       // Available Colors: gray, red, orange, yellow, green, teal, blue, indigo, purple, pink
       let color;
 
-      // Work           | Orange
-      // Free day       | Blue
-      // Sick / absent  | Pink
-      // Vacation       | Green
-      // Other          | Gray
-
       switch (type) {
-        case 0: // Work
-          color = "orange"
+        case -1: // Declined
+          color = "red"
           break;
-        case 1: // Free Day
+        case 0: // No status
           color = "blue"
           break;
-        case 2: // Sick / Absent
-          color = "pink"
+        case 1: // Accepted
+          color = "orange"
           break;
-        case 3: // Vacation
-          color = "green"
-          break;
-        case 4: // Other
+        default: // No accepted status available
           color = "gray"
-          break;
-        default:
-          color = "indigo";
       }
 
       return color;
@@ -429,27 +418,6 @@ export default {
     },
     getEpochTime(date) {
       return date.getTime() / 1000;
-    },
-
-    epochToDate() {
-      const utcSeconds = 1234567890; // set epoch here
-      const d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-      d.setUTCSeconds(utcSeconds);
-    },
-
-    sortWeekDays() {
-      const weekOrder = {'Maandag': 0, 'Dinsdag': 1, 'Woensdag': 2, 'Donderdag': 3, 'Vrijdag': 4, 'Zaterdag': 5, 'Zondag': 6}
-
-      const unsortedDays = Array(7);
-
-      console.log(this.userObj);
-      this.userObj.specialist.hours.days.forEach(hour => {
-        const index = weekOrder[hour.label];
-
-        unsortedDays[index] = hour;
-      })
-
-      this.hours = unsortedDays;
     },
     selectMeetingRange(type) {
       // 1 = Next week | 2 = This month | 3 = Next month
@@ -492,58 +460,42 @@ export default {
       }
     },
 
-    saveAvailability(n) {
-      this.range = n;
-    },
-
-    openSkillModal(n) {
-      // this.selectedSkill = new Skill(n);
+    openSkillModal(userSkill) {
+      this.selectedSkill = new UserSkill(userSkill)
       this.skillModalOpen = true;
-    },
-    closeSkillModal() {
-      this.skillModal.hide();
-    },
-    saveSkill() {
-      // TODO Check if item already exists. Check on ID
-      this.skills.push(this.selectedSkill)
-      this.closeSkillModal();
-    },
-
-    openEditUserInfoModal() {
-      this.editUserInfoModalOpen = true;
-    },
-    closeEditUserInfoModal() {
-      this.editUserInfoModal.hide();
     },
 
     openUpcomingMeetingModal(meeting) {
-      this.selectedMeeting = meeting;
-      console.log(this.selectedMeeting);
+      this.selectedMeeting = new UpcomingMeetingClass(meeting);
       this.upcomingMeetingModalOpen = true;
-
-      // TODO When opening the modal, move to the month of the meeting on the calendar
-    },
-    closeUpcomingMeetingModal() {
-      this.upcomingMeetingModal.hide();
     },
 
-    saveUpcomingMeeting() {
-      this.upcomingMeetings.push(new UpcomingMeetingClass(this.selectedMeeting));
+    removeEvent(event) {
+      this.userObj.specialist.events = this.userObj.specialist.events.filter(evt => evt.id !== event.id);
+    },
+    updateEvent(event) {
+      console.log("EVENT", event);
+      const index = this.userObj.specialist.events.findIndex(evt => evt.id === event.id);
 
-      this.closeUpcomingMeetingModal();
-    }
+      if (index === -1) {
+        this.userObj.specialist.events.push(event);
+      } else {
+        this.userObj.specialist.events[index] = event;
+      }
+    },
   },
   components: {
+    FileUpload,
+    AvailabilityRow,
     SkillModal,
     EditUserInfoModal,
     UpcomingMeetingModal,
     AttachmentRow,
-    // AvailabilityRow,
-    UpcomingMeeting,
     ProjectCard,
     SkillBadge,
     DatePicker,
-    CalendarRow
+    CalendarRow,
+    UpcomingMeeting
   }
 }
 </script>

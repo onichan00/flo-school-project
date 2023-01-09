@@ -1,95 +1,112 @@
 <template>
-  <div class="flex flex-col items-start my-4 md:my-0">
-    <div class="flex flex-row items-center gap-2 w-full">
-      <input id="availableCheckbox" type="checkbox" v-model="getTime.available" @change="saveAvailability"
-             class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"/>
-      <p>{{ firstLetterUpperCase(getTranslatedLabel) }}</p>
+  <div>
+    <p class="text-gray-400 italic">{{ availableHours }} uren</p>
+    <div class="flex flex-col md:flex-row mt-4 justify-between gap-2 mb-2">
+      <AvailabilityCard v-for="day in days" :key="day.id" :day="day"/>
     </div>
-    <div class="flex flex-col items-center gap-2 w-full">
-      <DatePicker
-          @change="saveAvailability"
-          type="time" format="HH:mm"
-          :showMinute="true" :showSecond="false"
-          :minute-step="15" :clearable="false"
-          :disabled-time="notAfterEndTime"
-          :disabled="isAvailable" v-model:value="getTime.start"
-      />
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-      </svg>
-      <DatePicker
-          @change="saveAvailability"
-          type="time" format="HH:mm"
-          :showMinute="true" :showSecond="false"
-          :minute-step="15" :clearable="false"
-          :disabled-time="notBeforeStartTime"
-          :disabled="isAvailable" v-model:value="getTime.end"
-      />
-    </div>
+    <button @click="save" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 text-center">Sla op</button>
+
   </div>
 </template>
 
 <script>
-import DatePicker from "vue-datepicker-next";
-
-import {firstLetterUpperCase} from "@/plugins/textManipulation";
+import AvailabilityCard from "@/components/miscellaneous/profile/AvailabilityCard.vue";
+import {proxyObjToJson} from "@/plugins/objectManipulation";
+import axios from "axios";
+import {useToast} from "vue-toastification";
 
 export default {
-  name: 'AvailabilityRow',
-  props: ['time', 'label'],
-  emits: ['saveAvailability'],
-  methods: {
-    firstLetterUpperCase,
-    saveAvailability() {
-      this.$emit('saveAvailability', this.time);
-    },
-
-    // Disable all the hours before the start time
-    notBeforeStartTime(date) {
-      return date < this.getTime.start;
-    },
-
-    // Disable all the hours after the end time
-    notAfterEndTime(date) {
-      return date > this.getTime.end;
-    },
+  name: "AvailabilityRow",
+  components: { AvailabilityCard },
+  props: ["hours"],
+  data() {
+    return {
+      days: null,
+      copy: null
+    }
   },
-  computed: {
-    getTime() { // Round to the nearest 15 minutes
+  created() {
+    const weekOrder = { 'Maandag': 0, 'Dinsdag': 1, 'Woensdag': 2, 'Donderdag': 3, 'Vrijdag': 4, 'Zaterdag': 5, 'Zondag': 6 };
+
+    const unsortedDays = Array(7);
+
+    for (const day in this.hours.days) {
+      const obj = this.hours.days[day];
+
+      // Define the minutes variables
       const minutes = 15;
       const ms = 1000 * 60 * minutes;
 
-      const start = new Date(this.time.start);
-      const end = new Date(this.time.end);
+      const start = new Date(obj.hourStart).getTime();
+      const end = new Date(obj.hourEnd).getTime();
 
-      let time = this.time;
+      obj.hourStart = new Date(Math.round(start / ms) * ms);
+      obj.hourEnd = new Date(Math.round(end / ms) * ms);
 
-      time.start = new Date(Math.round(start.getTime() / ms) * ms);
-      time.end = new Date(Math.round(end.getTime() / ms) * ms);
+      const index = weekOrder[obj.label];
 
-      return time;
+      unsortedDays[index] = obj;
+    }
+
+    this.days = unsortedDays;
+    this.copy = unsortedDays;
+  },
+  computed: {
+    availableHours() {
+      let calculatedTotalHours = 0;
+      const formatter = new Intl.RelativeTimeFormat("nl", {
+        style: "long",
+        numeric: "auto",
+      })
+
+      this.days.forEach(day => {
+        let start = new Date(day.hourStart);
+        let end = new Date(day.hourEnd);
+
+        const difference = end.getHours() - start.getHours();
+
+        const diff = Math.abs(end - start);
+        const minutes = Math.floor((diff / 1000) / 60);
+
+        if (day.available) {
+          calculatedTotalHours += difference;
+        }
+      })
+
+      return calculatedTotalHours
+    }
+  },
+  methods: {
+    reset() {
+      this.days = this.copy;
     },
+    save() {
+      const days = { ...proxyObjToJson(this.hours)};
+      const URL = `${process.env.VUE_APP_API_URL}/api/hours/${this.hours.id}`;
+      const PROTOCOL = "PUT"
 
-    isAvailable() {
-      return !this.time.available;
+      axios({ url: URL, method: PROTOCOL, data: days })
+        .then((res) => {
+          console.log(res);
+          useToast().success("Beschikbaarheid succesvol bijgewerkt");
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     },
-
     getTranslatedLabel() {
       const labels = {
-        "sunday": "zondag",
-        "saturday": "zaterdag",
-        "friday": "vrijdag",
-        "thursday": "donderdag",
-        "wednesday": "woensdag",
-        "tuesday": "dinsdag",
-        "monday": "maandag"
+        "zondag": "sunday",
+        "zaterdag": "saturday",
+        "vrijdag": "friday",
+        "donderdag": "thursday",
+        "woensdag": "wednesday",
+        "dinsdag": "tuesday",
+        "maandag": "monday"
       }
 
       return labels[this.label];
     }
-  },
-  components: {
-    DatePicker
   }
 }
 </script>

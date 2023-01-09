@@ -91,7 +91,6 @@ export default {
 
   methods: {
     async loginRequest() {
-      console.log("wtkkf")
       let request = await axios.post(process.env.VUE_APP_API_URL + "/api/users/login", {
         email: this.email,
         password: this.password,

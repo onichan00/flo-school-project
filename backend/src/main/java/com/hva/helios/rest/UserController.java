@@ -15,6 +15,7 @@ import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
 import com.hva.helios.repositories.user.UserSkillJPARepository;
 import com.hva.helios.views.Views;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -56,12 +57,20 @@ public class UserController {
 
         System.out.println(oUser);
 
+        oUser.setEmail(user.getEmail());
+
         oUser.setFirst_name(user.getFirst_name());
         oUser.setSecond_name(user.getSecond_name());
         oUser.setLast_name(user.getLast_name());
-        oUser.setEmail(user.getEmail());
+
+        oUser.setCity(user.getCity());
+        oUser.setZipCode(user.getZipCode());
+        oUser.setAddress(user.getAddress());
+        oUser.setBio(user.getBio());
+
         oUser.setPhone(user.getPhone());
         oUser.setPassword(user.getPassword());
+        oUser.setPhoto(user.getPhoto());
 
         if (userType == 0) {
             return userRepository.save(oUser);
@@ -111,11 +120,19 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Handles a GET request to retrieve all specialists.
+     *
+     * @return a list of all specialists in the database
+     */
     @GetMapping("specialists")
     public List<User> getAllSpecialists() {
-        return userRepository
-                .findAll()
-                .stream()
+        // Retrieve all users from the database
+        List<User> users = userRepository.findAll();
+
+        // Filter the list to include only specialists (users with user type 2)
+        // Return the list of specialists
+        return users.stream()
                 .filter(user -> user.getUserType() == 2)
                 .collect(Collectors.toList());
     }
@@ -127,6 +144,23 @@ public class UserController {
                 .stream()
                 .filter(user -> user.getUserType() == 1)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Handles a GET request to check if an email is already in use.
+     *
+     * @param email the email to check
+     * @return a bad request response if the email is already in use, or an OK response if it is not
+     */
+    @GetMapping("check-email/{email}")
+    public ResponseEntity<Void> checkEmail(@PathVariable String email) {
+        // Check if a user with the specified email exists in the database
+        if (userRepository.findByEmail(email) != null) {
+            // If a user with the email exists, return a bad request response
+            return ResponseEntity.badRequest().build();
+        }
+        // If a user with the email does not exist, return an OK response
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -147,9 +181,6 @@ public class UserController {
                         .anyMatch(project -> project.getId() == id))
                 .collect(Collectors.toList());
     }
-
-
-
 
     @GetMapping("count")
     public long countUsers() {
@@ -226,7 +257,7 @@ public class UserController {
             if (user.getSpecialist() != null){
                 savedSpecialist = specialistRepository.save(user.getSpecialist());
             } else {
-                savedSpecialist = specialistRepository.save(new Specialist());
+                savedSpecialist = specialistRepository.save(user.getSpecialist());
             }
 
             user.setSpecialist(savedSpecialist);
@@ -248,7 +279,7 @@ public class UserController {
      * @throws NotFoundException If the user with the specified ID is not found
      */
     @PostMapping("/specialist/{userId}/skill")
-    public User addUserSkill(@RequestBody UserSkill userSkill, @PathVariable long userId) {
+    public Set<UserSkill> addUserSkill(@RequestBody UserSkill userSkill, @PathVariable long userId) {
         User user = userRepository.findById(userId).orElse(null);
 
         if (user == null) {
@@ -257,8 +288,9 @@ public class UserController {
 
         userSkill = userSkillRepo.save(userSkill);
         user.getSpecialist().associateUserSkill(userSkill);
+        user = userRepository.save(user);
 
-        return userRepository.save(user);
+        return user.getSpecialist().getSkills();
     }
 
     /**
@@ -269,16 +301,17 @@ public class UserController {
      * @throws NotFoundException If the user with the specified ID is not found
      */
     @PatchMapping("/specialist/{userId}/skill")
-    public User updateUserSkill(@PathVariable long userId, @RequestBody UserSkill userSkill) {
+    public Set<UserSkill> updateUserSkill(@PathVariable long userId, @RequestBody UserSkill userSkill) {
         User user = userRepository.findById(userId).orElse(null);
 
         if (user == null) {
             throw new NotFoundException(String.format("The user with ID: %d was not found", userId));
         }
 
+        userSkill.setSpecialist(user.getSpecialist());
         userSkillRepo.save(userSkill);
 
-        return user;
+        return user.getSpecialist().getSkills();
     }
 
     /**
@@ -290,7 +323,7 @@ public class UserController {
      * @throws NotFoundException If the user with the specified ID is not found
      */
     @DeleteMapping("/specialist/{userId}/skill/{skillId}")
-    public User deleteUserSkill(@PathVariable long userId, @PathVariable long skillId) {
+    public Set<UserSkill> deleteUserSkill(@PathVariable long userId, @PathVariable long skillId) {
         User user = userRepository.findById(userId).orElse(null);
         UserSkill userSkill = userSkillRepo.findById(skillId);
 
@@ -301,6 +334,6 @@ public class UserController {
         userSkill.dissociateSpecialist(user.getSpecialist());
         userSkillRepo.deleteById(skillId);
 
-        return user;
+        return user.getSpecialist().getSkills();
     }
 }
