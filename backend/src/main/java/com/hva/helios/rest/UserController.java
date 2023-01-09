@@ -143,6 +143,14 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("specialists-not-accepted")
+    public List<User> getNotAcceptedSpecialists() {
+        return getAllSpecialists()
+                .stream()
+                .filter(specialists -> specialists.getSpecialist().getApprovalStatus() == 0)
+                .collect(Collectors.toList());
+    }
+
     @GetMapping("clients")
     public List<User> getAllClients() {
         return userRepository
@@ -187,7 +195,6 @@ public class UserController {
                         .anyMatch(project -> project.getId() == id))
                 .collect(Collectors.toList());
     }
-
 
     /**
      * Get a single Client user

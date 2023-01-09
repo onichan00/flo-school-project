@@ -1,0 +1,102 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>9</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>390</x><y>225</y><w>126</w><h>198</h></coordinates><panel_attributes>User
+--
+-id: long
+-email: String
+-password: String
+-first_name: String
+-second_name: String
+-last_name: String
+-photo: String
+-bio: String
+-phone: String
+-city: String
+-zipCode: String
+-address: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>390</x><y>540</y><w>126</w><h>90</h></coordinates><panel_attributes>Specialist
+--
+id: long
+approvalStatus: long
+available: int
+specialistType: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>678</x><y>360</y><w>90</w><h>54</h></coordinates><panel_attributes>Client
+--
+id: long
+website: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>678</x><y>270</y><w>90</w><h>45</h></coordinates><panel_attributes>Admin
+--
+id: long</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>390</x><y>747</y><w>126</w><h>117</h></coordinates><panel_attributes>Project
+--
+id: Long
+bannerUrl: String
+created: Date
+description: String
+name: String
+status: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>786</x><y>522</y><w>144</w><h>81</h></coordinates><panel_attributes>AvailableHour
+--
+-specialist: int
+-hour: Map&lt;String, Hour&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1065</x><y>522</y><w>117</w><h>81</h></coordinates><panel_attributes>Hour
+--
+-label: String
+-available: boolean
+-start: String
+-end: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>444</x><y>414</y><w>99</w><h>144</h></coordinates><panel_attributes>lt=-
+m1=0..1
+m2=0..1
+&lt; Specialist of</panel_attributes><additional_attributes>10;140;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>507</x><y>279</y><w>189</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=0..1
+m2=0..1
+&lt; Admin of</panel_attributes><additional_attributes>10;20;190;20</additional_attributes></element><element><id>Relation</id><coordinates><x>507</x><y>369</y><w>189</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=0..1
+m2=0..1
+&lt; Client of</panel_attributes><additional_attributes>10;20;190;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>138</x><y>540</y><w>126</w><h>144</h></coordinates><panel_attributes>Event
+--
+id: Long
+accepted: int
+description: String
+start: Date
+end: Date
+eventType: EventType
+location: String
+title: String
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>147</x><y>333</y><w>108</w><h>108</h></coordinates><panel_attributes>&lt;&lt;enumaration&gt;&gt;
+EventType
+--
+WORK
+FREE_DAY
+SICK
+VACATION
+OTHER</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>192</x><y>432</y><w>27</w><h>126</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;120</additional_attributes></element><element><id>Relation</id><coordinates><x>255</x><y>567</y><w>153</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=0..*
+m2=1
+&lt; attends to</panel_attributes><additional_attributes>10;20;150;20</additional_attributes></element><element><id>Relation</id><coordinates><x>444</x><y>621</y><w>81</w><h>144</h></coordinates><panel_attributes>lt=-
+m1=0..*
+m2=0..*
+&lt; work on</panel_attributes><additional_attributes>10;140;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>183</x><y>783</y><w>225</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=0..*
+m2=1
+&lt; Works during</panel_attributes><additional_attributes>10;20;230;20</additional_attributes></element><element><id>Relation</id><coordinates><x>183</x><y>675</y><w>27</w><h>144</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;10;140</additional_attributes></element><element><id>UMLClass</id><coordinates><x>660</x><y>774</y><w>90</w><h>54</h></coordinates><panel_attributes>Skill
+--
+id: long
+name: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>660</x><y>594</y><w>90</w><h>54</h></coordinates><panel_attributes>UserSkill
+--
+id: long
+level: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>696</x><y>639</y><w>63</w><h>153</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=1
+uses &gt;</panel_attributes><additional_attributes>10;10;10;150</additional_attributes></element><element><id>Relation</id><coordinates><x>507</x><y>603</y><w>171</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..*
+can do &gt;</panel_attributes><additional_attributes>10;20;170;20</additional_attributes></element><element><id>Relation</id><coordinates><x>507</x><y>792</y><w>171</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=0..*
+m2=0..*
+uses &gt;</panel_attributes><additional_attributes>10;20;170;20</additional_attributes></element><element><id>Relation</id><coordinates><x>921</x><y>549</y><w>162</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=7
+&lt; attached to</panel_attributes><additional_attributes>10;20;160;20</additional_attributes></element><element><id>Relation</id><coordinates><x>507</x><y>549</y><w>297</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1
+&lt; displays availability</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>840</x><y>684</y><w>153</w><h>108</h></coordinates><panel_attributes>FileModel
+--
+id: String
+data: byte[]
+name: String
+timeStamp: LocalDateTime
+type: String
+userId: long</panel_attributes><additional_attributes></additional_attributes></element></diagram>

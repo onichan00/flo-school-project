@@ -24,6 +24,10 @@ export default {
     Pie
   },
   props: {
+    data: {
+      type: Array,
+      required: true
+    },
     chartId: {
       type: String,
       default: 'pie-chart'
@@ -54,23 +58,35 @@ export default {
       default: () => []
     }
   },
+
   data() {
     return {
-      chartData: {
-        labels: [ 'Specialisten', 'Cliënten', 'Projecten' ],
-        datasets: [ {
-          label: ["Data"],
-          data: [40, 20, 12],
-          backgroundColor: [
-            'rgb(255,0,54)',
-            'rgb(0,17,255)',
-            'rgb(255,181,0)'
-          ],
-        } ]
-      },
       chartOptions: {
         responsive: true
+      }
+    }
+  },
 
+  computed: {
+    chartData() {
+      // const labels = [];
+      // const data = [];
+      // Object.values(this.data).reduce((acc, entry) => {
+      //   labels.push(entry.label);
+      //   data.push(entry.count);
+      // }, 0);
+      return {
+        labels: ["Cliënten", "Admins", "Projecten", "Specialisten"],
+        datasets: [{
+          label: ["Data"],
+          data: [this.data.numOfClients, this.data.numOfAdmins, this.data.numOfProjects, this.data.numOfSpecialists],
+          backgroundColor: [
+            'rgb(241,138,34)',
+            'rgb(240,90,34)',
+            'rgb(209,209,212)',
+            'rgb(79,79,79)'
+          ],
+        }]
       }
     }
   }

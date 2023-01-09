@@ -29,11 +29,11 @@
 
             <SidebarLink to="/specialists/applications" icon="fas fa-users"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
-              Applications
+              Aanmeldingen
             </SidebarLink>
             <SidebarLink to="/projects" icon="fas fa-diagram-project"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
-              Projects
+              Projecten
             </SidebarLink>
 
             <SidebarLink to="/admin/admins" icon="fa-solid fa-user"
@@ -43,12 +43,12 @@
 
             <SidebarLink to="/specialists" icon="fas fa-code"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
-              Specialists
+              Specialisten
             </SidebarLink>
 
             <SidebarLink to="/clients" icon="fa-solid fa-money-bill-trend-up"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
-              Clients
+              Cliënten
             </SidebarLink>
           </ul>
 
@@ -60,15 +60,6 @@
         <div>
 
           <ul class="space-y-2 mt-2">
-
-            <SidebarLink to="/settings" icon="fas fa-gear"
-                         class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
-              Settings
-            </SidebarLink>
-            <SidebarLink @click="push" to="/profile" icon="fas fa-user"
-                         class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
-              Profile
-            </SidebarLink>
             <SidebarLink @click="logout" to="/login" icon="fas fa-right-from-bracket"
                          class="flex items-center p-2 text-base font-normal text-gray-900 rounded-md dark:text-white hover:bg-orange-100 dark:hover:bg-gray-700">
               Logout
