@@ -1,5 +1,6 @@
 package com.hva.helios.rest;
 
+import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.FileModel;
 import com.hva.helios.repositories.FileJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,11 @@ public class FileController {
     @GetMapping("{id}")
     public ResponseEntity<byte[]> download(
             @PathVariable("id") String id) {
-        FileModel fileModel = fileRepository.findById(id).get();
+        FileModel fileModel = fileRepository.findById(id).orElse(null);
+
+        if (fileModel == null) {
+            throw new NotFoundException(String.format("File with ID: %s was not found", id));
+        }
 
         String header = "attachment; filename=\"" + fileModel.getName() + "\"";
 
@@ -68,7 +73,12 @@ public class FileController {
     public ResponseEntity<byte[]> delete(
             @PathVariable("id") String id) {
 
-        FileModel fileModel = fileRepository.findById(id).get();
+        FileModel fileModel = fileRepository.findById(id).orElse(null);
+
+        if (fileModel == null) {
+            throw new NotFoundException(String.format("File with ID: %s was not found", id));
+        }
+
         fileRepository.deleteById(id);
 
         return ResponseEntity.ok()
