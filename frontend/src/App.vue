@@ -12,6 +12,11 @@
     <router-view/>
   </div>
 
+  <div v-if="userType == 2">
+    <specialist-navbar></specialist-navbar>
+    <router-view/>
+  </div>
+
   <div v-show="this.userType == 0">
     <Sidebar/>
     <div :style="{ 'margin-left': sidebarWidth }">
@@ -35,13 +40,15 @@ import specialist from "@/models/specialist";
 import project from "@/models/project";
 import availableHour from "@/models/availableHour";
 import skill from "@/models/skill";
+import ClientNavbar from "@/components/ClientNavbar";
+import SpecialistNavbar from "@/components/SpecialistNavbar";
+
 // Dummy data
 import clientsData from "@/assets/data/clients.json";
 import projectsData from "@/assets/data/projects.json";
 import specialistsData from "@/assets/data/specialists.json";
 import availableHoursData from "@/assets/data/availableHours.json";
 import skillsData from "@/assets/data/skills.json";
-import ClientNavbar from "@/components/ClientNavbar";
 
 export default {
   name: 'App',
@@ -49,6 +56,7 @@ export default {
     // RegisterPage,
     Sidebar,
     ClientNavbar,
+    SpecialistNavbar,
     Footer,
     PageHeader,
     // Login,

@@ -25,7 +25,7 @@ public class Event {
     @ManyToOne(cascade = { CascadeType.MERGE })
     @JoinColumn(name = "project_id")
     @JsonSerialize(using = Views.PublicSerializer.class)
-    @JsonView(Views.Internal.class)
+    @JsonView(Views.Public.class)
     private Project project;
 
     @Temporal(TemporalType.TIMESTAMP)
