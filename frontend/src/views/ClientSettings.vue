@@ -234,11 +234,11 @@
                 <div class="relative z-0 mb-6 w-full group">
                   <label for="floating_first_name"
                          class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Postcode</label>
-                  <input @change="changeButtonToOne" v-model="this.user.zip_code" type="text"
+                  <input @change="changeButtonToOne" v-model="this.user.zipCode" type="text"
                          name="floating_first_name"
                          id="floating_first_name"
                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
-                         placeholder="+31612345678" required/>
+                         placeholder="1234GH" required/>
                 </div>
                 <div class="relative z-0 mb-6 w-full group">
                   <label for="floating_first_name"
@@ -324,9 +324,6 @@
               <p class="text-md font-normal text-gray-500">
                 - Minstens één speciaal teken (niet-woordelijk teken) bevatten.
               </p>
-              <h1 class="text-md font-normal text-gray-500">
-                {{ this.newPassword }}
-              </h1>
             </div>
 
 
@@ -568,7 +565,7 @@ export default {
           .then((res) => {
             this.user = res.data;
             this.oldUserData = res.data;
-            console.log(this.user.password)
+            console.log(this.user)
           })
           .catch((err) => {
             console.log(err);

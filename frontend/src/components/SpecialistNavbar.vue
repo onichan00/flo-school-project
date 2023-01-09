@@ -1,7 +1,8 @@
 <template>
 
 
-  <nav class="sticky top-0 p-2 dark:bg-gray-900 " style='background-image: linear-gradient(to right, #F15922 , #f17822)'>
+  <nav class="sticky top-0 p-2 dark:bg-gray-900 "
+       style='background-image: linear-gradient(to right, #F15922 , #f17822)'>
     <div class="container flex flex-wrap items-center justify-between mx-auto">
       <div class="flex flex-row">
         <a @click="this.$router.push('/specialist/dashboard')" class="flex items-center mr-20">
@@ -16,9 +17,10 @@
             </li>
             <li>
               <a href="https://florijn.com/aws/dit-zijn-wij/"
-                 class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Over ons</a>
+                 class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Over
+                ons</a>
             </li>
-            <li>
+            <li>¡
               <a href="https://florijn.com/aws/contact/"
                  class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Contact</a>
             </li>
@@ -91,7 +93,7 @@ export default {
     return {
       userId: localStorage.getItem('id'),
       user: [],
-      profilePicture : ""
+      profilePicture: ""
     }
   },
   created() {
@@ -119,7 +121,7 @@ export default {
 
     logout() {
       localStorage.clear()
-            this.$router.go()
+      this.$router.go()
     },
 
     getUserData() {
@@ -135,12 +137,13 @@ export default {
       console.log(this.user)
     },
   },
-  computed: {
-
-  }
+  computed: {}
 }
 </script>
 
 <style scoped>
 
+nav {
+  z-index: 1000;
+}
 </style>
