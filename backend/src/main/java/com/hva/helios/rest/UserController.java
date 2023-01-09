@@ -8,6 +8,7 @@ import com.hva.helios.models.user.*;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.User;
 import com.hva.helios.models.user.skill.UserSkill;
+import com.hva.helios.repositories.ProjectJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.AdminJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.ClientJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
@@ -15,8 +16,11 @@ import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
 import com.hva.helios.repositories.user.UserSkillJPARepository;
 import com.hva.helios.views.Views;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,6 +43,9 @@ public class UserController {
 
     @Autowired
     private UserSkillJPARepository userSkillRepo;
+
+    @Autowired
+    private ProjectJPARepository projectJPARepository;
 
     @DeleteMapping("/delete/{id}")
     public void deleteUserById(@PathVariable long id) {
@@ -67,7 +74,6 @@ public class UserController {
         oUser.setZipCode(user.getZipCode());
         oUser.setAddress(user.getAddress());
         oUser.setBio(user.getBio());
-
         oUser.setPhone(user.getPhone());
         oUser.setPassword(user.getPassword());
         oUser.setPhoto(user.getPhoto());
@@ -180,6 +186,36 @@ public class UserController {
                         .stream()
                         .anyMatch(project -> project.getId() == id))
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("clients")
+    public List<User> getAllClients() {
+        return userRepository.findAll().stream().filter(user -> user.getUserType() == 1).collect(Collectors.toList());
+    }
+
+    /**
+     * Get a single Client user
+     * @param id user id of Client selected in frontend
+     * @return Client with chosen ID
+     */
+    @GetMapping("clients/{id}")
+    public ResponseEntity<User> getClientById(
+            @PathVariable long id) {
+        User client = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format("Client with ID %d could not be found", id)));
+
+        return ResponseEntity.ok()
+                .body(client);
+    }
+
+    /**
+     * Create a new Client-type user
+     */
+    @PostMapping("clients")
+    public ResponseEntity<Client> addClient(
+            @RequestBody Client client) {
+
+        return null;
     }
 
     @GetMapping("count")
@@ -335,5 +371,41 @@ public class UserController {
         userSkillRepo.deleteById(skillId);
 
         return user.getSpecialist().getSkills();
+    }
+
+    /**
+     * Get all Specialists with an approval status of 'pending' (2)
+     */
+    @GetMapping("/specialists/applications")
+    public List<User> getAllApplications() {
+        return this.getAllSpecialists()
+                .stream()
+                .filter(user -> user.getSpecialist().getApprovalStatus() == 2)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Updates only the approval status of a Specialist
+     * @param id Specialist's user ID
+     * @param specialist basically just the updated approval status
+     * @return updated Specialist and HTTP status
+     */
+    @PutMapping("/specialists/applications/{id}")
+    public ResponseEntity<Specialist> updateApplication(
+            @PathVariable("id") long id,
+            @RequestBody Specialist specialist) {
+        Specialist specialistToUpdate = specialistRepository.getSpecialistById(id);
+
+        specialistToUpdate.setApprovalStatus(specialist.getApprovalStatus());
+        specialistRepository.save(specialistToUpdate);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(
+                "Location",
+                ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .toUriString()
+        );
+        return new ResponseEntity<>(specialistToUpdate, headers, HttpStatus.OK);
     }
 }

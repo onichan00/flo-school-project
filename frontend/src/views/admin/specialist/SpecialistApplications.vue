@@ -10,10 +10,10 @@
 
         <thead class="text-xs border-b text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" class="py-3 px-6">Name</th>
-            <th scope="col" class="py-3 px-6">Age</th>
+            <th scope="col" class="py-3 px-6">Naam</th>
+            <th scope="col" class="py-3 px-6">Leeftijd</th>
             <th scope="col" class="py-3 px-6">Email</th>
-            <th scope="col" class="py-3 px-6">Phone</th>
+            <th scope="col" class="py-3 px-6">Telefoon</th>
             <th scope="col" class="py-3 px-6">Status</th>
           </tr>
         </thead>
@@ -74,7 +74,7 @@ export default {
       this.$router.push(this.$route.matched[0].path + '/' + this.selectedSpecialist.id);
     },
     updateApplication(specialist) {
-      fetch(`http://localhost:8080/api/specialists/applications/${specialist.id}`, {
+      fetch(process.env.VUE_APP_API_URL + `/api/users/specialists/applications/${specialist.id}`, {
         method: "PUT",
         mode: "cors",
         headers: {
@@ -105,7 +105,7 @@ export default {
   },
   beforeCreate() {
     (() => {
-      fetch("http://localhost:8080/api/users/specialists").then(response => {
+      fetch(process.env.VUE_APP_API_URL + `/api/users/specialists/applications`).then(response => {
         if (response.ok) {
           return response.json();
         }
@@ -127,6 +127,8 @@ export default {
             "id": id
           })
         })
+      }).catch(err => {
+        console.error(err);
       })
     })();
   }
