@@ -138,12 +138,12 @@
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                 Start en Eind tijd
               </label>
-              <input
-                  class="appearance-none block w-1/2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 float-left"
-                  type="text" placeholder="Doe">
-              <input
-                  class="appearance-none block w-1/2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  type="text" placeholder="Doe">
+
+
+              <input class="bg-gray-200 float-left w-1/2" type="datetime-local">
+              <input class="bg-gray-200 float-left w-1/2" type="datetime-local">
+
+
             </div>
             <div class="w-full md:w-1/2 px-3">
               <div>
@@ -169,6 +169,9 @@
                         placeholder="Your message..."></textarea>
             </div>
           </div>
+          <button  class="float-right p-3 bg-[#F05822] text-white font-bold rounded ">
+            Opslaan
+          </button>
         </form>
 
 
