@@ -308,6 +308,7 @@ import {firstLetterUpperCase, formatDate, specialistFullName} from "@/plugins/te
 import {Icon} from '@iconify/vue';
 import editProjectStatus from "@/components/admin/project/editProjectStatus";
 import axios from "axios";
+import { useToast } from "vue-toastification";
 
 export default {
   name: "ProjectSubmissionsDetail",
@@ -321,6 +322,7 @@ export default {
       specialists: null,
       clients: null,
       modalObj: null,
+      toast: useToast(),
       newEvents: null,
       acceptedNumber: 2,
       classObject: {
@@ -358,7 +360,11 @@ export default {
     createNewEvent() {
       axios.post(process.env.VUE_APP_API_URL + '/api/events/', this.event)
           .then((res) => {
-            console.log(res)
+            this.toast.success("Event is aangemaakt!");
+          })
+          .catch((err) => {
+            console.error(err);
+            this.toast.error("Iets ging verkeerd!")
           })
     },
 
