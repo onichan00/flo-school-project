@@ -244,7 +244,11 @@
 
                     <form>
                       <label class="block mb-2 text-sm font-medium text-gray-900">Upload CV</label>
-                      <input ref="fileToUpload" class="block w-full text-sm mb-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" id="file_input" type="file">
+                      <input
+                          class="block w-full text-sm mb-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                          id="file_input"
+                          type="file"
+                          v-on:change="handleFileInputChange"/>
                     </form>
 
                     <label for="floating_first_name"
@@ -465,6 +469,7 @@ export default {
       selectedLevel: 0,
       website: "",
       fileId: '',
+      file: null,
 
       toast: useToast(),
 
@@ -551,12 +556,12 @@ export default {
 
           // If the user is a specialist, add skills to their specialist profile and the CV
           if (this.accountType == 2) {
-            await this.uploadFile(res.data.id);
             await this.uploadSkills(res.data.id);
+            await this.uploadFile(res.data.id);
             // Navigate to specialist page
-            // this.$router.push("/specialistenPagina").then(() => {
-            //   this.$router.go()
-            // })
+            this.$router.push("/specialistenPagina").then(() => {
+              this.$router.go()
+            })
           }
           // If the user is a client, navigate to their dashboard
           if (this.accountType == 1) {
@@ -658,38 +663,48 @@ export default {
       }
     },
 
-    async uploadFile(id) {
-      console.log("kak")
+    handleFileInputChange(event) {
+      this.file = event.target.files[0];
+    },
 
+    uploadFile(id) {
+      // Log the value of this.file to the console
+      console.log(this.file)
+
+      // Create a new FormData object to hold the file
       const data = new FormData();
+      // Append the file to the FormData object
+      data.append("file", this.file);
 
-      console.log(this.$refs.fileToUpload)
-
-      data.append(
-          "file",
-          this.$refs.fileToUpload.files[0]
-      );
-
+      // Log the FormData object to the console
       console.log(data)
-      await fetch(`${process.env.VUE_APP_API_URL}/api/files/upload/${id}`, {
+
+      // Send a POST request to the server with the file data
+      fetch(`${process.env.VUE_APP_API_URL}/api/files/upload/${id}`, {
         method: "POST",
         body: data,
         headers: {
           "userId": id
         }
       }).then(response => {
+        // Log the response to the console
         console.log(response)
-        if (response.ok) {
-          this.uploadSuccessful = true;
-          return response.json();
-        }
+        // If the response is successful, return the JSON data
+        if (response.ok) return response.json();
+      }).catch(err => {
+        // Log any errors to the console
+        console.log(err);
       }).then(data => {
+        // Set the fileId property to the returned file id
         this.fileId = data.id;
+        // Emit the fileId event with the file id as the argument
         this.$emit('fileId', this.fileId);
       }).catch(err => {
+        // Log any errors to the console
         console.log(err);
       })
     },
+
   },
 
   setup() {
