@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-col p-4 bg-white drop-shadow-sm">
+  <div class="flex flex-col p-4 bg-white">
     <div class="flex flex-col md:flex-row mb:items-center justify-between">
       <div class="flex flex-row text-2xl items-center mb-2 md:mb-0 relative justify-center">
         <button class="mr-2 absolute md:relative left-0">
 <!--          <Icon icon="ic:baseline-menu" class="text-4xl text-florijnOrange" />-->
         </button>
         <!-- TODO Center the title -->
-        <p class="font-medium">{{ currentRouteName }}</p>
+        <p class="mt-4 text-3xl font-medium">{{ currentRouteName }}</p>
       </div>
 <!--      search bar-->
 <!--      <div class="flex flex-row">

@@ -34,6 +34,10 @@ export default {
   name: "LineChart",
   components: {Line},
   props: {
+    data: {
+      type: Array,
+      required: true
+    },
     chartId: {
       type: String,
       default: 'bar-chart'
@@ -65,23 +69,24 @@ export default {
       }
     },
   },
+
   data() {
     return {
-      chartData: {
-        labels: ['Today', 'Yesterday', '2 days ago', '3 days ago', '4 days ago', '5 dags ago'].reverse(),
-        datasets: [{
-          label: ["Data"],
-          data: [40, 20, 12, 76, 65, 34],
-          backgroundColor: [
-            'rgb(255,2,2)',
-          ],
-          borderColor: [            'rgb(255,0,55)',
-          ],
-        }]
-      },
       chartOptions: {
         responsive: true
+      }
+    }
+  },
 
+  computed: {
+    chartData() {
+      return {
+        datasets: [{
+          label: ["Aantal projecten"],
+          data: this.data,
+          backgroundColor: ['rgb(241,89,34)',],
+          borderColor: ['rgb(241,89,34)',],
+        }]
       }
     }
   }
