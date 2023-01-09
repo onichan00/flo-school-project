@@ -113,7 +113,11 @@ public class UserController {
 
     @GetMapping("admins")
     public List<User> getAllAdmins() {
-        return userRepository.findAll().stream().filter(user -> user.getUserType() == 0).collect(Collectors.toList());
+        return userRepository
+                .findAll()
+                .stream()
+                .filter(user -> user.getUserType() == 0)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -133,6 +137,14 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("clients")
+    public List<User> getAllClients() {
+        return userRepository
+                .findAll()
+                .stream()
+                .filter(user -> user.getUserType() == 1)
+                .collect(Collectors.toList());
+    }
 
     /**
      * Handles a GET request to check if an email is already in use.
@@ -151,7 +163,6 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-
     /**
      * Returns a list of all specialists who are assigned to a project with the given id.
      *
@@ -169,12 +180,6 @@ public class UserController {
                         .stream()
                         .anyMatch(project -> project.getId() == id))
                 .collect(Collectors.toList());
-    }
-
-
-    @GetMapping("clients")
-    public List<User> getAllClients() {
-        return userRepository.findAll().stream().filter(user -> user.getUserType() == 1).collect(Collectors.toList());
     }
 
     @GetMapping("count")

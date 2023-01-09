@@ -20,10 +20,16 @@ import projectSubmissions from "@/views/admin/project/projectSubmissions";
 import ClientHomePage from "@/views/ClientHomePage";
 import ClientSettings from "@/views/ClientSettings";
 import CreateProjects from "@/views/createProjects";
+import ClientProfile from "@/views/ClientProfile";
+import SpecialistProfile from "@/views/specialist/SpecialistProfile";
+import SpecialistHomePage from "@/views/specialist/SpecialistHomePage";
+import SpecialistSettings from "@/views/specialist/SpecialistSettings";
+import SpecialistProjectsOverview from "@/views/specialist/SpecialistProjectsOverview";
+
 import CreateAdmins from "@/components/admin/CreateAdmins";
 import AdminsTable from "@/components/admin/AdminsTable";
 import AdminDetail from "@/components/admin/AdminDetail";
-import ClientProfile from "@/views/ClientProfile";
+
 
 export const router = createRouter({
     history: createWebHashHistory(),
@@ -126,6 +132,28 @@ export const router = createRouter({
             name: 'Client Profile',
             component:  ClientProfile
         },
+
+        {
+            path: '/specialist/dashboard',
+            name: 'Specialist dashboard',
+            component:  SpecialistHomePage
+        },
+        {
+            path: '/specialist/settings/:id',
+            name: 'Specialist Settings',
+            component:  SpecialistSettings
+            // component:  Profile
+        },
+        {
+            path: '/specialist/profile',
+            name: 'Specialist Profile',
+            component:  SpecialistProfile
+        },
+        {
+            path: '/specialist/projects-overview',
+            name: 'Specialist Projects',
+            component: SpecialistProjectsOverview,
+        },
         {
             path: '/:pathMatch(.*)',
             component: UnknownRoute
@@ -137,7 +165,7 @@ router.beforeEach((to,from) => {
     console.log(to)
 
     // Whitelisted routes when logged out
-    const accessibleLoggedOutRoutes = ['Landing-page', 'Profile', 'Login', 'Register']
+    const accessibleLoggedOutRoutes = ['Landing-page', 'Login', 'Register']
 
     if (!accessibleLoggedOutRoutes.includes(to.name) && localStorage.getItem("id") === null) {
         return { name: 'Landing-page' }
