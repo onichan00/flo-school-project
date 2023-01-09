@@ -26,7 +26,7 @@
     <section class="md:w-1/2 m-2">
       <div class="flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0">
         <div class="w-full text-left  text-black bg-white rounded-lg md:mt-0 sm:max-w-xl xl:p-0">
-          <a href="#" class="flex text-left items-center mb-3 text-3xl font-semibold text-gray-900 dark:text-white">
+          <a class="flex text-left items-center mb-3 text-3xl font-semibold text-gray-900 dark:text-white">
             Welkom bij Florijn
           </a>
           <h1 class="text-2xl font-semibold">
@@ -41,10 +41,16 @@
                       E-mail</label>
                     <p v-if="!checkEmail()" class="text-gray-500 text-sm">Vul een geldig e-mailadres in</p>
                     <p v-else-if="checkEmail()" class="text-gray-500 text-sm"></p>
-                    <input @change="checkEmailAndPassword()" v-model="this.email" type="email" name="email" id="email"
-                           class="bg-gray-50 border border-gray-300 text-gray-900
-                sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5
-                dark:focus:border-blue-500" placeholder="name@company.com" required="">
+                    <input @change="this.checkEmailExists(this.email)" v-model="this.email" type="email" name="email"
+                           id="email"
+                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 focus:ring-gray-500 focus:border-gray-500"
+                           :class="this.emailExists && 'border border-red-400 focus:ring-red-500 focus:border-red-500'"
+                           placeholder="name@company.com" required="">
+                    <p v-if="this.emailExists" class="text-red-500 text-sm">
+                      Dit e-mailadres is al in gebruik, vul een ander e-mailadres in of <a
+                        @click="this.$router.push('/login')" class="underline pointer-cursor">log in</a>
+                    </p>
+                    <p v-else></p>
                   </div>
                 </div>
 
@@ -76,7 +82,7 @@
                            class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Wachtwoord</label>
                     <input @change="checkEmailAndPassword()" v-model="this.password" type="password" name="password"
                            id="password" placeholder="••••••••"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 "
                            required="">
                   </div>
                   <div>
@@ -86,7 +92,7 @@
                     <input @change="checkEmailAndPassword()" v-model="this.repeatPassword" type="password"
                            name="password"
                            id="password" placeholder="••••••••"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 "
                            required="">
                   </div>
 
@@ -136,7 +142,7 @@
                            class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Voornaam</label>
                     <input @change="checkUserInfo()" v-model="this.first_name" type="text" name="floating_first_name"
                            id="floating_first_name"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 "
                            placeholder="John" required/>
                   </div>
                   <div class="relative z-0 mb-6 w-full group">
@@ -146,7 +152,7 @@
                     </label>
                     <input @change="checkUserInfo()" v-model="this.second_name" type="text" name="floating_first_name"
                            id="floating_first_name"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 "
                            placeholder="van" required/>
                   </div>
                   <div class="relative z-0 mb-6 w-full group">
@@ -154,7 +160,7 @@
                            class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Achternaam</label>
                     <input @change="checkUserInfo()" v-model="this.last_name" type="text" name="floating_last_name"
                            id="floating_last_name"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 "
                            placeholder="Doe" required/>
                   </div>
                 </div>
@@ -167,7 +173,7 @@
                            @change="checkUserInfo()" v-model="this.phone"
                            name="floating_first_name"
                            id="floating_first_name"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 "
                            placeholder="+31 6 12345678" required/>
                   </div>
                 </div>
@@ -180,7 +186,7 @@
                            @change="checkUserInfo()" v-model="this.address"
                            name="floating_first_name"
                            id="floating_first_name"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 "
                            placeholder="Wibautstraat 1" required/>
                   </div>
                   <div class="relative z-0 mb-6 w-full group">
@@ -190,7 +196,7 @@
                            @change="checkUserInfo()" v-model="this.zip_code"
                            name="floating_first_name"
                            id="floating_first_name"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 "
                            placeholder="1234 AB" required/>
                   </div>
                   <div class="relative z-0 mb-6 w-full group">
@@ -200,7 +206,7 @@
                            type="text"
                            name="floating_first_name"
                            id="floating_first_name"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
+                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 "
                            placeholder="Amsterdam" required/>
                   </div>
                 </div>
@@ -210,7 +216,7 @@
                     <label for="countries"
                            class="block mb-2 text-left text-sm font-medium text-gray-900 dark:text-gray-400">Accounttype</label>
                     <select @change="checkUserInfo(); assignType($event);" v-model="this.accountType" id="countries"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                       <option selected>Kies een accounttype</option>
                       <option value=1>Client</option>
                       <option value=2>Specialist</option>
@@ -220,7 +226,7 @@
                     <label for="countries"
                            class="block mb-2 text-left text-sm font-medium text-gray-900 dark:text-gray-400">Geslacht</label>
                     <select @change="checkUserInfo(); assignGender($event);" v-model="this.gender" id="countries"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                       <option selected>Kies een geslacht</option>
                       <option value=1>Man</option>
                       <option value=2>Vrouw</option>
@@ -234,35 +240,73 @@
               <div v-else-if="this.step===2">
                 <form class="text-left h-fit pt-3">
 
-                  <div v-if="this.accountType === 2">
+                  <div v-if="this.accountType == 2">
+
+                    <form>
+                      <label class="block mb-2 text-sm font-medium text-gray-900">Upload CV</label>
+                      <input ref="fileToUpload" class="block w-full text-sm mb-2 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" id="file_input" type="file">
+                    </form>
 
                     <label for="floating_first_name"
-                           class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Functie
-                      titel</label>
-                    <input type="text" v-model="this.title"
+                           class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Wat voor
+                      specialist bent u?</label>
+                    <input type="text" v-model="this.specialistType"
                            name="floating_first_name"
                            id="floating_first_name"
-                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 mb-2 block w-full p-2.5 "
-                           placeholder="Software Engineer" required/>
+                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 mb-2 block w-full p-2.5 "
+                           placeholder="Software Engineer, Backend Engineer, Web Developer etc." required/>
 
-                  </div>
+                    <div class="mb-2">
+                      <label for="search"
+                             class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Voeg Skills toe
+                      </label>
+                      <input type="text" id="search" placeholder="Zoek hier de skills" v-model="searchTerm"
+                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500">
+                      <ul v-if="searchSkills.length"
+                          class="w-1/4 rounded-lg bg-white border border-gray-300 px-4 text-left py-2 space-y-1 absolute z-10">
+                        <li v-for="skill in searchSkills" :key="skill.name" @click="selectSkill(skill), addSkill(skill)"
+                            class="cursor-pointer hover:bg-orange-100 p-1">
+                          {{ skill.name }}
+                        </li>
+                      </ul>
+                      <div id="selectedCountries" class="text-left grid grid-cols-2 space-x-2"
+                           v-for="skill in this.projectSkills" :key="skill.id">
+                        <div>
+                          <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Skill:
+                          </div>
+                          <div @click="deleteCountry(skill)"
+                               class="cursor-pointer bg-gray-100 border border-gray-300 text-sm px-2 w-full h-auto py-1 m-auto rounded-lg">
+                            <div class="flex items-center space-x-1"><span>{{ skill.name }}</span>
+                              <i class="fa-solid fa-xmark"></i>
+                            </div>
+                          </div>
+                        </div>
 
-                  <div>
-                    <label for="countries"
-                           class="block mb-2 text-left text-sm font-medium text-gray-900 dark:text-gray-400">Beschikbaar</label>
-                    <select @change="assignAvailable($event);" v-model="this.available" id="countries"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                      <option selected>Bent u per direct beschikbaar?</option>
-                      <option value=1>Ja</option>
-                      <option value=0>Nee</option>
-                    </select>
+                        <div>
+                          <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecteer
+                            uw niveau</label>
+                          <select @change="addLevel($event)" id="countries"
+                                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option selected>Hoe goed u in deze skill</option>
+                            <option value=1>Beginner</option>
+                            <option value=2>Gevorderd</option>
+                            <option value=3>Competent</option>
+                            <option value=4>Bedreven</option>
+                            <option value=5>Expert</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
 
                   <div class="mb-4">
                     <label for="description"
                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bio</label>
                     <textarea v-model="this.bio" id="description" rows="4"
-                              class="block p-2.5 w-full h-24 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500"
+                              class="block p-2.5 w-full h-24 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-gray-500 focus:border-gray-500"
                               placeholder="Schrijf hier iets over uzelf beschrijving..."
                     ></textarea>
                   </div>
@@ -288,6 +332,25 @@
                     {{ this.address + " " + this.zip_code + " " + this.city }}</h1>
                   <h1 class="text-lg font-medium mt-2">Bio</h1>
                   <h1 class="text-lg font-normal">{{ this.bio }}</h1>
+
+                  <div v-if="this.accountType == 2">
+
+                    <h1 class="text-lg font-medium mt-2">Skills</h1>
+                    <div id="selectedCountries" class="text-left grid grid-cols-2 space-x-2"
+                         v-for="skill in this.projectSkills" :key="skill.id">
+                      <div>
+                        <div
+                            class="cursor-pointer bg-gray-100 border border-gray-300 text-sm px-2 w-full h-auto py-1 m-auto rounded-lg">
+                          <div class="flex items-center space-x-1"><span>{{ skill.name }}</span></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <h1 class="text-lg font-medium mt-2">Soort specialist</h1>
+                    <h1 class="text-lg font-normal"> {{
+                        this.specialistType
+                      }}</h1>
+                  </div>
                 </div>
               </div>
 
@@ -314,6 +377,14 @@
 
                 <button v-else-if="this.step===2 && this.bio!==null" @click="step++"
                         class="transition-all w-full rounded-lg font-medium bg-orange-500 hover:bg-orange-600 px-4 py-1.5 text-white"
+                >Bekijk overzicht
+                </button>
+
+                <button
+                    v-else-if="this.step===2 && this.bio===null && this.accountType==2 && this.specialistType && this.projectSkills.length!==0"
+                    @click="step++"
+                    class="transition-all cursor-not-allowed w-full rounded-lg font-medium bg-orange-200 px-4 py-1.5 text-white"
+                    disabled
                 >Bekijk overzicht
                 </button>
 
@@ -363,6 +434,7 @@
 <script>
 import axios from "axios";
 import {useToast} from "vue-toastification";
+import {computed, ref} from "vue";
 
 export default {
   name: "RegisterPage",
@@ -385,6 +457,14 @@ export default {
       phone: null,
       accountType: null,
       gender: null,
+      emailExists: false,
+      skills: [],
+      projectSkills: [],
+      specialistType: "",
+      skillLevels: [],
+      selectedLevel: 0,
+      website: "",
+      fileId: '',
 
       toast: useToast(),
 
@@ -395,9 +475,33 @@ export default {
   },
 
   methods: {
-    async registerRequest() {
+    addSkill(skill) {
+      this.projectSkills.push(skill)
+    },
 
-      let request = await axios.post(process.env.VUE_APP_API_URL + "/api/users/register", {
+    async checkEmailExists(email) {
+      try {
+        const response = await axios.get(process.env.VUE_APP_API_URL + `/api/users/check-email/${email}`);
+        if (response.status === 400) {
+          this.emailExists = true;
+          console.log("ja man")
+        } else {
+          this.emailExists = false;
+          console.log("nee man")
+        }
+      } catch (err) {
+        if (err.response.status === 400) {
+          this.emailExists = true;
+          console.log("ja man")
+        } else {
+          console.log(err);
+        }
+      }
+    },
+
+    async registerRequest() {
+      // Create the base user data object
+      let userData = {
         email: this.email,
         password: this.password,
         first_name: this.first_name,
@@ -409,39 +513,77 @@ export default {
         last_name: this.last_name,
         phone: this.phone,
         userType: parseInt(this.accountType)
-      }).catch((err) => {
-        this.toast.error("Er ging wat mis, probeer het later nog eens :(")
-      })
+      }
 
-      this.step = 3
-
-      if (request.status === 200) {
-        let response = request.data
-        let userType = response.userType
-        localStorage.setItem("id", response.id)
-        localStorage.setItem("userType", response.userType)
-
-        if (userType === 0) {
-          this.$router.push("/admin").then(() => {
-            this.$router.go()
-          })
+      // If the user is a specialist, add specialist data to the object
+      if (this.accountType == 2) {
+        userData.specialist = {
+          available: 1,
+          specialistType: this.specialistType,
+          approvalStatus: 0,
         }
-        if (userType === 1) {
+      }
 
-          this.$router.push("/client/dashboard").then(() => {
-            this.$router.go().then(() => {
-              this.$router.go()
+      try {
+        // Attempt to register the user
+        const res = await axios.post(process.env.VUE_APP_API_URL + "/api/users/register", userData)
+        this.step = 3
+        console.log(res)
+        localStorage.setItem("id", res.data.id)
+        localStorage.setItem("userType", res.data.userType)
+
+        if (res.status === 200) {
+          // Display success message
+          this.toast.success("Uw account is aangemaakt", {
+            position: "bottom-center",
+            timeout: 4000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false
+          })
+
+          // If the user is a specialist, add skills to their specialist profile and the CV
+          if (this.accountType == 2) {
+            await this.uploadFile(res.data.id);
+            await this.uploadSkills(res.data.id);
+            // Navigate to specialist page
+            // this.$router.push("/specialistenPagina").then(() => {
+            //   this.$router.go()
+            // })
+          }
+          // If the user is a client, navigate to their dashboard
+          if (this.accountType == 1) {
+            this.$router.push("/client/dashboard").then(() => {
+              this.$router.go().then(() => {
+                this.$router.go()
+              })
             })
-          })
+          }
         }
-
-        if (userType === 2) {
-
-          this.$router.push("/specialistenPagina").then(() => {
-            this.$router.go()
-          })
-        }
-        // location.reload()
+      } catch (err) {
+        // Display error message if registration fails
+        console.log(err)
+        this.toast.error("Er ging wat mis met het aanmaken van uw account", {
+          position: "bottom-center",
+          timeout: 4000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: true,
+          closeButton: "button",
+          icon: true,
+          rtl: false
+        })
       }
     },
 
@@ -461,11 +603,12 @@ export default {
         this.passwordStrength = 2
       }
 
-      if (this.password === this.repeatPassword && this.passwordStrength === 3 && emailRegex.test(this.email)) {
+      if (this.password === this.repeatPassword && this.passwordStrength === 3 && emailRegex.test(this.email) && !this.emailExists) {
         this.buttonType = 1;
         return true;
       }
-    },
+    }
+    ,
 
     checkEmail() {
       const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -473,26 +616,131 @@ export default {
       if (emailRegex.test(this.email)) {
         return true;
       }
-    },
+    }
+    ,
 
     checkUserInfo() {
-      return this.first_name !== null && this.second_name !== null && this.last_name !== null
+      return this.first_name !== null && this.last_name !== null
           && this.address !== null && this.zip_code !== null && this.city !== null && this.phone !== null
           && this.accountType !== null && this.gender !== null;
-    },
+    }
+    ,
 
     assignGender(event) {
       this.gender = event.target.value;
-    },
+    }
+    ,
 
     assignType(event) {
       this.accountType = event.target.value;
-    },
+      console.log(this.accountType)
+    }
+    ,
 
     assignAvailable(event) {
       this.available = event.target.value;
     }
-  }
+    ,
+
+    addLevel(event) {
+      this.skillLevels.push(Number(event.target.value));
+      console.log(this.skillLevels)
+      console.log(this.projectSkills)
+    },
+
+    async uploadSkills(id) {
+      for (let i = 0; i < this.projectSkills.length; i++) {
+        await axios.post(process.env.VUE_APP_API_URL + `/api/users/specialist/${id}/skill`, {
+          skill: this.projectSkills[i],
+          level: this.skillLevels[i],
+          specialist_id: id
+        })
+      }
+    },
+
+    async uploadFile(id) {
+      console.log("kak")
+
+      const data = new FormData();
+
+      console.log(this.$refs.fileToUpload)
+
+      data.append(
+          "file",
+          this.$refs.fileToUpload.files[0]
+      );
+
+      console.log(data)
+      await fetch(`${process.env.VUE_APP_API_URL}/api/files/upload/${id}`, {
+        method: "POST",
+        body: data,
+        headers: {
+          "userId": id
+        }
+      }).then(response => {
+        console.log(response)
+        if (response.ok) {
+          this.uploadSuccessful = true;
+          return response.json();
+        }
+      }).then(data => {
+        this.fileId = data.id;
+        this.$emit('fileId', this.fileId);
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+  },
+
+  setup() {
+    let theSkills = []
+    axios.get(process.env.VUE_APP_API_URL + `/api/skills`)
+        .then((res) => {
+          theSkills = res.data;
+          console.log(theSkills)
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+
+    const toast = useToast();
+
+    let searchTerm = ref('')
+
+    const selectSkill = (skill) => {
+      selectedSkill.value = skill
+      searchTerm.value = ''
+    }
+
+    const searchSkills = computed(() => {
+      if (searchTerm.value === '') {
+        return []
+      }
+
+      let matches = 0
+
+      return theSkills.filter(skill => {
+        if (
+            skill.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+            && matches < 10
+        ) {
+          matches++
+          return skill
+        }
+      })
+    });
+
+    let selectedSkill = ref('')
+
+    return {
+      theSkills,
+      searchTerm,
+      searchSkills,
+      selectSkill,
+      selectedSkill
+    }
+  },
+
 }
 </script>
 

@@ -7,6 +7,7 @@ import com.hva.helios.exceptions.PreConditionFailed;
 import com.hva.helios.models.Event;
 import com.hva.helios.models.Project;
 import com.hva.helios.models.User;
+import com.hva.helios.models.enums.EventType;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.repositories.interfaces.jpa.EventJPARepository;
 import com.hva.helios.views.Views;
@@ -74,6 +75,8 @@ public class EventController {
      */
     @PostMapping("/")
     public Event createEvent(@RequestBody Event event) {
+        // FIXME: Remove bug where project
+
         // Save the event to the repository and return it
         return eventRepo.save(event);
     }
