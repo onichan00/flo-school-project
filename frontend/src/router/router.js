@@ -142,8 +142,8 @@ export const router = createRouter({
         {
             path: '/specialist/settings/:id',
             name: 'Specialist Settings',
-            component:  SpecialistSettings
-            // component:  Profile
+            // component:  SpecialistSettings
+            component:  Profile
         },
         {
             path: '/specialist/profile',
