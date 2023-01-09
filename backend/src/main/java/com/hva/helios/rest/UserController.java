@@ -57,12 +57,20 @@ public class UserController {
 
         System.out.println(oUser);
 
+        oUser.setEmail(user.getEmail());
+
         oUser.setFirst_name(user.getFirst_name());
         oUser.setSecond_name(user.getSecond_name());
         oUser.setLast_name(user.getLast_name());
-        oUser.setEmail(user.getEmail());
+
+        oUser.setCity(user.getCity());
+        oUser.setZipCode(user.getZipCode());
+        oUser.setAddress(user.getAddress());
+        oUser.setBio(user.getBio());
+
         oUser.setPhone(user.getPhone());
         oUser.setPassword(user.getPassword());
+        oUser.setPhoto(user.getPhoto());
 
         if (userType == 0) {
             return userRepository.save(oUser);
@@ -266,7 +274,7 @@ public class UserController {
      * @throws NotFoundException If the user with the specified ID is not found
      */
     @PostMapping("/specialist/{userId}/skill")
-    public User addUserSkill(@RequestBody UserSkill userSkill, @PathVariable long userId) {
+    public Set<UserSkill> addUserSkill(@RequestBody UserSkill userSkill, @PathVariable long userId) {
         User user = userRepository.findById(userId).orElse(null);
 
         if (user == null) {
@@ -275,8 +283,9 @@ public class UserController {
 
         userSkill = userSkillRepo.save(userSkill);
         user.getSpecialist().associateUserSkill(userSkill);
+        user = userRepository.save(user);
 
-        return userRepository.save(user);
+        return user.getSpecialist().getSkills();
     }
 
     /**
@@ -287,16 +296,17 @@ public class UserController {
      * @throws NotFoundException If the user with the specified ID is not found
      */
     @PatchMapping("/specialist/{userId}/skill")
-    public User updateUserSkill(@PathVariable long userId, @RequestBody UserSkill userSkill) {
+    public Set<UserSkill> updateUserSkill(@PathVariable long userId, @RequestBody UserSkill userSkill) {
         User user = userRepository.findById(userId).orElse(null);
 
         if (user == null) {
             throw new NotFoundException(String.format("The user with ID: %d was not found", userId));
         }
 
+        userSkill.setSpecialist(user.getSpecialist());
         userSkillRepo.save(userSkill);
 
-        return user;
+        return user.getSpecialist().getSkills();
     }
 
     /**
@@ -308,7 +318,7 @@ public class UserController {
      * @throws NotFoundException If the user with the specified ID is not found
      */
     @DeleteMapping("/specialist/{userId}/skill/{skillId}")
-    public User deleteUserSkill(@PathVariable long userId, @PathVariable long skillId) {
+    public Set<UserSkill> deleteUserSkill(@PathVariable long userId, @PathVariable long skillId) {
         User user = userRepository.findById(userId).orElse(null);
         UserSkill userSkill = userSkillRepo.findById(skillId);
 
@@ -319,6 +329,6 @@ public class UserController {
         userSkill.dissociateSpecialist(user.getSpecialist());
         userSkillRepo.deleteById(skillId);
 
-        return user;
+        return user.getSpecialist().getSkills();
     }
 }

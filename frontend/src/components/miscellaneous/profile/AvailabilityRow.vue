@@ -29,7 +29,6 @@ export default {
     const weekOrder = { 'Maandag': 0, 'Dinsdag': 1, 'Woensdag': 2, 'Donderdag': 3, 'Vrijdag': 4, 'Zaterdag': 5, 'Zondag': 6 };
 
     const unsortedDays = Array(7);
-    console.log(this.hours);
 
     for (const day in this.hours.days) {
       const obj = this.hours.days[day];

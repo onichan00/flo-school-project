@@ -14,7 +14,6 @@ export default class UpcomingMeeting {
         const isNull = obj === null;
 
         const today = new Date();
-        console.log(today.getFullYear(), today.getMonth(), today.getDate())
 
         const startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 9, 0, 0);
         const endTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 17, 0, 0);

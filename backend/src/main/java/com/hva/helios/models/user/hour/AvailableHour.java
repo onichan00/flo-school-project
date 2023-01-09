@@ -38,13 +38,13 @@ public class AvailableHour {
         Date start = startCal.getTime();
         Date end = endCal.getTime();
 
-        this.days.put("monday", new Hour("monday", true, start, end));
-        this.days.put("tuesday", new Hour("tuesday", true, start, end));
-        this.days.put("wednesday", new Hour("wednesday", true, start, end));
-        this.days.put("thursday", new Hour("thursday", true, start, end));
-        this.days.put("friday", new Hour("friday", true, start, end));
-        this.days.put("saturday", new Hour("saturday", false, start, end));
-        this.days.put("sunday", new Hour("sunday", false, start, end));
+        this.days.put("monday", new Hour("Maandag", true, start, end));
+        this.days.put("tuesday", new Hour("Dinsdag", true, start, end));
+        this.days.put("wednesday", new Hour("Woensdag", true, start, end));
+        this.days.put("thursday", new Hour("Donderdag", true, start, end));
+        this.days.put("friday", new Hour("Vrijdag", true, start, end));
+        this.days.put("saturday", new Hour("Zaterdag", false, start, end));
+        this.days.put("sunday", new Hour("Zondag", false, start, end));
     }
 
     public long getId() {
