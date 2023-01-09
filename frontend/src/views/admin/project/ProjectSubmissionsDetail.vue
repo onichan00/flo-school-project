@@ -99,7 +99,7 @@
 
         <div
             class="w-72 float-left overflow-auto h-80 relative mx-auto bg-white dark:bg-slate-800 dark:highlight-white/5 shadow-lg ring-1 ring-black/5 rounded-xl flex flex-col divide-y dark:divide-slate-200/5">
-          <div v-on:click="selectSpecialist(specialist)" v-for="specialist in specialists" :key="specialist.id"
+          <div v-on:click="this.event.user = specialist.specialist" v-for="specialist in specialists" :key="specialist.id"
                class="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-600">
             <img class="w-12 h-12 rounded-full" :src="specialist.photo">
             <div class="flex flex-col">
@@ -122,7 +122,7 @@
               </label>
               <input
                   class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  type="text" placeholder="Doe">
+                  type="text" placeholder="Event titel" v-model="event.title">
             </div>
             <div class="w-full md:w-1/2 px-3">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -130,7 +130,7 @@
               </label>
               <input
                   class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  i type="text" placeholder="Doe">
+                  type="text" placeholder="Event locatie" v-model="event.location">
             </div>
           </div>
           <div class="flex flex-wrap -mx-3 mb-6">
@@ -140,8 +140,8 @@
               </label>
 
 
-              <input class="bg-gray-200 float-left w-1/2" type="datetime-local">
-              <input class="bg-gray-200 float-left w-1/2" type="datetime-local">
+              <input class="bg-gray-200 float-left w-1/2" type="datetime-local" v-model="event.start">
+              <input class="bg-gray-200 float-left w-1/2" type="datetime-local" v-model="event.end">
 
 
             </div>
@@ -150,13 +150,13 @@
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                   Type
                 </label>
-                <select
+                <select v-model="event.eventType"
                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-                  <option>Werk</option>
-                  <option>Vrij</option>
-                  <option>Ziek</option>
-                  <option>Vakantie</option>
-                  <option>Anders</option>
+                  <option value="WORK">Werk</option>
+                  <option value="FREE_DAY">Vrij</option>
+                  <option value="SICK">Ziek</option>
+                  <option value="VACATION">Vakantie</option>
+                  <option value="OTHER">Anders</option>
                 </select>
               </div>
             </div>
@@ -164,12 +164,12 @@
           <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full px-3">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Beschrijving</label>
-              <textarea id="message" rows="4"
+              <textarea v-model="event.description" id="message" rows="4"
                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Your message..."></textarea>
+                        placeholder="Beschrijving..."></textarea>
             </div>
           </div>
-          <button  class="float-right p-3 bg-[#F05822] text-white font-bold rounded ">
+          <button v-on:click="this.createNewEvent()"  class="float-right p-3 bg-[#F05822] text-white font-bold rounded ">
             Opslaan
           </button>
         </form>
@@ -322,11 +322,22 @@ export default {
       clients: null,
       modalObj: null,
       newEvents: null,
-      selectedSpecialist: null,
       acceptedNumber: 2,
       classObject: {
         'bg-green-100': this.dataObject === 0
-      }
+      },
+      event: {
+        "project": null,
+        "user": null,
+        "title": null,
+        "location": null,
+        "start": null,
+        "end": null,
+        "description": null,
+        "accepted": 0,
+        "eventType": null
+      },
+
     }
   },
 
@@ -344,6 +355,13 @@ export default {
     firstLetterUpperCase,
     formatDate,
 
+    createNewEvent() {
+      axios.post(process.env.VUE_APP_API_URL + '/api/events/', this.event)
+          .then((res) => {
+            console.log(res)
+          })
+    },
+
     getNewEvents(num) {
       console.log(num)
       if (num === 2) {
@@ -353,11 +371,6 @@ export default {
           return event.accepted === num
         })
       }
-    },
-
-    selectSpecialist(specialist) {
-      this.selectedSpecialist = specialist
-      console.log(this.selectedSpecialist)
     },
 
     declineProject() {
@@ -399,8 +412,8 @@ export default {
     async findProjectFromRouteParam(id) {
       await axios.get(process.env.VUE_APP_API_URL + "/api/projects/" + id)
           .then((res) => {
-            console.log(res.data)
             this.dataObject = res.data;
+            this.event.project = res.data;
           })
           .catch((err) => {
             console.log(err);

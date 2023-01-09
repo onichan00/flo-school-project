@@ -188,10 +188,6 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("clients")
-    public List<User> getAllClients() {
-        return userRepository.findAll().stream().filter(user -> user.getUserType() == 1).collect(Collectors.toList());
-    }
 
     /**
      * Get a single Client user
