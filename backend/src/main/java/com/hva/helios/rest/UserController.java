@@ -9,12 +9,14 @@ import com.hva.helios.models.record.LoginResponse;
 import com.hva.helios.models.user.*;
 import com.hva.helios.exceptions.NotFoundException;
 import com.hva.helios.models.User;
+import com.hva.helios.models.user.hour.AvailableHour;
 import com.hva.helios.models.user.skill.UserSkill;
 import com.hva.helios.repositories.ProjectJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.AdminJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.ClientJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
+import com.hva.helios.repositories.user.AvailableHourJPARepository;
 import com.hva.helios.repositories.user.UserSkillJPARepository;
 import com.hva.helios.utilities.Authentication;
 import com.hva.helios.views.Views;
@@ -52,6 +54,9 @@ public class UserController {
 
     @Autowired
     private ProjectJPARepository projectJPARepository;
+
+    @Autowired
+    private AvailableHourJPARepository availableHourJPARepository;
 
     Authentication authentication = new Authentication();
 
@@ -347,6 +352,12 @@ public class UserController {
                 savedSpecialist = specialistRepository.save(user.getSpecialist());
             } else {
                 savedSpecialist = specialistRepository.save(user.getSpecialist());
+            }
+
+            if (savedSpecialist.getHours() == null) {
+                AvailableHour availableHour = new AvailableHour();
+                availableHourJPARepository.save(availableHour);
+                savedSpecialist.setHours(availableHour);
             }
 
             user.setSpecialist(savedSpecialist);
