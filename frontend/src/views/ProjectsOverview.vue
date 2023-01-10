@@ -416,10 +416,10 @@ export default {
       this.announcementsService.sendMessage(event.target.value, this.user.first_name + " " + this.user.last_name, this.selectedProject.id);
       // a persistent announcement system would save the announcement here via the REST api
       // and let the rest controller issue the websocket notification to inform all clients about the update
-      await axios.post(process.env.VUE_APP_API_URL + "/api/announcements/get", {
+      await axios.post(process.env.VUE_APP_API_URL + `/api/announcements/get/${this.userId}/${this.selectedProject.id}`, {
         announcement: [{
           message : event.target.value,
-          dateAndTime : null
+          dateAndTime : new Date
         }],
         clientId: this.userId,
         projectId: this.selectedProject.id

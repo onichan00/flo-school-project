@@ -19,7 +19,9 @@
   </div>
 
   <div v-if="userType == 2 && approvalStatus != 2">
-    <specialist-navbar></specialist-navbar>
+    <div  v-if="this.$route.path !== '/specialist/pending'">
+      <specialist-navbar></specialist-navbar>
+    </div>
     <router-view/>
   </div>
 

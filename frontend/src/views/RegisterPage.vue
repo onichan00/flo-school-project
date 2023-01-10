@@ -559,10 +559,11 @@ export default {
             await this.uploadSkills(res.data.id);
             await this.uploadFile(res.data.id);
             // Navigate to specialist page
-            this.$router.push("/specialistenPagina").then(() => {
+            this.$router.push("/specialist/pending").then(() => {
               this.$router.go()
             })
           }
+
           // If the user is a client, navigate to their dashboard
           if (this.accountType == 1) {
             this.$router.push("/client/dashboard").then(() => {

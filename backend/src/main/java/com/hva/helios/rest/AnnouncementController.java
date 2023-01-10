@@ -29,7 +29,7 @@ public class AnnouncementController {
     @Autowired
     private AnnouncementRepository announcementRepository;
 
-    @GetMapping("")
+    @GetMapping("get")
     public List<Announcement> getAllAnnouncements() {
         return announcementRepository.findAll();
     }
@@ -39,12 +39,8 @@ public class AnnouncementController {
         return announcementRepository.findAllById(id);
     }
 
-    @PostMapping("get")
-    public Announcement addAnnouncement(@RequestBody Announcement announcement, @RequestParam long clientId, @RequestParam long projectId ) {
-        System.out.println("KAK" + announcement);
-        System.out.println("KAK" + clientId);
-        System.out.println("KAK" + projectId);
-
+    @PostMapping("add/{clientId}/{projectId}")
+    public Announcement addAnnouncement(@RequestBody Announcement announcement,@PathVariable long clientId, @PathVariable long projectId) {
         try {
             User user = userRepository.findById(clientId).orElseThrow(() -> new NotFoundException("user not found"));
             Project project = (Project) projectRepository.findById(projectId);
@@ -58,26 +54,4 @@ public class AnnouncementController {
             return null;
         }
     }
-
-    @PostMapping("announcements")
-    public List<Announcement> addAnnouncements(@RequestBody List<Announcement> announcements, @RequestParam long clientId, @RequestParam long projectId) {
-        try {
-            User user = userRepository.findById(clientId).orElseThrow(() -> new NotFoundException("user not found"));
-            Project project = (Project) projectRepository.findById(projectId);
-
-            // Set the user and project for each announcement
-            announcements.forEach(a -> {
-                a.setUser(user);
-                a.setProject(project);
-            });
-
-            // Save the announcements to the database
-            return announcementRepository.saveAll(announcements);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return Collections.emptyList();
-        }
-    }
-
-
 }
