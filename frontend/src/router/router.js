@@ -95,7 +95,7 @@ export const router = createRouter({
         },
         {
             path: '/projects/add-specialist/:id',
-            name: 'Add specialist to project',
+            name: 'Voeg specialist toe',
             component: AddSpecialistToProject
         },
         {
@@ -105,7 +105,7 @@ export const router = createRouter({
         },
         {
             path: '/projects/create-new-project',
-            name: 'Admin Create Project',
+            name: 'Admin Maak Project',
             component: CreateNewProject
         },
         {
