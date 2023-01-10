@@ -13,6 +13,7 @@ import com.hva.helios.repositories.interfaces.jpa.AdminJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.ClientJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
+import com.hva.helios.utilities.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -41,18 +42,28 @@ public class AuthorizationController {
     @Autowired
     private APIConfig apiConfig;
 
+    Authentication authentication = new Authentication();
+
     @PostMapping("login")
     public ResponseEntity login(@RequestBody LoginBody loginBody) {
         User user = userRepository.findByEmail(loginBody.email());
+
+
+        if (user == null) {
+            throw new NotFoundException(String.format("User with email: %s was not found", loginBody.email()));
+        }
+        String hashedPassword = authentication.hash(loginBody.password());
+
 
         JWToken jwToken = new JWToken(user.getFirst_name()+user.getSecond_name()+user.getLast_name(), user.getId(), user.getUserType());
         String tokenString = jwToken.encode(this.apiConfig.getIssuer(),
                 this.apiConfig.getPassphrase(), this.apiConfig.getTokenDurationOfValidity(), user.getUserType());
 
 
-        if (!user.getPassword().equals(loginBody.password())) {
+
+        if (!user.getPassword().equals(hashedPassword)) {
             return ResponseEntity.badRequest()
-                    .body(new LoginResponse(-1L, -1L, user.getSpecialist().getApprovalStatus()));
+                    .body(new LoginResponse(-1L, -1L, null));
 
         }
 
@@ -60,6 +71,7 @@ public class AuthorizationController {
             return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION,"Bearer " +  tokenString)
                     .body(new LoginResponse(user.getId(), user.getUserType(), user.getSpecialist().getApprovalStatus()));
         }
+
         return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION,"Bearer " +  tokenString)
                 .body(new LoginResponse(user.getId(), user.getUserType(), null));
 
