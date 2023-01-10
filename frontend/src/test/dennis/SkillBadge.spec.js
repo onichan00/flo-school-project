@@ -1,30 +1,26 @@
 import { mount } from "@vue/test-utils";
 import SkillBadge from "@/components/miscellaneous/profile/SkillBadge.vue";
 
-let wrapper;
+let wrapper
+
+const userSkill = { id: 1, level: 4, skill: { id: 1, name: 'JavaScript' } };
 
 beforeAll(() => {
-    const propData = {
-        skill: {
-            name: "Java",
-            level: 4
-        }
-    }
-
     wrapper = mount(SkillBadge, {
-        props: propData
+        props: {
+            skill: userSkill
+        }
+    });
+});
+
+describe('SkillBadge', function () {
+    it('Should render skill name in button', async () => {
+        expect(wrapper.find('button').text()).toBe('JavaScript');
     })
-})
 
-describe('Skills', () => {
-    it('Should emit open on click', () => {
-        // Click on the badge
-        wrapper.trigger("click");
+    it('Should emit skillClicked event with skill when button is clicked', () => {
+        wrapper.find('button').trigger('click');
 
-        // Catch the emit event
-        const wrapperEvent = wrapper.emitted('skillClicked')[0][0];
-
-        // The emit event should have been called
-        expect(wrapperEvent).toBeTruthy();
+        expect(wrapper.emitted('skillClicked')).toEqual([[ userSkill ]])
     })
 });

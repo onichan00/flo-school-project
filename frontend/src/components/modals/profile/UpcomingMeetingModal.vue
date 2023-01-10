@@ -12,8 +12,8 @@
                   type="datetime" format="DD-MM-YYYY HH:mm"
                   :showMinute="true" :showSecond="false"
                   :minute-step="5" :clearable="false"
-                  id="meetingStart" v-model:value="getMeeting.start"
-                  :disabled-time="notAfterEndTime"
+                  v-model:value="getMeeting.start"
+                  :disabled-time="notAfterEndTime" input-class="mx-input meetingStart"
               />
             </div>
             <div class="w-full md:w-1/2">
@@ -23,8 +23,8 @@
                   type="datetime" format="DD-MM-YYYY HH:mm"
                   :showMinute="true" :showSecond="false"
                   :minute-step="5" :clearable="false"
-                  id="meetingEnd" v-model:value="getMeeting.end"
-                  :disabled-time="notBeforeStartTime"
+                  v-model:value="getMeeting.end"
+                  :disabled-time="notBeforeStartTime" input-class="mx-input meetingEnd"
               />
             </div>
           </div>
@@ -75,7 +75,7 @@ import DatePicker from 'vue-datepicker-next';
 import axios from "axios";
 
 import { useToast } from "vue-toastification";
-import {proxyObjToJson} from "@/plugins/objectManipulation";
+import { proxyObjToJson } from "@/plugins/objectManipulation";
 
 export default {
   name: "UpcomingMeetingModal",
