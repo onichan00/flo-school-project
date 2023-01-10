@@ -45,10 +45,7 @@
               <label for="city" class="block mb-1 text-sm font-medium text-gray-900">Stad</label>
               <input type="text" id="city" v-model="userObj.city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Amsterdam" required>
             </div>
-            <div>
-              <label for="city" class="block mb-1 text-sm font-medium text-gray-900">wachtwoord</label>
-              <input type="text" id="password" v-model="userObj.password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="wachtwoord">
-            </div>
+
             <div>
               <label for="zipcode" class="block mb-1 text-sm font-medium text-gray-900">Postcode</label>
               <input type="text" id="zipcode" v-model="userObj.zipCode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="1000AA" required>
@@ -57,6 +54,10 @@
           <div>
             <label for="address" class="block mb-1 text-sm font-medium text-gray-900">Adres</label>
             <input type="email" id="address" v-model="userObj.address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Wibautstraat 4B" required>
+          </div>
+          <div>
+            <label for="city" class="block mb-1 text-sm font-medium text-gray-900">wachtwoord</label>
+            <input type="text" id="password" v-model="userObj.password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="wachtwoord">
           </div>
           <div>
             <label for="bio" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Bio</label>
