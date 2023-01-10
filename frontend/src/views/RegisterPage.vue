@@ -150,7 +150,7 @@
                            class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Tussenvoegsel
                       (optioneel)
                     </label>
-                    <input @change="checkUserInfo()" v-model="this.second_name" type="text" name="floating_first_name"
+                    <input @change="checkUserInfo()" v-model="this.preposition" type="text" name="floating_first_name"
                            id="floating_first_name"
                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 "
                            placeholder="van" required/>
