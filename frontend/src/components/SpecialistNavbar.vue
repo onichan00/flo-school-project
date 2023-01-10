@@ -20,7 +20,7 @@
                  class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Over
                 ons</a>
             </li>
-            <li>¡
+            <li>
               <a href="https://florijn.com/aws/contact/"
                  class="block py-2 pl-3 pr-4 text-m hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-500 md:p-0">Contact</a>
             </li>

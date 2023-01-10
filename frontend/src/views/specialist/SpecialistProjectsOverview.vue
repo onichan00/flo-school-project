@@ -130,10 +130,7 @@
                 Aangemaakt op: {{ this.dateFormatter(selectedProject.created) }}
               </h1>
               <h1>
-                Projecteigenaar: {{this.selectedProject.user.first_name[0].toUpperCase()+ ". " + this.selectedProject.user.last_name}}
-              </h1>
-              <h1>
-                Email: {{this.selectedProject.user.email}}
+                Projecteigenaar: U
               </h1>
 
               <div class="flex flex-row mr-2">
@@ -182,6 +179,7 @@
                 </div>
               </div>
             </div>
+
             <div>
               <h1 class="mt-3 font-medium text-xl text-gray-700">
                 Aankondigingen
@@ -207,7 +205,6 @@
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -285,31 +282,6 @@ export default {
       this.onNewAnnouncement(event);
     },
 
-    // async sendEmail(event) {
-    //   const specialists = this.specialists[0]
-    //   const currentTimeInMilliseconds = new Date().getTime();
-    //   const currentTime = new Date(currentTimeInMilliseconds);
-    //   const time = currentTime.toLocaleString('nl-NL', {hour: '2-digit', minute: '2-digit'})
-    //
-    //   for (let i = 0; i < specialists.length; i++) {
-    //     const emailData = {
-    //       to: specialists[i].email,
-    //       name: specialists[i].first_name + " " + specialists[i].last_name,
-    //       from: this.user.first_name + " " + this.user.last_name,
-    //       subject: this.selectedProject.name,
-    //       time: time,
-    //       body: event.target.value
-    //     }
-    //
-    //     await axios.get(process.env.VUE_APP_API_URL + '/api/send-email', {params: emailData})
-    //         .then(response => {
-    //           console.log(response);
-    //         })
-    //         .catch((err) => {
-    //           console.log(err);
-    //         })
-    //   }
-    // },
 
     getUserData() {
       axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
@@ -379,8 +351,6 @@ export default {
     getProjectData() {
       axios.get(process.env.VUE_APP_API_URL + `/api/projects/specialist/${this.userId}`)
           .then((res) => {
-
-            console.log(res)
             for (let i = 0; i < res.data.length; i++) {
               this.projects.push(res.data[i])
             }
