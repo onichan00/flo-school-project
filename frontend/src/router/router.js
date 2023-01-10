@@ -21,7 +21,6 @@ import projectSubmissions from "@/views/admin/project/projectSubmissions";
 import ClientHomePage from "@/views/ClientHomePage";
 import ClientSettings from "@/views/ClientSettings";
 import CreateProjects from "@/views/createProjects";
-import ClientProfile from "@/views/ClientProfile";
 import SpecialistProfile from "@/views/specialist/SpecialistProfile";
 import SpecialistHomePage from "@/views/specialist/SpecialistHomePage";
 import SpecialistSettings from "@/views/specialist/SpecialistSettings";
@@ -30,6 +29,11 @@ import SpecialistProjectsOverview from "@/views/specialist/SpecialistProjectsOve
 import CreateAdmins from "@/components/admin/CreateAdmins";
 import AdminsTable from "@/components/admin/AdminsTable";
 import AdminDetail from "@/components/admin/AdminDetail";
+import ClientProfile from "@/views/ClientProfile";
+import projectEvent from "@/views/admin/project/projectEvent";
+import AddSpecialistToProject from "@/views/admin/project/AddSpecialistToProject";
+import SpecialistPendingPage from "@/views/specialist/SpecialistPendingPage";
+import CreateNewProject from "@/views/admin/project/CreateNewProject";
 
 
 export const router = createRouter({
@@ -89,9 +93,24 @@ export const router = createRouter({
             component: projectSubmissions
         },
         {
+            path: '/projects/add-specialist/:id',
+            name: 'Add specialist to project',
+            component: AddSpecialistToProject
+        },
+        {
+            path: '/projects/event/:id',
+            name: 'Event',
+            component: projectEvent
+        },
+        {
             path: '/create-project',
             name: 'Create Project',
             component: CreateProjects
+        },
+        {
+            path: '/projects/create-new-project',
+            name: 'Create Project',
+            component: CreateNewProject
         },
         {
             path: '/projects/:id',
@@ -121,34 +140,34 @@ export const router = createRouter({
         {
             path: '/client/dashboard',
             name: 'Client dashboard',
-            component:  ClientHomePage
+            component: ClientHomePage
         },
         {
             path: '/client/settings',
             name: 'Client Settings',
-            component:  ClientSettings
+            component: ClientSettings
         },
         {
             path: '/client/profile',
             name: 'Client Profile',
-            component:  ClientProfile
+            component: ClientProfile
         },
 
         {
             path: '/specialist/dashboard',
             name: 'Specialist dashboard',
-            component:  SpecialistHomePage
+            component: SpecialistHomePage
         },
         {
             path: '/specialist/settings/:id',
             name: 'Specialist Settings',
             // component:  SpecialistSettings
-            component:  Profile
+            component: Profile
         },
         {
             path: '/specialist/profile',
             name: 'Specialist Profile',
-            component:  SpecialistProfile
+            component: SpecialistProfile
         },
         {
             path: '/specialist/projects-overview',
@@ -160,6 +179,12 @@ export const router = createRouter({
             name: 'Create client',
             component: CreateClient
         },
+
+        {
+            path: '/specialist/pending',
+            name: 'Pending-page',
+            component: SpecialistPendingPage
+        },
         {
             path: '/:pathMatch(.*)',
             component: UnknownRoute
@@ -167,14 +192,21 @@ export const router = createRouter({
     ]
 })
 
-router.beforeEach((to,from) => {
+router.beforeEach((to, from) => {
     console.log(to)
+
+    console.log(localStorage.getItem("approvalStatus"))
+    console.log(localStorage.getItem("userType"))
 
     // Whitelisted routes when logged out
     const accessibleLoggedOutRoutes = ['Landing-page', 'Login', 'Register']
 
     if (!accessibleLoggedOutRoutes.includes(to.name) && localStorage.getItem("id") === null) {
-        return { name: 'Landing-page' }
+        return {name: 'Landing-page'}
     }
+    if (to.path !== '/specialist/pending' && localStorage.getItem("userType") == 2 && localStorage.getItem("approvalStatus") == 2) {
+        return {name: 'Pending-page'}
+    }
+
 
 })

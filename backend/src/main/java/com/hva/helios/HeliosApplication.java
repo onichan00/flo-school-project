@@ -26,10 +26,7 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @SpringBootApplication
 public class HeliosApplication implements CommandLineRunner {
@@ -134,6 +131,21 @@ public class HeliosApplication implements CommandLineRunner {
 
 	private void createInitialProjects() {
 		ProjectData projectData = new ProjectData();
+
+		// this piece of code serves the purpose of testing if projects actually show up specifically for the specialist
+		Project nProject = new Project("test project voor specialist", userRepository.findByEmail("client"), "no pics", 0,new Date(),"test");
+		nProject.setSpecialists(new HashSet<>(specialistRepo.findById(1)));
+		projectRepo.save(nProject);
+
+		Project n2Project = new Project("test project voor specialist2", userRepository.findByEmail("dennis.moesClient@hva.nl"), "no pics", 0,new Date(),"test");
+		n2Project.setSpecialists(new HashSet<>(specialistRepo.findById(2)));
+		projectRepo.save(n2Project);
+
+
+		Project n1Project = new Project("test project voor specialist3", userRepository.findByEmail("client"), "no pics", 0,new Date(),"test");
+		n1Project.setSpecialists(new HashSet<>(specialistRepo.findAll()));
+		projectRepo.save(n1Project);
+
 
 		for (Project project: projectData.getProjects()){
 			System.out.println("SOUT "+project.getBannerUrl());

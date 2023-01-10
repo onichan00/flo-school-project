@@ -91,7 +91,7 @@ export default {
 
   methods: {
     async loginRequest() {
-      let request = await axios.post(process.env.VUE_APP_API_URL + "/api/users/login", {
+      let request = await axios.post(process.env.VUE_APP_API_URL + "/api/authorization/login", {
         email: this.email,
         password: this.password,
       }).catch((err) => {
@@ -123,6 +123,7 @@ export default {
 
         if (userType === 2) {
 
+          localStorage.setItem("approvalStatus", response.approvalStatus)
           this.$router.push("/specialist/dashboard").then( () => {
             this.$router.go()
           })

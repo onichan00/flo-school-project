@@ -531,7 +531,7 @@ export default {
 
       try {
         // Attempt to register the user
-        const res = await axios.post(process.env.VUE_APP_API_URL + "/api/users/register", userData)
+        const res = await axios.post(process.env.VUE_APP_API_URL + "/api/authorization/register", userData)
         this.step = 3
         console.log(res)
         localStorage.setItem("id", res.data.id)

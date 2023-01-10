@@ -14,10 +14,16 @@
     <router-view/>
   </div>
 
-  <div v-if="userType == 2">
+  <div v-if="userType == 2 && approvalStatus == 2">
+    <router-view/>
+  </div>
+
+  <div v-if="userType == 2 && approvalStatus != 2">
     <specialist-navbar></specialist-navbar>
     <router-view/>
   </div>
+
+
 
   <div v-show="this.userType == 0">
     <Sidebar/>
@@ -73,13 +79,15 @@ export default {
       availableHours: [],
       skills: [],
       loginStatus: null,
-      userType: -1
+      userType: -1,
+      approvalStatus: -1
     }
   },
   mounted() {
     if (localStorage.getItem("id") != null) {
       this.loginStatus = true;
       this.userType = localStorage.getItem("userType")
+      this.approvalStatus = localStorage.getItem("approvalStatus")
 
       console.log("usertype is: "+this.userType)
 
