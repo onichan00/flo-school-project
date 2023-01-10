@@ -1,7 +1,8 @@
 package com.hva.helios.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hva.helios.APIConfig;
+import com.hva.helios.models.JWToken;
 import com.hva.helios.models.record.LoginBody;
 import com.hva.helios.models.record.LoginResponse;
 import com.hva.helios.models.user.*;
@@ -31,6 +32,9 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private AdminJPARepository adminRepository;
+
+    @Autowired
+    private APIConfig apiConfig;
     //
     @Autowired
     private ClientJPARepository clientRepository;
@@ -46,6 +50,24 @@ public class UserController {
 
     @Autowired
     private ProjectJPARepository projectJPARepository;
+
+    // TODO: uncomment this when jwt implemented on frontend
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<String> deleteUserById(@PathVariable long id, @RequestAttribute(name = JWToken.KEY) JWToken jwToken) {
+//
+//        // check if the user is a admin before deleting the user
+//        if (jwToken == null ||  jwToken.getUserType() != 0){
+//            return ResponseEntity.badRequest()
+//                    .body("youre not authorized to delete this user");
+//
+//        }
+//
+//        userRepository.deleteById(id);
+//
+//        return ResponseEntity.ok()
+//                .body("successfully deleted user: " + id);
+//
+//    }
 
     @DeleteMapping("/delete/{id}")
     public void deleteUserById(@PathVariable long id) {
@@ -240,16 +262,27 @@ public class UserController {
                 .orElseThrow(() -> new NotFoundException(String.format("User with ID: %d could not be found", id)));
     }
 
+    //TODO: remove from here because its inside the AuthorizationController.java allready for jwt
+    // left it just in case
     @PostMapping("login")
     public LoginResponse login(@RequestBody LoginBody loginBody) {
         User user = userRepository.findByEmail(loginBody.email());
 
-        if (user.getPassword().equals(loginBody.password())) {
-            return new LoginResponse(user.getId(), user.getUserType());
-        }
-        return new LoginResponse(-1L, -1);
+        JWToken jwToken = new JWToken(user.getFirst_name()+user.getSecond_name()+user.getLast_name(), user.getId(), user.getUserType());
+        String tokenString = jwToken.encode(this.apiConfig.getIssuer(),
+                this.apiConfig.getPassphrase(), this.apiConfig.getTokenDurationOfValidity(), user.getUserType());
 
+
+        if (!user.getPassword().equals(loginBody.password())) {
+            return new LoginResponse(-1L, -1L, user.getSpecialist().getApprovalStatus());
+
+        }
+
+        return new LoginResponse(user.getId(), user.getUserType(), user.getSpecialist().getApprovalStatus());
     }
+
+    //TODO: remove from here because its inside the AuthorizationController.java allready for jwt
+    // left it just in case
 
     @PostMapping("register")
     public User register(@RequestBody User user) {
