@@ -31,7 +31,7 @@ import AdminsTable from "@/components/admin/AdminsTable";
 import AdminDetail from "@/components/admin/AdminDetail";
 import ClientProfile from "@/views/ClientProfile";
 import projectEvent from "@/views/admin/project/projectEvent";
-import axios from "axios";
+import AddSpecialistToProject from "@/views/admin/project/AddSpecialistToProject";
 import SpecialistPendingPage from "@/views/specialist/SpecialistPendingPage";
 
 
@@ -90,6 +90,11 @@ export const router = createRouter({
             path: '/projects',
             name: 'Project',
             component: projectSubmissions
+        },
+        {
+            path: '/projects/add-specialist/:id',
+            name: 'Add specialist to project',
+            component: AddSpecialistToProject
         },
         {
             path: '/projects/event/:id',

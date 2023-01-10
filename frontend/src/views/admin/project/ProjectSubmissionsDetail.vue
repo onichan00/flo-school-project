@@ -21,23 +21,24 @@
     </div>
     <hr class="my-4"/>
     <div class="flex flex-row justify-between my-4">
-      <p class="text-left text-1xl font-medium mb-4">
-        <span
-            class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900"
-            v-if="dataObject.status === 0">
-        Canceled
-      </span>
-        <span
-            class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900"
-            v-if="dataObject.status === 1">
-        On going
-      </span>
-        <span
-            class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900"
-            v-if="dataObject.status === 2">
-        Done
-      </span>
-      </p>
+      <div v-if="dataObject.status === -1"><h1>Status: <a
+          class="py-0.0 px-1.5 bg-gradient-to-r from-red-500 to-orange-600 text-white font-medium rounded-2xl">
+        Geannuleerd</a></h1></div>
+      <div v-else-if="dataObject.status === 0"><h1>Status: <a
+          class="py-0.0 px-1.5 bg-gradient-to-r from-gray-400 to-gray-500 text-white font-medium rounded-2xl">
+        Concept</a></h1></div>
+      <div v-else-if="dataObject.status === 1"><h1>Status: <a
+          class="py-0.0 px-1.5 bg-gradient-to-r from-green-300 to-green-400 text-white font-medium rounded-2xl">
+        Geaccepteerd</a></h1>
+      </div>
+      <div v-else-if="dataObject.status === 2"><h1>Status: <a
+          class="py-0.0 px-1.5 bg-gradient-to-r from-green-400 to-green-400 text-white font-medium rounded-2xl">
+        Bezig</a></h1>
+      </div>
+      <div v-else-if="dataObject.status === 3"><h1>Status: <a
+          class="py-0.0 px-1.5 bg-gradient-to-r from-green-500 to-green-600 text-white font-medium rounded-2xl">
+        Afgerond</a></h1>
+      </div>
       <button data-modal-toggle="editStatus-modal" class="bg-[#F05822] text-white font-bold rounded px-3">
         Edit status
       </button>
@@ -47,15 +48,19 @@
       <table class="w-full text-sm rounded-md text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs border-b text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th scope="col" class="py-3 px-6">
-            Name
+          <th scope="col" class="px-6 py-3">
+            Naam
           </th>
-          <th scope="col" class="py-3 px-6">
-            Type
+          <th scope="col" class="px-6 py-3">
+            Specialist type
           </th>
-          <th scope="col" class="py-3 px-6">
-            Hours
+          <th scope="col" class="px-6 py-3">
+            Email
           </th>
+          <th scope="col" class="px-6 py-3">
+            Telefoon
+          </th>
+
         </tr>
         </thead>
         <tbody>
@@ -67,18 +72,21 @@
             {{ specialistFullName(specialist) }}
           </td>
           <td class="py-4 px-6">
-            {{ firstLetterUpperCase(specialist.specialistType) }}
+            {{ firstLetterUpperCase(specialist.specialist.specialistType) }}
           </td>
           <td class="py-4 px-6">
-            94
+            {{ specialist.email }}
+          </td>
+          <td class="py-4 px-6">
+            {{ specialist.phone }}
           </td>
         </tr>
-        <tr
+        <tr data-modal-toggle="addSpecialist-Modal-now"
             class="cursor-pointer bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-orange-50 dark:hover:bg-gray-600"
-            type="button" data-modal-toggle="addSpecialistModal">
-          <td class="py-4 px-6 inline-flex items-center gap-2">
-            Add Specialist
-            <Icon icon="ic:baseline-person-add-alt-1" class="text-lg"/>
+            type="button">
+          <td v-on:click="goToAddSpecialist()" class="bg-gray-50 py-4 px-6 inline-flex items-center gap-2">
+            <p style="padding-right: 5px" class="float-left">Pas team aan</p>
+            <Icon icon="ic:baseline-person-add-alt-1" class="text-lg float-right"/>
           </td>
           <td></td>
           <td></td>
@@ -99,7 +107,8 @@
 
         <div
             class="w-72 float-left overflow-auto h-80 relative mx-auto bg-white dark:bg-slate-800 dark:highlight-white/5 shadow-lg ring-1 ring-black/5 rounded-xl flex flex-col divide-y dark:divide-slate-200/5">
-          <div v-on:click="this.event.user = specialist.specialist" v-for="specialist in specialists" :key="specialist.id"
+          <div v-on:click="this.event.user = specialist.specialist" v-for="specialist in specialists"
+               :key="specialist.id"
                class="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-600">
             <img class="w-12 h-12 rounded-full" :src="specialist.photo">
             <div class="flex flex-col">
@@ -151,7 +160,7 @@
                   Type
                 </label>
                 <select v-model="event.eventType"
-                    class="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                        class="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
                   <option value="WORK">Werk</option>
                   <option value="FREE_DAY">Vrij</option>
                   <option value="SICK">Ziek</option>
@@ -169,11 +178,10 @@
                         placeholder="Beschrijving..."></textarea>
             </div>
           </div>
-          <button v-on:click="this.createNewEvent()"  class="float-right p-3 bg-[#F05822] text-white font-bold rounded ">
+          <button v-on:click="this.createNewEvent()" class="float-right p-3 bg-[#F05822] text-white font-bold rounded ">
             Opslaan
           </button>
         </form>
-
 
       </div>
       <div class="absolute inset-0 pointer-events-none border border-black/5 rounded-xl dark:border-white/5"></div>
@@ -250,56 +258,6 @@
     </button>
   </div>
 
-  <div id="addSpecialistModal" tabindex="-1" aria-hidden="true"
-       class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
-    <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-        <!-- Modal header -->
-        <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-            Add Specialist
-          </h3>
-          <button type="button"
-                  class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                  data-modal-toggle="addSpecialistModal">
-            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                 xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clip-rule="evenodd"></path>
-            </svg>
-            <span class="sr-only">Close modal</span>
-          </button>
-        </div>
-        <!-- Modal body -->
-        <div class="p-6 space-y-6">
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select
-            an specialist</label>
-          <select id="availableSpecialists"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <option selected>Choose a specialist</option>
-            <option v-for="specialist in availableSpecialists" :key="specialist.id">{{
-                specialistFullName(specialist)
-              }}
-            </option>
-          </select>
-        </div>
-        <!-- Modal footer -->
-        <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-          <button data-modal-toggle="addSpecialistModal" type="button"
-                  class="text-white bg-florijnOrange hover:bg-florijnOrange-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-            Add
-          </button>
-          <button data-modal-toggle="addSpecialistModal" type="button"
-                  class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <editProjectStatus v-bind:status="dataObject.status"/>
 </template>
 
@@ -308,7 +266,7 @@ import {firstLetterUpperCase, formatDate, specialistFullName} from "@/plugins/te
 import {Icon} from '@iconify/vue';
 import editProjectStatus from "@/components/admin/project/editProjectStatus";
 import axios from "axios";
-import { useToast } from "vue-toastification";
+import {useToast} from "vue-toastification";
 
 export default {
   name: "ProjectSubmissionsDetail",
@@ -317,8 +275,8 @@ export default {
     return {
       dataObject: null,
       specialistsOfThisProject: [],
-      clientOfThisProject: null,
       availableSpecialists: [],
+      clientOfThisProject: null,
       specialists: null,
       clients: null,
       modalObj: null,
@@ -339,15 +297,14 @@ export default {
         "accepted": 0,
         "eventType": null
       },
-
     }
   },
 
   async created() {
     await this.findProjectFromRouteParam(this.$route.params.id);
     await this.getAllSpecialists()
-
-    this.specialistsOfThisProject = this.getSpecialistOfThisProject();
+    this.findAvailableSpecialists();
+    await this.getSpecialistOfThisProject();
     this.clientOfThisProject = this.findClientFromId(this.dataObject.client);
     // this.availableSpecialists = this.findAvailableSpecialists();
   },
@@ -356,6 +313,12 @@ export default {
     specialistFullName,
     firstLetterUpperCase,
     formatDate,
+
+    goToAddSpecialist() {
+      this.$router.push('/projects/add-specialist/' + this.dataObject.id).then(() => {
+        this.$router.go()
+      })
+    },
 
     createNewEvent() {
       axios.post(process.env.VUE_APP_API_URL + '/api/events/', this.event)
@@ -369,7 +332,6 @@ export default {
     },
 
     getNewEvents(num) {
-      console.log(num)
       if (num === 2) {
         return this.dataObject.events;
       } else {
@@ -410,7 +372,6 @@ export default {
     async getAllSpecialists() {
       await axios.get(process.env.VUE_APP_API_URL + "/api/users/specialists")
           .then((res) => {
-            console.log(res.data)
             this.specialists = res.data;
           })
     },
@@ -442,24 +403,24 @@ export default {
 
     async getSpecialistOfThisProject() {
       const projectId = this.$route.params.id;
-      const project = this.findProjectFromRouteParam(projectId);
-      let newSpecialists = [];
+      // const project = this.findProjectFromRouteParam(projectId);
 
-      await axios.get(process.env.VUE_APP_API_URL + "/api/users/specialist")
+      await axios.get(process.env.VUE_APP_API_URL + "/api/users/specialists/" + projectId)
           .then((res) => {
+            console.log(res)
             this.specialistsOfThisProject = res.data
           })
           .catch((err) => {
             console.log(err);
           })
 
-      for (let i = 0; i < project.specialists.length; i++) {
-        newSpecialists.push(
-            this.findSpecialistFromId(project.specialists[i])
-        );
-      }
+      /*      for (let i = 0; i < project.specialists.length; i++) {
+              newSpecialists.push(
+                  this.findSpecialistFromId(project.specialists[i])
+              );
+            }
 
-      return newSpecialists;
+            return newSpecialists;*/
     },
 
     navigateToSpecialist(specialist) {
