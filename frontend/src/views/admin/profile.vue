@@ -15,32 +15,49 @@
           <div v-else class="inline-flex items-center justify-center w-40 h-40 object-cover absolute -mt-20 ml-8 bg-gray-100 rounded-full">
             <span class="text-2xl font-medium text-gray-600">{{ getInitials }}</span>
           </div>
-        <div />
-        <button @click="editUserInfoModalOpen = true" type="button" class="m-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-          <span class="sr-only">Edit Profile</span>
-        </button>
+        <div class="m-4 flex flex-row ml-auto space-x-2">
+          <div v-if="isAdminAndUnapproved()">
+            <button type="button" class="inline-flex items-center text-lg flex-row text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 text-center">
+              <svg class="w-6 h-6 mr-1" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+              Accepteer
+            </button>
+            <button type="button" class="inline-flex items-center text-lg flex-row focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5">
+              <svg class="w-6 h-6 mr-1" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+              Weigeren
+            </button>
+          </div>
+          <button v-if="canEditInfo()" @click="editUserInfoModalOpen = true" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+            <span class="sr-only">Edit Profile</span>
+          </button>
+        </div>
       </div>
       <div class="w-full text-left px-8 py-4">
         <p class="text-2xl">{{ userFullName(getUser) }}</p>
         <p class="text-gray-400">{{ firstLetterUpperCase(getUser.city) }}</p>
         <p class="mt-4 w-full md:w-2/3">{{ getUser.bio }}</p>
 
-        <div class="mt-4">
+        <div v-if="getAttachments.length !== 0" class="mt-4">
           <p class="font-medium">Attachments</p>
-          <ul v-if="files !== null" class="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 divide-y">
+          <ul class="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 divide-y">
             <AttachmentRow v-for="attachment in getAttachments" :key="attachment.id" :attachment="attachment"/>
           </ul>
         </div>
       </div>
     </div>
 
-    <UpcomingMeetingModal :open="upcomingMeetingModalOpen" :user="userObj" :meeting="selectedMeeting" :projects="userObj.specialist.projects" @close="upcomingMeetingModalOpen = false" @deleted="removeEvent" @updated="updateEvent"/>
-    <EditUserInfoModal :open="editUserInfoModalOpen" :user="userObj" :profileImage="profileImage" @close="editUserInfoModalOpen = false" @updated="updateUser"/>
-    <SkillModal :open="skillModalOpen" :skills="skills" :user="userObj" :selectedSkill="selectedSkill" @close="skillModalOpen = false" @updated="updateSkills"/>
+    <div v-if="this.userObj.userType === 2">
+      <UpcomingMeetingModal :open="upcomingMeetingModalOpen" :user="userObj" :meeting="selectedMeeting" :projects="userObj.specialist.projects" @close="upcomingMeetingModalOpen = false" @deleted="removeEvent" @updated="updateEvent"/>
+      <EditUserInfoModal :open="editUserInfoModalOpen" :user="userObj" :profileImage="profileImage" @close="editUserInfoModalOpen = false" @updated="updateUser"/>
+      <SkillModal :open="skillModalOpen" :skills="skills" :user="userObj" :selectedSkill="selectedSkill" @close="skillModalOpen = false" @updated="updateSkills"/>
+    </div>
 
     <!-- Skills -->
-    <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
+    <div v-if="this.userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
       <p class="text-xl mb-4">Vaardigheden</p>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <SkillBadge v-for="(skill, index) in userSkills" :key="index" :skill="skill" @skillClicked="openSkillModal"/>
@@ -52,7 +69,7 @@
     </div>
 
     <!-- Projects -->
-    <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
+    <div v-if="this.userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
       <p class="text-xl mb-4">Projecten</p>
       <div v-if="userObj.specialist.projects.length === 0">
         <p class="text-lg">Geen projecten beschikbaar</p>
@@ -63,13 +80,13 @@
     </div>
 
     <!-- Availability -->
-    <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
+    <div v-if="this.userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
       <p class="text-xl">Beschikbaarheid</p>
       <AvailabilityRow :hours="userObj.specialist.hours"/>
     </div>
 
     <!-- Calendar -->
-    <div v-if="userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
+    <div v-if="this.userObj.userType === 2" class="m-4 rounded-lg px-8 py-4 text-left shadow shadow-md">
       <p class="text-xl">Komende vergaderingen (aantal: {{ eventsInDateRange.length }})</p>
 
       <div class="flex flex-col md:flex-row">
@@ -126,8 +143,6 @@
         </div>
       </div>
     </div>
-
-    <FileUpload />
   </div>
 </template>
 <script>
@@ -150,6 +165,7 @@ import AvailabilityRow from "@/components/miscellaneous/profile/AvailabilityRow.
 
 // Methods
 import { userFullName, firstLetterUpperCase } from "@/plugins/textManipulation";
+import {proxyObjToJson} from "@/plugins/objectManipulation";
 
 // Modals
 import UpcomingMeetingModal from "@/components/modals/profile/UpcomingMeetingModal.vue";
@@ -158,10 +174,7 @@ import SkillModal from "@/components/modals/profile/SkillModal.vue";
 
 // Models
 import UserSkill from "@/models/userSkill";
-import Skill from "@/models/skill";
 import UpcomingMeetingClass from "@/models/upcomingMeeting";
-import {proxyObjToJson} from "@/plugins/objectManipulation";
-import FileUpload from "@/components/fileHandling/FileUpload.vue";
 
 // TODO Create a backend route that with params gets all the correct meetings
 export default {
@@ -203,7 +216,11 @@ export default {
       ]
     },
     userSkills() {
-      return this.userObj.specialist.skills;
+      if (this.userObj.specialist) {
+        return this.userObj.specialist.skills;
+      }
+
+      return [];
     },
     getUser() {
       return this.userObj;
@@ -229,7 +246,6 @@ export default {
       const meetingsInThisRange = [];
 
       this.userObj.specialist.events.forEach(event => {
-        // console.log(event);
         const meetingStart = new Date(event.start);
         const meetingEnd = new Date(event.end);
 
@@ -273,25 +289,63 @@ export default {
     userFullName,
     firstLetterUpperCase,
 
-    getUserData() {
-      const userID = this.$route.params.id
+    getUserType() {
+      return localStorage.getItem("userType");
+    },
+    getUserId() {
+      return this.$route.params.id || localStorage.getItem("id");
+    },
+    getApprovalStatus() {
+      return localStorage.getItem("approvalStatus");
+    },
+    isAdminAndUnapproved() {
+      return this.isAdmin() && this.getApprovalStatus() === "2";
+    },
+    isAdmin() {
+      return this.getUserType() === "0";
+    },
+    isSpecialist() {
+      return this.getUserType() === "2";
+    },
+    canEditInfo() {
+      const routeName = this.$route.name;
+      const routeId = this.$route.params.id;
+      const storageId = localStorage.getItem("");
 
-      axios.get(`http://localhost:8080/api/users/${userID}`)
-        .then(res => {
+      const settingsPage = routeName === "Specialist Settings";
+      const sameId = routeId === storageId;
+
+      return settingsPage || sameId || this.isAdmin();
+    },
+
+    getUserData() {
+      const ID = this.getUserId();
+      const URL = `${process.env.VUE_APP_API_URL}/api/users/${ID}`;
+      const METHOD = "GET";
+
+      axios({ url: URL, method: METHOD })
+        .then((res) => {
           this.userObj = res.data;
-          this.events = res.data.specialist.events;
-          this.userSkills = res.data.specialist.skills;
+          this.userObj.password = null;
+
+          if (res.data.specialist) {
+            this.events = res.data.specialist.events;
+            this.userSkills = res.data.specialist.skills;
+          }
 
           this.processImage(res.data.photo);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         })
     },
 
     getSkillsData() {
-      axios.get("http://localhost:8080/api/skills")
-        .then((res) => {
+      const URL = `${process.env.VUE_APP_API_URL}/api/skills`;
+      const METHOD = "GET";
+
+      axios({ url: URL, method: METHOD })
+        .then(res => {
           this.skills = res.data;
         })
         .catch((err) => {
@@ -300,14 +354,16 @@ export default {
     },
 
     getFiles() {
-      const ID = this.$route.params.id;
+      const ID = this.getUserId();
       const URL = `${process.env.VUE_APP_API_URL}/api/files/list/${ID}`;
       const PROTOCOL = "GET"
 
       axios({ url: URL, method: PROTOCOL })
         .then((res) => {
           console.log(res);
-          this.files = res.data;
+          if(res.data() != null){
+            this.files = res.data;
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -327,22 +383,8 @@ export default {
           reader.readAsDataURL(file);
 
           reader.onload = (evt) => {
-            console.log(evt.target.result.replaceAll(" ", ""));
             this.profileImage = evt.target.result;
-            console.log(this.profileImage);
           }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    },
-
-    saveUser() {
-      const userID = this.$route.params.id;
-
-      axios.put(`http://localhost:8080/api/users/update`, this.userObj)
-        .then((res) => {
-          console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -485,7 +527,6 @@ export default {
     },
   },
   components: {
-    FileUpload,
     AvailabilityRow,
     SkillModal,
     EditUserInfoModal,

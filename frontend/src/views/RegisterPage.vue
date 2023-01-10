@@ -511,11 +511,11 @@ export default {
         password: this.password,
         first_name: this.first_name,
         second_name: this.preposition,
+        last_name: this.last_name,
         address: this.address,
         zipCode: this.zip_code,
         city: this.city,
         bio: this.bio,
-        last_name: this.last_name,
         phone: this.phone,
         userType: parseInt(this.accountType)
       }
@@ -525,55 +525,69 @@ export default {
         userData.specialist = {
           available: 1,
           specialistType: this.specialistType,
-          approvalStatus: 0,
+          approvalStatus: 2,
         }
       }
 
       try {
         // Attempt to register the user
-        const res = await axios.post(process.env.VUE_APP_API_URL + "/api/authorization/register", userData)
-        this.step = 3
-        console.log(res)
-        localStorage.setItem("id", res.data.id)
-        localStorage.setItem("userType", res.data.userType)
-
-        if (res.status === 200) {
-          // Display success message
-          this.toast.success("Uw account is aangemaakt", {
-            position: "bottom-center",
-            timeout: 4000,
-            closeOnClick: true,
-            pauseOnFocusLoss: true,
-            pauseOnHover: true,
-            draggable: true,
-            draggablePercent: 0.6,
-            showCloseButtonOnHover: false,
-            hideProgressBar: true,
-            closeButton: "button",
-            icon: true,
-            rtl: false
-          })
-
-          // If the user is a specialist, add skills to their specialist profile and the CV
-          if (this.accountType == 2) {
-            await this.uploadSkills(res.data.id);
-            await this.uploadFile(res.data.id);
-            // Navigate to specialist page
-            this.$router.push("/specialist/pending").then(() => {
-              this.$router.go()
-            })
+        await fetch(process.env.VUE_APP_API_URL + `/api/users/register`, {
+          method: 'POST',
+          body: JSON.stringify(userData),
+          headers: {
+            "Content-Type": "application/json"
           }
+        }).then( response => {
+          if (response.ok){
+            return response.json();
 
-          // If the user is a client, navigate to their dashboard
-          if (this.accountType == 1) {
-            this.$router.push("/client/dashboard").then(() => {
-              this.$router.go().then(() => {
+          }
+          }).then(async data => {
+
+            localStorage.setItem("id", data.id)
+            localStorage.setItem("userType", data.userType)
+            // Display success message
+            this.toast.success("Uw account is aangemaakt", {
+              position: "bottom-center",
+              timeout: 4000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false
+            })
+            console.log(data)
+
+
+            // If the user is a specialist, add skills to their specialist profile and the CV
+            if (this.accountType == 2) {
+              await this.uploadSkills(data.id);
+              await this.uploadFile(data.id);
+              // Navigate to specialist page
+              this.$router.push("/specialist/pending").then(() => {
                 this.$router.go()
               })
-            })
-          }
-        }
-      } catch (err) {
+            }
+
+            // If the user is a client, navigate to their dashboard
+            if (this.accountType == 1) {
+              this.$router.push("/client/dashboard").then(() => {
+                this.$router.go().then(() => {
+                  this.$router.go()
+                })
+              })
+            }
+            this.step = 3
+          }).catch(err => {
+            console.error(err);
+          })
+
+        } catch (err) {
         // Display error message if registration fails
         console.log(err)
         this.toast.error("Er ging wat mis met het aanmaken van uw account", {
@@ -696,6 +710,7 @@ export default {
         // Log any errors to the console
         console.log(err);
       }).then(data => {
+        // Set the fileId property to the returned file id
         // Set the fileId property to the returned file id
         this.fileId = data.id;
         // Emit the fileId event with the file id as the argument

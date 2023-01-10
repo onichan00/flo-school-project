@@ -206,8 +206,9 @@ export default {
   methods: {
     goToLogin(){
       localStorage.clear()
-      this.$router.push("/")
-      // this.$router.go()
+      this.$router.push("/").then( () => {
+        this.$router.go()
+      })
     }
   }
 }

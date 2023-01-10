@@ -36,7 +36,7 @@
                 id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
                 data-dropdown-placement="bottom">
           <span class="sr-only">Open user menu</span>
-          <img class="w-8 h-8 rounded-full" alt="user photo" :src="this.profilePicture">
+          <img class="w-8 h-8 rounded-full" alt="user photo" :src="profilePicture" ref="profielfoto">
         </button>
         <!-- Dropdown menu -->
         <div
@@ -56,7 +56,7 @@
                  class="block px-4 py-2 cursor-pointer text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profiel</a>
             </li>
             <li>
-              <a @click="this.$router.push('/specialist/settings/'+ this.userId)"
+              <a @click="this.$router.push('/specialist/settings/' + this.user.id)"
                  class="block px-4 py-2 cursor-pointer text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Instellingen</a>
             </li>
             <li>
@@ -88,7 +88,7 @@
 import axios from "axios";
 
 export default {
-  name: "ClientNavbar",
+  name: "Specialist-Navbar",
   data() {
     return {
       userId: localStorage.getItem('id'),
@@ -96,39 +96,42 @@ export default {
       profilePicture: ""
     }
   },
-  created() {
-    this.getUserData()
-    this.getProfilePicture()
+  async created() {
+    await this.getUserData()
+    await this.getProfilePicture()
   },
   methods: {
     async getProfilePicture() {
-      await axios.get(process.env.VUE_APP_API_URL + `/api/files/list/${this.userId}`)
-          .then((res) => {
-            if (res.data.length > 0) {
-              fetch(process.env.VUE_APP_API_URL + `/api/files/${res.data[0].id}`)
-                  .then(response => {
-                    if (response.ok) return response.blob();
-                  })
-                  .then(blob => {
-                    this.profilePicture = URL.createObjectURL(blob)
-                  })
+      console.log(this.user.email)
+      if (this.user.photo == null){
+        this.profilePicture = require("@/assets/img/StockProfileImage.jpg")
+        return
+      }
+      fetch(process.env.VUE_APP_API_URL + `/api/files/${this.user.photo}` )
+          .then(response => {
+            console.log(response)
+            if (response.ok){
+              return response.blob()
             }
-          })
-          .catch((err) => {
-            console.log(err);
-          })
+          }).then(blob =>{
+            let url = URL.createObjectURL(blob)
+            this.profilePicture = url
+      }).catch((err) =>{
+
+        console.error(err.message)
+      })
     },
 
-    logout() {
+    logout() {``
       localStorage.clear()
       this.$router.go()
     },
 
-    getUserData() {
-      axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
+    async getUserData() {
+      await axios.get(process.env.VUE_APP_API_URL + `/api/users/${localStorage.getItem("id")}`)
           .then((res) => {
             this.user = res.data;
-            console.log(res.data)
+            console.log(res)
           })
           .catch((err) => {
             console.log(err);
