@@ -103,8 +103,10 @@ public class UserController {
         oUser.setPhone(user.getPhone());
         oUser.setPhoto(user.getPhoto());
 
-        String hashedPassword = authentication.hash(user.getPassword());
-        oUser.setPassword(hashedPassword);
+        if (user.getPassword() != null){
+            String hashedPassword = authentication.hash(user.getPassword());
+            oUser.setPassword(hashedPassword);
+        }
 
         if (userType == 0) {
             return userRepository.save(oUser);
@@ -225,6 +227,7 @@ public class UserController {
 
     /**
      * Get a single Client user
+     *
      * @param id user id of Client selected in frontend
      * @return Client with chosen ID
      */
@@ -284,7 +287,7 @@ public class UserController {
             return new LoginResponse(-1L, -1L, user.getSpecialist().getApprovalStatus());
         }
 
-        JWToken jwToken = new JWToken(user.getFirst_name()+user.getSecond_name()+user.getLast_name(), user.getId(), user.getUserType());
+        JWToken jwToken = new JWToken(user.getFirst_name() + user.getSecond_name() + user.getLast_name(), user.getId(), user.getUserType());
         String tokenString = jwToken.encode(this.apiConfig.getIssuer(),
                 this.apiConfig.getPassphrase(), this.apiConfig.getTokenDurationOfValidity(), user.getUserType());
 
@@ -306,8 +309,6 @@ public class UserController {
             throw new NotFoundException("user with this email already exists");
         }
 
-        System.out.println("sout" + user.getPhone());
-        System.out.println(user);
         Long userType = user.getUserType();
 
         String hashedPassword = authentication.hash(user.getPassword());
@@ -343,7 +344,7 @@ public class UserController {
         if (userType == 2) {
             Specialist savedSpecialist;
 
-            if (user.getSpecialist() != null){
+            if (user.getSpecialist() != null) {
                 savedSpecialist = specialistRepository.save(user.getSpecialist());
             } else {
                 savedSpecialist = specialistRepository.save(user.getSpecialist());
@@ -362,8 +363,9 @@ public class UserController {
 
     /**
      * Add a new skill to a user's specialist profile.
+     *
      * @param userSkill The new skill to add to the user's specialist profile
-     * @param userId The id of the user whose specialist profile will have the new skill added
+     * @param userId    The id of the user whose specialist profile will have the new skill added
      * @return The updated user object
      * @throws NotFoundException If the user with the specified ID is not found
      */
@@ -384,7 +386,8 @@ public class UserController {
 
     /**
      * Update a skill in a specialist profile
-     * @param userId The ID of the user whose specialist profile will have the skill updated
+     *
+     * @param userId    The ID of the user whose specialist profile will have the skill updated
      * @param userSkill The updated skill to be saved to the user's specialist profile
      * @return The updated user object
      * @throws NotFoundException If the user with the specified ID is not found
@@ -406,7 +409,7 @@ public class UserController {
     /**
      * Delete a skill from a specialist
      *
-     * @param userId The ID of the user whose specialist profile will have the skill deleted
+     * @param userId  The ID of the user whose specialist profile will have the skill deleted
      * @param skillId The ID of the skill that will be deleted
      * @return The updated user object
      * @throws NotFoundException If the user with the specified ID is not found
@@ -439,7 +442,8 @@ public class UserController {
 
     /**
      * Updates only the approval status of a Specialist
-     * @param id Specialist's user ID
+     *
+     * @param id         Specialist's user ID
      * @param specialist basically just the updated approval status
      * @return updated Specialist and HTTP status
      */

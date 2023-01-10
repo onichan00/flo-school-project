@@ -455,6 +455,7 @@
 import axios from "axios";
 import {useToast} from "vue-toastification";
 import FileUpload from "@/components/fileHandling/FileUpload";
+import {hash} from "@/plugins/authentication";
 
 export default {
   name: "ClientSettings",
@@ -605,7 +606,8 @@ export default {
             address: this.user.address,
             phone: this.user.phone,
             userType: this.user.userType,
-            client: this.user.client
+            client: this.user.client,
+            password: this.newPassword
           })
           .then((res) => {
             // Get the current time in seconds
@@ -694,7 +696,7 @@ export default {
 
     checkSamePassword() {
       console.log(this.user.password + ", " + this.newPassword + ', ' +  this.repeatNewPassword)
-      if (this.newPassword === this.repeatNewPassword && this.user.password === this.currentPassword) {
+      if (this.newPassword === this.repeatNewPassword && this.user.password === hash(this.currentPassword)) {
         this.passwordButtonType = 1
         console.log("this.passwordButtonType = 1")
         return;

@@ -52,8 +52,8 @@ public class AuthorizationController {
         if (user == null) {
             throw new NotFoundException(String.format("User with email: %s was not found", loginBody.email()));
         }
-        String hashedPassword = authentication.hash(loginBody.password());
 
+        String hashedPassword = authentication.hash(loginBody.password());
 
         JWToken jwToken = new JWToken(user.getFirst_name()+user.getSecond_name()+user.getLast_name(), user.getId(), user.getUserType());
         String tokenString = jwToken.encode(this.apiConfig.getIssuer(),
