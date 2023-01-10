@@ -231,9 +231,13 @@
             </div>
 
             <div>
-              <h1 class="mt-3 font-medium text-xl text-gray-700">
-                Aankondigingen
-              </h1>
+              <div class="flex flex-row justify-between">
+                <div>
+                  <h1 class="mt-3 font-medium text-xl text-gray-700">
+                    Aankondigingen
+                  </h1>
+                </div>
+              </div>
               <div class="bg-gray-50 border border-1 rounded-lg">
                 <div class="overflow-y-scroll h-72">
                   <div v-if="this.announcements.length < 1">
@@ -256,19 +260,24 @@
                       </div>
                     </div>
                     <div v-for="(announcement, index) of this.webSocketAnnouncements" v-bind:key="index">
-                      <div class="text-left rounded-lg p-2 m-2 bg-white shadow-sm w-fit">
-                        <div class="flex flex-row justify-between text-gray-400 text-sm space-x-4">
-                          <div>
-                            <a>{{ announcement.user }}</a>
+                      <div v-if="announcement.project == this.selectedProject.id">
+                        <div class="text-left rounded-lg p-2 m-2 bg-white shadow-sm w-fit">
+                          <div class="flex flex-row justify-between text-gray-400 text-sm space-x-4">
+                            <div>
+                              <a>{{ announcement.user }}</a>
+                            </div>
+                            <div>
+                              <a>{{ announcement.date }}</a>
+                            </div>
                           </div>
-                          <div>
-                            <a>{{ announcement.date }}</a>
-                          </div>
-                        </div>
 
-                        <div class="text-black text-lg">
-                          <a>{{ announcement.message }}</a>
+                          <div class="text-black text-lg">
+                            <a>{{ announcement.message }}</a>
+                          </div>
                         </div>
+                      </div>
+                      <div v-else>
+
                       </div>
                     </div>
                   </div>
@@ -370,7 +379,6 @@ export default {
     },
 
     async getAnnouncements(id) {
-      console.log("lal");
       await axios.get(process.env.VUE_APP_API_URL + `/api/announcements/${id}`)
           .then(response => {
             console.log(response);
