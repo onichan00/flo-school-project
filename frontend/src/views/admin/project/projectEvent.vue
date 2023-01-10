@@ -3,7 +3,7 @@
   <div class="event-container">
     <p><strong>Titel: </strong>{{ this.eventData.title }}</p>
     <p><strong>Locatie: </strong>{{ this.eventData.location }}</p>
-    <!--  <p>{{this.eventData}}</p>-->
+    <p><strong>Aantal minuten: </strong>{{ this.calculateMinutes(eventData.start, eventData.end) }}</p>
     <p><strong>Beschrijving: </strong><br>{{ this.eventData.description }}</p>
     <div class="flex items-center p-4 space-x-2 border-t border-gray-200">
       <button v-on:click="reject" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
@@ -37,6 +37,16 @@ export default {
   },
 
   methods: {
+    calculateMinutes(start, end) {
+      var totalHours = NaN;
+      var first = Date.parse(start)
+      var second = Date.parse(end)
+      if (start < end) {
+        totalHours = (second - first) / 1000 / 60; //milliseconds: /1000 / 60 / 60
+      }
+      return totalHours
+    },
+
     reject() {
       this.params = {"id": this.eventData.id, "accepted": -1}
 

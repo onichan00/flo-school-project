@@ -9,13 +9,13 @@
         <p><strong>Gemaakt op: </strong>{{ formatDate(dataObject.created) }}</p>
       </div>
       <div class="relative py-8 flex items-center justify-center p-4 shadow-md rounded-md border border-gray-200">
-        <p class="absolute bottom-2 right-2 text-gray-400">Total hours clocked</p>
-        <p class="text-3xl">200h</p>
+        <p class="absolute bottom-2 right-2 text-gray-400">Totaal aantal minuten</p>
+        <p class="text-3xl">{{ this.totalMinutesOnProject }}</p>
       </div>
       <!--TODO fix this bruh        -->
       <div
           class="relative py-8 flex items-center justify-center p-4 shadow-md rounded-md border border-gray-200 text-left">
-        <p class="absolute bottom-2 right-2 text-gray-400">Most valuable coder</p>
+        <p class="absolute bottom-2 right-2 text-gray-400">Meeste minuten</p>
         <p class="text-3xl">{{ specialistFullName(specialists[0]) }}</p>
       </div>
     </div>
@@ -96,7 +96,7 @@
     </div>
     <hr class="my-4"/>
     <div class="project-description py-7">
-      <h2><strong>Project description</strong></h2>
+      <h2><strong>Project beschrijving</strong></h2>
       <p>{{ dataObject.description }}</p>
     </div>
 
@@ -107,7 +107,8 @@
 
         <div
             class="w-72 float-left overflow-auto h-80 relative mx-auto bg-white dark:bg-slate-800 dark:highlight-white/5 shadow-lg ring-1 ring-black/5 rounded-xl flex flex-col divide-y dark:divide-slate-200/5">
-          <div style="cursor: pointer" v-on:click="this.event.user = specialist.specialist"  v-for="specialist in specialists"
+          <div style="cursor: pointer" v-on:click="this.event.user = specialist.specialist"
+               v-for="specialist in specialists"
                :key="specialist.id"
                class="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-600">
             <img class="w-12 h-12 rounded-full" :src="specialist.photo">
@@ -237,7 +238,7 @@
             {{ event.location }}
           </td>
           <td class="px-6 py-4">
-            {{ event.title }}
+            {{ this.calculateMinutes(event.start, event.end) }}
           </td>
           <td class="px-6 py-4">
             {{ event.description }}
@@ -297,6 +298,7 @@ export default {
         "accepted": 0,
         "eventType": null
       },
+      totalMinutesOnProject: 0
     }
   },
 
@@ -306,7 +308,7 @@ export default {
     this.findAvailableSpecialists();
     await this.getSpecialistOfThisProject();
     this.clientOfThisProject = this.findClientFromId(this.dataObject.client);
-    // this.availableSpecialists = this.findAvailableSpecialists();
+    // this.getTotalMinutesOfProject();
   },
 
   methods: {
@@ -318,6 +320,16 @@ export default {
       this.$router.push('/projects/add-specialist/' + this.dataObject.id).then(() => {
         this.$router.go()
       })
+    },
+
+    calculateMinutes(start, end) {
+      var totalMinutes = NaN;
+      var first = Date.parse(start)
+      var second = Date.parse(end)
+      if (start < end) {
+        totalMinutes = (second - first) / 1000 / 60; //milliseconds: /1000 / 60 / 60
+      }
+      return totalMinutes
     },
 
     createNewEvent() {
@@ -336,6 +348,14 @@ export default {
             console.error(err);
             this.toast.error("Iets ging verkeerd!")
           })
+    },
+
+    getTotalMinutesOfProject() {
+      for (let event in this.dataObject.events) {
+        if (this.calculateMinutes(this.dataObject.events[event].start, this.dataObject.events[event].end) > 0) {
+          this.totalMinutesOnProject += this.calculateMinutes(this.dataObject.events[event].start, this.dataObject.events[event].end)
+        }
+      }
     },
 
     getNewEvents(num) {
@@ -365,7 +385,6 @@ export default {
             this.$router.push('/projects').then(() => {
               this.$router.go()
             })
-            console.log(res)
           })
     },
 
@@ -388,6 +407,7 @@ export default {
           .then((res) => {
             this.dataObject = res.data;
             this.event.project = res.data;
+            this.getTotalMinutesOfProject();
           })
           .catch((err) => {
             console.log(err);
@@ -414,7 +434,6 @@ export default {
 
       await axios.get(process.env.VUE_APP_API_URL + "/api/users/specialists/" + projectId)
           .then((res) => {
-            console.log(res)
             this.specialistsOfThisProject = res.data
           })
           .catch((err) => {
