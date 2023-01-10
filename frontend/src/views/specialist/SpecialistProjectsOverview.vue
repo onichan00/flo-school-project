@@ -130,10 +130,11 @@
                 Aangemaakt op: {{ this.dateFormatter(selectedProject.created) }}
               </h1>
               <h1>
-                Projecteigenaar: {{this.selectedProject.user.first_name[0].toUpperCase()+ ". " + this.selectedProject.user.last_name}}
+                Projecteigenaar:
+                {{ this.selectedProject.user.first_name[0].toUpperCase() + ". " + this.selectedProject.user.last_name }}
               </h1>
               <h1>
-                Email: {{this.selectedProject.user.email}}
+                Email: {{ this.selectedProject.user.email }}
               </h1>
 
 
@@ -253,21 +254,44 @@
               </h1>
               <div class="bg-gray-50 border border-1 rounded-lg">
                 <div class="overflow-y-scroll h-72">
-                  <div
-                      v-for="(announcement, index) of announcements" v-bind:key="index">
-                    <div class="text-left rounded-lg p-2 m-2 bg-white shadow-sm w-fit"
-                         v-if="announcement.project === selectedProject.id">
-                      <div class="flex flex-row justify-between text-gray-400 text-sm space-x-4">
-                        <div>
-                          <a>{{ announcement.user }}</a>
+                  <div v-if="this.announcements.length < 1">
+                  </div>
+                  <div v-else>
+                    <div v-for="(announcement, index) of this.announcements" v-bind:key="index">
+                      <div class="text-left rounded-lg p-2 m-2 bg-white shadow-sm w-fit">
+                        <div class="flex flex-row justify-between text-gray-400 text-sm space-x-4">
+                          <div>
+                            <a>{{ announcement.user.first_name + " " + announcement.user.last_name }}</a>
+                          </div>
+                          <div>
+                            <a>{{ announcement.dateAndTime }}</a>
+                          </div>
                         </div>
-                        <div>
-                          <a>{{ announcement.date }}</a>
+
+                        <div class="text-black text-lg">
+                          <a>{{ announcement.message }}</a>
                         </div>
                       </div>
+                    </div>
+                    <div v-for="(announcement, index) of this.webSocketAnnouncements" v-bind:key="index">
+                      <div v-if="announcement.project == this.selectedProject.id">
+                        <div class="text-left rounded-lg p-2 m-2 bg-white shadow-sm w-fit">
+                          <div class="flex flex-row justify-between text-gray-400 text-sm space-x-4">
+                            <div>
+                              <a>{{ announcement.user }}</a>
+                            </div>
+                            <div>
+                              <a>{{ announcement.date }}</a>
+                            </div>
+                          </div>
 
-                      <div class="text-black text-lg">
-                        <a>{{ announcement.message }}</a>
+                          <div class="text-black text-lg">
+                            <a>{{ announcement.message }}</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div v-else>
+
                       </div>
                     </div>
                   </div>
@@ -321,6 +345,7 @@ export default {
       announcements: [],
       toast: useToast(),
       specialists: [],
+      webSocketAnnouncements: [],
       event: {
         "project": null,
         "user": null,
@@ -357,6 +382,18 @@ export default {
   },
 
   methods: {
+    async getAnnouncements(id) {
+      await axios.get(process.env.VUE_APP_API_URL + `/api/announcements/${id}`)
+          .then(response => {
+            console.log(response);
+            this.announcements = response.data
+            console.log(this.announcements)
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+    },
+
     sendMessageAndEmail(event) {
       this.sendEmail(event);
       this.onNewAnnouncement(event);
@@ -394,7 +431,7 @@ export default {
       // this method is called when an announcement is distributed
       console.log("Received announcement:", message);
       message = JSON.parse(message)
-      this.announcements.push(message);
+      this.webSocketAnnouncements.push(message);
     },
 
     onNewAnnouncement(event) {
@@ -443,6 +480,7 @@ export default {
       }
       this.event.project = element;
       this.selectedProject = element;
+      this.getAnnouncements(this.selectedProject.id);
     },
 
     getProjectData() {
