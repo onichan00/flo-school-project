@@ -134,7 +134,7 @@ export default {
           "id": this.selectedSpecialists[i]
         }
 
-        await axios.post(process.env.VUE_APP_API_URL + `/api/projects/1/specialist/`, newId)
+        await axios.post(process.env.VUE_APP_API_URL + `/api/projects/` + this.$route.params.id + `/specialist/`, newId)
             .then(async (res) => {
               await this.findAvailableSpecialists();
             })
