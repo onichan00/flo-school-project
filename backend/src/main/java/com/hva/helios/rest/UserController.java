@@ -135,7 +135,6 @@ public class UserController {
     public List<User> getAllSpecialists() {
         // Retrieve all users from the database
         List<User> users = userRepository.findAll();
-
         // Filter the list to include only specialists (users with user type 2)
         // Return the list of specialists
         return users.stream()
