@@ -107,7 +107,8 @@
 
         <div
             class="w-72 float-left overflow-auto h-80 relative mx-auto bg-white dark:bg-slate-800 dark:highlight-white/5 shadow-lg ring-1 ring-black/5 rounded-xl flex flex-col divide-y dark:divide-slate-200/5">
-          <div style="cursor: pointer" v-on:click="this.event.user = specialist.specialist"  v-for="specialist in specialists"
+          <div style="cursor: pointer" v-on:click="this.event.user = specialist.specialist"
+               v-for="specialist in specialists"
                :key="specialist.id"
                class="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-600">
             <img class="w-12 h-12 rounded-full" :src="specialist.photo">
@@ -237,7 +238,7 @@
             {{ event.location }}
           </td>
           <td class="px-6 py-4">
-            {{ event.title }}
+            {{ this.calculateMinutes(event.start, event.end) }}
           </td>
           <td class="px-6 py-4">
             {{ event.description }}
@@ -320,6 +321,16 @@ export default {
       })
     },
 
+    calculateMinutes(start, end) {
+      var totalHours = NaN;
+      var first = Date.parse(start)
+      var second = Date.parse(end)
+      if (start < end) {
+        totalHours = (second - first) / 1000 / 60; //milliseconds: /1000 / 60 / 60
+      }
+      return totalHours
+    },
+
     createNewEvent() {
       axios.post(process.env.VUE_APP_API_URL + '/api/events/', this.event)
           .then((res) => {
@@ -365,7 +376,6 @@ export default {
             this.$router.push('/projects').then(() => {
               this.$router.go()
             })
-            console.log(res)
           })
     },
 
@@ -414,7 +424,6 @@ export default {
 
       await axios.get(process.env.VUE_APP_API_URL + "/api/users/specialists/" + projectId)
           .then((res) => {
-            console.log(res)
             this.specialistsOfThisProject = res.data
           })
           .catch((err) => {
