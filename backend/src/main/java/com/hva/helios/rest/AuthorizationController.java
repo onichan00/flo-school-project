@@ -84,8 +84,8 @@ public class AuthorizationController {
             throw new NotFoundException("user with this email already exists");
         }
 
-        System.out.println("sout" + user.getPhone());
-        System.out.println(user);
+        String hashedPassword = authentication.hash(user.getPassword());
+        user.setPassword(hashedPassword);
         Long userType = user.getUserType();
 
         if (userType == 0) {
