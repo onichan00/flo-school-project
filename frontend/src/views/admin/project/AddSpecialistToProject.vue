@@ -130,11 +130,7 @@ export default {
 
     async changeTeam() {
       for (let i = 0; i < this.selectedSpecialists.length; i++) {
-        const newId = {
-          "id": this.selectedSpecialists[i]
-        }
-
-        await axios.post(process.env.VUE_APP_API_URL + `/api/projects/1/specialist/`, newId)
+        await axios.post(process.env.VUE_APP_API_URL + `/api/projects/1/specialist/`, {"id": this.this.selectedSpecialists[i]})
             .then(async (res) => {
               await this.findAvailableSpecialists();
             })
