@@ -111,12 +111,12 @@
             </li>
           </ul>
           <div class="flex flex-row flex-wrap">
-            <div @click="deleteCountry(skill)"
+            <div @click="removeTagg(skill)"
                  v-for="skill in this.projectSkills2" :key="skill.id"
                  class="cursor-pointer  px-2 py-1 mt-1 mr-1 rounded-lg">
               <div
                   class=" text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-orange-200 text-orange-700 rounded-full">
-                {{ skill.name }} <i class="fa-solid fa-xmark"></i>
+                {{ skill.name }} <i  class="px-2 fa-solid fa-xmark"></i>
 
               </div>
               <!--              <div class="flex items-center space-x-1">
@@ -209,45 +209,23 @@ export default {
 
   methods: {
     filteredSpecialist() {
-
       for (const specialist in this.specialists) {
         const sSkills = this.specialists[specialist].specialist.skills;
 
         for (let i = 0; i < sSkills.length; i++) {
-          // console.log(sSkills[i].skill)
           for (let j = 0; j < this.projectSkills2.length; j++) {
-            // && !this.filtered.includes(specialist)
-            /*  console.log(this.projectSkills2[j])
-              console.log(sSkills[i].skill)
-              console.log("----------------------------------------------------")*/
-
             if (sSkills[i].skill.id === this.projectSkills2[j].id && !this.filtered.includes(this.specialists[specialist])) {
-              console.log(this.projectSkills2[j])
-              console.log(sSkills[i].skill)
-              console.log("----------------------------------------------------")
-              console.log(this.specialists[specialist])
               this.filtered.push(this.specialists[specialist]);
             }
           }
-          /*for (const chosenSkill in this.projectSkills2) {
-            console.log(this.projectSkills2)
-            if (sSkills[i].skill === chosenSkill && !this.filtered.includes(specialist)) {
-              this.filtered.push(specialist);
-            }
-          }*/
-
         }
-        /* for (const skill in sSkills) {
-
-           for (const chosenSkill in this.projectSkills2) {
-             if (skill.skill === chosenSkill && !filtered.includes(specialist)) {
-               filtered.push(specialist);
-             }
-           }
-         }*/
       }
-
       return this.filtered.length === 0 ? this.specialists : this.filtered;
+    },
+
+    async removeTagg(skill) {
+      const index = this.projectSkills2.findIndex((el) => el.id === skill.id)
+      this.projectSkills2.splice(index, 1)
     },
 
     addSkill(skill) {
@@ -258,12 +236,6 @@ export default {
       this.projectSkills2.push(skill)
 
       this.filteredSpecialist()
-      /* this.filteredSpecialists = this.specialists.filter(function (other_el) {
-         return this.projectSkills2.filter(function (another_el) {
-           console.log(another_el)
-           // return another_el.id === other_el.id;
-         }).length === 0
-       })*/
     },
 
 
@@ -364,9 +336,7 @@ export default {
             });
           })
     },
-    deleteCountry(country) {
-      this.skills.filter(skill => skill.id !== ref(country.id));
-    },
+
   },
 
   computed: {

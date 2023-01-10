@@ -22,24 +22,24 @@
     <hr class="my-4"/>
     <div class="flex flex-row justify-between my-4">
       <div v-if="dataObject.status === -1"><h1>Status: <a
-          class="py-0.0 px-1.5 bg-gradient-to-r from-red-500 to-orange-600 text-white font-medium rounded-2xl">
+          class="p-1.5 bg-gradient-to-r from-red-500 to-orange-600 text-white font-medium rounded-2xl">
         Geannuleerd</a></h1></div>
       <div v-else-if="dataObject.status === 0"><h1>Status: <a
-          class="py-0.0 px-1.5 bg-gradient-to-r from-gray-400 to-gray-500 text-white font-medium rounded-2xl">
+          class="p-1.5  bg-gradient-to-r from-gray-400 to-gray-500 text-white font-medium rounded-2xl">
         Concept</a></h1></div>
       <div v-else-if="dataObject.status === 1"><h1>Status: <a
-          class="py-0.0 px-1.5 bg-gradient-to-r from-green-300 to-green-400 text-white font-medium rounded-2xl">
+          class="p-1.5  bg-gradient-to-r from-green-300 to-green-400 text-white font-medium rounded-2xl">
         Geaccepteerd</a></h1>
       </div>
       <div v-else-if="dataObject.status === 2"><h1>Status: <a
-          class="py-0.0 px-1.5 bg-gradient-to-r from-green-400 to-green-400 text-white font-medium rounded-2xl">
+          class="p-1.5  bg-gradient-to-r from-green-400 to-green-400 text-white font-medium rounded-2xl">
         Bezig</a></h1>
       </div>
       <div v-else-if="dataObject.status === 3"><h1>Status: <a
-          class="py-0.0 px-1.5 bg-gradient-to-r from-green-500 to-green-600 text-white font-medium rounded-2xl">
+          class="p-1.5  bg-gradient-to-r from-green-500 to-green-600 text-white font-medium rounded-2xl">
         Afgerond</a></h1>
       </div>
-      <button data-modal-toggle="editStatus-modal" class="bg-[#F05822] text-white font-bold rounded px-3">
+      <button data-modal-toggle="editStatus-modal" class="p-3 bg-[#F05822] text-white font-bold rounded px-3">
         Edit status
       </button>
     </div>
