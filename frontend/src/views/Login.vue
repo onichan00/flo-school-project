@@ -123,6 +123,7 @@ export default {
 
         if (userType === 2) {
 
+          localStorage.setItem("approvalStatus", response.approvalStatus)
           this.$router.push("/specialist/dashboard").then( () => {
             this.$router.go()
           })

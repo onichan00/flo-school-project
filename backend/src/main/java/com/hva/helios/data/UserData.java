@@ -89,7 +89,7 @@ public class UserData {
             "1091 GH",
             "Wibautstraat 3b",
             2L,
-            new Specialist(1,"Backend engineer", 0,null,null,null,null)
+            new Specialist(1,"Backend engineer", 2,null,null,null,null)
     );
 
     User specialist2 = new User(

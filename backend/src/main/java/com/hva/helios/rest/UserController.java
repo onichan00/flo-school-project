@@ -275,11 +275,11 @@ public class UserController {
 
 
         if (!user.getPassword().equals(loginBody.password())) {
-            return new LoginResponse(-1L, -1 );
+            return new LoginResponse(-1L, -1L, user.getSpecialist().getApprovalStatus());
 
         }
 
-        return new LoginResponse(user.getId(), user.getUserType());
+        return new LoginResponse(user.getId(), user.getUserType(), user.getSpecialist().getApprovalStatus());
     }
 
     //TODO: remove from here because its inside the AuthorizationController.java allready for jwt

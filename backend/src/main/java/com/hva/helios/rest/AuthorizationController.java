@@ -51,14 +51,18 @@ public class AuthorizationController {
 
 
         if (!user.getPassword().equals(loginBody.password())) {
-
             return ResponseEntity.badRequest()
-                    .body(new LoginResponse(-1L, -1));
+                    .body(new LoginResponse(-1L, -1L, user.getSpecialist().getApprovalStatus()));
 
         }
 
+        if (user.getUserType() == 2){
+            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION,"Bearer " +  tokenString)
+                    .body(new LoginResponse(user.getId(), user.getUserType(), user.getSpecialist().getApprovalStatus()));
+        }
         return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION,"Bearer " +  tokenString)
-                .body(new LoginResponse(user.getId(), user.getUserType()));
+                .body(new LoginResponse(user.getId(), user.getUserType(), null));
+
     }
 
     @PostMapping("register")
