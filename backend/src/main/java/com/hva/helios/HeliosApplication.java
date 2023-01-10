@@ -133,16 +133,16 @@ public class HeliosApplication implements CommandLineRunner {
 		ProjectData projectData = new ProjectData();
 
 		// this piece of code serves the purpose of testing if projects actually show up specifically for the specialist
-		Project nProject = new Project("test project voor specialist", userRepository.findByEmail("client"), "no pics", 0,new Date(),"test");
+		Project nProject = new Project("test project voor specialist", userRepository.findByEmail("client"), null, 0,new Date(),"test");
 		nProject.setSpecialists(new HashSet<>(specialistRepo.findById(1)));
 		projectRepo.save(nProject);
 
-		Project n2Project = new Project("test project voor specialist2", userRepository.findByEmail("dennis.moesClient@hva.nl"), "no pics", 0,new Date(),"test");
+		Project n2Project = new Project("test project voor specialist2", userRepository.findByEmail("dennis.moesClient@hva.nl"), null, 0,new Date(),"test");
 		n2Project.setSpecialists(new HashSet<>(specialistRepo.findById(2)));
 		projectRepo.save(n2Project);
 
 
-		Project n1Project = new Project("test project voor specialist3", userRepository.findByEmail("client"), "no pics", 0,new Date(),"test");
+		Project n1Project = new Project("test project voor specialist3", userRepository.findByEmail("client"), null, 0,new Date(),"test");
 		n1Project.setSpecialists(new HashSet<>(specialistRepo.findAll()));
 		projectRepo.save(n1Project);
 

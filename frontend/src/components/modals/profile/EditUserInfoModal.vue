@@ -124,11 +124,8 @@ export default {
         // Add the image to the form data
         FORM_DATA.append("file", this.image.file);
 
-        // Try deleting the old file
-        axios({ url: DELETE_URL, method: "DELETE" })
-          .then((res) => {
-            // Try uploading the new file
-            axios({ url: UPLOAD_URL, method: "POST", data: FORM_DATA })
+        if(FILE_ID == null){
+          axios({ url: UPLOAD_URL, method: "POST", data: FORM_DATA })
               .then((res) => {
                 // Resolve the promise with the ID of the new image
                 resolve(res.data.id);
@@ -136,11 +133,23 @@ export default {
               .catch((err) => {
                 reject(err);
               })
-          })
-          .catch((err) => {
+        } else {
+          // Try deleting the old file
+          axios({ url: DELETE_URL, method: "DELETE" })
+              .then((res) => {
+                if (res.status)
+                  axios({ url: UPLOAD_URL, method: "POST", data: FORM_DATA })
+                      .then((res) => {
+                        // Resolve the promise with the ID of the new image
+                        resolve(res.data.id);
+                      })
+                      .catch((err) => {
+                        reject(err);
+                      })
+              }).catch((err) => {
             reject(err);
           })
-      })
+      }})
     },
     /**
      * Saves the user object to the API.

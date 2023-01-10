@@ -360,7 +360,9 @@ export default {
       axios({ url: URL, method: PROTOCOL })
         .then((res) => {
           console.log(res);
-          this.files = res.data;
+          if(res.data() != null){
+            this.files = res.data;
+          }
         })
         .catch((err) => {
           console.log(err);

@@ -94,7 +94,7 @@ public class UserData {
             "1091 GH",
             "Wibautstraat 3b",
             2L,
-            new Specialist(1,"Backend engineer", 2,null,null,null,null)
+            new Specialist(1,"Backend engineer", 1,null,null,null,null)
     );
 
     User specialist2 = new User(
@@ -110,7 +110,23 @@ public class UserData {
             "1091 GH",
             "Wibautstraat 3b",
             2L,
-            new Specialist(1,"Backend engineer", 0,null,null,null,null)
+            new Specialist(1,"Backend engineer", 1,null,null,null,null)
+    );
+
+    User specialist3 = new User(
+            "specialist2",
+            "specialist2",
+            "specialist2",
+            "specialist2",
+            "specialist2",
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+            "Hello I am waiting for approval",
+            "+31 6 12345678",
+            "Amsterdam",
+            "1091 GH",
+            "Wibautstraat 3b",
+            2L,
+            new Specialist(1,"Backend engineer", 2,null,null,null,null)
     );
 
     public UserData() {
@@ -134,7 +150,8 @@ public class UserData {
     public ArrayList<User> getSpecialists() {
         specialist1.setPassword(authentication.hash(specialist1.getPassword()));
         specialist2.setPassword(authentication.hash(specialist2.getPassword()));
+        specialist3.setPassword(authentication.hash(specialist3.getPassword()));
 
-        return new ArrayList<>(List.of(specialist1, specialist2));
+        return new ArrayList<>(List.of(specialist1, specialist2, specialist3));
     }
 }

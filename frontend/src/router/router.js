@@ -34,6 +34,7 @@ import projectEvent from "@/views/admin/project/projectEvent";
 import AddSpecialistToProject from "@/views/admin/project/AddSpecialistToProject";
 import SpecialistPendingPage from "@/views/specialist/SpecialistPendingPage";
 import CreateNewProject from "@/views/admin/project/CreateNewProject";
+import CreateSpecialist from "@/views/admin/specialist/CreateSpecialist";
 
 
 export const router = createRouter({
@@ -164,7 +165,7 @@ export const router = createRouter({
             component: SpecialistHomePage
         },
         {
-            path: '/specialist/settings',
+            path: '/specialist/settings/:id',
             name: 'Specialist Settings',
             // component:  SpecialistSettings
             component: Profile
