@@ -326,6 +326,7 @@ export default {
       axios({ url: URL, method: METHOD })
         .then((res) => {
           this.userObj = res.data;
+          this.userObj.password = null;
 
           if (res.data.specialist) {
             this.events = res.data.specialist.events;

@@ -46,6 +46,10 @@
               <input type="text" id="city" v-model="userObj.city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Amsterdam" required>
             </div>
             <div>
+              <label for="city" class="block mb-1 text-sm font-medium text-gray-900">wachtwoord</label>
+              <input type="text" id="password" v-model="userObj.password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="wachtwoord">
+            </div>
+            <div>
               <label for="zipcode" class="block mb-1 text-sm font-medium text-gray-900">Postcode</label>
               <input type="text" id="zipcode" v-model="userObj.zipCode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="1000AA" required>
             </div>
@@ -172,6 +176,8 @@ export default {
         .finally(() => { // Put this in finally so that the user can still update their user info without updating their profile image
           axios({ url: URL, method: PROTOCOL, data: this.userObj })
             .then((res) => {
+              console.log(this.userObj)
+
               console.log(res);
               useToast().success("Profielinfo succesvol opgeslagen")
             })
