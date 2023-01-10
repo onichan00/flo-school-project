@@ -130,8 +130,12 @@
                 Aangemaakt op: {{ this.dateFormatter(selectedProject.created) }}
               </h1>
               <h1>
-                Projecteigenaar: U
+                Projecteigenaar: {{this.selectedProject.user.first_name[0].toUpperCase()+ ". " + this.selectedProject.user.last_name}}
               </h1>
+              <h1>
+                Email: {{this.selectedProject.user.email}}
+              </h1>
+
 
               <div class="flex flex-row mr-2">
                 <div v-if="selectedProject.status === -1"><h1>Status: <a
