@@ -149,7 +149,7 @@
             </thead>
             <tbody>
             <tr style="cursor: pointer" v-on:click="selectSpecialist(specialist.id)"
-                v-for="specialist in this.filteredSpecialist" v-bind:key="specialist.id"
+                v-for="specialist in this.filteredSpecialist()" v-bind:key="specialist.id"
                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
                 :class="{'bg-gray-200': this.selectedSpecialists.indexOf(specialist.id)  !== -1}">
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
@@ -195,6 +195,8 @@ export default {
       client: null,
       specialists: null,
       selectedSpecialists: [],
+      sSkills: [],
+      filtered: []
 
     }
   },
@@ -206,7 +208,47 @@ export default {
 
 
   methods: {
+    filteredSpecialist() {
 
+      for (const specialist in this.specialists) {
+        const sSkills = this.specialists[specialist].specialist.skills;
+
+        for (let i = 0; i < sSkills.length; i++) {
+          // console.log(sSkills[i].skill)
+          for (let j = 0; j < this.projectSkills2.length; j++) {
+            // && !this.filtered.includes(specialist)
+            /*  console.log(this.projectSkills2[j])
+              console.log(sSkills[i].skill)
+              console.log("----------------------------------------------------")*/
+
+            if (sSkills[i].skill.id === this.projectSkills2[j].id && !this.filtered.includes(this.specialists[specialist])) {
+              console.log(this.projectSkills2[j])
+              console.log(sSkills[i].skill)
+              console.log("----------------------------------------------------")
+              console.log(this.specialists[specialist])
+              this.filtered.push(this.specialists[specialist]);
+            }
+          }
+          /*for (const chosenSkill in this.projectSkills2) {
+            console.log(this.projectSkills2)
+            if (sSkills[i].skill === chosenSkill && !this.filtered.includes(specialist)) {
+              this.filtered.push(specialist);
+            }
+          }*/
+
+        }
+        /* for (const skill in sSkills) {
+
+           for (const chosenSkill in this.projectSkills2) {
+             if (skill.skill === chosenSkill && !filtered.includes(specialist)) {
+               filtered.push(specialist);
+             }
+           }
+         }*/
+      }
+
+      return this.filtered.length === 0 ? this.specialists : this.filtered;
+    },
 
     addSkill(skill) {
       this.projectSkills.push(skill)
@@ -215,6 +257,7 @@ export default {
     addSkill2(skill) {
       this.projectSkills2.push(skill)
 
+      this.filteredSpecialist()
       /* this.filteredSpecialists = this.specialists.filter(function (other_el) {
          return this.projectSkills2.filter(function (another_el) {
            console.log(another_el)
@@ -222,6 +265,7 @@ export default {
          }).length === 0
        })*/
     },
+
 
     async changeTeam() {
       for (let i = 0; i < this.selectedSpecialists.length; i++) {
@@ -262,7 +306,6 @@ export default {
       axios.get(process.env.VUE_APP_API_URL + `/api/users/client/${this.userId}`)
           .then((res) => {
             this.client = res.data;
-            console.log(this.client)
           })
           .catch((err) => {
             console.log(err);
@@ -285,7 +328,6 @@ export default {
       axios.post(process.env.VUE_APP_API_URL + '/api/projects/?clientId=' + this.userId, requestBody)
           .then(async (res) => {
             for (let i = 0; i < this.selectedSpecialists.length; i++) {
-              console.log(this.selectedSpecialists[i])
               await axios.post(process.env.VUE_APP_API_URL + `/api/projects/` + res.data.id + `/specialist/`, {"id": this.selectedSpecialists[i]})
 
             }
@@ -328,24 +370,6 @@ export default {
   },
 
   computed: {
-    filteredSpecialist() {
-      const filtered = [];
-      console.log(this.specialists)
-      for (const specialist in this.specialists) {
-        const sSkills = specialist.specialist.skills;
-
-        for (const skill in sSkills) {
-          for (const chosenSkill in this.projectSkills2) {
-            if (skill.skill === chosenSkill && !filtered.includes(specialist)) {
-              filtered.push(specialist);
-            }
-          }
-        }
-      }
-      
-      return filtered.length === 0 ? this.specialists : filtered;
-    },
-
     allFilledIn() {
       // Checks if the name and description are filled in
       const name = this.name;
@@ -362,7 +386,6 @@ export default {
     axios.get(`http://localhost:8080/api/skills`)
         .then((res) => {
           theSkills = res.data;
-          console.log(theSkills)
         })
         .catch((err) => {
           console.log(err);
