@@ -682,7 +682,7 @@ export default {
       this.file = event.target.files[0];
     },
 
-    uploadFile(id) {
+    async uploadFile(id) {
       // Log the value of this.file to the console
       console.log(this.file)
 
@@ -695,7 +695,7 @@ export default {
       console.log(data)
 
       // Send a POST request to the server with the file data
-      fetch(`${process.env.VUE_APP_API_URL}/api/files/upload/${id}`, {
+      await fetch(`${process.env.VUE_APP_API_URL}/api/files/upload/${id}`, {
         method: "POST",
         body: data,
         headers: {
