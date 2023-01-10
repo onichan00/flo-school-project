@@ -56,7 +56,7 @@
                  class="block px-4 py-2 cursor-pointer text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profiel</a>
             </li>
             <li>
-              <a @click="this.$router.push('/specialist/settings/'+ this.userId)"
+              <a @click="this.$router.push('/specialist/settings/')"
                  class="block px-4 py-2 cursor-pointer text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Instellingen</a>
             </li>
             <li>
