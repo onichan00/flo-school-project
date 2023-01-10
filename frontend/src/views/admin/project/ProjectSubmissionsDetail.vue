@@ -9,13 +9,13 @@
         <p><strong>Gemaakt op: </strong>{{ formatDate(dataObject.created) }}</p>
       </div>
       <div class="relative py-8 flex items-center justify-center p-4 shadow-md rounded-md border border-gray-200">
-        <p class="absolute bottom-2 right-2 text-gray-400">Total hours clocked</p>
-        <p class="text-3xl">200h</p>
+        <p class="absolute bottom-2 right-2 text-gray-400">Totaal aantal minuten</p>
+        <p class="text-3xl">{{ this.totalMinutesOnProject }}</p>
       </div>
       <!--TODO fix this bruh        -->
       <div
           class="relative py-8 flex items-center justify-center p-4 shadow-md rounded-md border border-gray-200 text-left">
-        <p class="absolute bottom-2 right-2 text-gray-400">Most valuable coder</p>
+        <p class="absolute bottom-2 right-2 text-gray-400">Meeste minuten</p>
         <p class="text-3xl">{{ specialistFullName(specialists[0]) }}</p>
       </div>
     </div>
@@ -96,7 +96,7 @@
     </div>
     <hr class="my-4"/>
     <div class="project-description py-7">
-      <h2><strong>Project description</strong></h2>
+      <h2><strong>Project beschrijving</strong></h2>
       <p>{{ dataObject.description }}</p>
     </div>
 
@@ -298,6 +298,7 @@ export default {
         "accepted": 0,
         "eventType": null
       },
+      totalMinutesOnProject: 0
     }
   },
 
@@ -307,7 +308,7 @@ export default {
     this.findAvailableSpecialists();
     await this.getSpecialistOfThisProject();
     this.clientOfThisProject = this.findClientFromId(this.dataObject.client);
-    // this.availableSpecialists = this.findAvailableSpecialists();
+    // this.getTotalMinutesOfProject();
   },
 
   methods: {
@@ -322,13 +323,13 @@ export default {
     },
 
     calculateMinutes(start, end) {
-      var totalHours = NaN;
+      var totalMinutes = NaN;
       var first = Date.parse(start)
       var second = Date.parse(end)
       if (start < end) {
-        totalHours = (second - first) / 1000 / 60; //milliseconds: /1000 / 60 / 60
+        totalMinutes = (second - first) / 1000 / 60; //milliseconds: /1000 / 60 / 60
       }
-      return totalHours
+      return totalMinutes
     },
 
     createNewEvent() {
@@ -347,6 +348,14 @@ export default {
             console.error(err);
             this.toast.error("Iets ging verkeerd!")
           })
+    },
+
+    getTotalMinutesOfProject() {
+      for (let event in this.dataObject.events) {
+        if (this.calculateMinutes(this.dataObject.events[event].start, this.dataObject.events[event].end) > 0) {
+          this.totalMinutesOnProject += this.calculateMinutes(this.dataObject.events[event].start, this.dataObject.events[event].end)
+        }
+      }
     },
 
     getNewEvents(num) {
@@ -398,6 +407,7 @@ export default {
           .then((res) => {
             this.dataObject = res.data;
             this.event.project = res.data;
+            this.getTotalMinutesOfProject();
           })
           .catch((err) => {
             console.log(err);
