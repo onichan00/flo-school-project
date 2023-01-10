@@ -192,42 +192,41 @@
               <h1 class="mt-3 font-medium text-xl text-gray-700">
                 Specialisten
               </h1>
-              <div class="relative overflow-x-auto rounded-lg border border-gray-300">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                    <th scope="col" class="px-3 py-3">
-                      Naam
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      Email
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                      Telefoonnummer
-                    </th>
-                    <th scope="col" class="px-3 py-3">
-                      Bekijk specialist
-                    </th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr v-for="specialist in this.selectedProject.specialists" :key="specialist.id"
-                      class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {{ specialist.first_name + " " + specialist.last_name }}
-                    </th>
-                    <td class="px-6 py-4">
-                      {{ specialist.email }}
-                    </td>
-                    <td class="px-6 py-4">
-                      {{ specialist.phone }}
-                    </td>
-                    <td class="px-3 py-4 hover:text-black hover:pointer-cursor underline">
-                      Klik hier
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
+              <div>
+                <div v-if="this.selectedProject.specialists.length < 1">
+                  <p>Er zijn nog geen specialisten voor dit project gevonden...</p>
+                </div>
+                <div v-else class="relative overflow-x-auto rounded-lg border border-gray-300">
+                  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                      <th scope="col" class="px-3 py-3">
+                        Naam
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        Email
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                        Telefoonnummer
+                      </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="specialist in this.selectedProject.specialists" :key="specialist.id"
+                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ specialist.first_name + " " + specialist.last_name }}
+                      </th>
+                      <td class="px-6 py-4">
+                        {{ specialist.email }}
+                      </td>
+                      <td class="px-6 py-4">
+                        {{ specialist.phone }}
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
 
@@ -237,21 +236,39 @@
               </h1>
               <div class="bg-gray-50 border border-1 rounded-lg">
                 <div class="overflow-y-scroll h-72">
-                  <div
-                      v-for="(announcement, index) of announcements" v-bind:key="index">
-                    <div class="text-left rounded-lg p-2 m-2 bg-white shadow-sm w-fit"
-                         v-if="announcement.project === selectedProject.id">
-                      <div class="flex flex-row justify-between text-gray-400 text-sm space-x-4">
-                        <div>
-                          <a>{{ announcement.user }}</a>
+                  <div v-if="this.announcements.length < 1">
+                  </div>
+                  <div v-else>
+                    <div v-for="(announcement, index) of this.announcements" v-bind:key="index">
+                      <div class="text-left rounded-lg p-2 m-2 bg-white shadow-sm w-fit">
+                        <div class="flex flex-row justify-between text-gray-400 text-sm space-x-4">
+                          <div>
+                            <a>{{ announcement.user.first_name + " " + announcement.user.last_name }}</a>
+                          </div>
+                          <div>
+                            <a>{{ announcement.dateAndTime }}</a>
+                          </div>
                         </div>
-                        <div>
-                          <a>{{ announcement.date }}</a>
+
+                        <div class="text-black text-lg">
+                          <a>{{ announcement.message }}</a>
                         </div>
                       </div>
+                    </div>
+                    <div v-for="(announcement, index) of this.webSocketAnnouncements" v-bind:key="index">
+                      <div class="text-left rounded-lg p-2 m-2 bg-white shadow-sm w-fit">
+                        <div class="flex flex-row justify-between text-gray-400 text-sm space-x-4">
+                          <div>
+                            <a>{{ announcement.user }}</a>
+                          </div>
+                          <div>
+                            <a>{{ announcement.date }}</a>
+                          </div>
+                        </div>
 
-                      <div class="text-black text-lg">
-                        <a>{{ announcement.message }}</a>
+                        <div class="text-black text-lg">
+                          <a>{{ announcement.message }}</a>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -322,7 +339,8 @@ export default {
       selectedRowStyle: "bg-gray-100 shadow-sm text-black",
       notSelectedRowStyle: "text-gray-900",
       announcements: [],
-      specialists: []
+      specialists: [],
+      webSocketAnnouncements: [],
     }
   },
 
@@ -337,8 +355,6 @@ export default {
   },
 
   beforeUnmount() {
-    // close down the service with the web socket
-    this.announcementsService.close();
   },
 
   async created() {
@@ -349,8 +365,21 @@ export default {
 
   methods: {
     sendMessageAndEmail(event) {
-      this.sendEmail(event);
+      // this.sendEmail(event);
       this.onNewAnnouncement(event);
+    },
+
+    async getAnnouncements(id) {
+      console.log("lal");
+      await axios.get(process.env.VUE_APP_API_URL + `/api/announcements/${id}`)
+          .then(response => {
+            console.log(response);
+            this.announcements = response.data
+            console.log(this.announcements)
+          })
+          .catch((err) => {
+            console.log(err);
+          })
     },
 
     async sendEmail(event) {
@@ -394,14 +423,24 @@ export default {
       // this method is called when an announcement is distributed
       console.log("Received announcement:", message);
       message = JSON.parse(message)
-      this.announcements.push(message);
+      this.webSocketAnnouncements.push(message);
     },
 
-    onNewAnnouncement(event) {
+    async onNewAnnouncement(event) {
       // for demo purpose of a simple web socket
       this.announcementsService.sendMessage(event.target.value, this.user.first_name + " " + this.user.last_name, this.selectedProject.id);
       // a persistent announcement system would save the announcement here via the REST api
       // and let the rest controller issue the websocket notification to inform all clients about the update
+      await axios.post(process.env.VUE_APP_API_URL + `/api/announcements/add/${this.userId}/${this.selectedProject.id}`, {
+        message: event.target.value,
+        dateAndTime: new Date,
+        clientId: this.userId,
+        projectId: this.selectedProject.id
+      }).then(response => {
+        console.log(response)
+      }).catch(error => {
+        console.log(error)
+      });
 
       // reset the input in the text area
       event.target.value = "";
@@ -443,6 +482,7 @@ export default {
       }
 
       this.selectedProject = element;
+      this.getAnnouncements(this.selectedProject.id);
     },
 
     getProjectData() {

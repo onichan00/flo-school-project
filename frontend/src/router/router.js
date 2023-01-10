@@ -103,11 +103,6 @@ export const router = createRouter({
             component: projectEvent
         },
         {
-            path: '/create-project',
-            name: 'Create Project',
-            component: CreateProjects
-        },
-        {
             path: '/projects/create-new-project',
             name: 'Create Project',
             component: CreateNewProject
@@ -131,6 +126,11 @@ export const router = createRouter({
             path: '/client/projects-overview',
             name: 'Projects',
             component: ProjectsOverview,
+        },
+        {
+            path: '/create-project',
+            name: 'Create Project',
+            component: CreateProjects
         },
         {
             path: '/client/:id',

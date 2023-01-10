@@ -71,7 +71,6 @@ public class NotificationDistributor extends TextWebSocketHandler {
     private void unsubscribe(String topic, WebSocketSession session) {
         // TODO unsubcribe the session from the given topic in sessionsByTopic, if still subscribed
         //  if no sessions are left with interest in the given topic, then remove the topic altogether from the subscription map
-
     }
 
     public void notify(String topic, WebSocketSession fromSession) {

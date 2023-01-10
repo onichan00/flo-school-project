@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/dennismoes/Developer/School/EWA/flo-3/backend/src/main/java/com/hva/helios</OriginalElement>
+  <nodes>
+    <node x="801.0" y="1068.0">com.hva.helios.views.Views.InternalSerializer</node>
+    <node x="1920.0" y="1559.0">com.hva.helios.data.UserData</node>
+    <node x="650.0" y="1559.0">com.hva.helios.rest.FileController</node>
+    <node x="-134.0" y="760.0">com.hva.helios.repositories.SkillJPARepository</node>
+    <node x="165.0" y="1877.0">com.hva.helios.models.enums.EventType</node>
+    <node x="672.0" y="725.5">com.hva.helios.repositories.AnnouncementRepository</node>
+    <node x="670.0" y="1877.0">com.hva.helios.HeliosApplication</node>
+    <node x="1375.0" y="1999.0">com.hva.helios.repositories.interfaces.testRepo</node>
+    <node x="599.0" y="1345.0">com.hva.helios.models.JWToken</node>
+    <node x="1390.0" y="1732.0">com.hva.helios.repositories.FileJPARepository</node>
+    <node x="570.75" y="527.0">com.hva.helios.repositories.interfaces.EntityRepository</node>
+    <node x="-134.0" y="988.0">com.hva.helios.rest.ProjectController</node>
+    <node x="1106.0" y="1877.0">com.hva.helios.models.user.Client</node>
+    <node x="-134.0" y="-14.0">com.hva.helios.rest.UserController</node>
+    <node x="424.0" y="1877.0">com.hva.helios.models.user.hour.AvailableHour</node>
+    <node x="384.0" y="1068.0">com.hva.helios.views.Views.PublicSerializer</node>
+    <node x="468.0" y="2098.0">com.hva.helios.repositories.interfaces.jpa.AdminJPARepository</node>
+    <node x="439.0" y="1559.0">com.hva.helios.rest.SkillController</node>
+    <node x="676.0" y="-14.0">com.hva.helios.models.user.Specialist</node>
+    <node x="1740.0" y="1732.0">com.hva.helios.rest.AuthorizationController</node>
+    <node x="724.0" y="2098.0">com.hva.helios.exceptions.NotFoundException</node>
+    <node x="1290.0" y="1877.0">com.hva.helios.rest.JWTRequestFilter</node>
+    <node x="697.0" y="1999.0">com.hva.helios.repositories.interfaces.jpa.EventJPARepository</node>
+    <node x="901.0" y="1877.0">com.hva.helios.models.record.LoginBody</node>
+    <node x="97.0" y="1732.0">com.hva.helios.models.record.LoginResponse</node>
+    <node x="-134.0" y="1877.0">com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository</node>
+    <node x="-134.0" y="1559.0">com.hva.helios.rest.AnnouncementController</node>
+    <node x="-134.0" y="1345.0">com.hva.helios.models.FileModel</node>
+    <node x="81.0" y="760.0">com.hva.helios.repositories.user.UserSkillJPARepository</node>
+    <node x="1826.0" y="527.0">com.hva.helios.models.Event</node>
+    <node x="-134.0" y="1732.0">com.hva.helios.models.user.skill.Skill</node>
+    <node x="1934.0" y="1999.0">com.hva.helios.data.EventData</node>
+    <node x="-134.0" y="2098.0">com.hva.helios.repositories.interfaces.jpa.UserJPARepository</node>
+    <node x="330.99999999999994" y="723.0">com.hva.helios.repositories.ProjectJPARepository</node>
+    <node x="743.5" y="988.0">com.hva.helios.views.Views</node>
+    <node x="354.0" y="-14.0">com.hva.helios.models.Project</node>
+    <node x="1453.0" y="2098.0">com.hva.helios.data.ClientData</node>
+    <node x="1440.0" y="1559.0">com.hva.helios.notifications.AnnouncementDistributor</node>
+    <node x="1408.0" y="1345.0">com.hva.helios.models.Announcement</node>
+    <node x="690.0" y="1732.0">com.hva.helios.rest.HourController</node>
+    <node x="268.0" y="1081.0">com.hva.helios.views.Views.Public</node>
+    <node x="322.0" y="2098.0">com.hva.helios.models.user.Admin</node>
+    <node x="1215.0" y="2098.0">com.hva.helios.rest.UserSkillController</node>
+    <node x="1360.0" y="760.0">com.hva.helios.repositories.HourJPARepository</node>
+    <node x="1606.0" y="527.0">com.hva.helios.models.User</node>
+    <node x="111.0" y="2098.0">com.hva.helios.utilities.Authentication</node>
+    <node x="1680.0" y="1999.0">com.hva.helios.repositories.interfaces.jpa.ClientJPARepository</node>
+    <node x="1054.0" y="1999.0">com.hva.helios.notifications.EmailService</node>
+    <node x="328.0" y="1732.0">com.hva.helios.data.ProjectData</node>
+    <node x="330.0" y="1999.0">com.hva.helios.data.AnnouncementData</node>
+    <node x="119.0" y="1345.0">com.hva.helios.APIConfig</node>
+    <node x="1047.0" y="1732.0">com.hva.helios.data.RightsData</node>
+    <node x="936.0" y="1345.0">com.hva.helios.notifications.NotificationDistributor</node>
+    <node x="1649.0" y="1345.0">com.hva.helios.models.user.hour.Hour</node>
+    <node x="1253.5" y="988.0">com.hva.helios.models.user.skill.UserSkill</node>
+    <node x="712.0833333333334" y="1174.0">com.hva.helios.views.Views.Internal</node>
+    <node x="-134.0" y="1999.0">com.hva.helios.rest.EmailController</node>
+    <node x="1591.5" y="988.0">com.hva.helios.rest.EventController</node>
+    <node x="1070.0" y="760.0">com.hva.helios.repositories.user.AvailableHourJPARepository</node>
+    <node x="973.0" y="2098.0">com.hva.helios.exceptions.PreConditionFailed</node>
+    <node x="1088.0" y="1559.0">com.hva.helios.data.SkillData</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.hva.helios.repositories.HourJPARepository" target="com.hva.helios.repositories.interfaces.EntityRepository" relationship="REALIZATION">
+      <point x="0.0" y="-73.0" />
+      <point x="1460.5" y="698.0" />
+      <point x="676.25" y="698.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="com.hva.helios.views.Views.InternalSerializer" target="com.hva.helios.views.Views" relationship="INNER_CLASS">
+      <point x="0.0" y="-27.0" />
+      <point x="999.5" y="1042.0" />
+      <point x="791.0" y="1042.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="com.hva.helios.repositories.SkillJPARepository" target="com.hva.helios.repositories.interfaces.EntityRepository" relationship="REALIZATION">
+      <point x="0.0" y="-73.0" />
+      <point x="-36.5" y="698.0" />
+      <point x="676.25" y="698.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="com.hva.helios.repositories.user.AvailableHourJPARepository" target="com.hva.helios.repositories.interfaces.EntityRepository" relationship="REALIZATION">
+      <point x="0.0" y="-73.0" />
+      <point x="1205.0" y="698.0" />
+      <point x="676.25" y="698.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="com.hva.helios.repositories.user.UserSkillJPARepository" target="com.hva.helios.repositories.interfaces.EntityRepository" relationship="REALIZATION">
+      <point x="0.0" y="-73.0" />
+      <point x="196.0" y="698.0" />
+      <point x="676.25" y="698.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="com.hva.helios.views.Views.Internal" target="com.hva.helios.views.Views" relationship="INNER_CLASS">
+      <point x="27.0" y="-14.0" />
+      <point x="793.0833333333334" y="1148.0" />
+      <point x="1208.5" y="1148.0" />
+      <point x="1208.5" y="1042.0" />
+      <point x="791.0" y="1042.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="com.hva.helios.repositories.ProjectJPARepository" target="com.hva.helios.repositories.interfaces.EntityRepository" relationship="REALIZATION">
+      <point x="0.0" y="-110.0" />
+      <point x="491.5" y="698.0" />
+      <point x="676.25" y="698.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="com.hva.helios.repositories.AnnouncementRepository" target="com.hva.helios.repositories.interfaces.EntityRepository" relationship="REALIZATION">
+      <point x="0.0" y="-107.5" />
+      <point x="861.0" y="698.0" />
+      <point x="676.25" y="698.0" />
+      <point x="0.0" y="73.0" />
+    </edge>
+    <edge source="com.hva.helios.views.Views.Internal" target="com.hva.helios.views.Views.Public" relationship="GENERALIZATION">
+      <point x="-27.0" y="-14.0" />
+      <point x="739.0833333333334" y="1148.0" />
+      <point x="316.0" y="1148.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="com.hva.helios.views.Views.Public" target="com.hva.helios.views.Views" relationship="INNER_CLASS">
+      <point x="0.0" y="-14.0" />
+      <point x="316.0" y="1042.0" />
+      <point x="791.0" y="1042.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="com.hva.helios.views.Views.PublicSerializer" target="com.hva.helios.views.Views" relationship="INNER_CLASS">
+      <point x="0.0" y="-27.0" />
+      <point x="582.5" y="1042.0" />
+      <point x="791.0" y="1042.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.38838060384263495" showDependencies="false" x="1013.0" y="1079.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

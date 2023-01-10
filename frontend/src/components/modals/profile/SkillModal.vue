@@ -8,7 +8,7 @@
             <label for="skillSelect" class="text-lg font-medium text-gray-900">Selecteer een nieuwe vaardigheid</label>
             <select id="skillSelect" v-model="getSelectedSkill.skill" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-florijnOrange-100 focus:border-florijnOrange-200 block w-full p-2.5">
               <option selected disabled :value="{ id: 0 }">Selecteer een vaardigheid</option>
-              <option v-for="skill in skills" :key="skill.id" :value="skill">{{ JSON.stringify(skill) }}</option>
+              <option v-for="skill in skills" :key="skill.id" :value="skill">{{ skill.name }}</option>
             </select>
           </div>
           <div>
