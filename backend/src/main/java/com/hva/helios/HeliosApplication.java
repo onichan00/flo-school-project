@@ -1,19 +1,14 @@
 package com.hva.helios;
 
-import com.hva.helios.data.EventData;
-import com.hva.helios.data.ProjectData;
-import com.hva.helios.data.SkillData;
-import com.hva.helios.data.UserData;
-import com.hva.helios.models.Event;
-import com.hva.helios.models.FileModel;
-import com.hva.helios.models.Project;
-import com.hva.helios.models.User;
+import com.hva.helios.data.*;
+import com.hva.helios.models.*;
 import com.hva.helios.models.user.Admin;
 import com.hva.helios.models.user.Client;
 import com.hva.helios.models.user.Specialist;
 import com.hva.helios.models.user.hour.AvailableHour;
 import com.hva.helios.models.user.skill.Skill;
 import com.hva.helios.models.user.skill.UserSkill;
+import com.hva.helios.repositories.AnnouncementRepository;
 import com.hva.helios.repositories.FileJPARepository;
 import com.hva.helios.repositories.ProjectJPARepository;
 import com.hva.helios.repositories.interfaces.EntityRepository;
@@ -64,14 +59,21 @@ public class HeliosApplication implements CommandLineRunner {
 	@Autowired
 	private testRepo projectRepo;
 
+
 	@Autowired
 	private UserSkillJPARepository userSkillRepo;
+
+	@Autowired
+	private ProjectJPARepository projectRepository;
 
 	@Autowired
 	private EntityRepository<AvailableHour> availableHourRepo;
 
 	@Autowired
 	private FileJPARepository fileRepo;
+
+	@Autowired
+	private AnnouncementRepository announcementRepository;
 
 	@Override
 	@Transactional
@@ -86,6 +88,7 @@ public class HeliosApplication implements CommandLineRunner {
 		createInitialHoursData();
 		createInitialEvents();
 		createInitialUserSkill();
+        createInitialAnnouncements();
 		try {
 			createInitialFiles();
 		} catch (IOException e) {
@@ -224,5 +227,23 @@ public class HeliosApplication implements CommandLineRunner {
 
 		specialist.setPhoto(pfImageFile.getId());
 		userRepository.save(specialist);
+	}
+
+	/**
+	 * Saves a list of announcements to the database.
+	 *
+	 */
+	private void createInitialAnnouncements() {
+		AnnouncementData announcementData = new AnnouncementData();
+		User user = userRepository.findByEmail("client");
+		Project project = projectRepository.findById(1);
+
+		// Set the user and project for each announcement
+		announcementData.getAnnouncements().forEach(a -> {
+			a.setUser(user);
+			a.setProject(project);
+			// Save the announcement to the database
+			announcementRepository.save(a);
+		});
 	}
 }

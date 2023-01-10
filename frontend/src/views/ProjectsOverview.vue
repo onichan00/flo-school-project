@@ -237,16 +237,17 @@
               </h1>
               <div class="bg-gray-50 border border-1 rounded-lg">
                 <div class="overflow-y-scroll h-72">
+                  <div v-if="this.announcements.length < 1">
+                  </div>
                   <div
-                      v-for="(announcement, index) of announcements" v-bind:key="index">
-                    <div class="text-left rounded-lg p-2 m-2 bg-white shadow-sm w-fit"
-                         v-if="announcement.project === selectedProject.id">
+                      v-else v-for="(announcement, index) of this.announcements" v-bind:key="index">
+                    <div class="text-left rounded-lg p-2 m-2 bg-white shadow-sm w-fit">
                       <div class="flex flex-row justify-between text-gray-400 text-sm space-x-4">
                         <div>
-                          <a>{{ announcement.user }}</a>
+                          <a>{{ announcement.user.first_name + " " + announcement.user.last_name }}</a>
                         </div>
                         <div>
-                          <a>{{ announcement.date }}</a>
+                          <a>{{ announcement.dateAndTime }}</a>
                         </div>
                       </div>
 
@@ -322,7 +323,7 @@ export default {
       selectedRowStyle: "bg-gray-100 shadow-sm text-black",
       notSelectedRowStyle: "text-gray-900",
       announcements: [],
-      specialists: []
+      specialists: [],
     }
   },
 
@@ -349,8 +350,21 @@ export default {
 
   methods: {
     sendMessageAndEmail(event) {
-      this.sendEmail(event);
+      // this.sendEmail(event);
       this.onNewAnnouncement(event);
+    },
+
+    async getAnnouncements(id) {
+      console.log("lal");
+      await axios.get(process.env.VUE_APP_API_URL + `/api/announcements/${id}`)
+          .then(response => {
+            console.log(response);
+            this.announcements = response.data
+            console.log(this.announcements.length)
+          })
+          .catch((err) => {
+            console.log(err);
+          })
     },
 
     async sendEmail(event) {
@@ -397,11 +411,23 @@ export default {
       this.announcements.push(message);
     },
 
-    onNewAnnouncement(event) {
+    async onNewAnnouncement(event) {
       // for demo purpose of a simple web socket
       this.announcementsService.sendMessage(event.target.value, this.user.first_name + " " + this.user.last_name, this.selectedProject.id);
       // a persistent announcement system would save the announcement here via the REST api
       // and let the rest controller issue the websocket notification to inform all clients about the update
+      await axios.post(process.env.VUE_APP_API_URL + "/api/announcements/get", {
+        announcement: [{
+          message : event.target.value,
+          dateAndTime : null
+        }],
+        clientId: this.userId,
+        projectId: this.selectedProject.id
+      }).then(response => {
+        console.log(response)
+      }).catch(error => {
+        console.log(error)
+      });
 
       // reset the input in the text area
       event.target.value = "";
@@ -443,6 +469,7 @@ export default {
       }
 
       this.selectedProject = element;
+      this.getAnnouncements(this.selectedProject.id);
     },
 
     getProjectData() {
