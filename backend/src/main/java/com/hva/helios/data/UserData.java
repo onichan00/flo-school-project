@@ -4,15 +4,20 @@ import com.hva.helios.models.User;
 import com.hva.helios.models.user.Admin;
 import com.hva.helios.models.user.Client;
 import com.hva.helios.models.user.Specialist;
+import com.hva.helios.utilities.Authentication;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class UserData {
     ArrayList<User> clients;
     ArrayList<User> Admins;
     Client clientData = new Client("https://www.google.com");
+    Authentication authentication;
 
     User client1 = new User(
             "client",
@@ -108,17 +113,28 @@ public class UserData {
             new Specialist(1,"Backend engineer", 0,null,null,null,null)
     );
 
-    public UserData() {}
+    public UserData() {
+        authentication = new Authentication();
+    }
 
     public ArrayList<User> getClients() {
+        client1.setPassword(authentication.hash(client1.getPassword()));
+        client2.setPassword(authentication.hash(client2.getPassword()));
+
         return new ArrayList<>(List.of(client1,client2));
     }
 
     public ArrayList<User> getAdmins() {
+        admin1.setPassword(authentication.hash(admin1.getPassword()));
+        admin2.setPassword(authentication.hash(admin2.getPassword()));
+
         return new ArrayList<>(List.of(admin1,admin2));
     }
 
     public ArrayList<User> getSpecialists() {
+        specialist1.setPassword(authentication.hash(specialist1.getPassword()));
+        specialist2.setPassword(authentication.hash(specialist2.getPassword()));
+
         return new ArrayList<>(List.of(specialist1, specialist2));
     }
 }

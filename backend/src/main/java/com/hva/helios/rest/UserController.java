@@ -2,6 +2,7 @@ package com.hva.helios.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.hva.helios.APIConfig;
+import com.hva.helios.exceptions.PreConditionFailed;
 import com.hva.helios.models.JWToken;
 import com.hva.helios.models.record.LoginBody;
 import com.hva.helios.models.record.LoginResponse;
@@ -15,6 +16,7 @@ import com.hva.helios.repositories.interfaces.jpa.ClientJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.SpecialistJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.UserJPARepository;
 import com.hva.helios.repositories.user.UserSkillJPARepository;
+import com.hva.helios.utilities.Authentication;
 import com.hva.helios.views.Views;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -50,6 +52,8 @@ public class UserController {
 
     @Autowired
     private ProjectJPARepository projectJPARepository;
+
+    Authentication authentication = new Authentication();
 
     // TODO: uncomment this when jwt implemented on frontend
 //    @DeleteMapping("/delete/{id}")
@@ -97,8 +101,10 @@ public class UserController {
         oUser.setAddress(user.getAddress());
         oUser.setBio(user.getBio());
         oUser.setPhone(user.getPhone());
-        oUser.setPassword(user.getPassword());
         oUser.setPhoto(user.getPhoto());
+
+        String hashedPassword = authentication.hash(user.getPassword());
+        oUser.setPassword(hashedPassword);
 
         if (userType == 0) {
             return userRepository.save(oUser);
@@ -268,15 +274,24 @@ public class UserController {
     public LoginResponse login(@RequestBody LoginBody loginBody) {
         User user = userRepository.findByEmail(loginBody.email());
 
+        if (user == null) {
+            throw new NotFoundException(String.format("User with email: %s was not found", loginBody.email()));
+        }
+
+        String hashedPassword = authentication.hash(loginBody.password());
+
+        if (!user.getPassword().equals(hashedPassword)) {
+            return new LoginResponse(-1L, -1L, user.getSpecialist().getApprovalStatus());
+        }
+
         JWToken jwToken = new JWToken(user.getFirst_name()+user.getSecond_name()+user.getLast_name(), user.getId(), user.getUserType());
         String tokenString = jwToken.encode(this.apiConfig.getIssuer(),
                 this.apiConfig.getPassphrase(), this.apiConfig.getTokenDurationOfValidity(), user.getUserType());
 
-
-        if (!user.getPassword().equals(loginBody.password())) {
-            return new LoginResponse(-1L, -1L, user.getSpecialist().getApprovalStatus());
-
-        }
+//        if (!user.getPassword().equals(loginBody.password())) {
+//            return new LoginResponse(-1L, -1L, user.getSpecialist().getApprovalStatus());
+//
+//        }
 
         return new LoginResponse(user.getId(), user.getUserType(), user.getSpecialist().getApprovalStatus());
     }
@@ -294,6 +309,9 @@ public class UserController {
         System.out.println("sout" + user.getPhone());
         System.out.println(user);
         Long userType = user.getUserType();
+
+        String hashedPassword = authentication.hash(user.getPassword());
+        user.setPassword(hashedPassword);
 
         if (userType == 0) {
             Admin admin = new Admin();
