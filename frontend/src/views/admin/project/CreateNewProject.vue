@@ -8,7 +8,7 @@
               @click="this.$router.push('/projects')" class="hover:text-orange-600 rounded-3xl"><i
               class="fa-solid fa-arrow-left"></i></a> FLORIJN</h1>
           <h1 class="flex text-left items-center mb-6 text-4xl font-semibold text-gray-900 dark:text-white">
-            Vraag een project aan
+            Maak een project aan
           </h1>
           <div class="mt-10 space-y-5">
             <form class="space-y-4 md:space-y-6" action="#">
