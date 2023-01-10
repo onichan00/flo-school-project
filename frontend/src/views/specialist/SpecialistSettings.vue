@@ -95,7 +95,7 @@
 
               <form>
                 <label class="block mb-2 text-sm font-medium text-gray-900">Upload profielfoto</label>
-                <FileUpload></FileUpload>
+                <FileUpload :file-id="getFileId"></FileUpload>
               </form>
 
             </div>
@@ -499,9 +499,10 @@ export default {
 
   methods: {
     async getProfilePicture() {
-      await axios.get(process.env.VUE_APP_API_URL + `/api/files/list/${this.userId}`)
+      await axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
           .then((res) => {
-            fetch(process.env.VUE_APP_API_URL + `/api/files/${res.data[0].id}`)
+            console.log("test" + res.data)
+            fetch(process.env.VUE_APP_API_URL + `/api/files/510af3a0-d3d0-4230-b879-41fd5704ae41`)
                 .then(response => {
                   if (response.ok) return response.blob();
                 })
@@ -568,11 +569,14 @@ export default {
           .then((res) => {
             this.user = res.data;
             this.oldUserData = res.data;
-            console.log(this.user.password)
           })
           .catch((err) => {
             console.log(err);
           })
+    },
+
+    getFileId(fileId){
+      console.log(fileId)
     },
 
     passwordChanged() {

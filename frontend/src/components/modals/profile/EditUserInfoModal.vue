@@ -46,6 +46,10 @@
               <input type="text" id="city" v-model="userObj.city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Amsterdam" required>
             </div>
             <div>
+              <label for="city" class="block mb-1 text-sm font-medium text-gray-900">wachtwoord</label>
+              <input type="text" id="password" v-model="userObj.password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="wachtwoord">
+            </div>
+            <div>
               <label for="zipcode" class="block mb-1 text-sm font-medium text-gray-900">Postcode</label>
               <input type="text" id="zipcode" v-model="userObj.zipCode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="1000AA" required>
             </div>
@@ -124,11 +128,8 @@ export default {
         // Add the image to the form data
         FORM_DATA.append("file", this.image.file);
 
-        // Try deleting the old file
-        axios({ url: DELETE_URL, method: "DELETE" })
-          .then((res) => {
-            // Try uploading the new file
-            axios({ url: UPLOAD_URL, method: "POST", data: FORM_DATA })
+        if(FILE_ID == null){
+          axios({ url: UPLOAD_URL, method: "POST", data: FORM_DATA })
               .then((res) => {
                 // Resolve the promise with the ID of the new image
                 resolve(res.data.id);
@@ -136,11 +137,23 @@ export default {
               .catch((err) => {
                 reject(err);
               })
-          })
-          .catch((err) => {
+        } else {
+          // Try deleting the old file
+          axios({ url: DELETE_URL, method: "DELETE" })
+              .then((res) => {
+                if (res.status)
+                  axios({ url: UPLOAD_URL, method: "POST", data: FORM_DATA })
+                      .then((res) => {
+                        // Resolve the promise with the ID of the new image
+                        resolve(res.data.id);
+                      })
+                      .catch((err) => {
+                        reject(err);
+                      })
+              }).catch((err) => {
             reject(err);
           })
-      })
+      }})
     },
     /**
      * Saves the user object to the API.
@@ -163,6 +176,8 @@ export default {
         .finally(() => { // Put this in finally so that the user can still update their user info without updating their profile image
           axios({ url: URL, method: PROTOCOL, data: this.userObj })
             .then((res) => {
+              console.log(this.userObj)
+
               console.log(res);
               useToast().success("Profielinfo succesvol opgeslagen")
             })

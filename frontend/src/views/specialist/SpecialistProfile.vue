@@ -42,7 +42,7 @@
                   <h1 class="font-medium text-xl text-black">Projecten</h1>
                 </div>
                 <div>
-                  <a @click="this.$router.push('/client/projects-overview')" class="text-gray-600 hover:text-black hover:underline cursor-pointer">Bekijk alle projecten ></a>
+                  <a @click="this.$router.push('/specialist/projects-overview')" class="text-gray-600 hover:text-black hover:underline cursor-pointer">Bekijk alle projecten ></a>
                 </div>
 
               </div>
@@ -53,7 +53,7 @@
                 <div class="p-1 overflow-hidden" v-for="(project) in this.projects" :key="project">
                   <a @click="this.$router.push('/client/projects-overview')"
                      class="flex flex-col cursor-pointer items-center bg-white border rounded-lg shadow-md md:flex-row md:max-w-xl hover:bg-gray-100">
-                    <img class="object-cover rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                    <img v-if="project.bannerUrl != null" class="object-cover rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
                          :src="project.bannerUrl" alt="Banner">
                     <div class="flex flex-col justify-between p-4 leading-normal">
                       <h5 class="mb-1 text-2xl font-medium tracking-tight text-gray-900">{{ project.name }}</h5>
@@ -89,38 +89,45 @@ export default {
     }
   },
 
-  created() {
-    this.getUserData();
-    this.getProjectData()
-    this.getProfilePicture();
+  async created() {
+    await this.getUserData();
+    await this.getProjectData()
+    await this.getProfilePicture();
   },
 
   methods: {
     async getProfilePicture() {
-      await axios.get(process.env.VUE_APP_API_URL + `/api/files/list/${this.userId}`)
-          .then((res) => {
-            fetch(process.env.VUE_APP_API_URL + `/api/files/${res.data[0].id}`)
-                .then(response => {
-                  if (response.ok) return response.blob();
-                })
-                .then(blob => {
-                  this.profilePicture = URL.createObjectURL(blob)
-                })
-          })
-          .catch((err) => {
-            console.log(err);
-          })
+      console.log(this.user.email)
+      if (this.user.photo == null){
+        this.profilePicture = require("@/assets/img/StockProfileImage.jpg")
+        return
+      }
+      fetch(process.env.VUE_APP_API_URL + `/api/files/${this.user.photo}` )
+          .then(response => {
+            console.log(response)
+            if (response.ok){
+              return response.blob()
+            }
+          }).then(blob =>{
+        let url = URL.createObjectURL(blob)
+        this.profilePicture = url
+      }).catch((err) =>{
+
+        console.error(err.message)
+      })
     },
 
-    getUserData() {
-      axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
+    async getUserData() {
+      await axios.get(process.env.VUE_APP_API_URL + `/api/users/${localStorage.getItem("id")}`)
           .then((res) => {
             this.user = res.data;
-            console.log(this.user)
+            console.log(res)
           })
           .catch((err) => {
             console.log(err);
           })
+
+      console.log(this.user)
     },
 
     dateFormatter(date) {
@@ -136,7 +143,7 @@ export default {
     getProjectData() {
       const id = localStorage.getItem("id");
 
-      axios.get(process.env.VUE_APP_API_URL + `/api/projects/client/${id}`)
+      axios.get(process.env.VUE_APP_API_URL + `/api/projects/specialist/${id}`)
           .then((res) => {
             for (let i = 0; i < res.data.length; i++) {
               this.projects.push(res.data[i])
