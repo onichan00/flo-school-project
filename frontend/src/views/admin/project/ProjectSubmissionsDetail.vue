@@ -39,9 +39,9 @@
           class="p-1.5  bg-gradient-to-r from-green-500 to-green-600 text-white font-medium rounded-2xl">
         Afgerond</a></h1>
       </div>
-      <button data-modal-toggle="editStatus-modal" class="p-3 bg-[#F05822] text-white font-bold rounded px-3">
+<!--      <button data-modal-toggle="editStatus-modal" class="p-3 bg-[#F05822] text-white font-bold rounded px-3">
         Edit status
-      </button>
+      </button>-->
     </div>
 
     <div class="overflow-x-auto relative border border-gray-200 sm:rounded-lg">
