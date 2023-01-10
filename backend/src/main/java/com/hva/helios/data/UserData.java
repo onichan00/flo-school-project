@@ -84,9 +84,54 @@ public class UserData {
     User specialist1 = new User(
             "specialist",
             "specialist",
+            "Henk",
+            "",
+            "Boer",
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+            "Hello I am specialist",
+            "+31 6 12345678",
+            "Amsterdam",
+            "1091 GH",
+            "Wibautstraat 3b",
+            2L,
+            new Specialist(1,"Backend engineer", 2,null,null,null,null)
+    );
+    User specialist2 = new User(
+            "specialist2@gmail.com",
             "specialist",
+            "jan",
+            "",
+            "Willem",
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+            "Hello I am specialist",
+            "+31 6 12345678",
+            "Amsterdam",
+            "1091 GH",
+            "Wibautstraat 3b",
+            2L,
+            new Specialist(1,"Backend engineer", 2,null,null,null,null)
+    );
+    User specialist3 = new User(
+            "specialist3@gmail.com",
             "specialist",
+            "joop",
+            "",
+            "bergen",
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+            "Hello I am specialist",
+            "+31 6 12345678",
+            "Amsterdam",
+            "1091 GH",
+            "Wibautstraat 3b",
+            2L,
+            new Specialist(1,"Backend engineer", 2,null,null,null,null)
+    );
+    User specialist4 = new User(
+            "specialist4@gmail.com",
             "specialist",
+            "Germain",
+            "",
+            "Jansen",
             "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
             "Hello I am specialist",
             "+31 6 12345678",
@@ -97,8 +142,8 @@ public class UserData {
             new Specialist(1,"Backend engineer", 1,null,null,null,null)
     );
 
-    User specialist2 = new User(
-            "specialist1",
+    User specialist5 = new User(
+            "specialist5@gmail.com",
             "specialist1",
             "specialist1",
             "specialist1",
@@ -151,7 +196,9 @@ public class UserData {
         specialist1.setPassword(authentication.hash(specialist1.getPassword()));
         specialist2.setPassword(authentication.hash(specialist2.getPassword()));
         specialist3.setPassword(authentication.hash(specialist3.getPassword()));
+        specialist4.setPassword(authentication.hash(specialist4.getPassword()));
+        specialist5.setPassword(authentication.hash(specialist5.getPassword()));
 
-        return new ArrayList<>(List.of(specialist1, specialist2, specialist3));
+        return new ArrayList<>(List.of(specialist1, specialist2, specialist3, specialist4, specialist5));
     }
 }

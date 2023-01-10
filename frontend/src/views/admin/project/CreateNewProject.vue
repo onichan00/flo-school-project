@@ -85,14 +85,90 @@
     <section class="md:w-1/2" style='background-image: linear-gradient(to right, #F15922 , #f17822)'>
       <div class="flex flex-col md:mt-0 sm:max-w-xl xl:p-0 text-left justify-center text-white
        mx-auto md:h-screen lg:py-0 space-y-4">
-        <div class="text-left">
-          <h1 class="text-5xl font-semibold">Projecten</h1>
+        <!--        <div class="grid grid-cols-4 gap-2 place-content-stretch">
+                  <div
+                      class=" text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-orange-200 text-orange-700 rounded-full">
+                    JAVA SDFKJIHSD
+                  </div>
+                  <div
+                      class=" text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-orange-200 text-orange-700 rounded-full">
+                    JAVA
+                  </div>
+
+
+                </div>-->
+        <div>
+          <label for="search" class="block text-left mb-2 text-m font-medium text-white">
+            Filter op skills van specialisten
+          </label>
+          <input type="text" placeholder="Filter op skills" v-model="searchTerm" class="w-full bg-gray-50 border border-gray-300 text-gray-900
+                sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500">
+          <ul v-if="searchSkills.length"
+              class="w-1/4 rounded-lg bg-white border border-gray-300 px-4 text-left py-2 space-y-1 absolute z-10">
+            <li v-for="skill in searchSkills" :key="skill.name" @click="selectSkill(skill), addSkill2(skill)"
+                class="cursor-pointer hover:bg-orange-100 p-1 text-black">
+              {{ skill.name }}
+            </li>
+          </ul>
+          <div class="flex flex-row flex-wrap">
+            <div @click="removeTagg(skill)"
+                 v-for="skill in this.projectSkills2" :key="skill.id"
+                 class="cursor-pointer  px-2 py-1 mt-1 mr-1 rounded-lg">
+              <div
+                  class=" text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-orange-200 text-orange-700 rounded-full">
+                {{ skill.name }} <i  class="px-2 fa-solid fa-xmark"></i>
+
+              </div>
+              <!--              <div class="flex items-center space-x-1">
+                                    <span>
+                                      {{ skill.name }}
+                                    </span>
+                              <i class="fa-solid fa-xmark"></i>
+                            </div>-->
+            </div>
+          </div>
         </div>
-        <p class="text-md font-light">Op deze pagina kunt u uw eigen project aanmaken. U kunt het project een naam
-          en een beschrijving geven, ook kunt u skills opzoeken die specialisten moeten hebben om aan dit project mee
-          te kunnen doen. Als u een project heeft aangemaakt kunt u specialisten vinden die overeenkomen met de
-          skills</p>
-        <img :src="require('@/assets/img/undraw_organizing_projects_re_9p1k.svg')" class="mb-6" alt="Project Image">
+
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg addSpecialist-container">
+          <table class="w-full text-sm text-left text-black-500 dark:text-black-400">
+            <thead class="text-xs text-white uppercase bg-[#F05822]/80 ">
+            <tr>
+              <th scope="col" class="px-6 py-3">
+                Naam
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Specialist type
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Email
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Telefoon
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr style="cursor: pointer" v-on:click="selectSpecialist(specialist.id)"
+                v-for="specialist in this.filteredSpecialist()" v-bind:key="specialist.id"
+                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+                :class="{'bg-gray-200': this.selectedSpecialists.indexOf(specialist.id)  !== -1}">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
+                {{ fullName(specialist) }}
+              </th>
+              <td class="px-6 py-4 text-black">
+                {{ specialist.specialist.specialistType }}
+              </td>
+              <td class="px-6 py-4 text-black">
+                {{ specialist.email }}
+              </td>
+              <td class="px-6 py-4 text-black">
+                {{ specialist.phone }}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </section>
   </div>
@@ -115,19 +191,93 @@ export default {
       clicked: false,
       skills: [],
       projectSkills: [],
-      client: null
+      projectSkills2: [],
+      client: null,
+      specialists: null,
+      selectedSpecialists: [],
+      sSkills: [],
+      filtered: []
+
     }
   },
+
+  async created() {
+    await this.getSpecialists()
+    this.getUser()
+  },
+
+
   methods: {
+    filteredSpecialist() {
+      for (const specialist in this.specialists) {
+        const sSkills = this.specialists[specialist].specialist.skills;
+
+        for (let i = 0; i < sSkills.length; i++) {
+          for (let j = 0; j < this.projectSkills2.length; j++) {
+            if (sSkills[i].skill.id === this.projectSkills2[j].id && !this.filtered.includes(this.specialists[specialist])) {
+              this.filtered.push(this.specialists[specialist]);
+            }
+          }
+        }
+      }
+      return this.filtered.length === 0 ? this.specialists : this.filtered;
+    },
+
+    async removeTagg(skill) {
+      const index = this.projectSkills2.findIndex((el) => el.id === skill.id)
+      this.projectSkills2.splice(index, 1)
+    },
+
     addSkill(skill) {
       this.projectSkills.push(skill)
+    },
+
+    addSkill2(skill) {
+      this.projectSkills2.push(skill)
+
+      this.filteredSpecialist()
+    },
+
+
+    async changeTeam() {
+      for (let i = 0; i < this.selectedSpecialists.length; i++) {
+        const newId = {
+          "id": this.selectedSpecialists[i]
+        }
+
+        await axios.post(process.env.VUE_APP_API_URL + `/api/projects/` + this.$route.params.id + `/specialist/`, newId)
+            .then(async (res) => {
+              await this.findAvailableSpecialists();
+            })
+      }
+      this.selectedSpecialists = []
+    },
+
+    fullName(name) {
+      return (String(name.first_name).charAt(0).toUpperCase() + String(name.first_name).slice(1))
+          + ' '
+          + String(name.last_name).charAt(0).toUpperCase() + String(name.last_name).slice(1);
+    },
+    async getSpecialists() {
+      await axios.get(process.env.VUE_APP_API_URL + "/api/users/specialists")
+          .then((res) => {
+            this.specialists = res.data;
+          })
+    },
+
+    selectSpecialist(id) {
+      if (!this.selectedSpecialists.includes(id)) {
+        this.selectedSpecialists.push(id)
+      } else {
+        const index = this.selectedSpecialists.indexOf(id)
+        this.selectedSpecialists.splice(index, 1)
+      }
     },
 
     getUser() {
       axios.get(process.env.VUE_APP_API_URL + `/api/users/client/${this.userId}`)
           .then((res) => {
             this.client = res.data;
-            console.log(this.client)
           })
           .catch((err) => {
             console.log(err);
@@ -148,7 +298,11 @@ export default {
 
       // user id wordt meegestuurd als @RequestParam voor backend onder de naam van clientId
       axios.post(process.env.VUE_APP_API_URL + '/api/projects/?clientId=' + this.userId, requestBody)
-          .then((res) => {
+          .then(async (res) => {
+            for (let i = 0; i < this.selectedSpecialists.length; i++) {
+              await axios.post(process.env.VUE_APP_API_URL + `/api/projects/` + res.data.id + `/specialist/`, {"id": this.selectedSpecialists[i]})
+
+            }
             this.toast.success(`Project genaamd: "${this.name}", is met success aangemaakt`, {
               position: "bottom-center",
               timeout: 4000,
@@ -182,10 +336,9 @@ export default {
             });
           })
     },
-    deleteCountry(country) {
-      this.skills.filter(skill => skill.id !== ref(country.id));
-    },
+
   },
+
   computed: {
     allFilledIn() {
       // Checks if the name and description are filled in
@@ -196,12 +349,13 @@ export default {
       return !(name && description);
     },
   },
+
+
   setup() {
     let theSkills = []
     axios.get(`http://localhost:8080/api/skills`)
         .then((res) => {
           theSkills = res.data;
-          console.log(theSkills)
         })
         .catch((err) => {
           console.log(err);
@@ -234,6 +388,23 @@ export default {
       })
     });
 
+    const searchSkills2 = computed(() => {
+      if (searchTerm.value === '') {
+        return []
+      }
+
+      let matches = 0
+
+      return theSkills.filter(skill => {
+        if (
+            skill.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+            && matches < 10
+        ) {
+          matches++
+          return skill
+        }
+      })
+    });
     let selectedSkill = ref('')
 
     return {
@@ -241,14 +412,12 @@ export default {
       theSkills,
       searchTerm,
       searchSkills,
+      searchSkills2,
       selectSkill,
       selectedSkill
     }
   },
 
-  created() {
-    this.getUser()
-  }
 }
 </script>
 
@@ -261,5 +430,10 @@ export default {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+.projectTag {
+  width: fit-content;
+  float: left;
 }
 </style>

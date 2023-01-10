@@ -105,7 +105,7 @@ export const router = createRouter({
         },
         {
             path: '/projects/create-new-project',
-            name: 'Create Project',
+            name: 'Admin Create Project',
             component: CreateNewProject
         },
         {

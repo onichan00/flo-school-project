@@ -1,11 +1,10 @@
 <template>
   <h1>Event</h1>
   <div class="event-container">
-    <p>{{ this.eventData.title }}</p>
-    <p>{{ this.eventData.location }}</p>
+    <p><strong>Titel: </strong>{{ this.eventData.title }}</p>
+    <p><strong>Locatie: </strong>{{ this.eventData.location }}</p>
     <!--  <p>{{this.eventData}}</p>-->
-    <p>{{ this.eventData.description }}</p>
-    <p>{{ this.eventData.accepted }}</p>
+    <p><strong>Beschrijving: </strong><br>{{ this.eventData.description }}</p>
     <div class="flex items-center p-4 space-x-2 border-t border-gray-200">
       <button v-on:click="reject" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
         Afwijzen
