@@ -22,7 +22,7 @@
         <tbody>
         <tr v-on:click="selectSpecialist(specialist.id)" v-for="specialist in specialistsOfThisProject"
             v-bind:key="specialist.id"
-            class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" :class="{'bg-gray-50': this.selectedSpecialists.indexOf(specialist.id)  !== -1}">
+            class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" :class="{'bg-gray-200': this.selectedSpecialists.indexOf(specialist.id)  !== -1}">
           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             {{ fullName(specialist) }}
           </th>
@@ -69,7 +69,7 @@
         <tbody>
         <tr v-on:click="selectSpecialist(specialist.id)" v-for="specialist in availableSpecialists"
             v-bind:key="specialist.id"
-            class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" :class="{'bg-gray-50': this.selectedSpecialists.indexOf(specialist.id)  !== -1}">
+            class=" bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" :class="{'bg-gray-200': this.selectedSpecialists.indexOf(specialist.id)  !== -1}">
           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             {{ fullName(specialist) }}
           </th>

@@ -10,12 +10,16 @@
           <div class="w-full mb-4">
             <div class="flex flex-row justify-between mt-4">
               <p class="text-left text-1xl font-medium mb-4">Client new submissions</p>
-              <button data-modal-toggle="projectCreate-modal" class="bg-[#F05822] text-white font-bold rounded px-3">
-                New project
-              </button>
+              <router-link to="/projects/create-new-project">
+
+                <button class="bg-[#F05822] text-white font-bold rounded px-3">
+                  New project
+                </button>
+              </router-link>
+
             </div>
             <div v-if="projecten" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <ProjectCard v-on:click="selectProject(project)" v-for="(project, index) in projecten" :key="index"
+              <ProjectCard v-on:click="selectProject(project)" v-for="(project, index) in projecten.filter((val) => val.status === 0)" :key="index"
                            :project="project"/>
             </div>
             <div v-else class="pt-2">

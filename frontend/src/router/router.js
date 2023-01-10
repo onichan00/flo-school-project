@@ -33,6 +33,7 @@ import ClientProfile from "@/views/ClientProfile";
 import projectEvent from "@/views/admin/project/projectEvent";
 import AddSpecialistToProject from "@/views/admin/project/AddSpecialistToProject";
 import SpecialistPendingPage from "@/views/specialist/SpecialistPendingPage";
+import CreateNewProject from "@/views/admin/project/CreateNewProject";
 
 
 export const router = createRouter({
@@ -105,6 +106,11 @@ export const router = createRouter({
             path: '/create-project',
             name: 'Create Project',
             component: CreateProjects
+        },
+        {
+            path: '/projects/create-new-project',
+            name: 'Create Project',
+            component: CreateNewProject
         },
         {
             path: '/projects/:id',
