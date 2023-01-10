@@ -107,7 +107,7 @@
 
         <div
             class="w-72 float-left overflow-auto h-80 relative mx-auto bg-white dark:bg-slate-800 dark:highlight-white/5 shadow-lg ring-1 ring-black/5 rounded-xl flex flex-col divide-y dark:divide-slate-200/5">
-          <div v-on:click="this.event.user = specialist.specialist" v-for="specialist in specialists"
+          <div style="cursor: pointer" v-on:click="this.event.user = specialist.specialist"  v-for="specialist in specialists"
                :key="specialist.id"
                class="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-600">
             <img class="w-12 h-12 rounded-full" :src="specialist.photo">
@@ -324,6 +324,13 @@ export default {
       axios.post(process.env.VUE_APP_API_URL + '/api/events/', this.event)
           .then((res) => {
             this.toast.success("Event is aangemaakt!");
+            this.event.title = null
+            this.event.user = null
+            this.event.location = null
+            this.event.start = null
+            this.event.end = null
+            this.event.eventType = null
+            this.event.description = null
           })
           .catch((err) => {
             console.error(err);
