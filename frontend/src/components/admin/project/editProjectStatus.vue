@@ -26,13 +26,13 @@
                 </label>
               </div>
               <div class="md:w-2/3">
-                <select id="project-status"
+<!--                <select id="project-status"
                         class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-orange-500">
                   <option selected>{{ this.statusKeys[status] }}</option>
                     <option v-if="status !== 0">{{this.statusKeys[0]}}</option>
                     <option v-if="status !== 1">{{this.statusKeys[1]}}</option>
                     <option v-if="status !== 2">{{this.statusKeys[2]}}</option>
-                </select>
+                </select>-->
               </div>
             </div>
 
