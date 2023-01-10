@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-10 py-4">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="p-4 shadow-md rounded-md border border-gray-200 text-left">
+      <div class="p-4 shadow-md rounded-md border border-gray-200 text-left" v-if="dataObject != null">
 
         <p><strong>Naam:</strong> {{ dataObject.name }}</p>
         <!--        <p><strong>Company:</strong>{{ clientOfThisProject.company }}</p>-->
@@ -16,11 +16,11 @@
       <div
           class="relative py-8 flex items-center justify-center p-4 shadow-md rounded-md border border-gray-200 text-left">
         <p class="absolute bottom-2 right-2 text-gray-400">Meeste minuten</p>
-        <p class="text-3xl">{{ specialistFullName(specialists[0]) }}</p>
+        <p class="text-3xl" v-if="specialists != null">{{ specialistFullName(specialists[0]) }}</p>
       </div>
     </div>
     <hr class="my-4"/>
-    <div class="flex flex-row justify-between my-4">
+    <div class="flex flex-row justify-between my-4" v-if="dataObject != null">
       <div v-if="dataObject.status === -1"><h1>Status: <a
           class="p-1.5 bg-gradient-to-r from-red-500 to-orange-600 text-white font-medium rounded-2xl">
         Geannuleerd</a></h1></div>
@@ -95,7 +95,7 @@
       </table>
     </div>
     <hr class="my-4"/>
-    <div class="project-description py-7">
+    <div class="project-description py-7" v-if="dataObject != null">
       <h2><strong>Project beschrijving</strong></h2>
       <p>{{ dataObject.description }}</p>
     </div>
@@ -282,7 +282,7 @@
     </button>
   </div>
 
-  <editProjectStatus v-bind:status="dataObject.status"/>
+  <editProjectStatus v-if="dataObject != null" v-bind:status="dataObject.status"/>
 </template>
 
 <script>
@@ -328,7 +328,7 @@ export default {
   async created() {
     await this.findProjectFromRouteParam(this.$route.params.id);
     await this.getAllSpecialists()
-    this.findAvailableSpecialists();
+    await this.findAvailableSpecialists();
     await this.getSpecialistOfThisProject();
     this.clientOfThisProject = this.findClientFromId(this.dataObject.client);
     // this.getTotalMinutesOfProject();
@@ -381,13 +381,36 @@ export default {
       }
     },
 
+    async getProfilePicture(photo) {
+
+      if (photo == null) {
+        return "@/assets/img/StockProfileImage.jpg"
+      }
+
+        await fetch(process.env.VUE_APP_API_URL + "/api/files/" + photo)
+            .then(response => {
+              if (response.ok) {
+                return response.blob()
+              }
+            }).then(blob => {
+              console.log(URL.createObjectURL(blob))
+              return URL.createObjectURL(blob)
+            }).catch((err) => {
+
+              console.error(err.message)
+            })
+
+    },
+
     getNewEvents(num) {
-      if (num === 2) {
-        return this.dataObject.events;
-      } else {
-        return this.dataObject.events.filter((event) => {
-          return event.accepted === num
-        })
+      if (this.dataObject != null) {
+        if (num === 2) {
+          return this.dataObject.events;
+        } else {
+          return this.dataObject.events.filter((event) => {
+            return event.accepted === num
+          })
+        }
       }
     },
 
@@ -421,7 +444,14 @@ export default {
     async getAllSpecialists() {
       await axios.get(process.env.VUE_APP_API_URL + "/api/users/specialists")
           .then((res) => {
+            let picUrl
             this.specialists = res.data;
+
+            for (let specialist in this.specialists){
+              picUrl = this.getProfilePicture(specialist.photo)
+
+              specialist.photo = picUrl
+            }
           })
     },
 
@@ -442,13 +472,18 @@ export default {
     },
 
     findAvailableSpecialists() {
-      return this.specialists.filter((val) => {
-        return this.dataObject.specialists.indexOf(val.id) === -1;
-      })
+      if (this.dataObject != null) {
+        return this.specialists.filter((val) => {
+          return this.dataObject.specialists.indexOf(val.id) === -1;
+        })
+      }
     },
 
     findClientFromId(id) {
-      return this.clients.find(element => element.id === parseInt(id));
+      if (this.clients != null){
+        return this.clients.find(element => element.id === parseInt(id));
+
+      }
     },
 
     async getSpecialistOfThisProject() {

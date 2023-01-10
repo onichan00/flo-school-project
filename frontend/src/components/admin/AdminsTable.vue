@@ -155,6 +155,7 @@
 
 <script>
 import axios from "axios";
+import {useToast} from "vue-toastification";
 
 
 export default {
@@ -162,7 +163,9 @@ export default {
 
   data() {
     return {
-      admins: []
+      admins: [],
+      toast: useToast(),
+
     }
   },
 
