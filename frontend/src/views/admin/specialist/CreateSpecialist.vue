@@ -135,6 +135,7 @@ export default {
           }
         }).then(response => {
           if (response.ok) {
+            this.$router.push('/specialists');
             return response.json();
           }
         }).catch(err => {
