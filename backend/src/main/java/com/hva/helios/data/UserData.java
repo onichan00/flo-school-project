@@ -143,7 +143,7 @@ public class UserData {
     );
 
     User specialist5 = new User(
-            "dennis.moes2@hva.nl",
+            "specialist",
             "Kaassoufle123$",
             "Dennis",
             "",
