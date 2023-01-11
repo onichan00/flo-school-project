@@ -17,6 +17,7 @@ import com.hva.helios.repositories.interfaces.testRepo;
 import com.hva.helios.repositories.user.UserSkillJPARepository;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -230,11 +231,12 @@ public class HeliosApplication implements CommandLineRunner {
 		if (files.size() > 0) return;
 		System.out.println("Configuring some initial files in the repository");
 
-		String path = isInTest ? "src/main/resources/cvData.txt" : "backend/src/main/resources/cvData.txt";
+//		String path = isInTest ? "src/main/resources/cvData.txt" : "backend/src/main/resources/cvData.txt";
+
 
 		try {
 //			FileInputStream file = new FileInputStream("../../../resources/cvData.txt");
-			File file = new File("/backend/src/main/resources/cvData.txt");
+			File file = new File("/src/main/resources");
 			FileInputStream fileStream = new FileInputStream(file.getAbsoluteFile());
 
 			cvFile = new FileModel(specialist.getId(), "cv", "application/pdf", fileStream.readAllBytes());
