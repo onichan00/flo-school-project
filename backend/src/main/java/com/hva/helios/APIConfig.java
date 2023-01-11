@@ -43,14 +43,12 @@ public class APIConfig implements WebMvcConfigurer, WebSocketConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+
         registry.addMapping("/**")
                 .allowedOriginPatterns("*")
                 .allowedHeaders("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
-                .allowedHeaders(HttpHeaders.AUTHORIZATION,
-                        HttpHeaders.CONTENT_TYPE)
-                .exposedHeaders(HttpHeaders.AUTHORIZATION,
-                        HttpHeaders.CONTENT_TYPE)
+                .exposedHeaders("*")
                 .allowCredentials(true);
     }
 
