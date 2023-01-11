@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     getSpecialists() {
-      fetch(process.env.VUE_APP_API_URL + `/api/users/specialists`)
+      fetch(process.env.VUE_APP_API_URL + `/api/users/specialists/approved`)
           .then(response => {
             if (response.ok) return response.json();
           })

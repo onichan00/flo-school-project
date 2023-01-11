@@ -16,14 +16,14 @@
             <span class="text-2xl font-medium text-gray-600">{{ getInitials }}</span>
           </div>
         <div class="m-4 flex flex-row ml-auto space-x-2">
-          <div v-if="isAdminAndUnapproved()">
-            <button type="button" class="inline-flex items-center text-lg flex-row text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 text-center">
+          <div v-if="this.userObj.specialist.approvalStatus == 2">
+            <button @click="approve" type="button" class="inline-flex items-center text-lg flex-row text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg px-5 py-2.5 text-center">
               <svg class="w-6 h-6 mr-1" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
               Accepteer
             </button>
-            <button type="button" class="inline-flex items-center text-lg flex-row focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5">
+            <button @click="reject" type="button" class="inline-flex items-center text-lg flex-row focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5">
               <svg class="w-6 h-6 mr-1" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
@@ -289,6 +289,46 @@ export default {
     userFullName,
     firstLetterUpperCase,
 
+    approve() {
+      console.log(this.userObj)
+      fetch(process.env.VUE_APP_API_URL + `/api/users/specialists/applications/${this.userObj.specialist.id}`, {
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          approvalStatus: 1
+        })
+      }).then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+      }).then(data => {
+        this.$router.go(-1);
+
+      })
+    },
+
+    reject() {
+      fetch(process.env.VUE_APP_API_URL + `/api/users/specialists/applications/${this.userObj.specialist.id}`, {
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          approvalStatus: 0
+        })
+      }).then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+      }).then(data => {
+          this.$router.go(-1);
+      })
+    },
+
     getUserType() {
       return localStorage.getItem("userType");
     },
@@ -361,7 +401,7 @@ export default {
       axios({ url: URL, method: PROTOCOL })
         .then((res) => {
           console.log(res);
-          if(res.data() != null){
+          if(res.data != null){
             this.files = res.data;
           }
         })
@@ -371,24 +411,28 @@ export default {
     },
 
     processImage(FILE_ID) {
-      const URL = `${process.env.VUE_APP_API_URL}/api/files/${FILE_ID}`;
-      const METHOD = "GET";
-      const RESPONSE_TYPE = "blob";
 
-      axios({ url: URL, method: METHOD, responseType: RESPONSE_TYPE })
-        .then((res) => {
-          console.log(res.data);
-          const file = res.data;
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
+      if (FILE_ID != null) {
 
-          reader.onload = (evt) => {
-            this.profileImage = evt.target.result;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
+        const URL = `${process.env.VUE_APP_API_URL}/api/files/${FILE_ID}`;
+        const METHOD = "GET";
+        const RESPONSE_TYPE = "blob";
+
+        axios({url: URL, method: METHOD, responseType: RESPONSE_TYPE})
+            .then((res) => {
+              console.log(res.data);
+              const file = res.data;
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+
+              reader.onload = (evt) => {
+                this.profileImage = evt.target.result;
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+      }
     },
 
     updateSkills(value) {
