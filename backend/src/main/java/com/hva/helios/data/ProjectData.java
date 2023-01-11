@@ -20,10 +20,10 @@ public class ProjectData {
     String bannerImage = "https://images.unsplash.com/photo-1614850715649-1d0106293bd1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80";
     String bannerImage2 = "https://images.unsplash.com/photo-1608597003542-9d831d8d6ff4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80";
 
-    Project project1 = new Project("Project 1", bannerImage, 0, creationDate, "Test description");
-    Project project2 = new Project("Project 2", bannerImage2, 1, new Date(), "Test description");
-    Project project3 = new Project("Project 3", bannerImage, 0, new Date(), "Test description");
-    Project project4 = new Project("Project 4", bannerImage2, 2, new Date(), "Test description");
+    Project project1 = new Project("Project EWA", bannerImage, 0, creationDate, "Beschrijving van Project EWA");
+    Project project2 = new Project("Project PAD", bannerImage2, 1, new Date(), "Beschrijving van Project PAD");
+    Project project3 = new Project("Project FYS", bannerImage, 0, new Date(), "Beschrijving van Project FYS");
+    Project project4 = new Project("Project", bannerImage2, 2, new Date(), "Beschrijving van Project FYS");
 
     public ProjectData() {
         this.projects = new ArrayList<>(List.of(project1, project2, project3, project4));
