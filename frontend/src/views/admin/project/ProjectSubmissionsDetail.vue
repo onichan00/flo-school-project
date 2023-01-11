@@ -123,8 +123,8 @@
                :key="specialist.id"
                class="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-600"
                :class="{'bg-gray-200': clickMe(specialist)}">
-            <img class="w-12 h-12 rounded-full" :src="specialist.photo">
-            <div class="flex flex-col">
+<!--            <img class="w-12 h-12 rounded-full" :src="specialist.photo">-->
+            <div class="flex flex-col specialistenRij ">
               <strong class="text-slate-900 text-sm font-medium dark:text-slate-200">{{
                   this.fullName(specialist)
                 }}</strong>
@@ -586,6 +586,10 @@ export default {
 <style scoped>
 .selected {
   background: #41c69e;
+}
+
+.specialistenRij{
+  margin: 0 auto;
 }
 
 </style>
