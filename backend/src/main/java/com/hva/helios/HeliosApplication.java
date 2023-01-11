@@ -85,11 +85,11 @@ public class HeliosApplication implements CommandLineRunner {
 		createInitialEvents();
 		createInitialUserSkill();
         createInitialAnnouncements();
-		try {
-			createInitialFiles();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+//		try {
+//			createInitialFiles();
+//		} catch (IOException e) {
+//			throw new RuntimeException(e);
+//		}
 	}
 
 	private void createInitialAdmins() {
