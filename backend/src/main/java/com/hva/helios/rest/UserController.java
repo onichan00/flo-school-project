@@ -177,6 +177,18 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("specialists/approved")
+    public List<User> getAllApprovedSpecialists() {
+        // Retrieve all users from the database
+        List<User> users = userRepository.findAll();
+        // Filter the list to include only specialists (users with user type 2)
+        // Return the list of specialists
+        return users.stream()
+                .filter(user -> user.getUserType() == 2)
+                .filter(user -> user.getSpecialist().getApprovalStatus() == 1)
+                .collect(Collectors.toList());
+    }
+
     @GetMapping("specialists-not-accepted")
     public List<User> getNotAcceptedSpecialists() {
         return getAllSpecialists()

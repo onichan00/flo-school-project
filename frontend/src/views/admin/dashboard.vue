@@ -25,7 +25,7 @@
                         </span>
                         </div>
                         <div class="relative w-auto pl-4 flex-initial">
-                          <div
+                          <div @click="this.$router.push('/specialists')"
                               class="p-3 text-center inline-flex items-center justify-center w-12 h-12 rounded-lg hover:bg-orange-200">
                             <a><i class="fa-solid fa-code"></i></a>
                           </div>
@@ -58,7 +58,7 @@
                           </div>
                         </div>
                         <div class="relative w-auto pl-4 flex-initial">
-                          <div
+                          <div @click="this.$router.push('/projects')"
                               class="p-3 text-center inline-flex items-center justify-center w-12 h-12 rounded-lg hover:bg-orange-200">
                             <i class="fa-solid fa-diagram-project"></i>
                           </div>
@@ -80,7 +80,7 @@
                         </span>
                         </div>
                         <div class="relative w-auto pl-4 flex-initial">
-                          <div
+                          <div @click="this.$router.push('/clients')"
                               class="p-3 text-center inline-flex items-center justify-center w-12 h-12 rounded-lg hover:bg-orange-200">
                             <a href="#"><i class="fas fa-users"></i></a>
                           </div>
@@ -165,9 +165,9 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr v-for="user in this.data.notApprovedSpecialists" :key="user.id" class="bg-white dark:bg-gray-800">
+                      <tr v-for="user in this.data.notApprovedSpecialists" :key="user.id" class="bg-white dark:bg-gray-800 hover:bg-orange-200" @click="this.$router.push('/profile/' + user.id)" >
                         <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          {{ user.name }}
+                          {{ user.first_name[0].toUpperCase() + " " + user.second_name + " " + user.first_name}}
                         </th>
                         <td class="py-4 px-6">
                           {{ user.email }}}
@@ -208,7 +208,7 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr v-for="project in this.data.mostRecentProjects" :key="project.id" class="bg-white dark:bg-gray-800 rounded-lg">
+                      <tr v-for="project in this.data.mostRecentProjects" :key="project.id" class="bg-white dark:bg-gray-800 rounded-lg hover:bg-orange-200" @click="this.$router.push('/projects/' + project.id)">
                         <th scope="row"
                             class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap rounded-lg dark:text-white">
                           {{ project.name }}

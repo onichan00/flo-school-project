@@ -114,7 +114,7 @@ public class ProjectController {
         int numOfClients = (int) userRepository
                 .findAll()
                 .stream()
-                .filter(user -> user.getUserType() == 2)
+                .filter(user -> user.getUserType() == 1)
                 .toList()
                 .size();
 
@@ -122,7 +122,7 @@ public class ProjectController {
         int numOfSpecialists = (int) userRepository
                 .findAll()
                 .stream()
-                .filter(user -> user.getUserType() == 1)
+                .filter(user -> user.getUserType() == 2)
                 .toList()
                 .size();
 
@@ -151,11 +151,11 @@ public class ProjectController {
         return userRepository
                 .findAll()
                 .stream()
-                .filter(specialist -> specialist.getUserType() == 1)
+                .filter(specialist -> specialist.getUserType() == 2)
                 .toList()
                 .stream()
                 .filter(specialist -> specialist.getSpecialist() != null
-                        && specialist.getSpecialist().getApprovalStatus() == 0)
+                        && specialist.getSpecialist().getApprovalStatus() == 2)
                 .toList();
     }
 
