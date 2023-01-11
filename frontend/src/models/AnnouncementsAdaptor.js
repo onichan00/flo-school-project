@@ -7,7 +7,7 @@ export class AnnouncementsAdaptor {
         this.socketUrl = socketUrl;
         this.handler = handlerCB;
 
-        this.socketUrl = socketUrl.replace("http://", "ws://");
+        this.socketUrl = socketUrl.replace("http://|https://", "ws://");
         this.socket = new WebSocket(this.socketUrl);
 
         this.socket.onopen = () => console.log("Open socket");
