@@ -39,9 +39,20 @@
           class="p-1.5  bg-gradient-to-r from-green-500 to-green-600 text-white font-medium rounded-2xl">
         Afgerond</a></h1>
       </div>
-<!--      <button data-modal-toggle="editStatus-modal" class="p-3 bg-[#F05822] text-white font-bold rounded px-3">
-        Edit status
-      </button>-->
+      <div class="statusUpdate float-right">
+        <select v-model="this.newStatus"
+                class="float-left block mr-3 mt-2 text-gray-700 bg-gray-200 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+          <option :value=-1>Geannuleerd</option>
+          <option :value=0>Concept</option>
+          <option :value=1>Geaccepteerd</option>
+          <option :value=2>Bezig</option>
+          <option :value=3>Afgerond</option>
+        </select>
+        <button v-on:click="updateStatus()" class="float-right p-3 bg-[#F05822] text-white font-bold rounded px-3">
+          Edit status
+        </button>
+      </div>
+
     </div>
 
     <div class="overflow-x-auto relative border border-gray-200 sm:rounded-lg">
@@ -329,6 +340,7 @@ export default {
       toast: useToast(),
       newEvents: null,
       acceptedNumber: 2,
+      newStatus: 0,
       classObject: {
         'bg-green-100': this.dataObject === 0
       },
@@ -370,6 +382,17 @@ export default {
     goToAddSpecialist() {
       this.$router.push('/projects/add-specialist/' + this.dataObject.id).then(() => {
         this.$router.go()
+      })
+    },
+
+    async updateStatus() {
+      this.dataObject.status = this.newStatus;
+      this.dataObject.events = null;
+      await axios.put(process.env.VUE_APP_API_URL + "/api/projects/" + this.$route.params.id, this.dataObject).then((res) => {
+        console.log(res)
+        this.$router.go()
+      }).catch((err) => {
+        console.log(err)
       })
     },
 
