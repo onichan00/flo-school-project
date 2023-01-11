@@ -234,7 +234,7 @@ public class HeliosApplication implements CommandLineRunner {
 
 		try {
 //			FileInputStream file = new FileInputStream("../../../resources/cvData.txt");
-			File file = new File(path);
+			File file = new File("/backend/src/main/resources/cvData.txt");
 			FileInputStream fileStream = new FileInputStream(file.getAbsoluteFile());
 
 			cvFile = new FileModel(specialist.getId(), "cv", "application/pdf", fileStream.readAllBytes());
