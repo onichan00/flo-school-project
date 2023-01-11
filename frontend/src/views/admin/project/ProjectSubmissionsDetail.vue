@@ -486,9 +486,12 @@ export default {
     },
 
     fullName(name) {
-      return (String(name.first_name).charAt(0).toUpperCase() + String(name.first_name).slice(1))
-          + ' '
-          + String(name.last_name).charAt(0).toUpperCase() + String(name.last_name).slice(1);
+      if (name != null){
+        return (String(name.first_name).charAt(0).toUpperCase() + String(name.first_name).slice(1))
+            + ' '
+            + String(name.last_name).charAt(0).toUpperCase() + String(name.last_name).slice(1);
+      }
+
     },
 
 

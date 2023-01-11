@@ -7,9 +7,12 @@ import dateFormat from "dateformat";
  * @returns {string} The full name of the specialist
  */
 export const specialistFullName = (specialist) => {
-    return (String(specialist.first_name).charAt(0).toUpperCase() + String(specialist.first_name).slice(1))
-        + ' '
-        + String(specialist.last_name).charAt(0).toUpperCase() + String(specialist.last_name).slice(1);
+    if (specialist != null){
+        return (String(specialist.first_name).charAt(0).toUpperCase() + String(specialist.first_name).slice(1))
+            + ' '
+            + String(specialist.last_name).charAt(0).toUpperCase() + String(specialist.last_name).slice(1);
+    }
+
 }
 
 /**
