@@ -39,9 +39,9 @@
           class="p-1.5  bg-gradient-to-r from-green-500 to-green-600 text-white font-medium rounded-2xl">
         Afgerond</a></h1>
       </div>
-      <button data-modal-toggle="editStatus-modal" class="p-3 bg-[#F05822] text-white font-bold rounded px-3">
+<!--      <button data-modal-toggle="editStatus-modal" class="p-3 bg-[#F05822] text-white font-bold rounded px-3">
         Edit status
-      </button>
+      </button>-->
     </div>
 
     <div class="overflow-x-auto relative border border-gray-200 sm:rounded-lg">
@@ -107,10 +107,11 @@
 
         <div
             class="w-72 float-left overflow-auto h-80 relative mx-auto bg-white dark:bg-slate-800 dark:highlight-white/5 shadow-lg ring-1 ring-black/5 rounded-xl flex flex-col divide-y dark:divide-slate-200/5">
-          <div style="cursor: pointer" v-on:click="this.event.user = specialist.specialist"
+          <div style="cursor: pointer" v-on:click="this.event.user = specialist.specialist; clickMe(specialist)"
                v-for="specialist in specialists"
                :key="specialist.id"
-               class="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-600">
+               class="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-600"
+               :class="{'bg-gray-200': clickMe(specialist)}">
             <img class="w-12 h-12 rounded-full" :src="specialist.photo">
             <div class="flex flex-col">
               <strong class="text-slate-900 text-sm font-medium dark:text-slate-200">{{
@@ -252,25 +253,46 @@
     <nav aria-label="Page navigation example">
       <ul class="inline-flex -space-x-px my-4">
         <li>
-          <div class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</div>
+          <div
+              class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            Previous
+          </div>
         </li>
         <li>
-          <div class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</div>
+          <div
+              class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            1
+          </div>
         </li>
         <li>
-          <div class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</div>
+          <div
+              class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            2
+          </div>
         </li>
         <li>
-          <div aria-current="page" class="px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</div>
+          <div aria-current="page"
+               class="px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">
+            3
+          </div>
         </li>
         <li>
-          <div class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</div>
+          <div
+              class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            4
+          </div>
         </li>
         <li>
-          <div class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</div>
+          <div
+              class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            5
+          </div>
         </li>
         <li>
-          <div class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</div>
+          <div
+              class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            Next
+          </div>
         </li>
       </ul>
     </nav>
@@ -282,7 +304,7 @@
     </button>
   </div>
 
-  <editProjectStatus v-if="dataObject != null" v-bind:status="dataObject.status"/>
+  <editProjectStatus v-if="this.dataObject != null" v-bind:status="this.dataObject.status"/>
 </template>
 
 <script>
@@ -339,6 +361,12 @@ export default {
     firstLetterUpperCase,
     formatDate,
 
+    clickMe(specialist) {
+      if (this.event.user != null) {
+        return this.event.user.id === specialist.specialist.id;
+      }
+    },
+
     goToAddSpecialist() {
       this.$router.push('/projects/add-specialist/' + this.dataObject.id).then(() => {
         this.$router.go()
@@ -381,26 +409,26 @@ export default {
       }
     },
 
-    async getProfilePicture(photo) {
+    /*    async getProfilePicture(photo) {
 
-      if (photo == null) {
-        return "@/assets/img/StockProfileImage.jpg"
-      }
+          if (photo == null) {
+            return "@/assets/img/StockProfileImage.jpg"
+          }
 
-        await fetch(process.env.VUE_APP_API_URL + "/api/files/" + photo)
-            .then(response => {
-              if (response.ok) {
-                return response.blob()
-              }
-            }).then(blob => {
-              console.log(URL.createObjectURL(blob))
-              return URL.createObjectURL(blob)
-            }).catch((err) => {
+            await fetch(process.env.VUE_APP_API_URL + "/api/files/" + photo)
+                .then(response => {
+                  if (response.ok) {
+                    return response.blob()
+                  }
+                }).then(blob => {
+                  console.log(URL.createObjectURL(blob))
+                  return URL.createObjectURL(blob)
+                }).catch((err) => {
 
-              console.error(err.message)
-            })
+                  console.error(err.message)
+                })
 
-    },
+        },*/
 
     getNewEvents(num) {
       if (this.dataObject != null) {
@@ -447,11 +475,11 @@ export default {
             let picUrl
             this.specialists = res.data;
 
-            for (let specialist in this.specialists){
+            /*for (let specialist in this.specialists){
               picUrl = this.getProfilePicture(specialist.photo)
 
               specialist.photo = picUrl
-            }
+            }*/
           })
     },
 
@@ -480,7 +508,7 @@ export default {
     },
 
     findClientFromId(id) {
-      if (this.clients != null){
+      if (this.clients != null) {
         return this.clients.find(element => element.id === parseInt(id));
 
       }
