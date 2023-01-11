@@ -20,13 +20,13 @@ public class UserData {
     Authentication authentication;
 
     User client1 = new User(
-            "simonvriesema@outlook.com",
-            "Kaassoufle123$",
-            "Simon",
-            "",
-            "Vriesema",
+            "client",
+            "client",
+            "client",
+            "client",
+            "client",
             null,
-            "Hallo ik ben Simon",
+            "Hallo ik ben Client",
             "+31 6 12345678",
             "Amsterdam",
             "1091 GH",
@@ -36,13 +36,13 @@ public class UserData {
     );
 
     User client2 = new User(
-            "simonvriesema@outlook.com",
-            "Kaassoufle123$",
-            "Maajid",
+            "dennis.moesClient@hva.nl",
+            "password123",
+            "yahia",
             "",
-            "Saidy",
+            "elsherbini",
             null,
-            "Hello I am Maajid",
+            "Hello I am Yahia",
             "+31 6 12345678",
             "Amsterdam",
             "1091 GH",
@@ -82,13 +82,13 @@ public class UserData {
     );
 
     User specialist1 = new User(
-            "simon.vriesema@icloud.com",
-            "Kaassoufle123$",
-            "Frank",
+            "specialist",
+            "specialist",
+            "Henk",
             "",
-            "Oud",
+            "Boer",
             null,
-            "Hello I am Frank",
+            "Hello I am specialist",
             "+31 6 12345678",
             "Amsterdam",
             "1091 GH",
@@ -97,13 +97,13 @@ public class UserData {
             new Specialist(1,"Backend engineer", 2,null,null,null,null)
     );
     User specialist2 = new User(
-            "simon.vriesema@hva.nl",
-            "Kaassoufle123$",
-            "Jan",
+            "specialist2@gmail.com",
+            "specialist",
+            "jan",
             "",
             "Willem",
             null,
-            "Hello I am Jan",
+            "Hello I am specialist",
             "+31 6 12345678",
             "Amsterdam",
             "1091 GH",
@@ -112,13 +112,13 @@ public class UserData {
             new Specialist(1,"Backend engineer", 2,null,null,null,null)
     );
     User specialist3 = new User(
-            "maajid.saidy@hva.nl",
-            "Kaassoufle123$",
-            "Maajid",
+            "specialist3@gmail.com",
+            "specialist",
+            "joop",
             "",
-            "Saidy",
+            "bergen",
             null,
-            "Hello I am Maajid",
+            "Hello I am specialist",
             "+31 6 12345678",
             "Amsterdam",
             "1091 GH",
@@ -127,13 +127,13 @@ public class UserData {
             new Specialist(1,"Backend engineer", 2,null,null,null,null)
     );
     User specialist4 = new User(
-            "frank.oud@hva.nl",
-            "Kaassoufle123$",
-            "Frank",
+            "specialist4@gmail.com",
+            "specialist",
+            "Germain",
             "",
-            "Oud",
+            "Jansen",
             null,
-            "Hello I am Frank",
+            "Hello I am specialist",
             "+31 6 12345678",
             "Amsterdam",
             "1091 GH",
@@ -143,13 +143,13 @@ public class UserData {
     );
 
     User specialist5 = new User(
-            "dennis.moes2@hva.nl",
-            "Kaassoufle123$",
-            "Dennis",
-            "",
-            "Moes",
+            "specialist5@gmail.com",
+            "specialist1",
+            "specialist1",
+            "specialist1",
+            "specialist1",
             null,
-            "Hello I am Dennis",
+            "Hello I am specialist1",
             "+31 6 12345678",
             "Amsterdam",
             "1091 GH",
