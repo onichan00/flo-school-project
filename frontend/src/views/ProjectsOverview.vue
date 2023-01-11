@@ -519,7 +519,10 @@ export default {
     hasBanner(bannerUrl) {
       let regexp = "/^https://images.unsplash.com/";
 
-      return (bannerUrl !== "" | bannerUrl != null | !bannerUrl.startsWith(regexp));
+      if (bannerUrl != null){
+        return (bannerUrl !== "" | bannerUrl != null | !bannerUrl.startsWith(regexp));
+
+      }
     },
 
     getProjects() {
