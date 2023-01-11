@@ -3,16 +3,31 @@
   <!--  <LandingPage v-if="showLandingPage"/>-->
   <!--  <Login v-if="showLogin"/>-->
   <!--  <RegisterPage v-if="showRegister"/>-->
-  <div v-if="!isAdmin && !isClient && !isSpecialist ">
+  <div v-if="userType == -1">
     <router-view/>
   </div>
 
-  <div v-if="isClient">
-    <client-navbar v-if="isClient"></client-navbar>
+  <div v-if="userType == 1">
+    <div v-if="this.$route.path !== '/create-project'">
+      <client-navbar></client-navbar>
+    </div>
     <router-view/>
   </div>
 
-  <div v-if="isAdmin">
+  <div v-if="userType == 2 && approvalStatus == 2">
+    <router-view/>
+  </div>
+
+  <div v-if="userType == 2 && approvalStatus != 2">
+    <div  v-if="this.$route.path !== '/specialist/pending'">
+      <specialist-navbar></specialist-navbar>
+    </div>
+    <router-view/>
+  </div>
+
+
+
+  <div v-show="this.userType == 0">
     <Sidebar/>
     <div :style="{ 'margin-left': sidebarWidth }">
       <PageHeader/>
@@ -35,13 +50,15 @@ import specialist from "@/models/specialist";
 import project from "@/models/project";
 import availableHour from "@/models/availableHour";
 import skill from "@/models/skill";
+import ClientNavbar from "@/components/ClientNavbar";
+import SpecialistNavbar from "@/components/SpecialistNavbar";
+
 // Dummy data
 import clientsData from "@/assets/data/clients.json";
 import projectsData from "@/assets/data/projects.json";
 import specialistsData from "@/assets/data/specialists.json";
 import availableHoursData from "@/assets/data/availableHours.json";
 import skillsData from "@/assets/data/skills.json";
-import ClientNavbar from "@/components/ClientNavbar";
 
 export default {
   name: 'App',
@@ -49,6 +66,7 @@ export default {
     // RegisterPage,
     Sidebar,
     ClientNavbar,
+    SpecialistNavbar,
     Footer,
     PageHeader,
     // Login,
@@ -63,19 +81,17 @@ export default {
       availableHours: [],
       skills: [],
       loginStatus: null,
-      isAdmin: false,
-      isClient: false,
-      isSpecialist: false
+      userType: -1,
+      approvalStatus: -1
     }
   },
   mounted() {
-    console.log(this.isClient)
     if (localStorage.getItem("id") != null) {
-
-      console.log("test")
       this.loginStatus = true;
-      this.isAdmin = localStorage.getItem("isAdmin")
-      this.isClient = localStorage.getItem("isClient")
+      this.userType = localStorage.getItem("userType")
+      this.approvalStatus = localStorage.getItem("approvalStatus")
+
+      console.log("usertype is: "+this.userType)
 
       // if (localStorage.getItem("isAdmin") === true) {
       //   this.isAdmin = true;
@@ -115,29 +131,29 @@ export default {
     //   return false;
     // },
 
-    showLandingPage() {
-      if (this.$route.path == "/landing-page") {
-        return true
-      } else {
-        return false
-      }
-    },
-
-    showLogin() {
-      if (this.$route.path == "/login") {
-        return true
-      } else {
-        return false
-      }
-    },
-
-    showRegister() {
-      if (this.$route.path == "/register") {
-        return true
-      } else {
-        return false
-      }
-    }
+    // showLandingPage() {
+    //   if (this.$route.path == "/landing-page") {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // },
+    //
+    // showLogin() {
+    //   if (this.$route.path == "/login") {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // },
+    //
+    // showRegister() {
+    //   if (this.$route.path == "/register") {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // }
 
   },
 

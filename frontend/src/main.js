@@ -10,6 +10,7 @@ import './index.css'
 import 'flowbite';
 import 'flowbite/dist/flowbite.js'
 import '@fortawesome/fontawesome-free/js/all'
+import { vfmPlugin } from "vue-final-modal";
 
 // CSS
 import 'animate.css';
@@ -27,3 +28,4 @@ const toastOptions = {
 app.use(router).mount('#app')
 app.use(VCalendar, {})
 app.use(Toast, toastOptions);
+app.use(vfmPlugin);

@@ -1,8 +1,11 @@
 package com.hva.helios.models.user.hour;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.hva.helios.views.Views;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Class to set the available hours for that day
@@ -12,56 +15,69 @@ import javax.persistence.*;
 public class Hour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id = 0L;
+    @JsonView(Views.Public.class)
+    private Long id;
 
-    @JsonIgnore
+    @JsonView(Views.Public.class)
     private String label;
+
+    @JsonView(Views.Public.class)
     private boolean available;
-    private String hourStart;
-    private String hourEnd;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonView(Views.Public.class)
+    private Date hourStart;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonView(Views.Public.class)
+    private Date hourEnd;
 
     protected Hour() {}
 
-    public Hour(String label, boolean available, String start, String end) {
+    public Hour(String label, boolean available, Date start, Date end) {
         this.label = label;
         this.available = available;
         this.hourStart = start;
         this.hourEnd = end;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public String getlabel() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLabel() {
         return label;
     }
 
-    public void setlabel(String label) {
+    public void setLabel(String label) {
         this.label = label;
     }
 
-    public boolean isavailable() {
+    public boolean isAvailable() {
         return available;
     }
 
-    public void setavailable(boolean available) {
+    public void setAvailable(boolean available) {
         this.available = available;
     }
 
-    public String getHourStart() {
+    public Date getHourStart() {
         return hourStart;
     }
 
-    public void setHourStart(String start) {
-        this.hourStart = start;
+    public void setHourStart(Date hourStart) {
+        this.hourStart = hourStart;
     }
 
-    public String getHourEnd() {
+    public Date getHourEnd() {
         return hourEnd;
     }
 
-    public void setHourEnd(String end) {
-        this.hourEnd = end;
+    public void setHourEnd(Date hourEnd) {
+        this.hourEnd = hourEnd;
     }
 }

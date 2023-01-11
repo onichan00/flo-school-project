@@ -4,7 +4,7 @@
       <div class="place-self-center mr-auto lg:col-span-7">
         <h1 class="mb-4 max-w-2xl text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl text-white">Welkom {{ fullName }}</h1>
         <p class="mb-6 max-w-2xl font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl text-gray-100">Beheren van projecten en nog veel meer!</p>
-        <a @click="this.$router.push('/client/projects-overview')" class="bg-white inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 ">
+        <a @click="this.$router.push('/client/projects-overview')" class="cursor-pointer bg-white inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-900 rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 ">
           Overzicht Projecten
           <svg class="ml-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </a>
@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     getUserData() {
-      axios.get(process.env.VUE_APP_API_URL + `/api/users/client/${this.userId}`)
+      axios.get(process.env.VUE_APP_API_URL + `/api/users/${this.userId}`)
           .then((res) => {
             this.user = res.data;
           })
@@ -110,9 +110,9 @@ export default {
   },
   computed: {
     fullName() {
-      return (this.user.first_name.charAt(0).toUpperCase() + this.user.first_name.slice(1))
+      return (String(this.user.first_name).charAt(0).toUpperCase() + String(this.user.first_name).slice(1))
           + ' '
-          + this.user.last_name.charAt(0).toUpperCase() + this.user.last_name.slice(1);
+          + String(this.user.last_name).charAt(0).toUpperCase() + String(this.user.last_name).slice(1);
     }
   }
 }

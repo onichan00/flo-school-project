@@ -1,6 +1,7 @@
 package com.hva.helios.repositories;
 
 import com.hva.helios.models.user.hour.Hour;
+import com.hva.helios.repositories.interfaces.EntityRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

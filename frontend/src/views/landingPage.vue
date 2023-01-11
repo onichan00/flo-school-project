@@ -37,7 +37,7 @@
                   class="bg-white text-gray-800 active:bg-gray-100 text-md font-bold px-4 py-2 rounded-md shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
                   type="button"
                   style="transition: all 0.15s ease 0s;">
-                <i class="fa-solid fa-right-to-bracket"></i> Sign Up or Login
+                <i class="fa-solid fa-right-to-bracket"></i> Registreer of inloggen
               </button>
             </li>
           </ul>
@@ -61,13 +61,11 @@
             <div class="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
               <div class="pr-12">
                 <h1 class="text-white font-semibold text-5xl">
-                  Smart Business Tooling
+                  Digitale oplossingen
 
                 </h1>
                 <p class="text-lg mt-4 text-lg text-gray-100">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                  et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                  aliquip ex ea commodo consequat.
+                  Florijn bouwt al 25 jaar de beste digitale oplossingen van Nederland
                 </p>
               </div>
             </div>
@@ -103,10 +101,11 @@
                   >
                     <i class="fa-solid fa-database"></i>
                   </div>
-                  <h6 class="text-lg font-semibold">Never search for information again</h6>
+                  <h6 class="text-lg font-semibold">Met de beste Nederlandse programmeurs</h6>
                   <p class="text-md mt-2 mb-4 text-gray-600">
-                    Data (lots of it), documents, forms, spreadsheets, corporate identity, it all needs to be stored.
-                    And safe and findable too. This is only possible if there is a system behind it.
+                    Full stack, prover-quality programmeurs in Power BI, Power Apps, Excel en Access. Meer dan 50
+                    zelfstandig werkende professionals die allemaal hun sporen verdiend hebben in een eigen vakgebied,
+                    zoals financieel, logistiek, ERP of CRM en met skills als: SQL Server, MySQL, VB.net, Account Vies, SAP of Exact.
                   </p>
                 </div>
               </div>
@@ -122,10 +121,10 @@
                   >
                     <i class="fa-solid fa-square-root-variable"></i>
                   </div>
-                  <h6 class="text-lg font-semibold">Making decisions reliably</h6>
+                  <h6 class="text-lg font-semibold">Op een modulair webplatform voor snel en betaalbare digitale maatoplossingen</h6>
                   <p class="text-md mt-2 mb-4 text-gray-600">
-                    Plans, budgets, forecasts, all arranged and shaped so that decisions are made based on the right
-                    information. Not insignificant after all.
+                    We bieden portaalsoftware aan, waarin je alles naar wens kan bouwen. Al voor 75% klaar, want de basis
+                    (vormgeving, inlog, beveiliging) is al gebouwd. Maatsoftware tegen confectieprijs.
                   </p>
                 </div>
               </div>
@@ -141,10 +140,10 @@
                   >
                     <i class="fas fa-retweet"></i>
                   </div>
-                  <h6 class="text-lg font-semibold">Always up-to-date</h6>
+                  <h6 class="text-lg font-semibold">Voor large corporates, voor wie wij systemen ontwikkelen</h6>
                   <p class="text-md mt-2 mb-4 text-gray-600">
-                    Exchange data automatically and without fuss, that is what we strive for. Sharing documents quickly
-                    and easily with your colleagues in a way that suits you and does justice to your business.
+                    Voor complexe en vaak langer durende projecten hebben wij een unieke ontwikkelmethode. Dit levert
+                    keer op keer foutloze software en systemen op en zijn we 100% succesvol.
                   </p>
                 </div>
               </div>
@@ -158,14 +157,14 @@
                 <i class="fas fa-user-friends text-xl"></i>
               </div>
               <h3 class="text-2xl mb-2 font-semibold leading-normal">
-                A whole team if needed
+                Een heel team als dat nodig is
               </h3>
               <p
                   class="text-lg font-light leading-relaxed mt-4 mb-4 text-gray-700"
               >
-                Or several people. Because if the job is bigger than planned and more people are needed or you start in
-                Access and want to follow that up with a course in Power BI, that's possible. We have a whole team
-                ready for you if needed.
+                Soms blijkt een klus groter dan gepland en er zijn meer mensen nodig om de digitale oplossing te bouwen,
+                die jij voor ogen hebt. Of je start in Access en wilt dat laten opvolgen door een traject in Power BI.
+                Dan kan dat. Wij hebben individuele programmeurs, maar ook een heel team voor je klaar staan als dat nodig is.
               </p>
 
             </div>
@@ -213,10 +212,10 @@
                 </div>
                 <h3 class="text-2xl font-semibold">Consider "IT" done</h3>
                 <p class="mt-4 text-lg leading-relaxed text-gray-600">
-                  And because our comprehensive intake means we've already thought through the solution to your problem
-                  and we always have the right person for the job, you can sit back, with your feet on your desk,
-                  because it's going to get done anyway. Whether it's Power BI, Excel, Access, Power Apps or custom
-                  software: consider IT done.
+                  Tijdens onze uitgebreide intake denken wij al na over de digitale oplossing voor jouw probleem.
+                  En omdat we altijd de juiste persoon for the job hebben, kan jij achterover leunen, met je voeten
+                  op je bureau, want het komt sowieso goed. Of het nu gaat om Power BI, Excel, Access, Power Apps of
+                  maatsoftware: consider IT done.
                 </p>
               </div>
             </div>
@@ -232,12 +231,13 @@
         <div class="container mx-auto px-4 lg:pt-20">
           <div class="flex flex-wrap text-center justify-center">
             <div class="w-full lg:w-6/12 px-4">
-              <h2 class="text-2xl font-semibold">Why you should be at Florijn for this? </h2>
+              <h2 class="text-2xl font-semibold">Waarom je voor Florijn zou kiezen?</h2>
               <p class="text-lg leading-relaxed mt-4 mb-4 text-gray-500">
-                Florin AWS is certainly not the only IT service provider. There are plenty to choose from. So why
-                Florijn anyway? Because with Florijn, you can be sure you'll get it right. No matter what your
-                question is. We are especially good at building Business Tools, which can be large or small, simple or
-                complex.
+                Florijn AWS is zeker niet de enige IT-dienstverlener. Er is genoeg keuze. Waarom Floris dan? Want
+                bij Florijn weet je zeker dat alles goed komt. Wat je vraag ook is. We zijn vooral goed in het
+                bouwen van Business Tools, van groot tot klein, van eenvoudig tot complex. Als uw bedrijfsproces
+                er maar baat bij heeft. Want daar gaan we eerst naar kijken. Of we je probleem echt gaan oplossen.
+                Of dat er misschien een andere vraag onder zit waar we eerst naar moeten kijken.
               </p>
             </div>
           </div>
@@ -247,7 +247,7 @@
               type="button"
               style="transition: all 0.15s ease 0s;"
               @click="goToLogin">
-            <i  class="fa-solid fa-right-to-bracket"></i> Sign Up or Login
+            <i  class="fa-solid fa-right-to-bracket"></i> Registreren of inloggen
           </button>
         </div>
       </section>

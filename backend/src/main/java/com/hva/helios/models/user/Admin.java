@@ -8,30 +8,40 @@ import java.util.ArrayList;
 
 @Entity
 @Table
-public class Admin extends User {
+public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id = 0L;
 
+//    @OneToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
+
+//    public User getUser() {
+//        return user;
+//    }
+
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
+
     // TODO - Add a rights system
 //    private ArrayList<String> rights;
 
-    protected Admin() {}
 
-    public Admin(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address) {
-        super(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address);
+    public Admin() {
+
     }
 
-    public Long getUserType() {
-        return 0L;
-    }
+//    public Admin(User user) {
+//        this.user = user;
+//    }
 
-    @Override
+
     public long getId() {
         return id;
     }
 
-    @Override
     public void setId(long id) {
         this.id = id;
     }
