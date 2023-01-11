@@ -24,9 +24,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.transaction.Transactional;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 @SpringBootApplication
@@ -231,12 +229,18 @@ public class HeliosApplication implements CommandLineRunner {
 		if (files.size() > 0) return;
 		System.out.println("Configuring some initial files in the repository");
 
-		String path = isInTest ? "src/main/resources/cvData.txt" : "backend/src/main/resources/cvData.txt";
+//		String path = isInTest ? "src/main/resources/cvData.txt" : "backend/src/main/resources/cvData.txt";
+
 
 		try {
 //			FileInputStream file = new FileInputStream("../../../resources/cvData.txt");
-			File file = new File("classpath:cvData.txt");
-			FileInputStream fileStream = new FileInputStream(file.getAbsoluteFile());
+
+			InputStream in = getClass().getResourceAsStream("/cvData.txt");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+			File file = new File(String.valueOf(reader));
+
+			FileInputStream fileStream = new FileInputStream(file);
 
 			cvFile = new FileModel(specialist.getId(), "cv", "application/pdf", fileStream.readAllBytes());
 			fileRepo.save(cvFile);
