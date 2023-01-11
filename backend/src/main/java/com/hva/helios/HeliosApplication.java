@@ -230,7 +230,7 @@ public class HeliosApplication implements CommandLineRunner {
 		if (files.size() > 0) return;
 		System.out.println("Configuring some initial files in the repository");
 
-		String path = isInTest ? "src/main/resources/cvData.txt" : "backend/src/main/resources/cvData.txt";
+		String path = isInTest ? "../../src/main/resources/cvData.txt" : "backend/src/main/resources/cvData.txt";
 
 		try {
 //			FileInputStream file = new FileInputStream("../../../resources/cvData.txt");
