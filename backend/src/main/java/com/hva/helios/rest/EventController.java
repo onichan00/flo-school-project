@@ -9,6 +9,7 @@ import com.hva.helios.models.Project;
 import com.hva.helios.models.User;
 import com.hva.helios.models.enums.EventType;
 import com.hva.helios.models.user.Specialist;
+import com.hva.helios.repositories.ProjectJPARepository;
 import com.hva.helios.repositories.interfaces.jpa.EventJPARepository;
 import com.hva.helios.views.Views;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ import java.util.Objects;
 public class EventController {
     @Autowired
     private EventJPARepository eventRepo;
+
+    @Autowired
+    private ProjectJPARepository projectRepo;
 
     /**
      * Retrieves a list of events for a given project.
@@ -76,6 +80,10 @@ public class EventController {
     @PostMapping("/")
     public Event createEvent(@RequestBody Event event) {
         // FIXME: Remove bug where project
+
+        var id = event.getProject().getId();
+
+        event.setProject(projectRepo.findById(id));
 
         // Save the event to the repository and return it
         return eventRepo.save(event);

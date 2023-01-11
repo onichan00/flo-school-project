@@ -185,68 +185,7 @@
               </div>
             </div>
 
-            <div v-if="selectedProject != null" class="flex items-center justify-center">
-              <form class="w-4/5">
-                <div class="flex flex-wrap -mx-3 mb-6">
-                  <div class="w-full md:w-1/2 px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Titel
-                    </label>
-                    <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="text" placeholder="Event titel" v-model="event.title">
-                  </div>
-                  <div class="w-full md:w-1/2 px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Locatie
-                    </label>
-                    <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="text" placeholder="Event locatie" v-model="event.location">
-                  </div>
-                </div>
-                <div class="flex flex-wrap -mx-3 mb-6">
-                  <div class="w-full md:w-1/2 px-3">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Start en Eind tijd
-                    </label>
 
-
-                    <input class="bg-gray-200 float-left w-1/2" type="datetime-local" v-model="event.start">
-                    <input class="bg-gray-200 float-left w-1/2" type="datetime-local" v-model="event.end">
-
-
-                  </div>
-                  <div class="w-full md:w-1/2 px-3">
-                    <div>
-                      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                        Type
-                      </label>
-                      <select v-model="event.eventType"
-                              class="block w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-                        <option value="WORK">Werk</option>
-                        <option value="FREE_DAY">Vrij</option>
-                        <option value="SICK">Ziek</option>
-                        <option value="VACATION">Vakantie</option>
-                        <option value="OTHER">Anders</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="flex flex-wrap -mx-3 mb-6">
-                  <div class="w-full px-3">
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Beschrijving</label>
-                    <textarea v-model="event.description" id="message" rows="4"
-                              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                              placeholder="Beschrijving..."></textarea>
-                  </div>
-                </div>
-                <button v-on:click="this.createNewEvent()"
-                        class="float-right p-3 bg-[#F05822] text-white font-bold rounded ">
-                  Opslaan
-                </button>
-              </form>
-            </div>
 
             <div>
               <h1 class="mt-3 font-medium text-xl text-gray-700">
