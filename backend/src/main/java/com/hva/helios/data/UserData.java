@@ -62,7 +62,7 @@ public class UserData {
             "+31 6 12345678",
             "Amsterdam",
             "1091 GH",
-            "Wibautstraat 3b",
+            "Wibautstraat 3bb",
             0L
     );
 
