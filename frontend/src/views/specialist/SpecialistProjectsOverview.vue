@@ -315,7 +315,7 @@ export default {
   },
 
   async created() {
-    this.announcementsService = new AnnouncementsAdaptor(process.env.VUE_APP_API_URL + `/api/announcements`, this.onReceiveAnnouncement)
+    this.announcementsService = new AnnouncementsAdaptor(process.env.VUE_APP_WS_URL + `/api/announcements`, this.onReceiveAnnouncement)
     await this.getProjectData();
     console.log(process.env.VUE_APP_API_URL + `/api/announcements`);
     await this.getUserData();
