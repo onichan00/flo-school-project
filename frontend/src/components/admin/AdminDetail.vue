@@ -15,10 +15,10 @@
                          placeholder="John" required/>
                 </div>
                 <div class="relative z-0 mb-6 w-full group">
-                  <label for="floating_first_name"
+                  <label for="floating_preposition"
                          class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">Tussenvoegsel
                     (optioneel)</label>
-                  <input v-model="preposition" type="text" name="floating_first_name" id="floating_first_name"
+                  <input v-model="preposition" type="text" name="floating_preposition" id="floating_preposition"
                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 "
                          placeholder="van" required/>
                 </div>
@@ -111,7 +111,7 @@ export default {
   data() {
     return {
       // admin: null,
-      id: this.$route.params.id,
+      id: null,
       email: null,
       password: null,
       repeatPassword: null,
@@ -141,10 +141,12 @@ export default {
     //TODO: make it so the update and delete button cant be pressed after succesful update/deletion
     async getAdmin() {
 
+      if (this.$route.params.id !== undefined){
+        this.id = this.$route.params.id
+      }
       await axios.get(process.env.VUE_APP_API_URL + `/api/users/` + this.id)
           .then((res) => {
             let adminData = res.data
-
 
             console.log(adminData)
             this.first_name = adminData.first_name
@@ -178,7 +180,7 @@ export default {
 
     async setAdmin() {
 
-      let id = this.$route.params.id
+      // let id = this.$route.params.id || 1
 
       // console.log(this.admin.id)
       await axios.put(process.env.VUE_APP_API_URL + `/api/users/update`, {
