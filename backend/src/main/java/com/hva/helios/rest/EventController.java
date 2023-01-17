@@ -79,9 +79,7 @@ public class EventController {
      */
     @PostMapping("/")
     public Event createEvent(@RequestBody Event event) {
-        // FIXME: Remove bug where project
-
-        var id = event.getProject().getId();
+        Long id = event.getProject().getId();
 
         event.setProject(projectRepo.findById(id));
 

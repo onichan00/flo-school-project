@@ -1,78 +1,105 @@
 package com.hva.helios.controllers;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hva.helios.exceptions.NotFoundException;
-import com.hva.helios.exceptions.PreConditionFailed;
 import com.hva.helios.models.Event;
+import com.hva.helios.models.Project;
+import com.hva.helios.models.enums.EventType;
 import com.hva.helios.repositories.interfaces.jpa.EventJPARepository;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
 import com.hva.helios.rest.EventController;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.ResponseEntity;
 
+import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+//@DataJpaTest
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@WebMvcTest(controllers = EventController.class)
+@ComponentScan({ "com.hva.helios.rest", "com.hva.helios.repositories" })
 public class EventControllerTests {
     @Autowired
-    private MockMvc mvc;
+    private EventJPARepository eventRepo;
 
     @Autowired
-    private EventController controller;
+    private EventController eventController;
 
-    @MockBean
-    private EventJPARepository eventsRepo;
+    private Event event;
 
-    private ObjectMapper objectMapper;
-    private Event event1;
-    private Event event2;
-    private List<Event> events;
+    @AfterEach
+    public void tearDown() {
+        eventRepo.deleteAll();
+    }
 
-    @BeforeEach()
+    @BeforeEach
     public void setup() {
-        objectMapper = new ObjectMapper();
-
-        event1 = new Event(null, new Date(), new Date(), "Event 1");
-        event2 = new Event(null, new Date(), new Date(), "Event 2");;
-
-        events = new ArrayList<>(List.of(event1, event2));
+        event = new Event(null, new Date(), new Date(), "Meeting with Apple", EventType.WORK, "Starbucks", "LOREM IPSUM");
+        eventRepo.save(event);
     }
 
     @Test
-    public void getEventsForProject() throws Exception {
-        mvc.perform(get("/events/projects/1"))
-                .andExpect(status().isOk());
-
-        verify(eventsRepo).findEventsByProject_Id(1L);
+    public void getEventById() {
+        Event calledEvent = eventController.getEventById(event.getId());
+        assertEquals(calledEvent.getId(), event.getId());
     }
 
     @Test
-    public void testResponse() {
+    public void createEvent() {
+        Project project = new Project("Project 2", "Image", 1, new Date(), "Test description");
+        event.setProject(project);
 
+        Event created = eventController.createEvent(event);
+
+        assertEquals(event.getTitle(), created.getTitle());
+    }
+
+    @Test
+    public void updateEvent() {
+        assertEquals(event.getTitle(), "Meeting with Apple");
+
+        event.setTitle("Updated Event");
+        Event updated = eventController.updateEvent(event.getId(), event);
+
+        assertNotNull(updated);
+        assertEquals(updated.getTitle(), "Updated Event");
+    }
+
+    @Test
+    public void deleteEvent() {
+        ResponseEntity<Event> deleted = eventController.deleteEvent(event.getId());
+        assertNotNull(deleted);
+
+        assertThrows(
+            NotFoundException.class,
+            () -> {
+                eventController.getEventById(event.getId());
+            }
+        );
+    }
+
+    @Test
+    public void updateAcceptedStatus() {
+        event.setAccepted(1);
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode node = mapper.createObjectNode();
+
+        node.set("id", mapper.convertValue(event.getId(), JsonNode.class));
+        node.set("accepted", mapper.convertValue(1, JsonNode.class));
+
+        Event updated = eventController.updateEventAccepted(event.getId(), node);
+        assertNotNull(updated);
+        assertEquals(event.getId(), updated.getId());
+        assertEquals(updated.getAccepted(), 1);
     }
 }

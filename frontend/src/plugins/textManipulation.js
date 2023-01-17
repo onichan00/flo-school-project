@@ -19,11 +19,13 @@ export const specialistFullName = (specialist) => {
  * Returns the full name of a user object by concatenating the first, second (if provided), and last name and capitalizing the first letter of each.
  * If middleNameAbbreviation is set to true, the second name will be abbreviated to just the first letter with a period.
  *
- * @param {Object} User The user object
+ * @param {Object} user The user object
  * @param {boolean} middleNameAbbreviation Whether to abbreviate the second name to just the first letter with a period
  * @returns {string} The full name of the user
  */
 export const userFullName = (user, middleNameAbbreviation = false) => {
+    if (user === null) return 'No user';
+
     const firstName = firstLetterUpperCase(user.first_name);
     const secondName = user.second_name && middleNameAbbreviation ? `${user.second_name.charAt(0).toUpperCase()}.` : firstLetterUpperCase(user.second_name);
     const lastName = firstLetterUpperCase(user.last_name);
