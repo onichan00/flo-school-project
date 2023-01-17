@@ -141,9 +141,10 @@ export default {
     //TODO: make it so the update and delete button cant be pressed after succesful update/deletion
     async getAdmin() {
 
-      if (this.$route.params.id !== undefined){
+      if (this.id == null){
         this.id = this.$route.params.id
       }
+
       await axios.get(process.env.VUE_APP_API_URL + `/api/users/` + this.id)
           .then((res) => {
             let adminData = res.data
