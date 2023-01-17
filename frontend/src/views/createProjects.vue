@@ -25,7 +25,7 @@
                 <p class="block text-left mb-2 text-sm  text-gray-600">Vind banner afbeeldingen op <a
                     href="https://unsplash.com" class="text-orange-500 hover">Unsplash.com</a>, en kopieer en plak de
                   URL van de afbeelding</p>
-                <input type="text" name="name" id="name" v-model="this.bannerUrl"
+                <input type="text" name="bannerUrl" id="name" v-model="this.bannerUrl"
                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
                        placeholder="Plak hier de URL van de afbeelding">
               </div>
@@ -34,7 +34,7 @@
                   je project een beschrijving</label>
                 <p class="block text-left mb-2 text-sm  text-gray-600">Nuttig voor teams of om onderscheid te maken
                   tussen projecten met vergelijkbare namen</p>
-                <textarea id="description" rows="4" v-model="this.description"
+                <textarea id="description" name="description"  rows="4" v-model="this.description"
                           placeholder="Schrijf hier de beschrijving van uw project.."
                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5"
                 ></textarea>
