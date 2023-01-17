@@ -48,6 +48,11 @@ public class ProjectJPARepository
         return entityManager.merge(entity);
     }
 
+    /**
+     *
+     * @param id Entity to be deleted, found by ID
+     * @return
+     */
     @Override
     public Project deleteById(long id) {
         Project project = entityManager.find(Project.class, id);

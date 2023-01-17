@@ -121,7 +121,8 @@
           <div style="cursor: pointer" v-on:click="this.event.user = specialist.specialist; clickMe(specialist)"
                v-for="specialist in specialists"
                :key="specialist.id"
-               class="flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-600"
+
+               class="SpecialistItem flex items-center gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-600"
                :class="{'bg-gray-200': clickMe(specialist)}">
 <!--            <img class="w-12 h-12 rounded-full" :src="specialist.photo">-->
             <div class="flex flex-col specialistenRij ">
@@ -142,17 +143,17 @@
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                 Titel
               </label>
-              <input
+              <input id="eventTitle"
                   class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  type="text" placeholder="Event titel" v-model="event.title">
+                  type="text" placeholder="Event titel" v-model="event.title" name="eventTitle">
             </div>
             <div class="w-full md:w-1/2 px-3">
               <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                 Locatie
               </label>
-              <input
+              <input id="eventLocation"
                   class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  type="text" placeholder="Event locatie" v-model="event.location">
+                  type="text" placeholder="Event locatie" v-model="event.location" name="eventLocation">
             </div>
           </div>
           <div class="flex flex-wrap -mx-3 mb-6">
@@ -162,8 +163,8 @@
               </label>
 
 
-              <input class="bg-gray-200 float-left w-1/2" type="datetime-local" v-model="event.start">
-              <input class="bg-gray-200 float-left w-1/2" type="datetime-local" v-model="event.end">
+              <input id="eventStart" class="bg-gray-200 float-left w-1/2" type="datetime-local" v-model="event.start" name="eventStart">
+              <input id="eventEnd" class="bg-gray-200 float-left w-1/2" type="datetime-local" v-model="event.end" name="eventEnd">
 
 
             </div>
@@ -186,9 +187,9 @@
           <div class="flex flex-wrap -mx-3 mb-6">
             <div class="w-full px-3">
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Beschrijving</label>
-              <textarea v-model="event.description" id="message" rows="4"
+              <textarea  v-model="event.description" id="eventDescription" rows="4"
                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Beschrijving..."></textarea>
+                        placeholder="Beschrijving..." name="eventDescription"></textarea>
             </div>
           </div>
           <button v-on:click="this.createNewEvent()" class="float-right p-3 bg-[#F05822] text-white font-bold rounded ">
