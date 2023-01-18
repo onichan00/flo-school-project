@@ -18,7 +18,6 @@ public class Announcement {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(Views.Public.class)
     private Long id;
 
     /**

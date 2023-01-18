@@ -74,7 +74,7 @@ public class Project {
     /**
      * Default constructor for JPA with default values for fields
      */
-    protected Project() {
+    public Project() {
         // Set default values for fields
         this.description = "No description given";
         this.status = -1;

@@ -1,5 +1,8 @@
-import {AnnouncementsAdaptor} from "@/models/AnnouncementsAdaptor";
+import { AnnouncementsAdaptor } from "@/models/AnnouncementsAdaptor";
 
+/**
+ * Test suite for the AnnouncementsAdaptor class
+ */
 describe('AnnouncementsAdaptor', () => {
     let adaptor;
     const socketUrl = 'ws://localhost:8080'
@@ -8,26 +11,35 @@ describe('AnnouncementsAdaptor', () => {
     // Create a new adaptor instance before each test
     beforeEach(() => {
         adaptor = new AnnouncementsAdaptor(socketUrl, handlerCB)
-    })
+    });
 
     // Close the WebSocket connection after each test
     afterEach(() => {
         adaptor.close()
-    })
+    });
 
+    /**
+     * Test that the socketUrl and socket properties are set correctly
+     */
     it('creates a new WebSocket with the correct url', () => {
         // Check that the socketUrl and socket properties are set correctly
         expect(adaptor.socketUrl).toBe(`ws://localhost:8080`)
         expect(adaptor.socket).toBeInstanceOf(WebSocket)
-    })
+    });
 
+    /**
+     * Test that the handlerCB function is called when a message is received
+     */
     it('calls the handlerCB function when a message is received', () => {
         // Simulate a message event and check that the callback function is called
         const message = 'Test message'
         adaptor.socket.onmessage({data: message})
         expect(handlerCB).toHaveBeenCalledWith(message)
-    })
+    });
 
+    /**
+     * Test that the sendMessage method sends a message in the correct format
+     */
     it('sends a message with the correct format', () => {
         // Create a mock function for the socket's send method
         adaptor.socket.send = jest.fn()
@@ -42,5 +54,5 @@ describe('AnnouncementsAdaptor', () => {
             user: user,
             project: project
         }
-    })
-})
+    });
+});
