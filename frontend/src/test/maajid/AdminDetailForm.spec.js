@@ -1,12 +1,11 @@
 import { mount } from '@vue/test-utils'
 import Form from "@/components/admin/AdminDetail.vue";
 
-
-
 describe("Form", () => {
+    // declaring the wrapper in this scope so its accessable in the tests
     let wrapper;
 
-
+    // instantiating data before each test
     beforeEach(async () => {
         wrapper = mount(Form, {
             data() {
@@ -15,22 +14,25 @@ describe("Form", () => {
                 }
             }
         })
-        await wrapper.vm.$nextTick();
 
     });
 
-    it("should render 3 input fields for first name, preposition and last name", () => {
+    // checks if all fields are present
+    it("should render input fields and select fields", () => {
 
+        // finding all fields
         const inputFields = wrapper.findAll("input");
         const selectFields = wrapper.findAll("select");
 
 
+        // checking if the amount of inputs fields and select fields matches the dom
         expect(inputFields.length).toBe(7);
         expect(selectFields.length).toBe(1);
     });
 
     it("should correctly set the value of the first name input when the value of the v-model changes", async () => {
 
+        // adding data to the data object in vue
         wrapper.setData({ first_name: "testFirstname" });
         wrapper.setData({ preposition: "testPreposition" });
         wrapper.setData({ last_name: "testLastname" });
@@ -40,6 +42,7 @@ describe("Form", () => {
 
         await wrapper.vm.$nextTick();
 
+        // checking if the frontend correctly updates
         expect(wrapper.find("#floating_first_name").element.value).toBe("testFirstname");
         expect(wrapper.find("#floating_preposition").element.value).toBe("testPreposition");
         expect(wrapper.find("#floating_last_name").element.value).toBe("testLastname");
