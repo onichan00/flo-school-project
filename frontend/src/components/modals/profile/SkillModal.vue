@@ -116,6 +116,7 @@ export default {
 
       // If a new skill is made
       if (this.selectedSkill.id === 0) {
+        // Delete the id to make sure that there won't be a skill made with ID 0
         delete userSkill.id;
 
         protocol = "POST";

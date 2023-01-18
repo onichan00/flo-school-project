@@ -22,15 +22,17 @@ export default {
   },
   methods: {
     downloadFile() {
-      const URL = `${process.env.VUE_APP_API_URL}/api/files/${this.attachment.id}`;
+      const URL = `${process.env.VUE_APP_API_URL || "http://localhost:8080"}/api/files/${this.attachment.id}`;
       const METHOD = "GET";
       const HEADERS = { "Content-Type": "application;octet-stream" }
       const RESPONSE_TYPE = "blob";
 
+      console.log(URL);
       console.log(this.attachment);
 
       axios({ url: URL, method: METHOD, headers: HEADERS, responseType: RESPONSE_TYPE })
         .then((res) => {
+          console.log("SEND", res);
           const HREF = window.URL.createObjectURL(res.data);
           const LINK = document.createElement("a");
           const FILE_NAME = this.formatName();

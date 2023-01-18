@@ -165,7 +165,7 @@ import AvailabilityRow from "@/components/miscellaneous/profile/AvailabilityRow.
 
 // Methods
 import { userFullName, firstLetterUpperCase } from "@/plugins/textManipulation";
-import {proxyObjToJson} from "@/plugins/objectManipulation";
+import { proxyObjToJson } from "@/plugins/objectManipulation";
 
 // Modals
 import UpcomingMeetingModal from "@/components/modals/profile/UpcomingMeetingModal.vue";
