@@ -127,14 +127,6 @@ export default {
 
   async created() {
     await this.getAdmin();
-
-    // document.querySelector("#first_name").value = this.first_name
-    // document.querySelector("#second_name").value = this.second_name
-    // document.querySelector("#last_name").value = this.last_name
-    // document.querySelector("#email").value = this.email
-    // document.querySelector("#phone").value = this.phone
-    // document.querySelector("#password").value = this.password
-    // document.querySelector("#password2").value = this.password
   },
 
   methods: {
@@ -151,7 +143,7 @@ export default {
 
             console.log(adminData)
             this.first_name = adminData.first_name
-            this.second_name = adminData.second_name
+            this.preposition = adminData.second_name
             this.last_name = adminData.last_name
             this.email = adminData.email
             this.phone = adminData.phone

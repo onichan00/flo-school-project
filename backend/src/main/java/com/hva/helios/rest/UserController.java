@@ -2,7 +2,6 @@ package com.hva.helios.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.hva.helios.APIConfig;
-import com.hva.helios.exceptions.PreConditionFailed;
 import com.hva.helios.models.JWToken;
 import com.hva.helios.models.record.LoginBody;
 import com.hva.helios.models.record.LoginResponse;
@@ -164,15 +163,6 @@ public class UserController {
      */
     @GetMapping("")
     public List<User> getAllUsers() {
-//        Map<String, List<? extends User>> users = new HashMap<>();
-
-//        users.put("client", clientRepository.findAll());
-//        users.put("admin", adminRepository.findAll());
-//        users.put("specialist", specialistRepository.findAll());
-
-//        Map<String, List<? extends User>> users = new HashMap<>(userRepository.findAll());
-//
-//        return users;
         return userRepository.findAll();
     }
 
@@ -326,15 +316,7 @@ public class UserController {
      */
     @GetMapping("count")
     public long countUsers() {
-        int amount = 0;
-//
-//        amount += clientRepository.findAll().size();
-//        amount += adminRepository.findAll().size();
-//        amount += specialistRepository.findAll().size();
-
         return userRepository.count();
-
-//        return amount;
     }
 
     /**
@@ -351,101 +333,6 @@ public class UserController {
                 .orElseThrow(() -> new NotFoundException(String.format("User with ID: %d could not be found", id)));
     }
 
-    //TODO: remove from here because its inside the AuthorizationController.java allready for jwt
-    // left it just in case
-    @PostMapping("login")
-    public LoginResponse login(@RequestBody LoginBody loginBody) {
-        User user = userRepository.findByEmail(loginBody.email());
-
-        if (user == null) {
-            throw new NotFoundException(String.format("User with email: %s was not found", loginBody.email()));
-        }
-
-        String hashedPassword = authentication.hash(loginBody.password());
-
-        if (!user.getPassword().equals(hashedPassword)) {
-            return new LoginResponse(-1L, -1L, user.getSpecialist().getApprovalStatus());
-        }
-
-        JWToken jwToken = new JWToken(user.getFirst_name() + user.getSecond_name() + user.getLast_name(), user.getId(), user.getUserType());
-        String tokenString = jwToken.encode(this.apiConfig.getIssuer(),
-                this.apiConfig.getPassphrase(), this.apiConfig.getTokenDurationOfValidity(), user.getUserType());
-
-//        if (!user.getPassword().equals(loginBody.password())) {
-//            return new LoginResponse(-1L, -1L, user.getSpecialist().getApprovalStatus());
-//
-//        }
-
-        return new LoginResponse(user.getId(), user.getUserType(), user.getSpecialist().getApprovalStatus());
-    }
-
-    //TODO: remove from here because its inside the AuthorizationController.java allready for jwt
-    // left it just in case
-
-    @PostMapping("register")
-    public User register(@RequestBody User user) {
-        // email unique check
-        if (userRepository.findByEmail(user.getEmail()) != null) {
-            throw new NotFoundException("user with this email already exists");
-        }
-
-        Long userType = user.getUserType();
-
-        String hashedPassword = authentication.hash(user.getPassword());
-        user.setPassword(hashedPassword);
-
-        if (userType == 0) {
-            Admin admin = new Admin();
-            Admin savedAdmin = adminRepository.save(admin);
-            user.setAdmin(savedAdmin);
-            User nUser = userRepository.save(user);
-//            return new LoginResponse(nUser.getId(), nUser.getUserType());
-            return nUser;
-
-        }
-
-        if (userType == 1) {
-            Client savedClient;
-            if (user.getClient() != null) {
-                savedClient = clientRepository.save(user.getClient());
-
-            } else {
-                savedClient = clientRepository.save(new Client());
-            }
-            user.setClient(savedClient);
-            User newUser = userRepository.save(user);
-
-//            return new LoginResponse(newUser.getId(), newUser.getUserType());
-            return newUser;
-        }
-
-        // TODO: convert objects from the json to the correct type and set them to the specialists before setting the specialist in the user and saving the user
-        // TODO: TLDR its not functional yet
-        if (userType == 2) {
-            Specialist savedSpecialist;
-
-            if (user.getSpecialist() != null) {
-                savedSpecialist = specialistRepository.save(user.getSpecialist());
-            } else {
-                savedSpecialist = specialistRepository.save(user.getSpecialist());
-            }
-
-            if (savedSpecialist.getHours() == null) {
-                AvailableHour availableHour = new AvailableHour();
-                availableHourJPARepository.save(availableHour);
-                savedSpecialist.setHours(availableHour);
-            }
-
-            user.setSpecialist(savedSpecialist);
-
-            User newUser = userRepository.save(user);
-
-//            return new LoginResponse(newUser.getId(), newUser.getUserType());
-            return newUser;
-        }
-
-        throw new NotFoundException("register failed");
-    }
 
     /**
      * Add a new skill to a user's specialist profile.

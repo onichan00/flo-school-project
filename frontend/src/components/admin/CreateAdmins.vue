@@ -122,7 +122,7 @@ export default {
     //TODO: make it so the button cant be pressed after succesfull creation
     async createRequest() {
       console.log("test")
-      let request = await axios.post(process.env.VUE_APP_API_URL + "/api/users/register", {
+      let request = await axios.post(process.env.VUE_APP_API_URL + "/api/authorization/register", {
         email: this.email,
         password: this.password,
         first_name: this.first_name,
