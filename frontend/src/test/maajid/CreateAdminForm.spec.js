@@ -19,10 +19,11 @@ describe("Create admin form", () => {
 
         // checks id of fields match
         expect(inputFields.at(0).element.name).toBe("floating_first_name");
-        expect(inputFields.at(1).element.name).toBe("floating_preposition");
+        expect(inputFields.at(1).element.name).toBe("floating_first_name");
         expect(inputFields.at(2).element.name).toBe("floating_last_name");
         expect(inputFields.at(3).element.name).toBe("email");
         expect(inputFields.at(4).element.name).toBe("phone");
+        expect(inputFields.at(5).element.name).toBe("password");
     });
 
     // inputting data on fe and checking if the data objects change
