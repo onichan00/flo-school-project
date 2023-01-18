@@ -78,11 +78,27 @@ public class UserController {
 //
 //    }
 
+    /**
+
+     Deletes a user from the database by their ID.
+     @param id the ID of the user to delete
+     */
     @DeleteMapping("/delete/{id}")
     public void deleteUserById(@PathVariable long id) {
         userRepository.deleteById(id);
     }
 
+    /**
+
+     Updates the information for a user in the database.
+     The method takes in a User object from the request body and uses the provided ID to find the
+     corresponding user in the database. The provided information is then used to update the fields
+     of the existing user. If the provided user type is 0, 1, or 2, it will update the user, client or specialist
+     respectively.
+     @param user the updated information for the user
+     @return the updated user
+     @throws NotFoundException if a user with the specified ID could not be found
+     */
     @PutMapping("/update")
     public User updateUser(@RequestBody User user) {
         // save attributes that get used multiple times
@@ -108,11 +124,13 @@ public class UserController {
         oUser.setPhone(user.getPhone());
         oUser.setPhoto(user.getPhoto());
 
+        // check for password
         if (user.getPassword() != null){
             String hashedPassword = authentication.hash(user.getPassword());
             oUser.setPassword(hashedPassword);
         }
 
+        // check for user types
         if (userType == 0) {
             return userRepository.save(oUser);
         }
@@ -135,9 +153,15 @@ public class UserController {
             return userRepository.save(oUser);
         }
 
+        // if no user is found throw exception
         throw new NotFoundException("User not found!");
     }
 
+    /**
+     * Handles a GET request to retrieve all users.
+     *
+     * @return a list of all users in the database
+     */
     @GetMapping("")
     public List<User> getAllUsers() {
 //        Map<String, List<? extends User>> users = new HashMap<>();
@@ -152,6 +176,11 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    /**
+     * Handles a GET request to retrieve all admins.
+     *
+     * @return a list of all specialists in the database
+     */
     @GetMapping("admins")
     public List<User> getAllAdmins() {
         return userRepository
@@ -162,9 +191,10 @@ public class UserController {
     }
 
     /**
-     * Handles a GET request to retrieve all specialists.
-     *
-     * @return a list of all specialists in the database
+
+     Retrieves a list of all approved specialists from the database.
+     The method filters the list of all users by user type 2 (specialists) before returning the list.
+     @return a list of all approved specialists.
      */
     @GetMapping("specialists")
     public List<User> getAllSpecialists() {
@@ -177,6 +207,14 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+
+    /**
+
+     Retrieves a list of all approved specialists from the database.
+     The method filters the list of all users by user type 2 (specialists) and
+     approval status of 1 (approved) before returning the list.
+     @return a list of all approved specialists.
+     */
     @GetMapping("specialists/approved")
     public List<User> getAllApprovedSpecialists() {
         // Retrieve all users from the database
@@ -189,6 +227,13 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    /**
+
+     Retrieves a list of all approved specialists from the database.
+     The method filters the list of all specialists by
+     approval status of 0 (not approved) before returning the list.
+     @return a list of all approved specialists.
+     */
     @GetMapping("specialists-not-accepted")
     public List<User> getNotAcceptedSpecialists() {
         return getAllSpecialists()
@@ -197,6 +242,12 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+
+    /**
+
+     Retrieves a list of all clients.
+     @return a list of all clients
+     */
     @GetMapping("clients")
     public List<User> getAllClients() {
         return userRepository
@@ -268,6 +319,11 @@ public class UserController {
         return null;
     }
 
+    /**
+
+     Retrieves the total number of users.
+     @return the total number of users
+     */
     @GetMapping("count")
     public long countUsers() {
         int amount = 0;
@@ -281,6 +337,13 @@ public class UserController {
 //        return amount;
     }
 
+    /**
+
+     Retrieves a user by their ID.
+     @param id the ID of the user to retrieve
+     @return the user with the specified ID
+     @throws NotFoundException if a user with the specified ID could not be found
+     */
     @GetMapping("{id}")
     @JsonView(Views.Internal.class)
     public User getUserById(@PathVariable long id) {
