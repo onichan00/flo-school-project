@@ -531,7 +531,7 @@ export default {
 
       try {
         // Attempt to register the user
-        await fetch(process.env.VUE_APP_API_URL + `/api/users/register`, {
+        await fetch(process.env.VUE_APP_API_URL + `/api/authorization/register`, {
           method: 'POST',
           body: JSON.stringify(userData),
           headers: {
