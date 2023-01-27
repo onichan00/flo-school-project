@@ -1,9 +1,11 @@
 package com.hva.helios.models.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.hva.helios.models.Event;
 import com.hva.helios.models.Project;
+import com.hva.helios.models.User;
 import com.hva.helios.models.user.hour.AvailableHour;
 import com.hva.helios.models.user.skill.UserSkill;
 import com.hva.helios.views.Views;
@@ -15,6 +17,7 @@ import java.util.Set;
 @Entity
 @Table
 public class Specialist{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(Views.Public.class)
@@ -53,6 +56,10 @@ public class Specialist{
     @JsonSerialize(using = Views.PublicSerializer.class)
     private Set<Event> events;
 
+    @OneToOne(mappedBy = "specialist")
+    @JsonBackReference
+    private User user;
+
     public Specialist() {
 
     }
@@ -70,6 +77,23 @@ public class Specialist{
         this.projects = projects;
         this.skills = skills;
         this.events = events;
+    }
+
+    public static Specialist createSampleSpecialist() {
+        return new Specialist(
+                1,
+                "Tester",
+                2,
+                null,
+                null,
+                null,
+                null
+        );
+    }
+
+    public boolean associateUser(User user) {
+        this.setUser(user);
+        return true;
     }
 
     public boolean associateEvent(Event event) {
@@ -215,5 +239,13 @@ public class Specialist{
 
     public void setApprovalStatus(long approvalStatus) {
         this.approvalStatus = approvalStatus;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

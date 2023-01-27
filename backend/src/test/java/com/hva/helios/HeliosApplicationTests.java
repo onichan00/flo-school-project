@@ -16,5 +16,4 @@ class HeliosApplicationTests {
 		assertNotNull(application);
 		System.out.println("Application auto-configuration has succeeded.");
 	}
-
 }

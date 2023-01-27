@@ -1,5 +1,6 @@
 package com.hva.helios.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.hva.helios.models.user.Admin;
 import com.hva.helios.models.user.Client;
@@ -64,6 +65,7 @@ public class User {
 
     @OneToOne
     @JsonView(Views.Internal.class)
+    @JsonManagedReference
     Specialist specialist;
 
     protected User() {}
@@ -138,6 +140,15 @@ public class User {
     public User(Long id, Long userType){
         this.userType = userType;
         this.id = id;
+    }
+
+    public static User createSample() {
+        return new User(1000L, 1L);
+    }
+
+    public boolean associateSpecialist(Specialist specialist) {
+        this.setSpecialist(specialist);
+        return true;
     }
 
     public Client getClient() {

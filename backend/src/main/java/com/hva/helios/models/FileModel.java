@@ -1,5 +1,7 @@
 package com.hva.helios.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -17,6 +19,8 @@ public class FileModel {
 
     private long userId;
 
+    @CreationTimestamp
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd HH:mm:ss.S")
     private LocalDateTime timestamp;
 
     @Lob
@@ -29,7 +33,21 @@ public class FileModel {
         this.type = type;
         this.data = data;
         this.userId = userId;
-        this.timestamp = LocalDateTime.now();
+    }
+    public FileModel(String id, long userId, String name, String type,byte[] data) {
+        this(userId, name, type, data);
+        this.id = id;
+    }
+
+    public static FileModel createSampleFile(String id) {
+        FileModel file = new FileModel(
+                1L,
+                "sample-file.txt",
+                "text file",
+                new byte[] {}
+        );
+        file.setId(id);
+        return file;
     }
 
     public String getId() {
