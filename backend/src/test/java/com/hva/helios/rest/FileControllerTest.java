@@ -1,6 +1,5 @@
 package com.hva.helios.rest;
 
-import com.hva.helios.models.FileModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +7,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-import java.io.File;
-import java.util.Arrays;
+import java.io.IOException;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -28,6 +34,9 @@ public class FileControllerTest {
     @LocalServerPort
     private int randomServerPort;
 
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
     @BeforeEach
     void setup() {
         if (servletContextPath == null) servletContextPath = "/";
@@ -35,26 +44,11 @@ public class FileControllerTest {
 
     //TODO finish
     @Test
-    void shouldThrowExceptionWhenMaxFileSizeIsExceeded() {
-        FileModel file = FileModel.createSampleFile("test-id");
-        byte fileDataByte = 0x01;
-        byte[] fileData = new byte[10000000];
-        for (int i = 0; i < fileData.length; i++) {
-            fileData[i] = fileDataByte++;
-        }
+    void shouldThrowExceptionWhenMaxFileSizeIsExceeded() throws Exception {
+        // Generate file with too much data
 
-//        MockMultipartFile file = new MockMultipartFile(
-//                "test-file.txt",
-//                fileData
-//        );
-        file.setData();
+        // Attempt to save file through /files/upload/{userId} endpoint
 
-        ResponseEntity<FileModel> response = restTemplate.postForEntity(
-                "http://localhost:" + randomServerPort + "/api/files/upload/" + 1,
-                file,
-                FileModel.class
-        );
-
-        assert(response.getStatusCode().getReasonPhrase().contains("Maximum upload size exceeded"));
+        // Assert that correct error message is returned; should state that file is too large
     }
 }

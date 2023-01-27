@@ -31,9 +31,8 @@ public class FileController {
     }
 
     @PostMapping("upload/{userId}")
-//    public FileModel upload(
     public ResponseEntity<FileModel> upload(
-            @RequestBody MultipartFile file,
+            @RequestParam MultipartFile file,
             @PathVariable("userId") long userId) throws IOException {
 
         if (file == null) {
