@@ -41,20 +41,21 @@ public class UserControllerTest {
      */
     @Test
     void applicationsEndpointShouldReturnOnlyPendingSpecialistApplications() {
+
         ResponseEntity<User[]> response = restTemplate.getForEntity(
                 "/users/specialists/applications", User[].class);
         User[] users = response.getBody();
 
-        //check HTTP status
+        // Check HTTP status
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         assertNotNull(users);
         for (User user: users) {
-            //verify that User only has Specialist relationship
+            // Verify that User only has Specialist relationship
             assertNull(user.getClient());
             assertNull(user.getAdmin());
-            //check Specialist's approval status
-            assertThat(user.getSpecialist().getApprovalStatus(), is(2));
+            // Check Specialist's approval status
+            assertThat(user.getSpecialist().getApprovalStatus(), is(2L));
         }
     }
 

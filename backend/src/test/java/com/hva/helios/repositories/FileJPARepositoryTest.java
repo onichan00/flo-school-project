@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Repository;
@@ -17,7 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION,
         classes = {Repository.class, Entity.class}))
@@ -56,20 +56,21 @@ public class FileJPARepositoryTest {
      */
     @Test
     void filesCanBeSaved() {
+        // Create file
         FileModel file = new FileModel();
-
         file.setUserId(40000);
         file.setName("test-file.txt");
         file.setType("text file");
         file.setData(new byte[]{});
 
+        // Save file
         FileModel savedFile = filesRepo.save(file);
 
-        // check whether ID is generated (as a String)
+        // Check whether ID is generated (as a String)
         assertNotNull(savedFile.getId());
         assertEquals(String.class, savedFile.getId().getClass());
 
-        // check whether file name and type are correct
+        // Check whether file name and type are correct
         assertEquals("test-file.txt", savedFile.getName());
         assertEquals("text file", savedFile.getType());
     }
