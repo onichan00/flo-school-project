@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -32,7 +32,7 @@ public class FileController {
 
     @PostMapping("upload/{userId}")
     public ResponseEntity<FileModel> upload(
-            @RequestParam MultipartFile file,
+            @RequestBody MultipartFile file,
             @PathVariable("userId") long userId) throws IOException {
 
         if (file == null) {
@@ -47,11 +47,15 @@ public class FileController {
         );
 
         FileModel savedFile = fileRepository.save(fileModel);
+        String location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .toUriString() + "/" + savedFile.getId();
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.LOCATION, savedFile.getId())
+                .header(HttpHeaders.LOCATION, location)
                 .body(savedFile);
     }
+
 
     @GetMapping("{id}")
     public ResponseEntity<byte[]> download(

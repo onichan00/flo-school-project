@@ -91,7 +91,7 @@ public class Specialist{
         );
     }
 
-    public boolean associateUser(User user) {
+    public boolean associateUser(User user)  {
         this.setUser(user);
         return true;
     }

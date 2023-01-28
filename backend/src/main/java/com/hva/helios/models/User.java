@@ -90,50 +90,17 @@ public class User {
     }
 
     public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType, Client client) {
-        this.email = email;
-        this.password = password;
-        this.first_name = first_name;
-        this.second_name = second_name;
-        this.last_name = last_name;
-        this.photo = photo;
-        this.bio = bio;
-        this.phone = phone;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.address = address;
-        this.userType = userType;
+        this(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address, userType);
         this.client = client;
     }
 
     public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType, Admin admin) {
-        this.email = email;
-        this.password = password;
-        this.first_name = first_name;
-        this.second_name = second_name;
-        this.last_name = last_name;
-        this.photo = photo;
-        this.bio = bio;
-        this.phone = phone;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.address = address;
-        this.userType = userType;
+        this(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address, userType);
         this.admin = admin;
     }
 
     public User(String email, String password, String first_name, String second_name, String last_name, String photo, String bio, String phone, String city, String zipCode, String address, Long userType, Specialist specialist) {
-        this.email = email;
-        this.password = password;
-        this.first_name = first_name;
-        this.second_name = second_name;
-        this.last_name = last_name;
-        this.photo = photo;
-        this.bio = bio;
-        this.phone = phone;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.address = address;
-        this.userType = userType;
+        this(email, password, first_name, second_name, last_name, photo, bio, phone, city, zipCode, address, userType);
         this.specialist = specialist;
     }
 
@@ -147,7 +114,14 @@ public class User {
     }
 
     public boolean associateSpecialist(Specialist specialist) {
+        if (admin != null || client != null) return false;
         this.setSpecialist(specialist);
+        return true;
+    }
+
+    public boolean associateClient(Client client) {
+        if (admin != null || specialist != null) return false;
+        this.setClient(client);
         return true;
     }
 

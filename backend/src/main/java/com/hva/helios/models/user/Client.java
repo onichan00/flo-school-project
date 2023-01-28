@@ -1,5 +1,7 @@
 package com.hva.helios.models.user;
 
+import com.hva.helios.models.User;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,10 +12,18 @@ public class Client{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id = 0L;
 
+    @OneToOne
+    private User user;
+
     private String website;
 
     public Client() {
 
+    }
+
+    public boolean associateUser(User user) {
+        setUser(user);
+        return true;
     }
 
     public Client(String website) {
@@ -34,5 +44,13 @@ public class Client{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

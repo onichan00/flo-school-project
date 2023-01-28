@@ -19,14 +19,7 @@ public class DataLoader implements CommandLineRunner {
 
     private void initializeFiles() {
         for (int i = 0; i < 10; i++) {
-            FileModel file = new FileModel();
-            file.setUserId(i);
-            file.setName("test-file" + i + ".txt");
-            file.setType("text file");
-            file.setData(new byte[] {});
-            file.setId("test-id" + i);
-
-            fileRepository.save(file);
+            fileRepository.save(FileModel.createSampleFile());
         }
     }
 }

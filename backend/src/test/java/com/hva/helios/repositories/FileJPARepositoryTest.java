@@ -51,7 +51,7 @@ public class FileJPARepositoryTest {
 
     /**
      * This test checks whether a file can be saved and whether ID generation for the file properly
-     * results in a String-type UUID. It also checks whether the name and type of the file have been
+     * results in a UUID String. It also checks whether the name and type of the file have been
      * saved correctly.
      */
     @Test
@@ -65,7 +65,7 @@ public class FileJPARepositoryTest {
 
         FileModel savedFile = filesRepo.save(file);
 
-        // check whether ID is generated (as a UUID String)
+        // check whether ID is generated (as a String)
         assertNotNull(savedFile.getId());
         assertEquals(String.class, savedFile.getId().getClass());
 
@@ -74,3 +74,20 @@ public class FileJPARepositoryTest {
         assertEquals("text file", savedFile.getType());
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,24 +3,54 @@ package com.hva.helios.models;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.matchesPattern;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FileModelTest {
 
-    FileModel fileModel1, fileModel2;
-
     @BeforeEach
-    void setup() {
-        fileModel1 = new FileModel(10000L, "Test-text-file.txt", "txt", new byte[]{});
-        fileModel2 = new FileModel(10001L, "Test-image.png", "png", new byte[]{});
-    }
+    void setup() {}
 
+    /**
+     * Checks whether the createSampleFile method properly sets an ID for the FileModel instance
+     */
     @Test
-    void suffixShouldMatchFileType() {
-        String[] file1Suffix = fileModel1.getName().split("\\.");
-        String[] file2Suffix = fileModel2.getName().split("\\.");
-
-        assertEquals(file1Suffix[1], fileModel1.getType());
-        assertEquals(file2Suffix[1], fileModel2.getType());
+    void creatingSampleFileShouldSetFileIdAsUuid() {
+        FileModel[] files = {
+                FileModel.createSampleFile(),
+                FileModel.createSampleFile(),
+                FileModel.createSampleFile()
+        };
+        System.out.println(files[0].getTimestamp());
+        for (FileModel file : files) {
+            //verify that ID is set
+            assertNotNull(file.getId());
+            //verify that ID is of type UUID by matching against regex pattern
+            assertThat(file.getId(), matchesPattern(
+                    "[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}"));
+        }
     }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

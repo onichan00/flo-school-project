@@ -479,13 +479,12 @@ public class UserController {
         specialistToUpdate.setApprovalStatus(specialist.getApprovalStatus());
         specialistRepository.save(specialistToUpdate);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(
-                "Location",
-                ServletUriComponentsBuilder
+        String location = ServletUriComponentsBuilder
                         .fromCurrentRequest()
-                        .toUriString()
-        );
-        return new ResponseEntity<>(specialistToUpdate, headers, HttpStatus.OK);
+                        .toUriString();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.LOCATION, location)
+                .body(specialistToUpdate);
     }
 }

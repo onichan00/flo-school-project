@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table
@@ -20,7 +21,7 @@ public class FileModel {
     private long userId;
 
     @CreationTimestamp
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern ="yyyy-MM-dd HH:mm:ss.S")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-ddTHH:mm:ss.SSS")
     private LocalDateTime timestamp;
 
     @Lob
@@ -39,15 +40,29 @@ public class FileModel {
         this.id = id;
     }
 
-    public static FileModel createSampleFile(String id) {
+    public static FileModel createSampleFile() {
         FileModel file = new FileModel(
                 1L,
                 "sample-file.txt",
                 "text file",
                 new byte[] {}
         );
-        file.setId(id);
+        String fileId = UUID.randomUUID().toString();
+        file.setId(fileId);
         return file;
+    }
+
+    @Override
+    public boolean equals(Object file) {
+        if (file instanceof FileModel file1) {
+            return (file1.getId().equals(id) &&
+                    file1.getUserId() == userId &&
+                    file1.getName().equals(name) &&
+                    file1.getType().equals(type) &&
+                    file1.getData() == data
+            );
+        }
+        return false;
     }
 
     public String getId() {
