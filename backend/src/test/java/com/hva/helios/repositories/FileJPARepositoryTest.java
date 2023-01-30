@@ -36,6 +36,9 @@ public class FileJPARepositoryTest {
         this.initializeFiles();
     }
 
+    /**
+     * Create some initial files.
+     */
     void initializeFiles() {
         for (int i = 0; i < 10; i++) {
             FileModel file = new FileModel();

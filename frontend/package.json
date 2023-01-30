@@ -26,6 +26,7 @@
     "flowbite": "^1.5.3",
     "flowbite-vue": "^0.0.6",
     "http-server": "^14.1.1",
+    "node-fetch": "^3.3.0",
     "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.2.13",
     "vue-chartist": "^3.0.0",
@@ -52,22 +53,30 @@
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
     "jest": "^27.5.1",
+    "jest-expect-message": "^1.1.2",
+    "msw": "^1.0.0",
     "postcss": "^8.4.19",
     "tailwindcss": "^3.2.3",
     "vue-cli-plugin-tailwind": "~3.0.0",
-    "vue-cli-plugin-vuetify": "^2.5.8"
+    "vue-cli-plugin-vuetify": "^2.5.8",
+    "whatwg-fetch": "^3.6.2"
   },
   "jest": {
     "preset": "@vue/cli-plugin-unit-jest",
+    "setupFilesAfterEnv": [
+      "jest-expect-message"
+    ],
     "testMatch": [
       "**/src/**/*.spec.js"
     ],
     "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1"
+      "^@/(.*)$": "<rootDir>/src/$1",
+      "/images/(.*)$": "<rootDir>/public/images/$1"
     },
     "transform": {
-      "^[^.]+.vue$": "@vue/vue3-jest",
-      "^.+\\.js$": "babel-jest"
+      "^.+\\.vue$": "@vue/vue3-jest",
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.(jpg|jpeg|png|gif|svg|mp3|mp4|mpeg)$": "<rootDir>/jest-media-transformer.js"
     },
     "transformIgnorePatterns": [
       "/node_modules/(?!(dateformat|vue-datepicker-next|v-calendar|axios|flowbite|flowbite-vue|chartist))"

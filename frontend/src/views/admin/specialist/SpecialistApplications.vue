@@ -24,7 +24,9 @@
               @click="onSelect(specialist.id)"
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-orange-50 dark:hover:bg-gray-600 cursor-pointer">
             <td class="py-4 px-6">
-                {{ specialist.name}}
+              {{ specialist.first_name }}
+              {{ specialist.second_name !== "" ? specialist.second_name : specialist.last_name}}
+              {{  specialist.second_name !== "" ? specialist.last_name : "" }}
             </td>
             <td class="py-4 px-6">
               {{ specialist.age }}
@@ -101,36 +103,19 @@ export default {
     },
     calculateAge(dateOfBirth) {
       return Math.floor((Date.now() - dateOfBirth) / (31557600000));
+    },
+    fetchSpecialists() {
+      fetch(process.env.VUE_APP_API_URL + `/api/users/specialists/applications`).then(response => {
+        // if (response.ok) {
+          return response.json();
+        // }
+      }).then(data => {
+        this.specialists = data;
+      })
     }
   },
-  beforeCreate() {
-    (() => {
-      fetch(process.env.VUE_APP_API_URL + `/api/users/specialists/applications`).then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-      }).then(data => {
-        data.forEach(user => {
-          const {
-            first_name: firstName,
-            second_name: secondName,
-            last_name: lastName,
-            email, phone, photo, specialist} = user;
-          const {approvalStatus, id} = specialist;
-
-          this.specialists.push({
-            "name": `${firstName} ${secondName!=="" ? secondName:lastName} ${secondName!=="" ? lastName: ""}`,
-            "email": email,
-            "phone": phone,
-            "photo": photo,
-            "approvalStatus": approvalStatus,
-            "id": id
-          })
-        })
-      }).catch(err => {
-        console.error(err);
-      })
-    })();
+  created() {
+    this.fetchSpecialists();
   }
 }
 </script>
