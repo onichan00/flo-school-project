@@ -104,14 +104,10 @@ export default {
     calculateAge(dateOfBirth) {
       return Math.floor((Date.now() - dateOfBirth) / (31557600000));
     },
-    fetchSpecialists() {
-      fetch(process.env.VUE_APP_API_URL + `/api/users/specialists/applications`).then(response => {
-        // if (response.ok) {
-          return response.json();
-        // }
-      }).then(data => {
-        this.specialists = data;
-      })
+    async fetchSpecialists() {
+      // const response = await fetch(process.env.VUE_APP_API_URL + `/api/users/specialists/applications`);
+      const response = await fetch(`http://localhost:8080/api/users/specialists/applications`);
+      this.specialists = await response.json();
     }
   },
   created() {
