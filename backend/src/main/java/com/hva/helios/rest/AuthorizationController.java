@@ -44,6 +44,13 @@ public class AuthorizationController {
 
     Authentication authentication = new Authentication();
 
+    /**
+
+     This method handles the login process for the user.
+     @param loginBody an object containing the email and password fields for the user.
+     @return a response entity with the user's id, user type, and (if applicable) specialist approval status.
+     @throws NotFoundException if a user with the provided email is not found in the system.
+     */
     @PostMapping("login")
     public ResponseEntity login(@RequestBody LoginBody loginBody) {
         User user = userRepository.findByEmail(loginBody.email());
@@ -58,8 +65,6 @@ public class AuthorizationController {
         JWToken jwToken = new JWToken(user.getFirst_name()+user.getSecond_name()+user.getLast_name(), user.getId(), user.getUserType());
         String tokenString = jwToken.encode(this.apiConfig.getIssuer(),
                 this.apiConfig.getPassphrase(), this.apiConfig.getTokenDurationOfValidity(), user.getUserType());
-
-
 
         if (!user.getPassword().equals(hashedPassword)) {
             return ResponseEntity.badRequest()
@@ -77,6 +82,16 @@ public class AuthorizationController {
 
     }
 
+    /**
+
+     Register a new user in the system.
+     The method takes in a User object from the request body, perform email unique check, hash the password and
+     set the userType. Based on the userType, it will save the user and also create admin, client or specialist
+     respectively.
+     @param user the new user information
+     @return the registered user
+     @throws NotFoundException if a user with the same email already exists or registration failed
+     */
     @PostMapping("register")
     public User register(@RequestBody User user) {
         // email unique check
@@ -93,7 +108,6 @@ public class AuthorizationController {
             Admin savedAdmin = adminRepository.save(admin);
             user.setAdmin(savedAdmin);
             User nUser = userRepository.save(user);
-//            return new LoginResponse(nUser.getId(), nUser.getUserType());
             return nUser;
 
         }
@@ -109,12 +123,9 @@ public class AuthorizationController {
             user.setClient(savedClient);
             User newUser = userRepository.save(user);
 
-//            return new LoginResponse(newUser.getId(), newUser.getUserType());
             return newUser;
         }
 
-        // TODO: convert objects from the json to the correct type and set them to the specialists before setting the specialist in the user and saving the user
-        // TODO: TLDR its not functional yet
         if (userType == 2) {
             Specialist savedSpecialist;
 
@@ -128,7 +139,6 @@ public class AuthorizationController {
 
             User newUser = userRepository.save(user);
 
-//            return new LoginResponse(newUser.getId(), newUser.getUserType());
             return newUser;
         }
 

@@ -2,7 +2,6 @@ package com.hva.helios.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.hva.helios.APIConfig;
-import com.hva.helios.exceptions.PreConditionFailed;
 import com.hva.helios.models.JWToken;
 import com.hva.helios.models.record.LoginBody;
 import com.hva.helios.models.record.LoginResponse;
@@ -78,11 +77,27 @@ public class UserController {
 //
 //    }
 
+    /**
+
+     Deletes a user from the database by their ID.
+     @param id the ID of the user to delete
+     */
     @DeleteMapping("/delete/{id}")
     public void deleteUserById(@PathVariable long id) {
         userRepository.deleteById(id);
     }
 
+    /**
+
+     Updates the information for a user in the database.
+     The method takes in a User object from the request body and uses the provided ID to find the
+     corresponding user in the database. The provided information is then used to update the fields
+     of the existing user. If the provided user type is 0, 1, or 2, it will update the user, client or specialist
+     respectively.
+     @param user the updated information for the user
+     @return the updated user
+     @throws NotFoundException if a user with the specified ID could not be found
+     */
     @PutMapping("/update")
     public User updateUser(@RequestBody User user) {
         // save attributes that get used multiple times
@@ -108,11 +123,13 @@ public class UserController {
         oUser.setPhone(user.getPhone());
         oUser.setPhoto(user.getPhoto());
 
+        // check for password
         if (user.getPassword() != null){
             String hashedPassword = authentication.hash(user.getPassword());
             oUser.setPassword(hashedPassword);
         }
 
+        // check for user types
         if (userType == 0) {
             return userRepository.save(oUser);
         }
@@ -135,23 +152,25 @@ public class UserController {
             return userRepository.save(oUser);
         }
 
+        // if no user is found throw exception
         throw new NotFoundException("User not found!");
     }
 
+    /**
+     * Handles a GET request to retrieve all users.
+     *
+     * @return a list of all users in the database
+     */
     @GetMapping("")
     public List<User> getAllUsers() {
-//        Map<String, List<? extends User>> users = new HashMap<>();
-
-//        users.put("client", clientRepository.findAll());
-//        users.put("admin", adminRepository.findAll());
-//        users.put("specialist", specialistRepository.findAll());
-
-//        Map<String, List<? extends User>> users = new HashMap<>(userRepository.findAll());
-//
-//        return users;
         return userRepository.findAll();
     }
 
+    /**
+     * Handles a GET request to retrieve all admins.
+     *
+     * @return a list of all specialists in the database
+     */
     @GetMapping("admins")
     public List<User> getAllAdmins() {
         return userRepository
@@ -162,9 +181,10 @@ public class UserController {
     }
 
     /**
-     * Handles a GET request to retrieve all specialists.
-     *
-     * @return a list of all specialists in the database
+
+     Retrieves a list of all approved specialists from the database.
+     The method filters the list of all users by user type 2 (specialists) before returning the list.
+     @return a list of all approved specialists.
      */
     @GetMapping("specialists")
     public List<User> getAllSpecialists() {
@@ -177,6 +197,14 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+
+    /**
+
+     Retrieves a list of all approved specialists from the database.
+     The method filters the list of all users by user type 2 (specialists) and
+     approval status of 1 (approved) before returning the list.
+     @return a list of all approved specialists.
+     */
     @GetMapping("specialists/approved")
     public List<User> getAllApprovedSpecialists() {
         // Retrieve all users from the database
@@ -189,6 +217,13 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    /**
+
+     Retrieves a list of all approved specialists from the database.
+     The method filters the list of all specialists by
+     approval status of 0 (not approved) before returning the list.
+     @return a list of all approved specialists.
+     */
     @GetMapping("specialists-not-accepted")
     public List<User> getNotAcceptedSpecialists() {
         return getAllSpecialists()
@@ -197,6 +232,12 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+
+    /**
+
+     Retrieves a list of all clients.
+     @return a list of all clients
+     */
     @GetMapping("clients")
     public List<User> getAllClients() {
         return userRepository
@@ -268,19 +309,23 @@ public class UserController {
         return null;
     }
 
+    /**
+
+     Retrieves the total number of users.
+     @return the total number of users
+     */
     @GetMapping("count")
     public long countUsers() {
-        int amount = 0;
-//
-//        amount += clientRepository.findAll().size();
-//        amount += adminRepository.findAll().size();
-//        amount += specialistRepository.findAll().size();
-
         return userRepository.count();
-
-//        return amount;
     }
 
+    /**
+
+     Retrieves a user by their ID.
+     @param id the ID of the user to retrieve
+     @return the user with the specified ID
+     @throws NotFoundException if a user with the specified ID could not be found
+     */
     @GetMapping("{id}")
     @JsonView(Views.Internal.class)
     public User getUserById(@PathVariable long id) {
@@ -288,101 +333,6 @@ public class UserController {
                 .orElseThrow(() -> new NotFoundException(String.format("User with ID: %d could not be found", id)));
     }
 
-    //TODO: remove from here because its inside the AuthorizationController.java allready for jwt
-    // left it just in case
-    @PostMapping("login")
-    public LoginResponse login(@RequestBody LoginBody loginBody) {
-        User user = userRepository.findByEmail(loginBody.email());
-
-        if (user == null) {
-            throw new NotFoundException(String.format("User with email: %s was not found", loginBody.email()));
-        }
-
-        String hashedPassword = authentication.hash(loginBody.password());
-
-        if (!user.getPassword().equals(hashedPassword)) {
-            return new LoginResponse(-1L, -1L, user.getSpecialist().getApprovalStatus());
-        }
-
-        JWToken jwToken = new JWToken(user.getFirst_name() + user.getSecond_name() + user.getLast_name(), user.getId(), user.getUserType());
-        String tokenString = jwToken.encode(this.apiConfig.getIssuer(),
-                this.apiConfig.getPassphrase(), this.apiConfig.getTokenDurationOfValidity(), user.getUserType());
-
-//        if (!user.getPassword().equals(loginBody.password())) {
-//            return new LoginResponse(-1L, -1L, user.getSpecialist().getApprovalStatus());
-//
-//        }
-
-        return new LoginResponse(user.getId(), user.getUserType(), user.getSpecialist().getApprovalStatus());
-    }
-
-    //TODO: remove from here because its inside the AuthorizationController.java allready for jwt
-    // left it just in case
-
-    @PostMapping("register")
-    public User register(@RequestBody User user) {
-        // email unique check
-        if (userRepository.findByEmail(user.getEmail()) != null) {
-            throw new NotFoundException("user with this email already exists");
-        }
-
-        Long userType = user.getUserType();
-
-        String hashedPassword = authentication.hash(user.getPassword());
-        user.setPassword(hashedPassword);
-
-        if (userType == 0) {
-            Admin admin = new Admin();
-            Admin savedAdmin = adminRepository.save(admin);
-            user.setAdmin(savedAdmin);
-            User nUser = userRepository.save(user);
-//            return new LoginResponse(nUser.getId(), nUser.getUserType());
-            return nUser;
-
-        }
-
-        if (userType == 1) {
-            Client savedClient;
-            if (user.getClient() != null) {
-                savedClient = clientRepository.save(user.getClient());
-
-            } else {
-                savedClient = clientRepository.save(new Client());
-            }
-            user.setClient(savedClient);
-            User newUser = userRepository.save(user);
-
-//            return new LoginResponse(newUser.getId(), newUser.getUserType());
-            return newUser;
-        }
-
-        // TODO: convert objects from the json to the correct type and set them to the specialists before setting the specialist in the user and saving the user
-        // TODO: TLDR its not functional yet
-        if (userType == 2) {
-            Specialist savedSpecialist;
-
-            if (user.getSpecialist() != null) {
-                savedSpecialist = specialistRepository.save(user.getSpecialist());
-            } else {
-                savedSpecialist = specialistRepository.save(user.getSpecialist());
-            }
-
-            if (savedSpecialist.getHours() == null) {
-                AvailableHour availableHour = new AvailableHour();
-                availableHourJPARepository.save(availableHour);
-                savedSpecialist.setHours(availableHour);
-            }
-
-            user.setSpecialist(savedSpecialist);
-
-            User newUser = userRepository.save(user);
-
-//            return new LoginResponse(newUser.getId(), newUser.getUserType());
-            return newUser;
-        }
-
-        throw new NotFoundException("register failed");
-    }
 
     /**
      * Add a new skill to a user's specialist profile.
